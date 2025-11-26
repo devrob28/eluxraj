@@ -6,174 +6,23 @@
   <title>Login | ELUXRAJ™</title>
   <link rel="stylesheet" href="/styles.css">
   <style>
-    .login-container {
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 40px;
-      background: 
-        radial-gradient(circle at 30% 30%, rgba(184, 151, 106, 0.08), transparent 50%),
-        radial-gradient(circle at 70% 70%, rgba(15, 23, 42, 0.03), transparent 50%);
-    }
-    
-    .login-box {
-      background: var(--color-secondary);
-      border: 1px solid var(--color-border);
-      border-radius: 16px;
-      padding: 60px;
-      max-width: 500px;
-      width: 100%;
-      box-shadow: var(--shadow-lg);
-    }
-    
-    .login-logo {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-    
-    .login-logo .logo-icon {
-      font-size: 48px;
-      color: var(--color-champagne);
-      display: block;
-      margin-bottom: 15px;
-    }
-    
-    .login-logo .logo-text {
-      font-family: var(--font-display);
-      font-size: 32px;
-      font-weight: 600;
-      letter-spacing: 2px;
-      color: var(--color-midnight);
-    }
-    
-    .login-title {
-      font-family: var(--font-display);
-      font-size: 28px;
-      text-align: center;
-      margin-bottom: 10px;
-      color: var(--color-midnight);
-    }
-    
-    .login-subtitle {
-      text-align: center;
-      color: var(--color-text-muted);
-      margin-bottom: 40px;
-      font-size: 15px;
-    }
-    
-    .form-group {
-      margin-bottom: 25px;
-    }
-    
-    .form-group label {
-      display: block;
-      color: var(--color-midnight);
-      margin-bottom: 10px;
-      font-size: 14px;
-      font-weight: 600;
-    }
-    
-    .form-group input {
-      width: 100%;
-      padding: 15px;
-      background: var(--color-primary);
-      border: 1px solid var(--color-border);
-      border-radius: 8px;
-      color: var(--color-midnight);
-      font-size: 16px;
-      font-family: var(--font-body);
-      transition: var(--transition);
-    }
-    
-    .form-group input:focus {
-      outline: none;
-      border-color: var(--color-champagne);
-      box-shadow: 0 0 0 3px rgba(184, 151, 106, 0.1);
-    }
-    
-    .submit-btn {
-      width: 100%;
-      padding: 16px;
-      background: linear-gradient(135deg, var(--color-midnight), var(--color-midnight-light));
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: var(--transition);
-      margin-top: 10px;
-    }
-    
-    .submit-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-lg);
-    }
-    
-    .submit-btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      transform: none;
-    }
-    
-    .error-message {
-      background: rgba(220, 38, 38, 0.1);
-      color: #dc2626;
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      font-size: 14px;
-      display: none;
-    }
-    
-    .success-message {
-      background: rgba(46, 125, 50, 0.1);
-      color: #2e7d32;
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-      font-size: 14px;
-      display: none;
-    }
-    
-    .toggle-form {
-      text-align: center;
-      margin-top: 25px;
-      color: var(--color-text-muted);
-      font-size: 14px;
-    }
-    
-    .toggle-form a {
-      color: var(--color-champagne);
-      text-decoration: none;
-      font-weight: 600;
-    }
-    
-    .toggle-form a:hover {
-      text-decoration: underline;
-    }
-    
-    .divider {
-      text-align: center;
-      margin: 30px 0;
-      color: var(--color-text-muted);
-      font-size: 14px;
-      position: relative;
-    }
-    
-    .divider::before,
-    .divider::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      width: 45%;
-      height: 1px;
-      background: var(--color-border);
-    }
-    
-    .divider::before { left: 0; }
-    .divider::after { right: 0; }
+    .login-container { min-height: 100vh; display: flex; align-items: center; justify-content: center; padding: 40px; }
+    .login-box { background: var(--color-secondary); border: 1px solid var(--color-border); border-radius: 16px; padding: 50px; max-width: 420px; width: 100%; }
+    .login-logo { text-align: center; margin-bottom: 30px; }
+    .login-logo .icon { font-size: 40px; color: var(--color-champagne); }
+    .login-logo .text { font-family: var(--font-display); font-size: 28px; letter-spacing: 2px; color: var(--color-midnight); }
+    .form-group { margin-bottom: 20px; }
+    .form-group label { display: block; color: var(--color-midnight); margin-bottom: 8px; font-size: 14px; font-weight: 600; }
+    .form-group input { width: 100%; padding: 14px; background: var(--color-primary); border: 1px solid var(--color-border); border-radius: 8px; color: var(--color-midnight); font-size: 15px; box-sizing: border-box; }
+    .form-group input:focus { outline: none; border-color: var(--color-champagne); }
+    .submit-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, #0f172a, #1e293b); color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 10px; }
+    .submit-btn:hover { opacity: 0.9; }
+    .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .message { padding: 12px; border-radius: 8px; margin-bottom: 20px; font-size: 14px; }
+    .error { background: #fee; color: #c00; }
+    .success { background: #efe; color: #0a0; }
+    .toggle { text-align: center; margin-top: 25px; color: #64748b; font-size: 14px; }
+    .toggle button { background: none; border: none; color: #b8976a; font-weight: 600; cursor: pointer; padding: 0; }
   </style>
 </head>
 <body>
@@ -182,67 +31,57 @@
     <div class="login-box">
       
       <div class="login-logo">
-        <span class="logo-icon">◆</span>
-        <span class="logo-text">ELUXRAJ<sup>™</sup></span>
+        <div class="icon">◆</div>
+        <div class="text">ELUXRAJ</div>
       </div>
 
-      <div id="errorMessage" class="error-message"></div>
-      <div id="successMessage" class="success-message"></div>
+      <div id="message"></div>
 
       <!-- Login Form -->
       <div id="loginForm">
-        <h1 class="login-title">Welcome Back</h1>
-        <p class="login-subtitle">Sign in to access your investment intelligence</p>
+        <h2 style="text-align: center; font-size: 24px; margin-bottom: 8px; color: #0f172a;">Welcome Back</h2>
+        <p style="text-align: center; color: #64748b; margin-bottom: 30px; font-size: 14px;">Sign in to your account</p>
         
-        <form onsubmit="handleLogin(event)">
+        <form id="loginFormEl">
           <div class="form-group">
-            <label for="loginEmail">Email Address</label>
-            <input type="email" id="loginEmail" required autocomplete="email">
+            <label>Email</label>
+            <input type="email" id="loginEmail" required>
           </div>
-          
           <div class="form-group">
-            <label for="loginPassword">Password</label>
-            <input type="password" id="loginPassword" required autocomplete="current-password">
+            <label>Password</label>
+            <input type="password" id="loginPassword" required>
           </div>
-          
           <button type="submit" class="submit-btn" id="loginBtn">Sign In</button>
         </form>
         
-        <div class="divider">OR</div>
-        
-        <div class="toggle-form">
-          Don't have an account? <a href="#" onclick="showRegisterForm(); return false;">Create Account</a>
+        <div class="toggle">
+          Don't have an account? <button onclick="showRegister()">Create one</button>
         </div>
       </div>
 
       <!-- Register Form -->
       <div id="registerForm" style="display: none;">
-        <h1 class="login-title">Create Account</h1>
-        <p class="login-subtitle">Join ELUXRAJ and start building wealth</p>
+        <h2 style="text-align: center; font-size: 24px; margin-bottom: 8px; color: #0f172a;">Create Account</h2>
+        <p style="text-align: center; color: #64748b; margin-bottom: 30px; font-size: 14px;">Start your 14-day free trial</p>
         
-        <form onsubmit="handleRegister(event)">
+        <form id="registerFormEl">
           <div class="form-group">
-            <label for="registerName">Full Name</label>
-            <input type="text" id="registerName" required autocomplete="name">
+            <label>Full Name</label>
+            <input type="text" id="registerName" required>
           </div>
-          
           <div class="form-group">
-            <label for="registerEmail">Email Address</label>
-            <input type="email" id="registerEmail" required autocomplete="email">
+            <label>Email</label>
+            <input type="email" id="registerEmail" required>
           </div>
-          
           <div class="form-group">
-            <label for="registerPassword">Password</label>
-            <input type="password" id="registerPassword" required minlength="8" autocomplete="new-password">
+            <label>Password</label>
+            <input type="password" id="registerPassword" required minlength="8">
           </div>
-          
           <button type="submit" class="submit-btn" id="registerBtn">Create Account</button>
         </form>
         
-        <div class="divider">OR</div>
-        
-        <div class="toggle-form">
-          Already have an account? <a href="#" onclick="showLoginForm(); return false;">Sign In</a>
+        <div class="toggle">
+          Already have an account? <button onclick="showLogin()">Sign in</button>
         </div>
       </div>
 
@@ -250,141 +89,99 @@
   </div>
 
   <script>
-    // Toggle between login and register
-    function showLoginForm() {
+    // Check if already logged in
+    if (localStorage.getItem('eluxraj_token')) {
+      window.location.href = '/dashboard.html';
+    }
+
+    function showLogin() {
       document.getElementById('loginForm').style.display = 'block';
       document.getElementById('registerForm').style.display = 'none';
-      clearMessages();
+      document.getElementById('message').innerHTML = '';
     }
 
-    function showRegisterForm() {
+    function showRegister() {
       document.getElementById('loginForm').style.display = 'none';
       document.getElementById('registerForm').style.display = 'block';
-      clearMessages();
+      document.getElementById('message').innerHTML = '';
     }
 
-    // Clear messages
-    function clearMessages() {
-      document.getElementById('errorMessage').style.display = 'none';
-      document.getElementById('successMessage').style.display = 'none';
-    }
-
-    // Show error
-    function showError(message) {
-      const errorEl = document.getElementById('errorMessage');
-      errorEl.textContent = message;
-      errorEl.style.display = 'block';
-      document.getElementById('successMessage').style.display = 'none';
-    }
-
-    // Show success
-    function showSuccess(message) {
-      const successEl = document.getElementById('successMessage');
-      successEl.textContent = message;
-      successEl.style.display = 'block';
-      document.getElementById('errorMessage').style.display = 'none';
-    }
-
-    // Handle Login
-    async function handleLogin(event) {
-      event.preventDefault();
-      clearMessages();
+    // Login
+    document.getElementById('loginFormEl').addEventListener('submit', async function(e) {
+      e.preventDefault();
       
-      const email = document.getElementById('loginEmail').value;
-      const password = document.getElementById('loginPassword').value;
-      const btn = document.getElementById('loginBtn');
+      var btn = document.getElementById('loginBtn');
+      var email = document.getElementById('loginEmail').value;
+      var password = document.getElementById('loginPassword').value;
       
       btn.disabled = true;
       btn.textContent = 'Signing in...';
       
       try {
-        const response = await fetch('/api/auth/login', {
+        var response = await fetch('/api/auth/login', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ email, password })
+          body: JSON.stringify({ email: email, password: password })
         });
         
-        const data = await response.json();
+        var data = await response.json();
+        console.log('Login response:', data);
         
-        if (data.ok) {
-          // Save token to localStorage
+        if (data.ok && data.token) {
           localStorage.setItem('eluxraj_token', data.token);
           localStorage.setItem('eluxraj_user', JSON.stringify(data.user));
-          
-          showSuccess('Login successful! Redirecting...');
-          
-          // Redirect to dashboard
-          setTimeout(() => {
-            window.location.href = '/dashboard.html';
-          }, 1000);
+          document.getElementById('message').innerHTML = '<div class="message success">Success! Redirecting...</div>';
+          window.location.href = '/dashboard.html';
         } else {
-          showError(data.error || 'Login failed');
+          document.getElementById('message').innerHTML = '<div class="message error">' + (data.error || 'Login failed') + '</div>';
           btn.disabled = false;
           btn.textContent = 'Sign In';
         }
       } catch (err) {
-        showError('Network error. Please try again.');
+        console.error('Login error:', err);
+        document.getElementById('message').innerHTML = '<div class="message error">Network error. Please try again.</div>';
         btn.disabled = false;
         btn.textContent = 'Sign In';
       }
-    }
+    });
 
-    // Handle Register
-    async function handleRegister(event) {
-      event.preventDefault();
-      clearMessages();
+    // Register
+    document.getElementById('registerFormEl').addEventListener('submit', async function(e) {
+      e.preventDefault();
       
-      const name = document.getElementById('registerName').value;
-      const email = document.getElementById('registerEmail').value;
-      const password = document.getElementById('registerPassword').value;
-      const btn = document.getElementById('registerBtn');
-      
-      if (password.length < 8) {
-        showError('Password must be at least 8 characters');
-        return;
-      }
+      var btn = document.getElementById('registerBtn');
+      var name = document.getElementById('registerName').value;
+      var email = document.getElementById('registerEmail').value;
+      var password = document.getElementById('registerPassword').value;
       
       btn.disabled = true;
       btn.textContent = 'Creating account...';
       
       try {
-        const response = await fetch('/api/auth/register', {
+        var response = await fetch('/api/auth/register', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ name, email, password })
+          body: JSON.stringify({ name: name, email: email, password: password })
         });
         
-        const data = await response.json();
+        var data = await response.json();
+        console.log('Register response:', data);
         
-        if (data.ok) {
-          // Save token to localStorage
+        if (data.ok && data.token) {
           localStorage.setItem('eluxraj_token', data.token);
           localStorage.setItem('eluxraj_user', JSON.stringify(data.user));
-          
-          showSuccess('Account created! Redirecting...');
-          
-          // Redirect to dashboard
-          setTimeout(() => {
-            window.location.href = '/dashboard.html';
-          }, 1000);
+          document.getElementById('message').innerHTML = '<div class="message success">Account created! Redirecting...</div>';
+          window.location.href = '/dashboard.html';
         } else {
-          showError(data.error || 'Registration failed');
+          document.getElementById('message').innerHTML = '<div class="message error">' + (data.error || 'Registration failed') + '</div>';
           btn.disabled = false;
           btn.textContent = 'Create Account';
         }
       } catch (err) {
-        showError('Network error. Please try again.');
+        console.error('Register error:', err);
+        document.getElementById('message').innerHTML = '<div class="message error">Network error. Please try again.</div>';
         btn.disabled = false;
         btn.textContent = 'Create Account';
-      }
-    }
-
-    // Check if already logged in
-    window.addEventListener('DOMContentLoaded', () => {
-      const token = localStorage.getItem('eluxraj_token');
-      if (token) {
-        // Redirect to dashboard if already logged in
-        window.location.href = '/dashboard.html';
       }
     });
   </script>
