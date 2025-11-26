@@ -1,17 +1,12 @@
-// database/db.js - PostgreSQL Connection
 const { Pool } = require('pg');
 
 const connectionString = process.env.DATABASE_URL;
 
-if (!connectionString) {
-  console.error('❌ DATABASE_URL not set!');
-}
+console.log('Database URL exists:', !!connectionString);
 
 const pool = new Pool({
   connectionString,
-  ssl: {
-    rejectUnauthorized: false
-  }
+  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
 });
 
 pool.on('connect', () => {
