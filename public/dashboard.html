@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | ELUXRAJ™</title>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .dashboard-container {
+      max-width: 1600px;
+      margin: 120px auto 80px;
+      padding: 0 40px;
+    }
+    
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 60px;
+      padding-bottom: 30px;
+      border-bottom: 2px solid var(--color-border);
+    }
+    
+    .user-info {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+    
+    .user-avatar {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--color-champagne), var(--color-champagne-light));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 700;
+      color: white;
+    }
+    
+    .user-details h2 {
+      font-family: var(--font-display);
+      font-size: 28px;
+      margin-bottom: 5px;
+      color: var(--color-midnight);
+    }
+    
+    .user-details p {
+      color: var(--color-text-muted);
+      font-size: 14px;
+    }
+    
+    .tier-badge {
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: uppercase;
+      background: rgba(184, 151, 106, 0.2);
+      color: var(--color-champagne);
+    }
+    
+    .logout-btn {
+      background: transparent;
+      border: 1px solid var(--color-border);
+      color: var(--color-midnight);
+      padding: 10px 24px;
+      border-radius: 6px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .logout-btn:hover {
+      border-color: var(--color-champagne);
+      color: var(--color-champagne);
+    }
+    
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+      margin-bottom: 60px;
+    }
+    
+    .dashboard-card {
+      background: var(--color-secondary);
+      border: 1px solid var(--color-border);
+      border-radius: 16px;
+      padding: 30px;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .dashboard-card h3 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      margin-bottom: 20px;
+      color: var(--color-midnight);
+    }
+    
+    .market-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    
+    .market-item:last-child {
+      border-bottom: none;
+    }
+    
+    .market-name {
+      font-weight: 600;
+      color: var(--color-midnight);
+      font-size: 15px;
+    }
+    
+    .market-price {
+      font-family: var(--font-display);
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--color-champagne);
+    }
+    
+    .market-change {
+      font-size: 13px;
+      margin-left: 10px;
+    }
+    
+    .market-change.positive { color: #2e7d32; }
+    .market-change.negative { color: #dc2626; }
+    
+    .ai-signal-card {
+      background: linear-gradient(135deg, rgba(184, 151, 106, 0.1), rgba(184, 151, 106, 0.05));
+      border: 2px solid var(--color-champagne);
+      padding: 40px;
+      border-radius: 16px;
+      margin-bottom: 40px;
+    }
+    
+    .ai-signal-card h2 {
+      font-family: var(--font-display);
+      font-size: 32px;
+      margin-bottom: 15px;
+      color: var(--color-midnight);
+    }
+    
+    .ai-signal-card .signal-text {
+      font-size: 18px;
+      color: var(--color-midnight);
+      margin-bottom: 20px;
+      font-weight: 600;
+    }
+    
+    .ai-signal-card .recommendation {
+      color: var(--color-text-muted);
+      line-height: 1.7;
+      margin-bottom: 20px;
+    }
+    
+    .confidence-bar {
+      height: 8px;
+      background: var(--color-border);
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 15px;
+    }
+    
+    .confidence-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--color-champagne), var(--color-champagne-light));
+      transition: width 1s ease;
+    }
+    
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: var(--color-text-muted);
+      font-size: 18px;
+    }
+    
+    .refresh-btn {
+      background: var(--color-champagne);
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: var(--transition);
+      margin-top: 20px;
+    }
+    
+    .refresh-btn:hover {
+      background: var(--color-champagne-light);
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="main-nav">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <a href="/">
+          <span class="logo-icon">◆</span>
+          <span class="logo-text">ELUXRAJ<sup>™</sup></span>
+        </a>
+      </div>
+      <div class="nav-menu">
+        <a href="/dashboard.html" style="color: var(--color-champagne);">Dashboard</a>
+        <a href="/admin.html">Admin</a>
+        <a href="/" class="nav-cta">Home</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="dashboard-container">
+    
+    <div class="dashboard-header">
+      <div class="user-info">
+        <div class="user-avatar" id="userAvatar">--</div>
+        <div class="user-details">
+          <h2 id="userName">Loading...</h2>
+          <p><span id="userEmail">--</span> • <span class="tier-badge" id="userTier">--</span></p>
+        </div>
+      </div>
+      <button class="logout-btn" onclick="handleLogout()">Logout</button>
+    </div>
+
+    <!-- AI Investment Signal -->
+    <div class="ai-signal-card">
+      <h2>🤖 AI Investment Signal</h2>
+      <div id="aiSignalLoading" class="loading">Generating AI signal...</div>
+      <div id="aiSignalContent" style="display: none;">
+        <div class="signal-text" id="signalText">--</div>
+        <div class="recommendation" id="signalRecommendation">--</div>
+        <div>
+          <strong>Confidence:</strong> <span id="signalConfidence">--</span>%
+          <div class="confidence-bar">
+            <div class="confidence-fill" id="confidenceFill" style="width: 0%"></div>
+          </div>
+        </div>
+        <button class="refresh-btn" onclick="loadAISignal()">🔄 Refresh Signal</button>
+      </div>
+    </div>
+
+    <!-- Market Data Grid -->
+    <div class="dashboard-grid">
+      
+      <!-- Precious Metals -->
+      <div class="dashboard-card">
+        <h3>💎 Precious Metals</h3>
+        <div id="metalsLoading" class="loading" style="padding: 20px;">Loading...</div>
+        <div id="metalsContent" style="display: none;"></div>
+      </div>
+
+      <!-- Cryptocurrency -->
+      <div class="dashboard-card">
+        <h3>₿ Cryptocurrency</h3>
+        <div id="cryptoLoading" class="loading" style="padding: 20px;">Loading...</div>
+        <div id="cryptoContent" style="display: none;"></div>
+      </div>
+
+      <!-- Stocks -->
+      <div class="dashboard-card">
+        <h3>📈 Popular Stocks</h3>
+        <div id="stocksLoading" class="loading" style="padding: 20px;">Loading...</div>
+        <div id="stocksContent" style="display: none;"></div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+    // Check authentication
+    function checkAuth() {
+      const token = localStorage.getItem('eluxraj_token');
+      const user = localStorage.getItem('eluxraj_user');
+      
+      if (!token || !user) {
+        // Redirect to login
+        window.location.href = '/login.html';
+        return null;
+      }
+      
+      return { token, user: JSON.parse(user) };
+    }
+
+    // Logout
+    function handleLogout() {
+      localStorage.removeItem('eluxraj_token');
+      localStorage.removeItem('eluxraj_user');
+      window.location.href = '/login.html';
+    }
+
+    // Load user info
+    function loadUserInfo() {
+      const auth = checkAuth();
+      if (!auth) return;
+      
+      const { user } = auth;
+      
+      // Set user info
+      document.getElementById('userName').textContent = user.name;
+      document.getElementById('userEmail').textContent = user.email;
+      document.getElementById('userTier').textContent = user.tier.toUpperCase();
+      
+      // Set avatar initials
+      const initials = user.name.split(' ').map(n => n[0]).join('').toUpperCase();
+      document.getElementById('userAvatar').textContent = initials;
+    }
+
+    // Load AI Signal (with authentication)
+    async function loadAISignal() {
+      const auth = checkAuth();
+      if (!auth) return;
+      
+      try {
+        document.getElementById('aiSignalLoading').style.display = 'block';
+        document.getElementById('aiSignalContent').style.display = 'none';
+        
+        const response = await fetch('/api/ai-signal', {
+          headers: {
+            'Authorization': `Bearer ${auth.token}`
+          }
+        });
+        
+        const data = await response.json();
+        
+        if (response.ok) {
+          document.getElementById('signalText').textContent = data.signal || 'Signal unavailable';
+          document.getElementById('signalRecommendation').textContent = data.recommendation || '';
+          document.getElementById('signalConfidence').textContent = data.confidence || 0;
+          document.getElementById('confidenceFill').style.width = (data.confidence || 0) + '%';
+          
+          document.getElementById('aiSignalLoading').style.display = 'none';
+          document.getElementById('aiSignalContent').style.display = 'block';
+        } else {
+          throw new Error(data.error || 'Failed to load signal');
+        }
+      } catch (err) {
+        console.error('AI signal error:', err);
+        document.getElementById('aiSignalLoading').innerHTML = '<p style="color: red;">Unable to generate signal. Please try again.</p>';
+      }
+    }
+
+    // Load Precious Metals
+    async function loadMetals() {
+      try {
+        const response = await fetch('/api/market/metals');
+        const data = await response.json();
+        
+        if (data.ok && data.data) {
+          const container = document.getElementById('metalsContent');
+          container.innerHTML = '';
+          
+          Object.entries(data.data).forEach(([metal, info]) => {
+            const change = info.change24h || 0;
+            const changeClass = change >= 0 ? 'positive' : 'negative';
+            const changeSymbol = change >= 0 ? '+' : '';
+            
+            container.innerHTML += `
+              <div class="market-item">
+                <span class="market-name">${metal.charAt(0).toUpperCase() + metal.slice(1)}</span>
+                <div>
+                  <span class="market-price">$${info.price.toFixed(2)}</span>
+                  <span class="market-change ${changeClass}">${changeSymbol}${change.toFixed(2)}%</span>
+                </div>
+              </div>
+            `;
+          });
+          
+          document.getElementById('metalsLoading').style.display = 'none';
+          document.getElementById('metalsContent').style.display = 'block';
+        }
+      } catch (err) {
+        console.error('Metals error:', err);
+      }
+    }
+
+    // Load Crypto
+    async function loadCrypto() {
+      try {
+        const response = await fetch('/api/market/crypto');
+        const data = await response.json();
+        
+        if (data.ok && data.data) {
+          const container = document.getElementById('cryptoContent');
+          container.innerHTML = '';
+          
+          Object.entries(data.data).slice(0, 5).forEach(([coin, info]) => {
+            const change = info.change24h || 0;
+            const changeClass = change >= 0 ? 'positive' : 'negative';
+            const changeSymbol = change >= 0 ? '+' : '';
+            
+            container.innerHTML += `
+              <div class="market-item">
+                <span class="market-name">${coin.charAt(0).toUpperCase() + coin.slice(1)}</span>
+                <div>
+                  <span class="market-price">$${info.price.toLocaleString()}</span>
+                  <span class="market-change ${changeClass}">${changeSymbol}${change.toFixed(2)}%</span>
+                </div>
+              </div>
+            `;
+          });
+          
+          document.getElementById('cryptoLoading').style.display = 'none';
+          document.getElementById('cryptoContent').style.display = 'block';
+        }
+      } catch (err) {
+        console.error('Crypto error:', err);
+      }
+    }
+
+    // Load Stocks
+    async function loadStocks() {
+      try {
+        const response = await fetch('/api/market/stocks');
+        const data = await response.json();
+        
+        if (data.ok && data.data) {
+          const container = document.getElementById('stocksContent');
+          container.innerHTML = '';
+          
+          Object.entries(data.data).forEach(([symbol, info]) => {
+            if (info.error) return; // Skip if error
+            
+            const change = info.changePercent || 0;
+            const changeClass = change >= 0 ? 'positive' : 'negative';
+            const changeSymbol = change >= 0 ? '+' : '';
+            
+            container.innerHTML += `
+              <div class="market-item">
+                <span class="market-name">${symbol}</span>
+                <div>
+                  <span class="market-price">$${info.price.toFixed(2)}</span>
+                  <span class="market-change ${changeClass}">${changeSymbol}${change.toFixed(2)}%</span>
+                </div>
+              </div>
+            `;
+          });
+          
+          document.getElementById('stocksLoading').style.display = 'none';
+          document.getElementById('stocksContent').style.display = 'block';
+        }
+      } catch (err) {
+        console.error('Stocks error:', err);
+      }
+    }
+
+    // Load all data on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      loadUserInfo();
+      loadAISignal();
+      loadMetals();
+      loadCrypto();
+      loadStocks();
+    });
+  </script>
+
+</body>
+</html>

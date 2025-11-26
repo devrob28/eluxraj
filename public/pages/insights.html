@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Market Insights & Research | ELUXRAJ™</title>
+  <link rel="stylesheet" href="/professional.css">
+  <style>
+    .insight-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--color-border);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: var(--transition);
+    }
+    .insight-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--color-gold);
+    }
+    .insight-image {
+      height: 240px;
+      background: linear-gradient(135deg, rgba(201,169,105,0.2), rgba(201,169,105,0.05));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 72px;
+    }
+    .insight-content {
+      padding: 30px;
+    }
+    .insight-meta {
+      display: flex;
+      gap: 15px;
+      margin-bottom: 15px;
+      font-size: 13px;
+      color: var(--color-gold);
+    }
+    .insight-title {
+      font-family: var(--font-display);
+      font-size: 24px;
+      color: var(--color-text);
+      margin-bottom: 15px;
+      line-height: 1.3;
+    }
+    .insight-excerpt {
+      color: var(--color-text-muted);
+      line-height: 1.7;
+      margin-bottom: 20px;
+      font-size: 15px;
+    }
+    .featured-insight {
+      grid-column: 1 / -1;
+      display: grid;
+      grid-template-columns: 1.5fr 1fr;
+      gap: 40px;
+    }
+    .featured-insight .insight-image {
+      height: 100%;
+      min-height: 400px;
+    }
+  </style>
+</head>
+<body>
+  
+  <nav class="main-nav">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <a href="/">
+          <span class="logo-icon">◆</span>
+          <span class="logo-text">ELUXRAJ<sup>™</sup></span>
+        </a>
+      </div>
+      <div class="nav-menu">
+        <a href="/pages/insights.html" style="color: var(--color-gold);">Insights</a>
+        <a href="/pages/how-it-works.html">Platform</a>
+        <a href="/pages/pricing.html">Pricing</a>
+        <a href="/dashboard.html" class="nav-cta">Get Started</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero-section">
+    <div class="hero-content">
+      <p class="hero-eyebrow">Market Insights</p>
+      <h1 class="hero-title">Alternative Asset Intelligence <br>from ELUXRAJ Research</h1>
+      <p class="hero-subtitle">Deep analysis, market forecasts, and investment insights from our team of AI researchers and alternative asset specialists.</p>
+    </div>
+  </section>
+
+  <section class="feature-section">
+    <div class="feature-grid">
+      
+      <!-- Featured Insight -->
+      <div class="featured-insight insight-card">
+        <div class="insight-image">📊</div>
+        <div class="insight-content">
+          <div class="insight-meta">
+            <span>FEATURED RESEARCH</span>
+            <span>•</span>
+            <span>November 20, 2025</span>
+          </div>
+          <h2 class="insight-title" style="font-size: 36px;">The $13.3 Trillion Alternative Asset Boom: Why 2026 Will Be the Year of Physical Wealth</h2>
+          <p class="insight-excerpt">Our AI models predict a massive rotation from overvalued equities into tangible alternative assets. Institutional investors are already moving. Here's what individual investors need to know.</p>
+          <a href="#" class="btn btn-outline">Read Full Report (28 min) →</a>
+        </div>
+      </div>
+
+      <!-- Regular Insights -->
+      <div class="insight-card">
+        <div class="insight-image">🥇</div>
+        <div class="insight-content">
+          <div class="insight-meta">
+            <span>PRECIOUS METALS</span>
+            <span>•</span>
+            <span>Nov 18, 2025</span>
+          </div>
+          <h3 class="insight-title">Gold at $2,100: Why Our AI Says This Is Just the Beginning</h3>
+          <p class="insight-excerpt">Machine learning analysis of 50+ years of precious metals data reveals we're in the early innings of a secular bull market.</p>
+          <a href="#" style="color: var(--color-gold); text-decoration: none; font-weight: 600;">Read More →</a>
+        </div>
+      </div>
+
+      <div class="insight-card">
+        <div class="insight-image">⌚</div>
+        <div class="insight-content">
+          <div class="insight-meta">
+            <span>COLLECTIBLES</span>
+            <span>•</span>
+            <span>Nov 15, 2025</span>
+          </div>
+          <h3 class="insight-title">Vintage Watches: The Alternative Asset Outperforming Real Estate</h3>
+          <p class="insight-excerpt">Rare timepieces have delivered 23.4% annualized returns over the past decade. Here's what AI predicts for 2026.</p>
+          <a href="#" style="color: var(--color-gold); text-decoration: none; font-weight: 600;">Read More →</a>
+        </div>
+      </div>
+
+      <div class="insight-card">
+        <div class="insight-image">🎨</div>
+        <div class="insight-content">
+          <div class="insight-meta">
+            <span>FINE ART</span>
+            <span>•</span>
+            <span>Nov 12, 2025</span>
+          </div>
+          <h3 class="insight-title">AI Identifies 12 Undervalued Artists Ready to Break Out</h3>
+          <p class="insight-excerpt">Pattern recognition reveals which emerging artists show the same early signals as Basquiat, Haring, and other market darlings.</p>
+          <a href="#" style="color: var(--color-gold); text-decoration: none; font-weight: 600;">Read More →</a>
+        </div>
+      </div>
+
+      <div class="insight-card">
+        <div class="insight-image">💎</div>
+        <div class="insight-content">
+          <div class="insight-meta">
+            <span>RARE COINS</span>
+            <span>•</span>
+            <span>Nov 8, 2025</span>
+          </div>
+          <h3 class="insight-title">The Numismatic Renaissance: Why Rare Coins Are Booming</h3>
+          <p class="insight-excerpt">Institutional money is flowing into rare coins. Our AI shows this trend has 18-36 months left before mainstream adoption.</p>
+          <a href="#" style="color: var(--color-gold); text-decoration: none; font-weight: 600;">Read More →</a>
+        </div>
+      </div>
+
+      <div class="insight-card">
+        <div class="insight-image">📈</div>
+        <div class="insight-content">
+          <div class="insight-meta">
+            <span>PORTFOLIO STRATEGY</span>
+            <span>•</span>
+            <span>Nov 5, 2025</span>
+          </div>
+          <h3 class="insight-title">The 60/40 Portfolio Is Dead. Here's What Replaces It.</h3>
+          <p class="insight-excerpt">Backtested over 40 years: a 40/30/30 allocation (alternatives/equities/bonds) would have outperformed traditional portfolios by 340%.</p>
+          <a href="#" style="color: var(--color-gold); text-decoration: none; font-weight: 600;">Read More →</a>
+        </div>
+      </div>
+
+      <div class="insight-card">
+        <div class="insight-image">🤖</div>
+        <div class="insight-content">
+          <div class="insight-meta">
+            <span>AI & INVESTING</span>
+            <span>•</span>
+            <span>Nov 1, 2025</span>
+          </div>
+          <h3 class="insight-title">How GPT-4 Predicted the Q4 Precious Metals Rally 3 Months Early</h3>
+          <p class="insight-excerpt">Inside ELUXRAJ's AI models: the machine learning techniques that deliver 94.7% signal accuracy.</p>
+          <a href="#" style="color: var(--color-gold); text-decoration: none; font-weight: 600;">Read More →</a>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section style="background: rgba(201,169,105,0.05); padding: 80px 40px; text-align: center; margin: 80px 0;">
+    <h2 style="font-family: var(--font-display); font-size: 42px; margin-bottom: 20px;">Get Weekly Market Intelligence</h2>
+    <p style="color: var(--color-text-muted); font-size: 18px; margin-bottom: 30px; max-width: 600px; margin-left: auto; margin-right: auto;">Subscribe to ELUXRAJ Insights for weekly alternative asset analysis delivered to your inbox.</p>
+    <div style="display: flex; gap: 15px; justify-content: center; max-width: 500px; margin: 0 auto;">
+      <input type="email" placeholder="your@email.com" style="flex: 1; padding: 15px; border-radius: 8px; border: 1px solid var(--color-border); background: rgba(0,0,0,0.3); color: var(--color-text); font-size: 16px;">
+      <button class="btn btn-primary">Subscribe</button>
+    </div>
+    <p style="font-size: 13px; margin-top: 15px; color: var(--color-text-muted);">Join 47,000+ investors. Unsubscribe anytime.</p>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-bottom">
+        <p>© 2025 ELUXRAJ Capital Partners LLC. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

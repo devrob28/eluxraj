@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: eluxraj
+    env: node
+    plan: free
+    buildCommand: npm install
+    startCommand: node server.js
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: ALPHA_VANTAGE_API_KEY
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: DATABASE_URL
+        fromDatabase:
+          name: eluxraj-db
+          property: connectionString
+
+databases:
+  - name: eluxraj-db
+    plan: free

@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>ELUXRAJ — Private Intelligence for Alternative Wealth</title>
+  <link rel="stylesheet" href="/styles.css">
+  <meta name="description" content="ELUXRAJ™ — An AI-driven private wealth concierge for discerning investors.">
+</head>
+<body class="body-dark">
+  <header class="topbar">
+    <div class="brand">
+      <div class="logo">ELUXRAJ™</div>
+      <div class="sub">Private Intelligence • Alternative Wealth</div>
+    </div>
+    <nav class="nav">
+      <a href="#experience">Experience</a>
+      <a href="#assets">Assets</a>
+      <a href="#membership">Membership</a>
+      <a class="cta" id="apply-cta" href="#apply">Request Private Access</a>
+    </nav>
+  </header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-inner">
+        <h1>Wealth Should Feel Inevitable.</h1>
+        <p class="lead">Private AI intelligence for those who command legacy, not just capital.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" id="enter-apply-link" href="#apply">Request Private Access</a>
+          <a class="btn btn-ghost" href="#membership">Membership & Tiers</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- The Experience -->
+    <section id="experience" class="section">
+      <h2>The Experience</h2>
+      <p class="muted">Elegance, discretion, and precision. The system does the work; you accept only what enhances your legacy.</p>
+      <div class="panels">
+        <div class="panel">Curated Intelligence</div>
+        <div class="panel">Discreet Access</div>
+        <div class="panel">Strategic Dominance</div>
+      </div>
+    </section>
+
+    <!-- Assets -->
+    <section id="assets" class="section">
+      <h2>Asset Realms</h2>
+      <div class="carousel">
+        <div class="card">Precious Metals & Rare Coins</div>
+        <div class="card">Private Bullion Holdings</div>
+        <div class="card">Fine Timepieces</div>
+        <div class="card">Historical Artifacts</div>
+      </div>
+    </section>
+
+    <!-- Intelligence Layer -->
+    <section class="section dark-card">
+      <h3>Complexity, mastered. Simplicity, delivered.</h3>
+      <p class="muted">The invisible intelligence layer anticipates risk, time, and rarity — translating them into invitations.</p>
+      <div class="ai-preview">
+        <button id="ai-ping" class="btn">Request Intelligence Whisper</button>
+        <div id="ai-result" class="ai-result"></div>
+      </div>
+    </section>
+
+    <!-- Membership -->
+    <section id="membership" class="section">
+      <h2>Membership Ascension</h2>
+      <p class="muted">Status is a progression. Influence is cultivated. Select a tier or request an invitation.</p>
+
+      <div class="tiers">
+        <div class="tier">
+          <h4>Initiate</h4>
+          <p class="price">$188 / month</p>
+          <p class="muted">Curated insights & foundation intelligence</p>
+          <button class="btn tier-choose" data-tier="Initiate">Select Initiate</button>
+        </div>
+        <div class="tier">
+          <h4>Sovereign</h4>
+          <p class="price">$808 / month</p>
+          <p class="muted">Advanced strategies & private vault access</p>
+          <button class="btn tier-choose" data-tier="Sovereign">Select Sovereign</button>
+        </div>
+        <div class="tier">
+          <h4>Apex Circle</h4>
+          <p class="price">$2,600 / month</p>
+          <p class="muted">Invitation-only orchestration & priority placements</p>
+          <button class="btn tier-choose" data-tier="Apex Circle">Request Apex</button>
+        </div>
+      </div>
+
+    </section>
+
+    <!-- Apply -->
+    <section id="apply" class="section apply-section">
+      <h2>Request Private Access</h2>
+      <form id="apply-form" class="form">
+        <label>Name<input type="text" name="name" required /></label>
+        <label>Email<input type="email" name="email" required /></label>
+        <label>Net worth range
+          <select name="netWorthRange">
+            <option>$1M–$5M</option>
+            <option>$5M–$20M</option>
+            <option>$20M–$100M</option>
+            <option>$100M+</option>
+          </select>
+        </label>
+        <label>Interests<textarea name="interests" placeholder="Gold, rare coins, legacy assets..."></textarea></label>
+        <label>Private Note<textarea name="note" placeholder="Share any discreet guidance or legacy preference."></textarea></label>
+        <button type="submit" class="btn btn-primary">Submit Application</button>
+        <div id="apply-feedback" class="muted small"></div>
+      </form>
+    </section>
+
+    <footer class="footer">
+      <div>ELUXRAJ™ &nbsp;•&nbsp; Private Intelligence for Alternative Wealth</div>
+      <div class="muted small">Designed for discretion. Not investment advice.</div>
+    </footer>
+
+  </main>
+
+  <script src="/app.js"></script>
+</body>
+</html>

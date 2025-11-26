@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact Us | ELUXRAJ™</title>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      max-width: 1200px;
+      margin: 80px auto;
+      padding: 0 40px;
+    }
+    .contact-info {
+      display: flex;
+      flex-direction: column;
+      gap: 40px;
+    }
+    .info-block h3 {
+      color: var(--color-gold);
+      font-size: 18px;
+      margin-bottom: 15px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+    }
+    .info-block p {
+      color: var(--color-text-muted);
+      line-height: 1.8;
+      font-size: 16px;
+    }
+    .info-block a {
+      color: var(--color-gold);
+      text-decoration: none;
+    }
+    .contact-form {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--color-border);
+      border-radius: 16px;
+      padding: 50px;
+    }
+    .form-group {
+      margin-bottom: 25px;
+    }
+    .form-group label {
+      display: block;
+      color: var(--color-text);
+      margin-bottom: 10px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 15px;
+      background: rgba(0,0,0,0.3);
+      border: 1px solid var(--color-border);
+      border-radius: 8px;
+      color: var(--color-text);
+      font-size: 16px;
+      font-family: var(--font-body);
+    }
+    .form-group textarea {
+      min-height: 150px;
+      resize: vertical;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: var(--color-gold);
+    }
+    .office-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--color-border);
+      padding: 30px;
+      border-radius: 12px;
+      margin-bottom: 20px;
+    }
+    .office-card h4 {
+      color: var(--color-gold);
+      margin-bottom: 15px;
+      font-size: 20px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="main-nav">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <a href="/">
+          <span class="logo-icon">◆</span>
+          <span class="logo-text">ELUXRAJ<sup>™</sup></span>
+        </a>
+      </div>
+      <div class="nav-menu">
+        <a href="/pages/about.html">About</a>
+        <a href="/pages/contact.html" style="color: var(--color-gold);">Contact</a>
+        <a href="/pages/careers.html">Careers</a>
+        <a href="/dashboard.html" class="nav-cta">Client Login</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero-section">
+    <div class="hero-content">
+      <p class="hero-eyebrow">Get in Touch</p>
+      <h1 class="hero-title">Let's Build Your Wealth Together</h1>
+      <p class="hero-subtitle">Whether you're a prospective client, institutional partner, or investor, we're here to help.</p>
+    </div>
+  </section>
+
+  <div class="contact-grid">
+    <div class="contact-info">
+      
+      <div class="info-block">
+        <h3>Client Inquiries</h3>
+        <p>
+          Interested in joining ELUXRAJ? Our client services team is ready to answer your questions about our Platform, pricing, and capabilities.
+        </p>
+        <p><a href="mailto:hello@eluxraj.com">hello@eluxraj.com</a><br>
+        +1 (212) 555-1234</p>
+      </div>
+
+      <div class="info-block">
+        <h3>Enterprise & Partnerships</h3>
+        <p>
+          For institutional licensing, API access, white-label solutions, and strategic partnerships.
+        </p>
+        <p><a href="mailto:enterprise@eluxraj.com">enterprise@eluxraj.com</a><br>
+        +1 (212) 555-1240</p>
+      </div>
+
+      <div class="info-block">
+        <h3>Press & Media</h3>
+        <p>
+          Members of the press can request interviews, press kits, and company information.
+        </p>
+        <p><a href="mailto:press@eluxraj.com">press@eluxraj.com</a></p>
+      </div>
+
+      <div class="info-block">
+        <h3>Investor Relations</h3>
+        <p>
+          For acquisition inquiries, strategic investments, and fundraising information.
+        </p>
+        <p><a href="mailto:investors@eluxraj.com">investors@eluxraj.com</a></p>
+      </div>
+
+      <div class="info-block">
+        <h3>Support</h3>
+        <p>
+          Existing clients can reach our support team 24/7.
+        </p>
+        <p><a href="mailto:support@eluxraj.com">support@eluxraj.com</a><br>
+        <a href="/dashboard.html">Client Portal</a></p>
+      </div>
+
+    </div>
+
+    <div class="contact-form">
+      <h2 style="font-family: var(--font-display); font-size: 32px; margin-bottom: 10px; color: var(--color-text);">Send Us a Message</h2>
+      <p style="color: var(--color-text-muted); margin-bottom: 30px;">We typically respond within 24 hours.</p>
+      
+      <form>
+        <div class="form-group">
+          <label>Full Name *</label>
+          <input type="text" required>
+        </div>
+        
+        <div class="form-group">
+          <label>Email Address *</label>
+          <input type="email" required>
+        </div>
+        
+        <div class="form-group">
+          <label>Company (optional)</label>
+          <input type="text">
+        </div>
+        
+        <div class="form-group">
+          <label>Inquiry Type *</label>
+          <select required>
+            <option value="">Select one...</option>
+            <option value="client">Become a Client</option>
+            <option value="enterprise">Enterprise/API</option>
+            <option value="partnership">Partnership</option>
+            <option value="press">Press/Media</option>
+            <option value="investor">Investment/Acquisition</option>
+            <option value="support">Support</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        
+        <div class="form-group">
+          <label>Message *</label>
+          <textarea required placeholder="Tell us how we can help..."></textarea>
+        </div>
+        
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+      </form>
+    </div>
+  </div>
+
+  <section class="feature-section" style="background: rgba(0,0,0,0.2); padding: 80px 40px; margin: 80px 0;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <h2 style="font-family: var(--font-display); font-size: 42px; margin-bottom: 60px; text-align: center;">Our Offices</h2>
+      
+      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
+        
+        <div class="office-card">
+          <h4>🏢 New York (Headquarters)</h4>
+          <p style="color: var(--color-text-muted); line-height: 1.7;">
+            350 Fifth Avenue, Suite 4110<br>
+            New York, NY 10118<br>
+            United States<br><br>
+            <a href="tel:+12125551234" style="color: var(--color-gold); text-decoration: none;">+1 (212) 555-1234</a>
+          </p>
+        </div>
+
+        <div class="office-card">
+          <h4>🌉 San Francisco</h4>
+          <p style="color: var(--color-text-muted); line-height: 1.7;">
+            555 California Street, Suite 3000<br>
+            San Francisco, CA 94104<br>
+            United States<br><br>
+            <a href="tel:+14155552100" style="color: var(--color-gold); text-decoration: none;">+1 (415) 555-2100</a>
+          </p>
+        </div>
+
+        <div class="office-card">
+          <h4>🏙️ London</h4>
+          <p style="color: var(--color-text-muted); line-height: 1.7;">
+            1 Poultry<br>
+            London EC2R 8EJ<br>
+            United Kingdom<br><br>
+            <a href="tel:+442075551234" style="color: var(--color-gold); text-decoration: none;">+44 20 7555 1234</a>
+          </p>
+        </div>
+
+        <div class="office-card">
+          <h4>🏝️ Singapore</h4>
+          <p style="color: var(--color-text-muted); line-height: 1.7;">
+            1 Raffles Place, #40-02<br>
+            Singapore 048616<br><br>
+            <a href="tel:+6565551234" style="color: var(--color-gold); text-decoration: none;">+65 6555 1234</a>
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-bottom">
+        <p>© 2025 ELUXRAJ Capital Partners LLC. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

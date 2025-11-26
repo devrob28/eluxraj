@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Enterprise API & Licensing | ELUXRAJ™</title>
+  <link rel="stylesheet" href="/professional.css">
+  <style>
+    .api-hero {
+      background: linear-gradient(135deg, rgba(201,169,105,0.1), rgba(201,169,105,0.05));
+      padding: 120px 40px 80px;
+      margin-top: 80px;
+    }
+    .code-block {
+      background: #0a0a0a;
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 30px;
+      margin: 40px 0;
+      overflow-x: auto;
+    }
+    .code-block code {
+      color: #4ade80;
+      font-family: 'Monaco', 'Courier New', monospace;
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .api-features {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+      margin: 60px 0;
+    }
+    .api-feature {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid var(--color-border);
+      padding: 30px;
+      border-radius: 12px;
+    }
+    .pricing-enterprise {
+      background: linear-gradient(135deg, var(--color-secondary), var(--color-primary));
+      border: 2px solid var(--color-gold);
+      padding: 60px;
+      border-radius: 16px;
+      text-align: center;
+      max-width: 800px;
+      margin: 80px auto;
+    }
+  </style>
+</head>
+<body>
+  
+  <nav class="main-nav">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <a href="/">
+          <span class="logo-icon">◆</span>
+          <span class="logo-text">ELUXRAJ<sup>™</sup></span>
+        </a>
+      </div>
+      <div class="nav-menu">
+        <a href="/pages/how-it-works.html">Platform</a>
+        <a href="/pages/pricing.html">Pricing</a>
+        <a href="/pages/api.html" style="color: var(--color-gold);">API</a>
+        <a href="/pages/investors.html">Investors</a>
+        <a href="/dashboard.html" class="nav-cta">Client Login</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="api-hero">
+    <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
+      <p class="hero-eyebrow">ELUXRAJ API & Enterprise</p>
+      <h1 class="hero-title">Power Your Platform with <br>Alternative Asset Intelligence</h1>
+      <p class="hero-subtitle" style="max-width: 800px; margin: 30px auto;">White-label our AI investment engine for your wealth management platform, robo-advisor, or financial institution. Serve your clients institutional-grade alternative asset intelligence.</p>
+    </div>
+  </section>
+
+  <section class="feature-section">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      
+      <div class="section-header">
+        <h2 class="section-title">Built for Enterprise Scale</h2>
+        <p class="section-subtitle">Our API powers investment platforms serving millions of users with 99.99% uptime.</p>
+      </div>
+
+      <div class="api-features">
+        <div class="api-feature">
+          <h3 style="color: var(--color-gold); margin-bottom: 15px; font-size: 20px;">⚡ Low Latency</h3>
+          <p style="color: var(--color-text-muted);">Average response time under 50ms. Global CDN ensures fast delivery anywhere in the world.</p>
+        </div>
+        <div class="api-feature">
+          <h3 style="color: var(--color-gold); margin-bottom: 15px; font-size: 20px;">🔐 Enterprise Security</h3>
+          <p style="color: var(--color-text-muted);">SOC 2 Type II certified. OAuth 2.0 authentication. Rate limiting and DDoS protection included.</p>
+        </div>
+        <div class="api-feature">
+          <h3 style="color: var(--color-gold); margin-bottom: 15px; font-size: 20px;">📊 99.99% Uptime SLA</h3>
+          <p style="color: var(--color-text-muted);">Guaranteed uptime with financial penalties if we fail. Multi-region redundancy.</p>
+        </div>
+        <div class="api-feature">
+          <h3 style="color: var(--color-gold); margin-bottom: 15px; font-size: 20px;">🎨 White Label</h3>
+          <p style="color: var(--color-text-muted);">Fully customizable branding. Your logo, your colors, your domain.</p>
+        </div>
+        <div class="api-feature">
+          <h3 style="color: var(--color-gold); margin-bottom: 15px; font-size: 20px;">📈 Real-Time Data</h3>
+          <p style="color: var(--color-text-muted);">Live market data, AI signals, portfolio analytics updated in real-time via WebSocket.</p>
+        </div>
+        <div class="api-feature">
+          <h3 style="color: var(--color-gold); margin-bottom: 15px; font-size: 20px;">🛠️ Developer Support</h3>
+          <p style="color: var(--color-text-muted);">Dedicated integration team. Comprehensive docs. SDKs for Python, Node.js, Ruby, Go.</p>
+        </div>
+      </div>
+
+      <div class="section-header" style="margin-top: 100px;">
+        <h2 class="section-title">Simple, Powerful API</h2>
+      </div>
+
+      <div class="code-block">
+        <code>
+# Get AI Investment Signal<br>
+curl https://api.eluxraj.com/v1/signals \<br>
+&nbsp;&nbsp;-H "Authorization: Bearer YOUR_API_KEY" \<br>
+&nbsp;&nbsp;-H "Content-Type: application/json" \<br>
+&nbsp;&nbsp;-d '{<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"asset_class": "precious_metals",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"risk_profile": "moderate",<br>
+&nbsp;&nbsp;&nbsp;&nbsp;"time_horizon": "long_term"<br>
+&nbsp;&nbsp;}'<br>
+<br>
+# Response<br>
+{<br>
+&nbsp;&nbsp;"signal": "Accumulate Gold Position - Inflation Hedge Active",<br>
+&nbsp;&nbsp;"confidence": 94.2,<br>
+&nbsp;&nbsp;"recommendation": "Scale into physical gold and mining equities...",<br>
+&nbsp;&nbsp;"entry_points": ["$1,950/oz", "$2,000/oz"],<br>
+&nbsp;&nbsp;"target_allocation": "15-20%",<br>
+&nbsp;&nbsp;"risk_factors": ["rate_volatility", "dollar_strength"],<br>
+&nbsp;&nbsp;"timestamp": "2025-11-25T04:30:00Z"<br>
+}
+        </code>
+      </div>
+
+      <div class="section-header" style="margin-top: 100px;">
+        <h2 class="section-title">Use Cases</h2>
+      </div>
+
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h3>Robo-Advisors</h3>
+          <p>Add alternative asset recommendations to your automated investment platform. Differentiate from competitors with AI-powered precious metals and collectibles strategies.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Wealth Management Platforms</h3>
+          <p>Give your advisors institutional-grade alternative asset intelligence. Help UHNW clients diversify into rare coins, fine art, and private deals.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Banks & Credit Unions</h3>
+          <p>Offer premium investment products beyond traditional portfolios. Increase AUM and wallet share with alternative asset offerings.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Family Offices</h3>
+          <p>White-label our entire platform for your family office. Custom branding, dedicated infrastructure, bespoke AI models.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Insurance Companies</h3>
+          <p>Add alternative asset allocation to life insurance investment products. Improve returns for policyholders.</p>
+        </div>
+        <div class="feature-card">
+          <h3>Crypto Platforms</h3>
+          <p>Bridge crypto and traditional alternative assets. Offer your users diversification beyond digital currencies.</p>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="pricing-enterprise">
+    <h2 style="font-family: var(--font-display); font-size: 42px; margin-bottom: 20px; color: var(--color-text);">Enterprise Pricing</h2>
+    <p style="color: var(--color-text-muted); font-size: 18px; margin-bottom: 30px;">Custom pricing based on API volume, features, and SLA requirements.</p>
+    <div style="display: flex; gap: 40px; justify-content: center; margin: 40px 0; flex-wrap: wrap;">
+      <div>
+        <div style="font-size: 14px; color: var(--color-gold); margin-bottom: 5px;">Starting at</div>
+        <div style="font-family: var(--font-display); font-size: 48px; color: var(--color-text);">$25K/mo</div>
+      </div>
+      <div>
+        <div style="font-size: 14px; color: var(--color-gold); margin-bottom: 5px;">Typical ACV</div>
+        <div style="font-family: var(--font-display); font-size: 48px; color: var(--color-text);">$300K-$2M</div>
+      </div>
+    </div>
+    <a href="mailto:enterprise@eluxraj.com" class="btn btn-primary" style="background: var(--color-gold); color: var(--color-primary);">Contact Enterprise Sales</a>
+    <p style="font-size: 14px; margin-top: 25px; opacity: 0.8;">Current partners: 23 financial institutions • 1.2M end users powered</p>
+  </section>
+
+  <section class="feature-section">
+    <div style="max-width: 900px; margin: 0 auto;">
+      <div class="section-header">
+        <h2 class="section-title">Trusted by Leading Institutions</h2>
+      </div>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 50px; margin: 60px 0; text-align: center;">
+        <div>
+          <div style="font-size: 14px; color: var(--color-gold); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px;">Regional Bank</div>
+          <div style="font-size: 16px; color: var(--color-text-muted);">"Added $147M in AUM in first 6 months using ELUXRAJ API"</div>
+        </div>
+        <div>
+          <div style="font-size: 14px; color: var(--color-gold); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px;">Robo-Advisor</div>
+          <div style="font-size: 16px; color: var(--color-text-muted);">"40% increase in customer retention after adding alternative assets"</div>
+        </div>
+        <div>
+          <div style="font-size: 14px; color: var(--color-gold); margin-bottom: 10px; text-transform: uppercase; letter-spacing: 2px;">Family Office</div>
+          <div style="font-size: 16px; color: var(--color-text-muted);">"Saved $2M/year by replacing 3 human analysts with ELUXRAJ"</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-bottom">
+        <p>© 2025 ELUXRAJ Capital Partners LLC. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

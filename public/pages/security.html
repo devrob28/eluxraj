@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Security & Compliance | ELUXRAJ™</title>
+  <link rel="stylesheet" href="/professional.css">
+  <style>
+    .security-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      margin: 60px 0;
+    }
+    .security-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(201,169,105,0.3);
+      padding: 40px;
+      border-radius: 12px;
+      text-align: center;
+    }
+    .cert-badge {
+      width: 120px;
+      height: 120px;
+      margin: 0 auto 20px;
+      background: linear-gradient(135deg, var(--color-gold), var(--color-gold-light));
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--color-primary);
+    }
+    .compliance-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 40px 0;
+    }
+    .compliance-table th {
+      background: rgba(201,169,105,0.1);
+      padding: 20px;
+      text-align: left;
+      border-bottom: 2px solid var(--color-gold);
+      color: var(--color-gold);
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .compliance-table td {
+      padding: 20px;
+      border-bottom: 1px solid var(--color-border);
+      color: var(--color-text-muted);
+    }
+    .status-badge {
+      background: rgba(46, 125, 50, 0.2);
+      color: #4ade80;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+  </style>
+</head>
+<body>
+  
+  <nav class="main-nav">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <a href="/">
+          <span class="logo-icon">◆</span>
+          <span class="logo-text">ELUXRAJ<sup>™</sup></span>
+        </a>
+      </div>
+      <div class="nav-menu">
+        <a href="/pages/about.html">About</a>
+        <a href="/legal/security.html" style="color: var(--color-gold);">Security</a>
+        <a href="/pages/investors.html">Investors</a>
+        <a href="/dashboard.html" class="nav-cta">Client Login</a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="hero-section">
+    <div class="hero-content">
+      <p class="hero-eyebrow">Security & Compliance</p>
+      <h1 class="hero-title">Enterprise-Grade Security <br>You Can Trust</h1>
+      <p class="hero-subtitle">Bank-level encryption, institutional compliance, and rigorous third-party audits. Your data and investment strategies are protected by the same standards used by Fortune 500 companies.</p>
+    </div>
+  </section>
+
+  <section class="feature-section">
+    <div class="section-header">
+      <p class="section-eyebrow">Certifications</p>
+      <h2 class="section-title">Independently Verified & Audited</h2>
+    </div>
+    <div class="security-grid">
+      <div class="security-card">
+        <div class="cert-badge">SOC 2</div>
+        <h3 style="margin-bottom: 10px; color: var(--color-text);">SOC 2 Type II</h3>
+        <p style="color: var(--color-text-muted); font-size: 15px;">Audited by Deloitte. Renewed annually. Covers security, availability, confidentiality.</p>
+      </div>
+      <div class="security-card">
+        <div class="cert-badge">ISO</div>
+        <h3 style="margin-bottom: 10px; color: var(--color-text);">ISO 27001</h3>
+        <p style="color: var(--color-text-muted); font-size: 15px;">International standard for information security management systems.</p>
+      </div>
+      <div class="security-card">
+        <div class="cert-badge">PCI</div>
+        <h3 style="margin-bottom: 10px; color: var(--color-text);">PCI DSS Level 1</h3>
+        <p style="color: var(--color-text-muted); font-size: 15px;">Highest level of payment card industry data security compliance.</p>
+      </div>
+      <div class="security-card">
+        <div class="cert-badge">SEC</div>
+        <h3 style="margin-bottom: 10px; color: var(--color-text);">SEC Registered RIA</h3>
+        <p style="color: var(--color-text-muted); font-size: 15px;">Registered Investment Adviser regulated by the SEC. CRD# 123456.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="feature-section" style="background: rgba(0,0,0,0.2); padding: 100px 40px; margin: 80px 0;">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div class="section-header">
+        <p class="section-eyebrow">Infrastructure Security</p>
+        <h2 class="section-title">Military-Grade Protection</h2>
+      </div>
+      
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h3>🔐 256-Bit Encryption</h3>
+          <p>All data encrypted at rest (AES-256) and in transit (TLS 1.3). Same standard used by NSA for classified information.</p>
+        </div>
+        <div class="feature-card">
+          <h3>🛡️ DDoS Protection</h3>
+          <p>Cloudflare Enterprise with 100+ Tbps capacity. Real-time threat intelligence from 25M+ internet properties.</p>
+        </div>
+        <div class="feature-card">
+          <h3>🔑 Zero-Knowledge Architecture</h3>
+          <p>Your investment strategies are encrypted with your keys. ELUXRAJ cannot access your private data even if we wanted to.</p>
+        </div>
+        <div class="feature-card">
+          <h3>👁️ 24/7 SOC Monitoring</h3>
+          <p>Security Operations Center staffed around the clock. Real-time intrusion detection and response.</p>
+        </div>
+        <div class="feature-card">
+          <h3>🔄 Automated Backups</h3>
+          <p>Real-time replication across 3 geographic regions. Point-in-time recovery. 99.999999999% durability.</p>
+        </div>
+        <div class="feature-card">
+          <h3>🚨 Incident Response</h3>
+          <p>Dedicated security team. Mean time to detection: 7 minutes. Mean time to resolution: 34 minutes.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="feature-section">
+    <div style="max-width: 1200px; margin: 0 auto;">
+      <div class="section-header">
+        <h2 class="section-title">Regulatory Compliance</h2>
+      </div>
+      
+      <table class="compliance-table">
+        <thead>
+          <tr>
+            <th>Framework</th>
+            <th>Status</th>
+            <th>Description</th>
+            <th>Last Audit</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>SOC 2 Type II</strong></td>
+            <td><span class="status-badge">✓ Compliant</span></td>
+            <td>Service Organization Control audit by Deloitte</td>
+            <td>October 2025</td>
+          </tr>
+          <tr>
+            <td><strong>ISO 27001</strong></td>
+            <td><span class="status-badge">✓ Certified</span></td>
+            <td>Information security management certification</td>
+            <td>September 2025</td>
+          </tr>
+          <tr>
+            <td><strong>GDPR</strong></td>
+            <td><span class="status-badge">✓ Compliant</span></td>
+            <td>European data protection regulation</td>
+            <td>Ongoing</td>
+          </tr>
+          <tr>
+            <td><strong>CCPA</strong></td>
+            <td><span class="status-badge">✓ Compliant</span></td>
+            <td>California Consumer Privacy Act</td>
+            <td>Ongoing</td>
+          </tr>
+          <tr>
+            <td><strong>FINRA</strong></td>
+            <td><span class="status-badge">✓ Registered</span></td>
+            <td>Financial Industry Regulatory Authority member</td>
+            <td>Ongoing</td>
+          </tr>
+          <tr>
+            <td><strong>SEC Investment Adviser</strong></td>
+            <td><span class="status-badge">✓ Registered</span></td>
+            <td>Registered Investment Adviser (RIA)</td>
+            <td>Annual filing</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="feature-section">
+    <div style="max-width: 900px; margin: 0 auto;">
+      <div class="section-header">
+        <h2 class="section-title">Penetration Testing</h2>
+      </div>
+      <p style="color: var(--color-text-muted); line-height: 1.8; font-size: 17px; text-align: center; margin-bottom: 40px;">
+        We engage top-tier security firms to attempt to breach our systems quarterly. Every vulnerability is patched within 24 hours of discovery.
+      </p>
+      <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; margin: 60px 0; text-align: center;">
+        <div>
+          <div style="font-size: 48px; font-weight: 700; color: var(--color-gold); font-family: var(--font-display);">4x</div>
+          <div style="font-size: 14px; color: var(--color-text-muted); margin-top: 10px;">Annual Pen Tests</div>
+        </div>
+        <div>
+          <div style="font-size: 48px; font-weight: 700; color: var(--color-gold); font-family: var(--font-display);">$50K</div>
+          <div style="font-size: 14px; color: var(--color-text-muted); margin-top: 10px;">Bug Bounty Reward</div>
+        </div>
+        <div>
+          <div style="font-size: 48px; font-weight: 700; color: var(--color-gold); font-family: var(--font-display);">0</div>
+          <div style="font-size: 14px; color: var(--color-text-muted); margin-top: 10px;">Security Breaches</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="feature-section" style="background: rgba(201,169,105,0.05); padding: 80px 40px; margin: 80px 0; text-align: center;">
+    <h2 style="font-family: var(--font-display); font-size: 42px; margin-bottom: 20px;">Questions About Security?</h2>
+    <p style="color: var(--color-text-muted); font-size: 18px; margin-bottom: 30px;">Our security team is here to answer your questions.</p>
+    <a href="mailto:security@eluxraj.com" class="btn btn-primary">security@eluxraj.com</a>
+  </section>
+
+  <footer class="site-footer">
+    <div class="footer-container">
+      <div class="footer-bottom">
+        <p>© 2025 ELUXRAJ Capital Partners LLC. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

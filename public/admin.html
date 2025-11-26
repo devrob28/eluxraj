@@ -1,0 +1,401 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard | ELUXRAJ™</title>
+  <link rel="stylesheet" href="/styles.css">
+  <style>
+    .admin-container {
+      max-width: 1600px;
+      margin: 120px auto 80px;
+      padding: 0 40px;
+    }
+    
+    .admin-header {
+      margin-bottom: 60px;
+      padding-bottom: 30px;
+      border-bottom: 2px solid var(--color-border);
+    }
+    
+    .admin-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-bottom: 60px;
+    }
+    
+    .stat-card {
+      background: var(--color-secondary);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: var(--shadow-sm);
+    }
+    
+    .stat-card h3 {
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--color-text-muted);
+      margin-bottom: 15px;
+    }
+    
+    .stat-card .value {
+      font-family: var(--font-display);
+      font-size: 48px;
+      font-weight: 700;
+      color: var(--color-champagne);
+    }
+    
+    .data-table {
+      background: var(--color-secondary);
+      border: 1px solid var(--color-border);
+      border-radius: 12px;
+      padding: 30px;
+      margin-bottom: 40px;
+      overflow-x: auto;
+    }
+    
+    .data-table h2 {
+      font-family: var(--font-display);
+      font-size: 28px;
+      margin-bottom: 20px;
+      color: var(--color-midnight);
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    
+    th {
+      background: var(--color-accent);
+      padding: 15px;
+      text-align: left;
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--color-midnight);
+      font-weight: 600;
+      border-bottom: 2px solid var(--color-border);
+    }
+    
+    td {
+      padding: 15px;
+      border-bottom: 1px solid var(--color-border);
+      color: var(--color-text-muted);
+      font-size: 14px;
+    }
+    
+    tr:hover {
+      background: var(--color-accent);
+    }
+    
+    .badge {
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+    
+    .badge-active { background: rgba(46, 125, 50, 0.2); color: #2e7d32; }
+    .badge-pending { background: rgba(237, 108, 2, 0.2); color: #ed6c02; }
+    .badge-free { background: rgba(149, 117, 205, 0.2); color: #9575cd; }
+    .badge-initiate { background: rgba(66, 165, 245, 0.2); color: #42a5f5; }
+    .badge-sovereign { background: rgba(255, 167, 38, 0.2); color: #ffa726; }
+    .badge-apex { background: rgba(212, 175, 55, 0.2); color: #d4af37; }
+    
+    .btn-group {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 30px;
+    }
+    
+    .refresh-btn {
+      background: var(--color-champagne);
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 14px;
+      transition: var(--transition);
+    }
+    
+    .refresh-btn:hover {
+      background: var(--color-champagne-light);
+      transform: translateY(-2px);
+    }
+    
+    .loading {
+      text-align: center;
+      padding: 40px;
+      color: var(--color-text-muted);
+      font-size: 18px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="main-nav">
+    <div class="nav-container">
+      <div class="nav-brand">
+        <a href="/">
+          <span class="logo-icon">◆</span>
+          <span class="logo-text">ELUXRAJ<sup>™</sup></span>
+        </a>
+      </div>
+      <div class="nav-menu">
+        <a href="/admin.html" style="color: var(--color-champagne);">Admin</a>
+        <a href="/">Home</a>
+        <a href="/dashboard.html" class="nav-cta">Dashboard</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="admin-container">
+    
+    <div class="admin-header">
+      <h1 style="font-family: var(--font-display); font-size: 48px; margin-bottom: 10px; color: var(--color-midnight);">Admin Dashboard</h1>
+      <p style="color: var(--color-text-muted); font-size: 18px;">Platform Overview & Management</p>
+    </div>
+
+    <!-- Stats Overview -->
+    <div class="admin-stats">
+      <div class="stat-card">
+        <h3>Total Users</h3>
+        <div class="value" id="totalUsers">--</div>
+      </div>
+      <div class="stat-card">
+        <h3>Total Applications</h3>
+        <div class="value" id="totalApps">--</div>
+      </div>
+      <div class="stat-card">
+        <h3>Total Subscribers</h3>
+        <div class="value" id="totalSubs">--</div>
+      </div>
+      <div class="stat-card">
+        <h3>Active Users</h3>
+        <div class="value" id="activeUsers">--</div>
+      </div>
+    </div>
+
+    <!-- Users Table -->
+    <div class="data-table">
+      <div class="btn-group">
+        <h2 style="flex: 1;">Users</h2>
+        <button class="refresh-btn" onclick="loadUsers()">🔄 Refresh</button>
+      </div>
+      
+      <div id="usersLoading" class="loading">Loading users...</div>
+      <div id="usersContent" style="display: none;">
+        <table id="usersTable">
+          <thead>
+            <tr>
+              <th>User ID</th>
+              <th>Email</th>
+              <th>Name</th>
+              <th>Tier</th>
+              <th>Status</th>
+              <th>Created</th>
+              <th>Last Login</th>
+            </tr>
+          </thead>
+          <tbody id="usersBody">
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Applications Table -->
+    <div class="data-table">
+      <div class="btn-group">
+        <h2 style="flex: 1;">Applications</h2>
+        <button class="refresh-btn" onclick="loadApplications()">🔄 Refresh</button>
+      </div>
+      
+      <div id="appsLoading" class="loading">Loading applications...</div>
+      <div id="appsContent" style="display: none;">
+        <table id="appsTable">
+          <thead>
+            <tr>
+              <th>Application ID</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Net Worth</th>
+              <th>Status</th>
+              <th>Source</th>
+              <th>Created</th>
+            </tr>
+          </thead>
+          <tbody id="appsBody">
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Subscribers Table -->
+    <div class="data-table">
+      <div class="btn-group">
+        <h2 style="flex: 1;">Newsletter Subscribers</h2>
+        <button class="refresh-btn" onclick="loadSubscribers()">🔄 Refresh</button>
+      </div>
+      
+      <div id="subsLoading" class="loading">Loading subscribers...</div>
+      <div id="subsContent" style="display: none;">
+        <table id="subsTable">
+          <thead>
+            <tr>
+              <th>Subscriber ID</th>
+              <th>Email</th>
+              <th>Status</th>
+              <th>Source</th>
+              <th>Subscribed</th>
+            </tr>
+          </thead>
+          <tbody id="subsBody">
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Load all data on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      loadStats();
+      loadUsers();
+      loadApplications();
+      loadSubscribers();
+    });
+
+    // Load stats
+    async function loadStats() {
+      try {
+        const response = await fetch('/api/status');
+        const data = await response.json();
+        
+        if (data.ok && data.stats) {
+          document.getElementById('totalUsers').textContent = data.stats.users || 0;
+          document.getElementById('totalApps').textContent = data.stats.applications || 0;
+          document.getElementById('totalSubs').textContent = data.stats.subscribers || 0;
+          document.getElementById('activeUsers').textContent = data.stats.users || 0;
+        }
+      } catch (err) {
+        console.error('Stats error:', err);
+      }
+    }
+
+    // Load users
+    async function loadUsers() {
+      try {
+        document.getElementById('usersLoading').style.display = 'block';
+        document.getElementById('usersContent').style.display = 'none';
+        
+        const response = await fetch('/api/admin/users');
+        const data = await response.json();
+        
+        if (data.users) {
+          const tbody = document.getElementById('usersBody');
+          tbody.innerHTML = '';
+          
+          data.users.forEach(user => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td><code>${user.user_id}</code></td>
+              <td>${user.email}</td>
+              <td>${user.name}</td>
+              <td><span class="badge badge-${user.tier}">${user.tier.toUpperCase()}</span></td>
+              <td><span class="badge badge-${user.status}">${user.status.toUpperCase()}</span></td>
+              <td>${new Date(user.created_at).toLocaleString()}</td>
+              <td>${user.last_login ? new Date(user.last_login).toLocaleString() : 'Never'}</td>
+            `;
+            tbody.appendChild(row);
+          });
+          
+          document.getElementById('usersLoading').style.display = 'none';
+          document.getElementById('usersContent').style.display = 'block';
+        }
+      } catch (err) {
+        console.error('Users error:', err);
+        document.getElementById('usersLoading').innerHTML = '<p style="color: red;">Error loading users</p>';
+      }
+    }
+
+    // Load applications
+    async function loadApplications() {
+      try {
+        document.getElementById('appsLoading').style.display = 'block';
+        document.getElementById('appsContent').style.display = 'none';
+        
+        const response = await fetch('/api/admin/applications');
+        const data = await response.json();
+        
+        if (data.applications) {
+          const tbody = document.getElementById('appsBody');
+          tbody.innerHTML = '';
+          
+          data.applications.forEach(app => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td><code>${app.application_id}</code></td>
+              <td>${app.name}</td>
+              <td>${app.email}</td>
+              <td>${app.net_worth_range}</td>
+              <td><span class="badge badge-${app.status.replace(' ', '-')}">${app.status.toUpperCase()}</span></td>
+              <td>${app.source}</td>
+              <td>${new Date(app.created_at).toLocaleString()}</td>
+            `;
+            tbody.appendChild(row);
+          });
+          
+          document.getElementById('appsLoading').style.display = 'none';
+          document.getElementById('appsContent').style.display = 'block';
+        }
+      } catch (err) {
+        console.error('Applications error:', err);
+        document.getElementById('appsLoading').innerHTML = '<p style="color: red;">Error loading applications</p>';
+      }
+    }
+
+    // Load subscribers
+    async function loadSubscribers() {
+      try {
+        document.getElementById('subsLoading').style.display = 'block';
+        document.getElementById('subsContent').style.display = 'none';
+        
+        const response = await fetch('/api/admin/subscribers');
+        const data = await response.json();
+        
+        if (data.subscribers) {
+          const tbody = document.getElementById('subsBody');
+          tbody.innerHTML = '';
+          
+          data.subscribers.forEach(sub => {
+            const row = document.createElement('tr');
+            row.innerHTML = `
+              <td><code>${sub.subscriber_id}</code></td>
+              <td>${sub.email}</td>
+              <td><span class="badge badge-${sub.status}">${sub.status.toUpperCase()}</span></td>
+              <td>${sub.source}</td>
+              <td>${new Date(sub.created_at).toLocaleString()}</td>
+            `;
+            tbody.appendChild(row);
+          });
+          
+          document.getElementById('subsLoading').style.display = 'none';
+          document.getElementById('subsContent').style.display = 'block';
+        }
+      } catch (err) {
+        console.error('Subscribers error:', err);
+        document.getElementById('subsLoading').innerHTML = '<p style="color: red;">Error loading subscribers</p>';
+      }
+    }
+  </script>
+
+</body>
+</html>
