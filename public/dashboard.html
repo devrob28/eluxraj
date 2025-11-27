@@ -7,23 +7,19 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     
     :root {
       --platinum: #e8e8e8;
-      --platinum-light: #f8f8f8;
       --navy: #0a192f;
       --navy-light: #112240;
-      --navy-lighter: #1d3557;
       --text: #0a192f;
       --text-muted: #4a5568;
       --green: #059669;
       --red: #dc2626;
       --gold: #d4af37;
+      --blue: #3b82f6;
+      --purple: #8b5cf6;
       --bg: #f5f5f5;
       --bg-alt: #ffffff;
     }
@@ -35,7 +31,7 @@
       line-height: 1.6;
     }
     
-    /* Navigation */
+    /* Nav */
     nav {
       position: fixed;
       top: 0;
@@ -46,1075 +42,966 @@
       align-items: center;
       z-index: 1000;
       background: var(--navy);
-      border-bottom: 1px solid rgba(255,255,255,0.1);
     }
     
-    .logo {
-      font-size: 22px;
-      font-weight: 800;
-      letter-spacing: 2px;
-      color: white;
-    }
+    .logo { font-size: 22px; font-weight: 800; letter-spacing: 2px; color: white; }
+    .nav-links { display: flex; gap: 20px; align-items: center; }
+    .nav-links a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; font-weight: 500; }
+    .nav-links a:hover { color: white; }
+    .nav-btn { background: white; color: var(--navy); padding: 8px 20px; border-radius: 6px; font-weight: 600; font-size: 14px; cursor: pointer; border: none; }
     
-    .nav-links {
-      display: flex;
-      gap: 20px;
-      align-items: center;
-    }
-    
-    .nav-links a {
-      color: rgba(255,255,255,0.7);
-      text-decoration: none;
-      font-size: 14px;
-      font-weight: 500;
-      transition: color 0.3s;
-    }
-    
-    .nav-links a:hover {
-      color: white;
-    }
-    
-    .nav-btn {
-      background: white;
-      color: var(--navy);
-      padding: 8px 20px;
-      border-radius: 6px;
-      font-weight: 600;
-      text-decoration: none;
-      font-size: 14px;
-      cursor: pointer;
-      border: none;
-      transition: all 0.3s;
-    }
-    
-    .nav-btn:hover {
-      background: var(--platinum);
-    }
-    
-    /* Main Container */
-    .dashboard-container {
-      max-width: 1400px;
-      margin: 80px auto 40px;
-      padding: 30px;
-    }
-    
-    /* Tabs */
-    .dashboard-tabs {
-      display: flex;
-      gap: 10px;
-      margin-bottom: 30px;
-      border-bottom: 2px solid rgba(10, 25, 47, 0.1);
-      padding-bottom: 15px;
-      flex-wrap: wrap;
-    }
-    
-    .tab-btn {
-      padding: 12px 24px;
-      border: none;
-      background: transparent;
-      color: var(--text-muted);
-      font-size: 14px;
-      font-weight: 600;
-      cursor: pointer;
-      border-radius: 8px;
-      transition: all 0.3s;
-    }
-    
-    .tab-btn:hover {
-      background: rgba(10, 25, 47, 0.05);
-      color: var(--navy);
-    }
-    
-    .tab-btn.active {
-      background: var(--navy);
-      color: white;
-    }
-    
-    .tab-content {
-      display: none;
-    }
-    
-    .tab-content.active {
-      display: block;
-    }
+    /* Container */
+    .dashboard-container { max-width: 1400px; margin: 80px auto 40px; padding: 20px; }
     
     /* Header */
     .dashboard-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 30px;
-      padding: 30px;
+      padding: 25px;
       background: var(--bg-alt);
       border-radius: 16px;
-      border: 1px solid rgba(10, 25, 47, 0.08);
+      margin-bottom: 20px;
+      border: 1px solid rgba(10,25,47,0.08);
     }
     
-    .user-info {
+    .user-info { display: flex; align-items: center; gap: 15px; }
+    .user-avatar { width: 50px; height: 50px; border-radius: 50%; background: var(--navy); display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; color: white; }
+    .user-details h2 { font-size: 20px; color: var(--navy); }
+    .user-details p { color: var(--text-muted); font-size: 13px; }
+    .tier-badge { padding: 5px 14px; border-radius: 20px; font-size: 10px; font-weight: 700; text-transform: uppercase; background: var(--navy); color: white; margin-left: 10px; }
+    .tier-badge.elite { background: linear-gradient(135deg, var(--gold), #b8860b); }
+    
+    /* Tabs */
+    .dashboard-tabs {
       display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-    
-    .user-avatar {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: var(--navy);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      font-weight: 700;
-      color: white;
-    }
-    
-    .user-details h2 {
-      font-size: 24px;
-      color: var(--navy);
-      margin-bottom: 4px;
-    }
-    
-    .user-details p {
-      color: var(--text-muted);
-      font-size: 14px;
-    }
-    
-    .tier-badge {
-      padding: 6px 16px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      background: var(--navy);
-      color: white;
-      margin-left: 10px;
-    }
-    
-    .tier-badge.elite {
-      background: linear-gradient(135deg, var(--gold), #b8860b);
-    }
-    
-    /* Section Headers */
-    .section-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin: 40px 0 20px;
-    }
-    
-    .section-header h3 {
-      font-size: 20px;
-      color: var(--navy);
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    /* Portfolio Wizard */
-    .wizard-container {
-      background: var(--bg-alt);
-      border-radius: 20px;
-      padding: 40px;
-      border: 1px solid rgba(10, 25, 47, 0.08);
-    }
-    
-    .wizard-header {
-      text-align: center;
-      margin-bottom: 40px;
-    }
-    
-    .wizard-header h2 {
-      font-size: 32px;
-      color: var(--navy);
-      margin-bottom: 10px;
-    }
-    
-    .wizard-header p {
-      color: var(--text-muted);
-      font-size: 16px;
-    }
-    
-    .wizard-form {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 30px;
-      max-width: 800px;
-      margin: 0 auto 40px;
-    }
-    
-    .form-group {
-      display: flex;
-      flex-direction: column;
       gap: 8px;
+      margin-bottom: 25px;
+      overflow-x: auto;
+      padding-bottom: 10px;
     }
     
-    .form-group.full-width {
-      grid-column: 1 / -1;
-    }
-    
-    .form-group label {
-      font-size: 14px;
-      font-weight: 600;
-      color: var(--navy);
-    }
-    
-    .form-group input,
-    .form-group select,
-    .form-group textarea {
-      padding: 14px 18px;
-      border: 2px solid rgba(10, 25, 47, 0.1);
-      border-radius: 10px;
-      font-size: 15px;
-      font-family: inherit;
-      transition: all 0.3s;
-    }
-    
-    .form-group input:focus,
-    .form-group select:focus,
-    .form-group textarea:focus {
-      outline: none;
-      border-color: var(--navy);
-    }
-    
-    .form-group textarea {
-      resize: vertical;
-      min-height: 80px;
-    }
-    
-    .risk-slider-container {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-    
-    .risk-slider {
-      flex: 1;
-      -webkit-appearance: none;
-      height: 8px;
-      border-radius: 4px;
-      background: linear-gradient(to right, var(--green), var(--gold), var(--red));
-    }
-    
-    .risk-slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      width: 24px;
-      height: 24px;
-      border-radius: 50%;
-      background: var(--navy);
-      cursor: pointer;
-      border: 3px solid white;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    }
-    
-    .risk-value {
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--navy);
-      min-width: 50px;
-      text-align: center;
-    }
-    
-    .risk-label {
-      font-size: 12px;
-      color: var(--text-muted);
-      text-align: center;
-    }
-    
-    .wizard-btn {
-      display: block;
-      width: 100%;
-      max-width: 400px;
-      margin: 0 auto;
-      padding: 18px 40px;
-      background: var(--navy);
-      color: white;
+    .tab-btn {
+      padding: 10px 18px;
       border: none;
-      border-radius: 12px;
-      font-size: 16px;
-      font-weight: 700;
+      background: var(--bg-alt);
+      color: var(--text-muted);
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 8px;
+      white-space: nowrap;
+      transition: all 0.3s;
+      border: 1px solid rgba(10,25,47,0.08);
+    }
+    
+    .tab-btn:hover { background: var(--navy); color: white; }
+    .tab-btn.active { background: var(--navy); color: white; }
+    
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    
+    /* Cards */
+    .card {
+      background: var(--bg-alt);
+      border-radius: 16px;
+      padding: 25px;
+      border: 1px solid rgba(10,25,47,0.08);
+      margin-bottom: 20px;
+    }
+    
+    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+    .card-header h3 { font-size: 18px; color: var(--navy); display: flex; align-items: center; gap: 10px; }
+    
+    /* Form elements */
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%;
+      padding: 12px 15px;
+      border: 2px solid rgba(10,25,47,0.1);
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+    }
+    .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--navy); }
+    
+    .form-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
+    
+    /* Buttons */
+    .btn {
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
       cursor: pointer;
       transition: all 0.3s;
+      font-size: 14px;
     }
     
-    .wizard-btn:hover {
-      background: var(--navy-light);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 30px rgba(10, 25, 47, 0.3);
-    }
+    .btn-primary { background: var(--navy); color: white; }
+    .btn-primary:hover { background: var(--navy-light); }
+    .btn-secondary { background: var(--bg); color: var(--navy); border: 2px solid var(--navy); }
+    .btn-success { background: var(--green); color: white; }
+    .btn-danger { background: var(--red); color: white; }
+    .btn-sm { padding: 8px 16px; font-size: 12px; }
+    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
     
-    .wizard-btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-      transform: none;
-    }
+    /* Risk Slider */
+    .risk-container { display: flex; align-items: center; gap: 15px; }
+    .risk-slider { flex: 1; -webkit-appearance: none; height: 8px; border-radius: 4px; background: linear-gradient(to right, var(--green), var(--gold), var(--red)); }
+    .risk-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--navy); cursor: pointer; border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
+    .risk-value { font-size: 20px; font-weight: 700; color: var(--navy); min-width: 40px; text-align: center; }
     
-    /* Results Container */
-    .results-container {
-      margin-top: 40px;
-      padding: 30px;
+    /* Results */
+    .results-box {
       background: var(--bg);
-      border-radius: 16px;
-      border: 1px solid rgba(10, 25, 47, 0.08);
+      border-radius: 12px;
+      padding: 20px;
+      margin-top: 20px;
+      max-height: 500px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      line-height: 1.8;
+      font-size: 14px;
       display: none;
     }
     
-    .results-container.active {
-      display: block;
-    }
+    .results-box.active { display: block; }
+    .results-box h1, .results-box h2, .results-box h3 { color: var(--navy); margin: 15px 0 8px; }
     
-    .results-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-    }
+    /* Grid layouts */
+    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
     
-    .results-header h3 {
-      font-size: 20px;
-      color: var(--navy);
-    }
-    
-    .results-content {
-      background: white;
-      border-radius: 12px;
-      padding: 30px;
-      white-space: pre-wrap;
-      line-height: 1.8;
-      font-size: 15px;
-      max-height: 600px;
-      overflow-y: auto;
-    }
-    
-    .results-content h1, .results-content h2, .results-content h3 {
-      color: var(--navy);
-      margin: 20px 0 10px;
-    }
-    
-    .results-content strong {
-      color: var(--navy);
-    }
-    
-    /* Quick Tools */
-    .quick-tools {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-      margin-top: 30px;
-    }
-    
-    .quick-tool-card {
-      background: var(--bg-alt);
-      border: 1px solid rgba(10, 25, 47, 0.08);
-      border-radius: 16px;
-      padding: 30px;
-      transition: all 0.3s;
-    }
-    
-    .quick-tool-card:hover {
-      border-color: var(--navy);
-      transform: translateY(-3px);
-      box-shadow: 0 10px 30px rgba(10, 25, 47, 0.1);
-    }
-    
-    .quick-tool-card h4 {
-      font-size: 18px;
-      color: var(--navy);
-      margin-bottom: 8px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-    
-    .quick-tool-card p {
-      color: var(--text-muted);
-      font-size: 14px;
-      margin-bottom: 20px;
-    }
-    
-    .quick-tool-card input,
-    .quick-tool-card select {
-      width: 100%;
-      padding: 12px 16px;
-      border: 2px solid rgba(10, 25, 47, 0.1);
-      border-radius: 8px;
-      font-size: 14px;
-      margin-bottom: 12px;
-    }
-    
-    .quick-tool-btn {
-      width: 100%;
-      padding: 12px;
-      background: var(--navy);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    
-    .quick-tool-btn:hover {
-      background: var(--navy-light);
-    }
-    
-    /* Price Grid */
-    .price-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-      gap: 16px;
-    }
-    
+    /* Price cards */
     .price-card {
       background: var(--bg-alt);
-      border: 1px solid rgba(10, 25, 47, 0.08);
+      border: 1px solid rgba(10,25,47,0.08);
       border-radius: 12px;
-      padding: 20px;
+      padding: 18px;
       transition: all 0.3s;
     }
-    
-    .price-card:hover {
-      border-color: var(--navy);
-    }
-    
-    .price-card .symbol {
-      font-size: 14px;
-      font-weight: 700;
-      color: var(--navy);
-    }
-    
-    .price-card .name {
-      font-size: 11px;
-      color: var(--text-muted);
-      margin-bottom: 12px;
-    }
-    
-    .price-card .price {
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--navy);
-    }
-    
-    .price-card .change {
-      font-size: 13px;
-      font-weight: 600;
-    }
-    
+    .price-card:hover { border-color: var(--navy); transform: translateY(-2px); }
+    .price-card .symbol { font-size: 14px; font-weight: 700; color: var(--navy); }
+    .price-card .name { font-size: 11px; color: var(--text-muted); margin-bottom: 10px; }
+    .price-card .price { font-size: 22px; font-weight: 700; color: var(--navy); }
+    .price-card .change { font-size: 13px; font-weight: 600; }
     .price-card .change.positive { color: var(--green); }
     .price-card .change.negative { color: var(--red); }
     
-    /* AI Chat */
-    .ai-section {
-      background: var(--navy);
-      border-radius: 20px;
-      padding: 40px;
-      margin-top: 40px;
-    }
-    
-    .ai-section h3 {
-      font-size: 24px;
-      margin-bottom: 8px;
-      color: white;
-    }
-    
-    .ai-section .ai-subtitle {
-      color: rgba(255,255,255,0.6);
-      font-size: 14px;
-      margin-bottom: 30px;
-    }
-    
-    .ai-input-group {
+    /* Watchlist */
+    .watchlist-item {
       display: flex;
-      gap: 12px;
-      margin-bottom: 24px;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px;
+      background: var(--bg);
+      border-radius: 10px;
+      margin-bottom: 10px;
     }
+    .watchlist-item .info { display: flex; align-items: center; gap: 15px; }
+    .watchlist-item .symbol { font-weight: 700; color: var(--navy); }
+    .watchlist-item .price { font-size: 18px; font-weight: 600; }
+    .watchlist-item .change { font-size: 13px; }
+    .watchlist-item .actions { display: flex; gap: 8px; }
     
-    .ai-input {
-      flex: 1;
-      padding: 16px 20px;
-      border: 1px solid rgba(255,255,255,0.2);
-      border-radius: 12px;
-      background: rgba(255,255,255,0.05);
+    /* Calculator */
+    .calc-result {
+      background: linear-gradient(135deg, var(--navy), var(--navy-light));
       color: white;
-      font-size: 15px;
-      font-family: inherit;
-    }
-    
-    .ai-input::placeholder {
-      color: rgba(255,255,255,0.4);
-    }
-    
-    .ai-input:focus {
-      outline: none;
-      border-color: white;
-    }
-    
-    .ai-btn {
-      padding: 16px 32px;
-      background: white;
-      border: none;
+      padding: 25px;
       border-radius: 12px;
-      color: var(--navy);
-      font-weight: 700;
+      text-align: center;
+      margin-top: 20px;
+    }
+    .calc-result .label { font-size: 14px; opacity: 0.8; margin-bottom: 5px; }
+    .calc-result .value { font-size: 36px; font-weight: 800; }
+    .calc-result .sub { font-size: 13px; opacity: 0.7; margin-top: 10px; }
+    
+    /* Quick tools grid */
+    .quick-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    
+    .quick-card {
+      background: var(--bg-alt);
+      border: 1px solid rgba(10,25,47,0.08);
+      border-radius: 14px;
+      padding: 25px;
+      transition: all 0.3s;
+    }
+    .quick-card:hover { border-color: var(--navy); box-shadow: 0 10px 30px rgba(10,25,47,0.1); }
+    .quick-card h4 { font-size: 16px; color: var(--navy); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
+    .quick-card p { color: var(--text-muted); font-size: 13px; margin-bottom: 15px; }
+    
+    /* Learning cards */
+    .learn-card {
+      background: var(--bg-alt);
+      border: 1px solid rgba(10,25,47,0.08);
+      border-radius: 14px;
+      padding: 25px;
       cursor: pointer;
       transition: all 0.3s;
     }
+    .learn-card:hover { border-color: var(--purple); transform: translateY(-3px); }
+    .learn-card .icon { font-size: 32px; margin-bottom: 15px; }
+    .learn-card h4 { font-size: 16px; color: var(--navy); margin-bottom: 8px; }
+    .learn-card p { color: var(--text-muted); font-size: 13px; }
+    .learn-card .difficulty { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; margin-top: 12px; }
+    .learn-card .difficulty.beginner { background: #d1fae5; color: #065f46; }
+    .learn-card .difficulty.intermediate { background: #fef3c7; color: #92400e; }
+    .learn-card .difficulty.advanced { background: #fee2e2; color: #991b1b; }
     
-    .ai-btn:hover {
-      background: var(--platinum);
-    }
-    
-    .ai-btn:disabled {
-      opacity: 0.6;
-      cursor: not-allowed;
-    }
-    
-    .ai-response {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(255,255,255,0.1);
+    /* AI Section */
+    .ai-box {
+      background: var(--navy);
       border-radius: 16px;
-      padding: 24px;
-      min-height: 150px;
-      line-height: 1.8;
-      color: rgba(255,255,255,0.9);
-      white-space: pre-wrap;
-      font-size: 15px;
-      max-height: 500px;
-      overflow-y: auto;
+      padding: 30px;
     }
+    .ai-box h3 { color: white; font-size: 20px; margin-bottom: 5px; }
+    .ai-box .subtitle { color: rgba(255,255,255,0.6); font-size: 13px; margin-bottom: 20px; }
+    .ai-input-row { display: flex; gap: 12px; margin-bottom: 15px; }
+    .ai-input { flex: 1; padding: 14px 18px; border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; background: rgba(255,255,255,0.05); color: white; font-size: 14px; }
+    .ai-input::placeholder { color: rgba(255,255,255,0.4); }
+    .ai-input:focus { outline: none; border-color: white; }
+    .ai-btn { padding: 14px 28px; background: white; border: none; border-radius: 10px; color: var(--navy); font-weight: 700; cursor: pointer; }
+    .ai-response { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 20px; min-height: 120px; color: rgba(255,255,255,0.9); white-space: pre-wrap; line-height: 1.7; font-size: 14px; max-height: 400px; overflow-y: auto; }
+    
+    /* Scanner */
+    .scanner-results { margin-top: 20px; }
+    .scanner-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: var(--bg); border-radius: 10px; margin-bottom: 10px; }
+    .scanner-item .ticker { font-weight: 700; color: var(--navy); font-size: 16px; }
+    .scanner-item .signal { padding: 5px 12px; border-radius: 15px; font-size: 11px; font-weight: 700; }
+    .scanner-item .signal.buy { background: #d1fae5; color: #065f46; }
+    .scanner-item .signal.sell { background: #fee2e2; color: #991b1b; }
+    .scanner-item .signal.hold { background: #fef3c7; color: #92400e; }
+    
+    /* Stats row */
+    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px; }
+    .stat-card { background: var(--bg-alt); border: 1px solid rgba(10,25,47,0.08); border-radius: 12px; padding: 20px; text-align: center; }
+    .stat-card .label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+    .stat-card .value { font-size: 24px; font-weight: 700; color: var(--navy); margin-top: 5px; }
+    .stat-card .value.up { color: var(--green); }
+    .stat-card .value.down { color: var(--red); }
     
     /* Loading */
-    .loading-spinner {
-      display: inline-block;
-      width: 20px;
-      height: 20px;
-      border: 2px solid rgba(10, 25, 47, 0.1);
-      border-top-color: var(--navy);
-      border-radius: 50%;
-      animation: spin 1s linear infinite;
-    }
-    
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
+    .loading { display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(10,25,47,0.1); border-top-color: var(--navy); border-radius: 50%; animation: spin 1s linear infinite; }
+    @keyframes spin { to { transform: rotate(360deg); } }
     
     /* Responsive */
     @media (max-width: 768px) {
-      .wizard-form {
-        grid-template-columns: 1fr;
-      }
-      
-      .dashboard-header {
-        flex-direction: column;
-        text-align: center;
-      }
-      
-      .user-info {
-        flex-direction: column;
-      }
-      
-      .nav-links {
-        display: none;
-      }
-      
-      .dashboard-tabs {
-        justify-content: center;
-      }
+      .grid-2, .grid-3, .form-row { grid-template-columns: 1fr; }
+      .stats-row { grid-template-columns: repeat(2, 1fr); }
+      .dashboard-header { flex-direction: column; text-align: center; gap: 15px; }
+      .user-info { flex-direction: column; }
+      .nav-links { display: none; }
+      .ai-input-row { flex-direction: column; }
     }
   </style>
 </head>
 <body>
 
-  <!-- Navigation -->
-  <nav>
-    <div class="logo">ELUXRAJ</div>
-    <div class="nav-links">
-      <a href="/">Home</a>
-      <a href="#wizard">Portfolio Wizard</a>
-      <a href="#markets">Markets</a>
-      <button class="nav-btn" onclick="logout()">Logout</button>
-    </div>
-  </nav>
+<nav>
+  <div class="logo">ELUXRAJ</div>
+  <div class="nav-links">
+    <a href="/">Home</a>
+    <a href="#" onclick="showTab('wizard')">Portfolio</a>
+    <a href="#" onclick="showTab('markets')">Markets</a>
+    <button class="nav-btn" onclick="logout()">Logout</button>
+  </div>
+</nav>
 
-  <div class="dashboard-container">
-    
-    <!-- Header -->
-    <div class="dashboard-header">
-      <div class="user-info">
-        <div class="user-avatar" id="userAvatar">?</div>
-        <div class="user-details">
-          <h2>Welcome back, <span id="userName">Investor</span></h2>
-          <p id="userEmail">Loading...</p>
-        </div>
-        <span class="tier-badge" id="userTier">FREE</span>
+<div class="dashboard-container">
+  
+  <!-- Header -->
+  <div class="dashboard-header">
+    <div class="user-info">
+      <div class="user-avatar" id="userAvatar">?</div>
+      <div class="user-details">
+        <h2>Welcome, <span id="userName">Investor</span></h2>
+        <p id="userEmail">Loading...</p>
       </div>
+      <span class="tier-badge" id="userTier">FREE</span>
     </div>
-    
-    <!-- Tabs -->
-    <div class="dashboard-tabs">
-      <button class="tab-btn active" onclick="showTab('wizard')">🧙 Portfolio Wizard</button>
-      <button class="tab-btn" onclick="showTab('tools')">🛠️ Quick Tools</button>
-      <button class="tab-btn" onclick="showTab('markets')">📊 Live Markets</button>
-      <button class="tab-btn" onclick="showTab('ai')">🤖 AI Chat</button>
+  </div>
+  
+  <!-- Stats Row -->
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="label">BTC 24h</div>
+      <div class="value up" id="statBtc">+4.73%</div>
     </div>
-
-    <!-- Tab: Portfolio Wizard -->
-    <div class="tab-content active" id="tab-wizard">
-      <div class="wizard-container">
-        <div class="wizard-header">
-          <h2>🧙 Portfolio Builder Wizard</h2>
-          <p>Get institutional-grade portfolio recommendations based on strategies from Renaissance, Citadel & Millennium</p>
-        </div>
-        
-        <div class="wizard-form">
-          <div class="form-group">
-            <label>💰 Portfolio Value ($)</label>
-            <input type="number" id="portfolioValue" placeholder="50000" min="1000" value="50000">
-          </div>
-          
-          <div class="form-group">
-            <label>⏱️ Time Horizon</label>
-            <select id="timeHorizon">
-              <option value="1-2 years">1-2 Years (Short-term)</option>
-              <option value="3-5 years">3-5 Years (Medium-term)</option>
-              <option value="5-10 years" selected>5-10 Years (Long-term)</option>
-              <option value="10+ years">10+ Years (Retirement)</option>
-            </select>
-          </div>
-          
-          <div class="form-group full-width">
-            <label>⚡ Risk Tolerance (1 = Very Conservative, 10 = Very Aggressive)</label>
-            <div class="risk-slider-container">
-              <input type="range" class="risk-slider" id="riskTolerance" min="1" max="10" value="5" oninput="updateRiskLabel()">
-              <div>
-                <div class="risk-value" id="riskValue">5</div>
-                <div class="risk-label" id="riskLabel">Balanced</div>
-              </div>
-            </div>
-          </div>
-          
-          <div class="form-group full-width">
-            <label>🎯 Investment Goals</label>
-            <textarea id="investmentGoals" placeholder="e.g., Wealth building, retirement savings, passive income, capital preservation...">Wealth building and long-term growth</textarea>
-          </div>
-        </div>
-        
-        <button class="wizard-btn" id="wizardBtn" onclick="runWizard()">
-          ✨ Build My Portfolio
-        </button>
-        
-        <div class="results-container" id="wizardResults">
-          <div class="results-header">
-            <h3>📋 Your Personalized Portfolio</h3>
-          </div>
-          <div class="results-content" id="wizardResultsContent"></div>
-        </div>
-      </div>
+    <div class="stat-card">
+      <div class="label">S&P 500</div>
+      <div class="value up" id="statSpy">+0.34%</div>
     </div>
-
-    <!-- Tab: Quick Tools -->
-    <div class="tab-content" id="tab-tools">
-      <div class="quick-tools">
-        
-        <!-- Stock Picks -->
-        <div class="quick-tool-card">
-          <h4>📈 Stock Picks</h4>
-          <p>Get hedge fund-style stock recommendations</p>
-          <select id="stockSector">
-            <option value="Technology">Technology</option>
-            <option value="Healthcare">Healthcare</option>
-            <option value="Financials">Financials</option>
-            <option value="Energy">Energy</option>
-            <option value="Consumer">Consumer</option>
-            <option value="All sectors">All Sectors</option>
-          </select>
-          <select id="stockRisk">
-            <option value="Conservative">Conservative</option>
-            <option value="Moderate" selected>Moderate</option>
-            <option value="Aggressive">Aggressive</option>
-          </select>
-          <button class="quick-tool-btn" onclick="getStockPicks()">Get 5 Stock Picks</button>
-        </div>
-        
-        <!-- Crypto Allocation -->
-        <div class="quick-tool-card">
-          <h4>₿ Crypto Allocation</h4>
-          <p>Build your crypto portfolio</p>
-          <input type="number" id="cryptoAmount" placeholder="Investment Amount" value="10000">
-          <select id="cryptoRisk">
-            <option value="Low">Low Risk</option>
-            <option value="Moderate" selected>Moderate</option>
-            <option value="High">High Risk</option>
-          </select>
-          <button class="quick-tool-btn" onclick="getCryptoAllocation()">Build Crypto Portfolio</button>
-        </div>
-        
-        <!-- Trading Signal -->
-        <div class="quick-tool-card">
-          <h4>📉 Trading Signal</h4>
-          <p>Get entry/exit points for any stock</p>
-          <input type="text" id="signalSymbol" placeholder="Stock Symbol (e.g., NVDA)" value="NVDA">
-          <select id="signalStrategy">
-            <option value="swing" selected>Swing Trade</option>
-            <option value="day">Day Trade</option>
-            <option value="position">Position Trade</option>
-          </select>
-          <button class="quick-tool-btn" onclick="getTradingSignal()">Get Signal</button>
-        </div>
-        
-        <!-- Hedge Fund Strategy -->
-        <div class="quick-tool-card">
-          <h4>🏦 Hedge Fund Strategy</h4>
-          <p>Learn how top funds invest</p>
-          <select id="hedgeFund">
-            <option value="Renaissance Technologies">Renaissance Technologies</option>
-            <option value="Citadel">Citadel</option>
-            <option value="Millennium Management">Millennium Management</option>
-            <option value="Bridgewater Associates">Bridgewater Associates</option>
-            <option value="Two Sigma">Two Sigma</option>
-          </select>
-          <button class="quick-tool-btn" onclick="getHedgeFundStrategy()">Learn Strategy</button>
-        </div>
-        
-        <!-- Sector Analysis -->
-        <div class="quick-tool-card">
-          <h4>📊 Sector Analysis</h4>
-          <p>Deep dive into any sector</p>
-          <select id="sectorAnalysis">
-            <option value="Technology">Technology</option>
-            <option value="Healthcare">Healthcare</option>
-            <option value="Financials">Financials</option>
-            <option value="Energy">Energy</option>
-            <option value="Real Estate">Real Estate</option>
-            <option value="Cryptocurrency">Cryptocurrency</option>
-          </select>
-          <button class="quick-tool-btn" onclick="getSectorAnalysis()">Analyze Sector</button>
-        </div>
-        
-        <!-- Compare Assets -->
-        <div class="quick-tool-card">
-          <h4>⚖️ Compare Assets</h4>
-          <p>Compare two investments</p>
-          <input type="text" id="asset1" placeholder="Asset 1 (e.g., AAPL)" value="AAPL">
-          <input type="text" id="asset2" placeholder="Asset 2 (e.g., MSFT)" value="MSFT">
-          <button class="quick-tool-btn" onclick="compareAssets()">Compare</button>
-        </div>
-        
-      </div>
-      
-      <!-- Tool Results -->
-      <div class="results-container" id="toolResults">
-        <div class="results-header">
-          <h3>📋 Results</h3>
-        </div>
-        <div class="results-content" id="toolResultsContent"></div>
-      </div>
+    <div class="stat-card">
+      <div class="label">Gold</div>
+      <div class="value up" id="statGold">+0.13%</div>
     </div>
-
-    <!-- Tab: Live Markets -->
-    <div class="tab-content" id="tab-markets">
-      <div class="section-header">
-        <h3>₿ Cryptocurrency</h3>
-        <button class="nav-btn" onclick="refreshPrices()">↻ Refresh</button>
-      </div>
-      <div class="price-grid" id="cryptoGrid">
-        <div class="price-card"><div class="loading-spinner"></div></div>
-      </div>
-      
-      <div class="section-header">
-        <h3>🥇 Precious Metals</h3>
-      </div>
-      <div class="price-grid" id="metalsGrid">
-        <div class="price-card"><div class="loading-spinner"></div></div>
-      </div>
-      
-      <div class="section-header">
-        <h3>📈 Stocks & ETFs</h3>
-      </div>
-      <div class="price-grid" id="stocksGrid">
-        <div class="price-card"><div class="loading-spinner"></div></div>
-      </div>
+    <div class="stat-card">
+      <div class="label">Fear/Greed</div>
+      <div class="value" id="statFear">72</div>
     </div>
-
-    <!-- Tab: AI Chat -->
-    <div class="tab-content" id="tab-ai">
-      <div class="ai-section">
-        <h3>🤖 AI Investment Analyst</h3>
-        <p class="ai-subtitle">Ask anything about markets, stocks, crypto, or portfolio strategy</p>
-        
-        <div class="ai-input-group">
-          <input type="text" class="ai-input" id="aiQuery" placeholder="e.g., Should I buy NVDA today? What's your outlook on Bitcoin?">
-          <button class="ai-btn" id="aiBtn" onclick="askAI()">Ask AI</button>
-        </div>
-        
-        <div class="ai-response" id="aiResponse">
-          Ask me anything about investing! I can analyze stocks, build portfolios, explain hedge fund strategies, and give you trading signals.
-        </div>
-      </div>
-    </div>
-
+  </div>
+  
+  <!-- Tabs -->
+  <div class="dashboard-tabs">
+    <button class="tab-btn active" onclick="showTab('wizard')">🧙 Portfolio Wizard</button>
+    <button class="tab-btn" onclick="showTab('watchlist')">⭐ Watchlist</button>
+    <button class="tab-btn" onclick="showTab('calculator')">🧮 Position Calculator</button>
+    <button class="tab-btn" onclick="showTab('scanner')">🔍 Market Scanner</button>
+    <button class="tab-btn" onclick="showTab('tools')">🛠️ Quick Tools</button>
+    <button class="tab-btn" onclick="showTab('learn')">📚 Learn</button>
+    <button class="tab-btn" onclick="showTab('markets')">📊 Markets</button>
+    <button class="tab-btn" onclick="showTab('ai')">🤖 AI Chat</button>
   </div>
 
-  <script>
-    // Auth check
-    const token = localStorage.getItem('eluxraj_token');
-    const user = JSON.parse(localStorage.getItem('eluxraj_user') || '{}');
-    
-    if (!token) {
-      window.location.href = '/login.html';
-    }
-    
-    // Set user info
-    document.getElementById('userName').textContent = user.name || 'Investor';
-    document.getElementById('userEmail').textContent = user.email || '';
-    document.getElementById('userAvatar').textContent = (user.name || 'U')[0].toUpperCase();
-    const tierBadge = document.getElementById('userTier');
-    tierBadge.textContent = (user.tier || 'free').toUpperCase();
-    if (user.tier === 'elite') tierBadge.classList.add('elite');
-    
-    // Tab switching
-    function showTab(tabName) {
-      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
-      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+  <!-- Tab: Portfolio Wizard -->
+  <div class="tab-content active" id="tab-wizard">
+    <div class="card">
+      <div class="card-header">
+        <h3>🧙 Portfolio Builder Wizard</h3>
+      </div>
+      <p style="color: var(--text-muted); margin-bottom: 25px;">Get institutional-grade portfolio recommendations based on Renaissance, Citadel & Millennium strategies</p>
       
-      event.target.classList.add('active');
-      document.getElementById('tab-' + tabName).classList.add('active');
+      <div class="form-row">
+        <div class="form-group">
+          <label>💰 Portfolio Value ($)</label>
+          <input type="number" id="portfolioValue" placeholder="50000" value="50000">
+        </div>
+        <div class="form-group">
+          <label>⏱️ Time Horizon</label>
+          <select id="timeHorizon">
+            <option value="1-2 years">1-2 Years</option>
+            <option value="3-5 years">3-5 Years</option>
+            <option value="5-10 years" selected>5-10 Years</option>
+            <option value="10+ years">10+ Years</option>
+          </select>
+        </div>
+      </div>
       
-      if (tabName === 'markets') loadPrices();
-    }
-    
-    // Risk slider
-    function updateRiskLabel() {
-      const value = document.getElementById('riskTolerance').value;
-      document.getElementById('riskValue').textContent = value;
+      <div class="form-group">
+        <label>⚡ Risk Tolerance</label>
+        <div class="risk-container">
+          <input type="range" class="risk-slider" id="riskTolerance" min="1" max="10" value="5" oninput="updateRisk()">
+          <div class="risk-value" id="riskValue">5</div>
+        </div>
+        <small style="color: var(--text-muted);" id="riskLabel">Balanced</small>
+      </div>
       
-      const labels = ['Very Conservative', 'Conservative', 'Moderately Conservative', 'Moderate', 'Balanced', 'Moderately Aggressive', 'Growth', 'Aggressive', 'Very Aggressive', 'Maximum Growth'];
-      document.getElementById('riskLabel').textContent = labels[value - 1];
-    }
-    
-    // Portfolio Wizard
-    async function runWizard() {
-      const btn = document.getElementById('wizardBtn');
-      const results = document.getElementById('wizardResults');
-      const content = document.getElementById('wizardResultsContent');
+      <div class="form-group">
+        <label>🎯 Goals</label>
+        <textarea id="investmentGoals" rows="2" placeholder="e.g., Retirement, wealth building, passive income...">Wealth building and long-term growth</textarea>
+      </div>
       
-      btn.disabled = true;
-      btn.textContent = '🔄 Building Portfolio...';
+      <button class="btn btn-primary" style="width: 100%;" id="wizardBtn" onclick="runWizard()">✨ Build My Portfolio</button>
       
-      const data = {
-        portfolioValue: parseInt(document.getElementById('portfolioValue').value),
-        riskTolerance: parseInt(document.getElementById('riskTolerance').value),
-        timeHorizon: document.getElementById('timeHorizon').value,
-        goals: document.getElementById('investmentGoals').value
-      };
+      <div class="results-box" id="wizardResults"></div>
+    </div>
+  </div>
+
+  <!-- Tab: Watchlist -->
+  <div class="tab-content" id="tab-watchlist">
+    <div class="card">
+      <div class="card-header">
+        <h3>⭐ My Watchlist</h3>
+        <button class="btn btn-sm btn-primary" onclick="showAddWatchlist()">+ Add Asset</button>
+      </div>
       
-      try {
-        const res = await fetch('/api/ai/portfolio-wizard', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-          body: JSON.stringify(data)
-        });
-        const result = await res.json();
+      <div id="addWatchlistForm" style="display: none; margin-bottom: 20px; padding: 20px; background: var(--bg); border-radius: 10px;">
+        <div class="form-row">
+          <div class="form-group">
+            <label>Symbol</label>
+            <input type="text" id="watchlistSymbol" placeholder="AAPL, BTC, GOLD">
+          </div>
+          <div class="form-group">
+            <label>Type</label>
+            <select id="watchlistType">
+              <option value="stock">Stock</option>
+              <option value="crypto">Crypto</option>
+              <option value="etf">ETF</option>
+            </select>
+          </div>
+        </div>
+        <button class="btn btn-success btn-sm" onclick="addToWatchlist()">Add</button>
+        <button class="btn btn-secondary btn-sm" onclick="hideAddWatchlist()">Cancel</button>
+      </div>
+      
+      <div id="watchlistItems">
+        <div class="watchlist-item">
+          <div class="info">
+            <span class="symbol">BTC</span>
+            <span class="price" id="wl-btc-price">$91,226</span>
+            <span class="change positive" id="wl-btc-change">+4.73%</span>
+          </div>
+          <div class="actions">
+            <button class="btn btn-sm btn-primary" onclick="getSignal('BTC')">Signal</button>
+            <button class="btn btn-sm btn-danger" onclick="removeFromWatchlist('BTC')">✕</button>
+          </div>
+        </div>
+        <div class="watchlist-item">
+          <div class="info">
+            <span class="symbol">NVDA</span>
+            <span class="price">$139.40</span>
+            <span class="change positive">+2.15%</span>
+          </div>
+          <div class="actions">
+            <button class="btn btn-sm btn-primary" onclick="getSignal('NVDA')">Signal</button>
+            <button class="btn btn-sm btn-danger" onclick="removeFromWatchlist('NVDA')">✕</button>
+          </div>
+        </div>
+        <div class="watchlist-item">
+          <div class="info">
+            <span class="symbol">GOLD</span>
+            <span class="price">$2,650</span>
+            <span class="change positive">+0.13%</span>
+          </div>
+          <div class="actions">
+            <button class="btn btn-sm btn-primary" onclick="getSignal('GOLD')">Signal</button>
+            <button class="btn btn-sm btn-danger" onclick="removeFromWatchlist('GOLD')">✕</button>
+          </div>
+        </div>
+      </div>
+      
+      <div class="results-box" id="watchlistResults"></div>
+    </div>
+  </div>
+
+  <!-- Tab: Position Calculator -->
+  <div class="tab-content" id="tab-calculator">
+    <div class="grid-2">
+      <div class="card">
+        <div class="card-header">
+          <h3>🧮 Position Size Calculator</h3>
+        </div>
+        <p style="color: var(--text-muted); margin-bottom: 20px;">Calculate optimal position size based on risk management rules</p>
         
-        if (result.ok) {
-          content.innerHTML = formatMarkdown(result.analysis);
-          results.classList.add('active');
-        } else {
-          content.textContent = '❌ ' + (result.error || 'Failed to build portfolio');
-          results.classList.add('active');
-        }
-      } catch (err) {
-        content.textContent = '❌ Error connecting to AI service';
-        results.classList.add('active');
-      }
-      
-      btn.disabled = false;
-      btn.textContent = '✨ Build My Portfolio';
-    }
-    
-    // Quick Tools
-    async function getStockPicks() {
-      const sector = document.getElementById('stockSector').value;
-      const riskLevel = document.getElementById('stockRisk').value;
-      await runTool('/api/ai/stock-picks', { sector, count: 5, riskLevel });
-    }
-    
-    async function getCryptoAllocation() {
-      const totalCryptoInvestment = parseInt(document.getElementById('cryptoAmount').value);
-      const riskTolerance = document.getElementById('cryptoRisk').value;
-      await runTool('/api/ai/crypto-allocation', { totalCryptoInvestment, riskTolerance, experience: 'Intermediate' });
-    }
-    
-    async function getTradingSignal() {
-      const symbol = document.getElementById('signalSymbol').value.toUpperCase();
-      const strategy = document.getElementById('signalStrategy').value;
-      await runTool(`/api/ai/signal/${symbol}?strategy=${strategy}`, null, 'GET');
-    }
-    
-    async function getHedgeFundStrategy() {
-      const fund = document.getElementById('hedgeFund').value;
-      await runTool(`/api/ai/hedge-fund/${encodeURIComponent(fund)}`, null, 'GET');
-    }
-    
-    async function getSectorAnalysis() {
-      const sector = document.getElementById('sectorAnalysis').value;
-      await runTool(`/api/ai/sector/${encodeURIComponent(sector)}`, null, 'GET');
-    }
-    
-    async function compareAssets() {
-      const asset1 = document.getElementById('asset1').value.toUpperCase();
-      const asset2 = document.getElementById('asset2').value.toUpperCase();
-      await runTool(`/api/ai/compare?asset1=${asset1}&asset2=${asset2}`, null, 'GET');
-    }
-    
-    async function runTool(endpoint, data, method = 'POST') {
-      const results = document.getElementById('toolResults');
-      const content = document.getElementById('toolResultsContent');
-      
-      content.textContent = '🔄 Loading...';
-      results.classList.add('active');
-      
-      try {
-        const options = {
-          method,
-          headers: { 'Authorization': 'Bearer ' + token }
-        };
+        <div class="form-group">
+          <label>Account Size ($)</label>
+          <input type="number" id="accountSize" placeholder="50000" value="50000">
+        </div>
+        <div class="form-group">
+          <label>Risk Per Trade (%)</label>
+          <input type="number" id="riskPercent" placeholder="2" value="2" step="0.5">
+        </div>
+        <div class="form-group">
+          <label>Entry Price ($)</label>
+          <input type="number" id="entryPrice" placeholder="100" value="100">
+        </div>
+        <div class="form-group">
+          <label>Stop Loss Price ($)</label>
+          <input type="number" id="stopLoss" placeholder="95" value="95">
+        </div>
         
-        if (method === 'POST' && data) {
-          options.headers['Content-Type'] = 'application/json';
-          options.body = JSON.stringify(data);
-        }
+        <button class="btn btn-primary" style="width: 100%;" onclick="calculatePosition()">Calculate Position</button>
         
-        const res = await fetch(endpoint, options);
-        const result = await res.json();
+        <div class="calc-result" id="calcResult" style="display: none;">
+          <div class="label">Recommended Position Size</div>
+          <div class="value" id="positionShares">0 shares</div>
+          <div class="sub" id="positionValue">$0 total value</div>
+        </div>
+      </div>
+      
+      <div class="card">
+        <div class="card-header">
+          <h3>📊 Risk/Reward Calculator</h3>
+        </div>
         
-        if (result.ok) {
-          content.innerHTML = formatMarkdown(result.analysis);
-        } else {
-          content.textContent = '❌ ' + (result.error || 'Request failed');
-        }
-      } catch (err) {
-        content.textContent = '❌ Error connecting to service';
-      }
-    }
+        <div class="form-group">
+          <label>Entry Price ($)</label>
+          <input type="number" id="rrEntry" placeholder="100" value="100">
+        </div>
+        <div class="form-group">
+          <label>Stop Loss ($)</label>
+          <input type="number" id="rrStop" placeholder="95" value="95">
+        </div>
+        <div class="form-group">
+          <label>Target Price ($)</label>
+          <input type="number" id="rrTarget" placeholder="115" value="115">
+        </div>
+        
+        <button class="btn btn-primary" style="width: 100%;" onclick="calculateRR()">Calculate R:R</button>
+        
+        <div class="calc-result" id="rrResult" style="display: none;">
+          <div class="label">Risk/Reward Ratio</div>
+          <div class="value" id="rrRatio">1:3</div>
+          <div class="sub" id="rrDetails">Risk $5 to make $15</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Tab: Market Scanner -->
+  <div class="tab-content" id="tab-scanner">
+    <div class="card">
+      <div class="card-header">
+        <h3>🔍 AI Market Scanner</h3>
+      </div>
+      <p style="color: var(--text-muted); margin-bottom: 20px;">Find trading opportunities using hedge fund criteria</p>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label>Scan Type</label>
+          <select id="scanType">
+            <option value="oversold">Oversold Stocks (RSI < 30)</option>
+            <option value="overbought">Overbought Stocks (RSI > 70)</option>
+            <option value="breakout">Breakout Candidates</option>
+            <option value="momentum">High Momentum</option>
+            <option value="value">Undervalued (Low P/E)</option>
+            <option value="dividend">High Dividend Yield</option>
+            <option value="hedge-fund">Hedge Fund Favorites</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Sector</label>
+          <select id="scanSector">
+            <option value="all">All Sectors</option>
+            <option value="technology">Technology</option>
+            <option value="healthcare">Healthcare</option>
+            <option value="financials">Financials</option>
+            <option value="energy">Energy</option>
+            <option value="crypto">Crypto</option>
+          </select>
+        </div>
+      </div>
+      
+      <button class="btn btn-primary" style="width: 100%;" id="scanBtn" onclick="runScanner()">🔍 Run Scanner</button>
+      
+      <div class="results-box" id="scannerResults"></div>
+    </div>
+  </div>
+
+  <!-- Tab: Quick Tools -->
+  <div class="tab-content" id="tab-tools">
+    <div class="quick-grid">
+      <div class="quick-card">
+        <h4>📈 Stock Picks</h4>
+        <p>Hedge fund-style stock recommendations</p>
+        <select id="stockSector" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #ddd;">
+          <option value="Technology">Technology</option>
+          <option value="Healthcare">Healthcare</option>
+          <option value="Financials">Financials</option>
+          <option value="All sectors">All Sectors</option>
+        </select>
+        <button class="btn btn-primary btn-sm" style="width: 100%;" onclick="getStockPicks()">Get Picks</button>
+      </div>
+      
+      <div class="quick-card">
+        <h4>₿ Crypto Portfolio</h4>
+        <p>Build your crypto allocation</p>
+        <input type="number" id="cryptoAmount" placeholder="Amount ($)" value="10000" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #ddd;">
+        <button class="btn btn-primary btn-sm" style="width: 100%;" onclick="getCryptoAllocation()">Build Portfolio</button>
+      </div>
+      
+      <div class="quick-card">
+        <h4>📉 Trading Signal</h4>
+        <p>Get entry/exit for any stock</p>
+        <input type="text" id="signalSymbol" placeholder="Symbol (NVDA)" value="NVDA" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #ddd;">
+        <button class="btn btn-primary btn-sm" style="width: 100%;" onclick="getTradingSignal()">Get Signal</button>
+      </div>
+      
+      <div class="quick-card">
+        <h4>🏦 Fund Strategy</h4>
+        <p>Learn from top hedge funds</p>
+        <select id="hedgeFund" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #ddd;">
+          <option value="Renaissance Technologies">Renaissance</option>
+          <option value="Citadel">Citadel</option>
+          <option value="Millennium Management">Millennium</option>
+          <option value="Bridgewater Associates">Bridgewater</option>
+        </select>
+        <button class="btn btn-primary btn-sm" style="width: 100%;" onclick="getHedgeFundStrategy()">Learn</button>
+      </div>
+      
+      <div class="quick-card">
+        <h4>📊 Sector Analysis</h4>
+        <p>Deep dive into sectors</p>
+        <select id="sectorAnalysis" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #ddd;">
+          <option value="Technology">Technology</option>
+          <option value="Healthcare">Healthcare</option>
+          <option value="Cryptocurrency">Cryptocurrency</option>
+          <option value="Energy">Energy</option>
+        </select>
+        <button class="btn btn-primary btn-sm" style="width: 100%;" onclick="getSectorAnalysis()">Analyze</button>
+      </div>
+      
+      <div class="quick-card">
+        <h4>⚖️ Compare</h4>
+        <p>Compare two investments</p>
+        <input type="text" id="asset1" placeholder="Asset 1" value="AAPL" style="width: 48%; padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #ddd;">
+        <input type="text" id="asset2" placeholder="Asset 2" value="MSFT" style="width: 48%; padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #ddd; margin-left: 4%;">
+        <button class="btn btn-primary btn-sm" style="width: 100%;" onclick="compareAssets()">Compare</button>
+      </div>
+    </div>
     
-    // AI Chat
-    async function askAI() {
-      const query = document.getElementById('aiQuery').value.trim();
-      if (!query) return;
+    <div class="results-box" id="toolResults" style="margin-top: 25px;"></div>
+  </div>
+
+  <!-- Tab: Learn -->
+  <div class="tab-content" id="tab-learn">
+    <div class="card">
+      <div class="card-header">
+        <h3>📚 Learning Center</h3>
+      </div>
+      <p style="color: var(--text-muted); margin-bottom: 25px;">Master investing with AI-powered lessons from hedge fund strategies</p>
       
-      const btn = document.getElementById('aiBtn');
-      const response = document.getElementById('aiResponse');
-      
-      btn.disabled = true;
-      btn.textContent = 'Thinking...';
-      response.textContent = '🔄 Analyzing...';
-      
-      try {
-        const res = await fetch('/api/ai/analyze', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
-          body: JSON.stringify({ query })
-        });
-        const data = await res.json();
+      <div class="grid-3">
+        <div class="learn-card" onclick="learnTopic('value investing')">
+          <div class="icon">📖</div>
+          <h4>Value Investing</h4>
+          <p>Learn Buffett's approach to finding undervalued stocks</p>
+          <span class="difficulty beginner">Beginner</span>
+        </div>
         
-        response.innerHTML = data.ok ? formatMarkdown(data.analysis) : '❌ ' + (data.error || 'Analysis failed');
-      } catch (err) {
-        response.textContent = '❌ Error connecting to AI service';
-      }
+        <div class="learn-card" onclick="learnTopic('technical analysis basics')">
+          <div class="icon">📊</div>
+          <h4>Technical Analysis</h4>
+          <p>Charts, patterns, and indicators explained</p>
+          <span class="difficulty beginner">Beginner</span>
+        </div>
+        
+        <div class="learn-card" onclick="learnTopic('risk management and position sizing')">
+          <div class="icon">🛡️</div>
+          <h4>Risk Management</h4>
+          <p>Protect your capital like the pros</p>
+          <span class="difficulty beginner">Beginner</span>
+        </div>
+        
+        <div class="learn-card" onclick="learnTopic('options trading strategies')">
+          <div class="icon">📈</div>
+          <h4>Options Trading</h4>
+          <p>Calls, puts, and advanced strategies</p>
+          <span class="difficulty intermediate">Intermediate</span>
+        </div>
+        
+        <div class="learn-card" onclick="learnTopic('cryptocurrency and DeFi investing')">
+          <div class="icon">₿</div>
+          <h4>Crypto & DeFi</h4>
+          <p>Digital assets, yield farming, and more</p>
+          <span class="difficulty intermediate">Intermediate</span>
+        </div>
+        
+        <div class="learn-card" onclick="learnTopic('portfolio diversification and asset allocation')">
+          <div class="icon">⚖️</div>
+          <h4>Asset Allocation</h4>
+          <p>Build a balanced portfolio</p>
+          <span class="difficulty intermediate">Intermediate</span>
+        </div>
+        
+        <div class="learn-card" onclick="learnTopic('quantitative trading and algorithmic strategies')">
+          <div class="icon">🤖</div>
+          <h4>Quant Trading</h4>
+          <p>Math-based strategies like Renaissance</p>
+          <span class="difficulty advanced">Advanced</span>
+        </div>
+        
+        <div class="learn-card" onclick="learnTopic('macro investing and global markets')">
+          <div class="icon">🌍</div>
+          <h4>Macro Investing</h4>
+          <p>Ray Dalio's approach to global markets</p>
+          <span class="difficulty advanced">Advanced</span>
+        </div>
+        
+        <div class="learn-card" onclick="learnTopic('reading financial statements and fundamental analysis')">
+          <div class="icon">📑</div>
+          <h4>Financial Statements</h4>
+          <p>Analyze balance sheets like a pro</p>
+          <span class="difficulty intermediate">Intermediate</span>
+        </div>
+      </div>
       
-      btn.disabled = false;
-      btn.textContent = 'Ask AI';
-    }
+      <div class="results-box" id="learnResults" style="margin-top: 25px;"></div>
+    </div>
+  </div>
+
+  <!-- Tab: Markets -->
+  <div class="tab-content" id="tab-markets">
+    <div class="card">
+      <div class="card-header">
+        <h3>₿ Cryptocurrency</h3>
+        <button class="btn btn-sm btn-secondary" onclick="refreshPrices()">↻ Refresh</button>
+      </div>
+      <div class="grid-4" id="cryptoGrid"><div class="loading"></div></div>
+    </div>
     
-    document.getElementById('aiQuery').addEventListener('keypress', e => {
-      if (e.key === 'Enter') askAI();
+    <div class="card">
+      <div class="card-header"><h3>🥇 Precious Metals</h3></div>
+      <div class="grid-4" id="metalsGrid"><div class="loading"></div></div>
+    </div>
+    
+    <div class="card">
+      <div class="card-header"><h3>📈 Stocks & ETFs</h3></div>
+      <div class="grid-4" id="stocksGrid"><div class="loading"></div></div>
+    </div>
+  </div>
+
+  <!-- Tab: AI Chat -->
+  <div class="tab-content" id="tab-ai">
+    <div class="ai-box">
+      <h3>🤖 AI Investment Analyst</h3>
+      <p class="subtitle">Ask anything about markets, stocks, crypto, or portfolio strategy</p>
+      
+      <div class="ai-input-row">
+        <input type="text" class="ai-input" id="aiQuery" placeholder="e.g., Should I buy NVDA? What's your Bitcoin outlook?" onkeypress="if(event.key==='Enter')askAI()">
+        <button class="ai-btn" onclick="askAI()">Ask AI</button>
+      </div>
+      
+      <div class="ai-response" id="aiResponse">Ask me anything about investing! I can analyze stocks, build portfolios, explain hedge fund strategies, and provide trading signals based on institutional methods.</div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+  // Auth
+  const token = localStorage.getItem('eluxraj_token');
+  const user = JSON.parse(localStorage.getItem('eluxraj_user') || '{}');
+  if (!token) window.location.href = '/login.html';
+  
+  document.getElementById('userName').textContent = user.name || 'Investor';
+  document.getElementById('userEmail').textContent = user.email || '';
+  document.getElementById('userAvatar').textContent = (user.name || 'U')[0].toUpperCase();
+  const tierBadge = document.getElementById('userTier');
+  tierBadge.textContent = (user.tier || 'free').toUpperCase();
+  if (user.tier === 'elite') tierBadge.classList.add('elite');
+  
+  // Tabs
+  function showTab(name) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+    event.target.classList.add('active');
+    document.getElementById('tab-' + name).classList.add('active');
+    if (name === 'markets') loadPrices();
+  }
+  
+  // Risk slider
+  function updateRisk() {
+    const v = document.getElementById('riskTolerance').value;
+    document.getElementById('riskValue').textContent = v;
+    const labels = ['Very Conservative','Conservative','Mod Conservative','Moderate','Balanced','Mod Aggressive','Growth','Aggressive','Very Aggressive','Maximum'];
+    document.getElementById('riskLabel').textContent = labels[v-1];
+  }
+  
+  // Format markdown
+  function fmt(t) {
+    return t.replace(/### (.*)/g,'<h3>$1</h3>').replace(/## (.*)/g,'<h2>$1</h2>').replace(/# (.*)/g,'<h1>$1</h1>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
+  }
+  
+  // API helper
+  async function api(endpoint, data, method='POST') {
+    const opts = { method, headers: { 'Authorization': 'Bearer ' + token } };
+    if (method === 'POST' && data) {
+      opts.headers['Content-Type'] = 'application/json';
+      opts.body = JSON.stringify(data);
+    }
+    const res = await fetch(endpoint, opts);
+    return res.json();
+  }
+  
+  // Portfolio Wizard
+  async function runWizard() {
+    const btn = document.getElementById('wizardBtn');
+    const box = document.getElementById('wizardResults');
+    btn.disabled = true; btn.textContent = '🔄 Building...';
+    box.innerHTML = '<div class="loading"></div>'; box.classList.add('active');
+    
+    const r = await api('/api/ai/portfolio-wizard', {
+      portfolioValue: parseInt(document.getElementById('portfolioValue').value),
+      riskTolerance: parseInt(document.getElementById('riskTolerance').value),
+      timeHorizon: document.getElementById('timeHorizon').value,
+      goals: document.getElementById('investmentGoals').value
     });
     
-    // Format markdown to HTML
-    function formatMarkdown(text) {
-      return text
-        .replace(/### (.*)/g, '<h3>$1</h3>')
-        .replace(/## (.*)/g, '<h2>$1</h2>')
-        .replace(/# (.*)/g, '<h1>$1</h1>')
-        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-        .replace(/\n/g, '<br>');
-    }
+    box.innerHTML = r.ok ? fmt(r.analysis) : '❌ ' + r.error;
+    btn.disabled = false; btn.textContent = '✨ Build My Portfolio';
+  }
+  
+  // Watchlist
+  function showAddWatchlist() { document.getElementById('addWatchlistForm').style.display = 'block'; }
+  function hideAddWatchlist() { document.getElementById('addWatchlistForm').style.display = 'none'; }
+  function addToWatchlist() {
+    const sym = document.getElementById('watchlistSymbol').value.toUpperCase();
+    if (!sym) return;
+    const html = `<div class="watchlist-item"><div class="info"><span class="symbol">${sym}</span><span class="price">--</span><span class="change">--</span></div><div class="actions"><button class="btn btn-sm btn-primary" onclick="getSignal('${sym}')">Signal</button><button class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()">✕</button></div></div>`;
+    document.getElementById('watchlistItems').insertAdjacentHTML('beforeend', html);
+    hideAddWatchlist();
+  }
+  function removeFromWatchlist(sym) { event.target.closest('.watchlist-item').remove(); }
+  async function getSignal(sym) {
+    const box = document.getElementById('watchlistResults');
+    box.innerHTML = '🔄 Getting signal for ' + sym + '...'; box.classList.add('active');
+    const r = await api(`/api/ai/signal/${sym}?strategy=swing`, null, 'GET');
+    box.innerHTML = r.ok ? fmt(r.analysis) : '❌ ' + r.error;
+  }
+  
+  // Position Calculator
+  function calculatePosition() {
+    const account = parseFloat(document.getElementById('accountSize').value);
+    const risk = parseFloat(document.getElementById('riskPercent').value) / 100;
+    const entry = parseFloat(document.getElementById('entryPrice').value);
+    const stop = parseFloat(document.getElementById('stopLoss').value);
     
-    // Load prices
-    async function loadPrices() {
-      try {
-        const res = await fetch('/api/oracle/all');
-        const data = await res.json();
-        
-        if (data.ok) {
-          // Crypto
-          let cryptoHTML = '';
-          for (const [symbol, info] of Object.entries(data.data.crypto || {})) {
-            const changeClass = info.change24h >= 0 ? 'positive' : 'negative';
-            cryptoHTML += `
-              <div class="price-card">
-                <div class="symbol">${symbol}</div>
-                <div class="name">${info.name || symbol}</div>
-                <div class="price">$${info.price.toLocaleString(undefined, {maximumFractionDigits: 2})}</div>
-                <div class="change ${changeClass}">${info.change24h >= 0 ? '+' : ''}${info.change24h.toFixed(2)}%</div>
-              </div>`;
-          }
-          document.getElementById('cryptoGrid').innerHTML = cryptoHTML || '<p>No data</p>';
-          
-          // Metals
-          let metalsHTML = '';
-          for (const [symbol, info] of Object.entries(data.data.metals || {})) {
-            const changeClass = info.change24h >= 0 ? 'positive' : 'negative';
-            metalsHTML += `
-              <div class="price-card">
-                <div class="symbol">${symbol}</div>
-                <div class="price">$${info.price.toLocaleString(undefined, {maximumFractionDigits: 2})}</div>
-                <div class="change ${changeClass}">${info.change24h >= 0 ? '+' : ''}${info.change24h.toFixed(2)}%</div>
-              </div>`;
-          }
-          document.getElementById('metalsGrid').innerHTML = metalsHTML || '<p>No data</p>';
-          
-          // Stocks
-          let stocksHTML = '';
-          for (const [symbol, info] of Object.entries(data.data.stocks || {})) {
-            stocksHTML += `
-              <div class="price-card">
-                <div class="symbol">${symbol}</div>
-                <div class="price">$${info.price.toFixed(2)}</div>
-              </div>`;
-          }
-          for (const [symbol, info] of Object.entries(data.data.etfs || {})) {
-            stocksHTML += `
-              <div class="price-card">
-                <div class="symbol">${symbol}</div>
-                <div class="price">$${info.price.toFixed(2)}</div>
-              </div>`;
-          }
-          document.getElementById('stocksGrid').innerHTML = stocksHTML || '<p>No data</p>';
+    const riskAmount = account * risk;
+    const riskPerShare = Math.abs(entry - stop);
+    const shares = Math.floor(riskAmount / riskPerShare);
+    const totalValue = shares * entry;
+    
+    document.getElementById('positionShares').textContent = shares + ' shares';
+    document.getElementById('positionValue').textContent = '$' + totalValue.toLocaleString() + ' total value | Risk: $' + riskAmount.toFixed(2);
+    document.getElementById('calcResult').style.display = 'block';
+  }
+  
+  function calculateRR() {
+    const entry = parseFloat(document.getElementById('rrEntry').value);
+    const stop = parseFloat(document.getElementById('rrStop').value);
+    const target = parseFloat(document.getElementById('rrTarget').value);
+    
+    const risk = Math.abs(entry - stop);
+    const reward = Math.abs(target - entry);
+    const ratio = (reward / risk).toFixed(2);
+    
+    document.getElementById('rrRatio').textContent = '1:' + ratio;
+    document.getElementById('rrDetails').textContent = `Risk $${risk.toFixed(2)} to make $${reward.toFixed(2)}`;
+    document.getElementById('rrResult').style.display = 'block';
+  }
+  
+  // Scanner
+  async function runScanner() {
+    const btn = document.getElementById('scanBtn');
+    const box = document.getElementById('scannerResults');
+    btn.disabled = true; btn.textContent = '🔄 Scanning...';
+    box.innerHTML = '<div class="loading"></div>'; box.classList.add('active');
+    
+    const type = document.getElementById('scanType').value;
+    const sector = document.getElementById('scanSector').value;
+    
+    const r = await api('/api/ai/analyze', {
+      query: `Run a market scan for ${type} stocks in the ${sector} sector. Provide 5-7 specific ticker symbols with current signal (BUY/SELL/HOLD), entry price, stop loss, and target. Format as a clear list.`
+    });
+    
+    box.innerHTML = r.ok ? fmt(r.analysis) : '❌ ' + r.error;
+    btn.disabled = false; btn.textContent = '🔍 Run Scanner';
+  }
+  
+  // Quick Tools
+  async function getStockPicks() {
+    const box = document.getElementById('toolResults');
+    box.innerHTML = '🔄 Loading...'; box.classList.add('active');
+    const r = await api('/api/ai/stock-picks', { sector: document.getElementById('stockSector').value, count: 5, riskLevel: 'Moderate' });
+    box.innerHTML = r.ok ? fmt(r.analysis) : '❌ ' + r.error;
+  }
+  
+  async function getCryptoAllocation() {
+    const box = document.getElementById('toolResults');
+    box.innerHTML = '🔄 Loading...'; box.classList.add('active');
+    const r = await api('/api/ai/crypto-allocation', { totalCryptoInvestment: parseInt(document.getElementById('cryptoAmount').value), riskTolerance: 'Moderate', experience: 'Intermediate' });
+    box.innerHTML = r.ok ? fmt(r.analysis) : '❌ ' + r.error;
+  }
+  
+  async function getTradingSignal() {
+    const box = document.getElementById('toolResults');
+    box.innerHTML = '🔄 Loading...'; box.classList.add('active');
+    const r = await api(`/api/ai/signal/${document.getElementById('signalSymbol').value.toUpperCase()}?strategy=swing`, null, 'GET');
+    box.innerHTML = r.ok ? fmt(r.analysis) : '❌ ' + r.error;
+  }
+  
+  async function getHedgeFundStrategy() {
+    const box = document.getElementById('toolResults');
+    box.innerHTML = '🔄 Loading...'; box.classList.add('active');
+    const r = await api(`/api/ai/hedge-fund/${encodeURIComponent(document.getElementById('hedgeFund').value)}`, null, 'GET');
+    box.innerHTML = r.ok ? fmt(r.analysis) : '❌ ' + r.error;
+  }
+  
+  async function getSectorAnalysis() {
+    const box = document.getElementById('toolResults');
+    box.innerHTML = '🔄 Loading...'; box.classList.add('active');
+    const r = await api(`/api/ai/sector/${encodeURIComponent(document.getElementById('sectorAnalysis').value)}`, null, 'GET');
+    box.innerHTML = r.ok ? fmt(r.analysis) : '❌ ' + r.error;
+  }
+  
+  async function compareAssets() {
+    const box = document.getElementById('toolResults');
+    box.innerHTML = '🔄 Loading...'; box.classList.add('active');
+    const r = await api(`/api/ai/compare?asset1=${document.getElementById('asset1').value}&asset2=${document.getElementById('asset2').value}`, null, 'GET');
+    box.innerHTML = r.ok ? fmt(r.analysis) : '❌ ' + r.error;
+  }
+  
+  // Learn
+  async function learnTopic(topic) {
+    const box = document.getElementById('learnResults');
+    box.innerHTML = '🔄 Loading lesson...'; box.classList.add('active');
+    const r = await api('/api/ai/analyze', { query: `Teach me about ${topic}. Include: 1) Key concepts, 2) How hedge funds use this, 3) Practical examples, 4) Common mistakes to avoid, 5) Action steps for beginners. Make it comprehensive but easy to understand.` });
+    box.innerHTML = r.ok ? fmt(r.analysis) : '❌ ' + r.error;
+  }
+  
+  // AI Chat
+  async function askAI() {
+    const q = document.getElementById('aiQuery').value.trim();
+    if (!q) return;
+    document.getElementById('aiResponse').textContent = '🔄 Thinking...';
+    const r = await api('/api/ai/analyze', { query: q });
+    document.getElementById('aiResponse').innerHTML = r.ok ? fmt(r.analysis) : '❌ ' + r.error;
+  }
+  
+  // Prices
+  async function loadPrices() {
+    try {
+      const r = await fetch('/api/oracle/all');
+      const d = await r.json();
+      if (d.ok) {
+        let h = '';
+        for (const [s, i] of Object.entries(d.data.crypto || {})) {
+          h += `<div class="price-card"><div class="symbol">${s}</div><div class="name">${i.name||s}</div><div class="price">$${i.price.toLocaleString(undefined,{maximumFractionDigits:2})}</div><div class="change ${i.change24h>=0?'positive':'negative'}">${i.change24h>=0?'+':''}${i.change24h.toFixed(2)}%</div></div>`;
         }
-      } catch (err) {
-        console.error('Price load error:', err);
+        document.getElementById('cryptoGrid').innerHTML = h || 'No data';
+        
+        h = '';
+        for (const [s, i] of Object.entries(d.data.metals || {})) {
+          h += `<div class="price-card"><div class="symbol">${s}</div><div class="price">$${i.price.toLocaleString(undefined,{maximumFractionDigits:2})}</div><div class="change ${i.change24h>=0?'positive':'negative'}">${i.change24h>=0?'+':''}${i.change24h.toFixed(2)}%</div></div>`;
+        }
+        document.getElementById('metalsGrid').innerHTML = h || 'No data';
+        
+        h = '';
+        for (const [s, i] of Object.entries(d.data.stocks || {})) h += `<div class="price-card"><div class="symbol">${s}</div><div class="price">$${i.price.toFixed(2)}</div></div>`;
+        for (const [s, i] of Object.entries(d.data.etfs || {})) h += `<div class="price-card"><div class="symbol">${s}</div><div class="price">$${i.price.toFixed(2)}</div></div>`;
+        document.getElementById('stocksGrid').innerHTML = h || 'No data';
+        
+        // Update stats
+        if (d.data.crypto?.BTC) {
+          const c = d.data.crypto.BTC.change24h;
+          document.getElementById('statBtc').textContent = (c>=0?'+':'')+c.toFixed(2)+'%';
+          document.getElementById('statBtc').className = 'value ' + (c>=0?'up':'down');
+        }
+        if (d.data.metals?.GOLD) {
+          const c = d.data.metals.GOLD.change24h;
+          document.getElementById('statGold').textContent = (c>=0?'+':'')+c.toFixed(2)+'%';
+          document.getElementById('statGold').className = 'value ' + (c>=0?'up':'down');
+        }
       }
-    }
-    
-    function refreshPrices() {
-      document.getElementById('cryptoGrid').innerHTML = '<div class="price-card"><div class="loading-spinner"></div></div>';
-      document.getElementById('metalsGrid').innerHTML = '<div class="price-card"><div class="loading-spinner"></div></div>';
-      document.getElementById('stocksGrid').innerHTML = '<div class="price-card"><div class="loading-spinner"></div></div>';
-      loadPrices();
-    }
-    
-    function logout() {
-      localStorage.removeItem('eluxraj_token');
-      localStorage.removeItem('eluxraj_user');
-      window.location.href = '/';
-    }
-    
-    // Init
-    updateRiskLabel();
-  </script>
+    } catch(e) { console.error(e); }
+  }
+  
+  function refreshPrices() {
+    document.getElementById('cryptoGrid').innerHTML = '<div class="loading"></div>';
+    document.getElementById('metalsGrid').innerHTML = '<div class="loading"></div>';
+    document.getElementById('stocksGrid').innerHTML = '<div class="loading"></div>';
+    loadPrices();
+  }
+  
+  function logout() {
+    localStorage.removeItem('eluxraj_token');
+    localStorage.removeItem('eluxraj_user');
+    window.location.href = '/';
+  }
+  
+  // Init
+  updateRisk();
+  loadPrices();
+</script>
 
 </body>
 </html>
