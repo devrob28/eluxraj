@@ -1,66 +1,70 @@
-// services/priceOracle.js - Price Oracle v3.1 with Yahoo Finance Fix
+// services/priceOracle.js - Price Oracle v3.2 with Finnhub
 const axios = require('axios');
 const NodeCache = require('node-cache');
 
 const cache = new NodeCache({ stdTTL: 60 });
 
+// Finnhub API (Free, datacenter-friendly)
+const FINNHUB_API_KEY = 'ctcnrthr01qhb4a7gvt0ctcnrthr01qhb4a7gvtg'; // Free API key
+
 // ============================================================================
-// YAHOO FINANCE - Using v8 chart endpoint (more reliable)
+// STOCKS - Finnhub (Primary) + Yahoo Finance Search
 // ============================================================================
 
-async function getYahooFinanceQuote(symbols) {
-  console.log('🔄 Fetching from Yahoo Finance:', symbols.join(','));
+async function getStockFromFinnhub(symbol) {
+  try {
+    const url = `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${FINNHUB_API_KEY}`;
+    
+    const response = await axios.get(url, { timeout: 8000 });
+    const data = response.data;
+    
+    if (data && data.c && data.c > 0) {
+      return {
+        price: data.c,           // Current price
+        change24h: data.dp || 0, // Percent change
+        open: data.o,            // Open
+        high: data.h,            // High
+        low: data.l,             // Low
+        previousClose: data.pc,  // Previous close
+        source: 'Finnhub'
+      };
+    }
+    return null;
+  } catch (err) {
+    console.error('❌ Finnhub error for', symbol + ':', err.message);
+    return null;
+  }
+}
+
+async function getStocksFromFinnhub(symbols) {
+  console.log('🔄 Fetching stocks from Finnhub:', symbols.join(','));
   const prices = {};
   
   for (const symbol of symbols) {
-    try {
-      // Use v8 chart endpoint - more reliable than v7 quote
-      const url = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=1d`;
-      
-      const response = await axios.get(url, {
-        timeout: 8000,
-        headers: {
-          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
-          'Accept': 'application/json',
-          'Accept-Language': 'en-US,en;q=0.9',
-          'Origin': 'https://finance.yahoo.com',
-          'Referer': 'https://finance.yahoo.com/'
-        }
-      });
-      
-      const result = response.data.chart.result[0];
-      const meta = result.meta;
-      const quote = result.indicators.quote[0];
-      
-      prices[symbol] = {
-        price: meta.regularMarketPrice,
-        previousClose: meta.previousClose || meta.chartPreviousClose,
-        change24h: meta.previousClose ? ((meta.regularMarketPrice - meta.previousClose) / meta.previousClose * 100) : 0,
-        open: quote.open ? quote.open[quote.open.length - 1] : null,
-        high: quote.high ? Math.max(...quote.high.filter(h => h !== null)) : null,
-        low: quote.low ? Math.min(...quote.low.filter(l => l !== null)) : null,
-        volume: meta.regularMarketVolume,
-        name: meta.shortName || meta.longName || symbol,
-        type: meta.instrumentType,
-        exchange: meta.exchangeName,
-        currency: meta.currency,
-        source: 'Yahoo Finance'
-      };
-      
-      console.log('✅ Yahoo:', symbol, '$' + meta.regularMarketPrice);
-      
-      // Small delay between requests
-      await new Promise(r => setTimeout(r, 100));
-      
-    } catch (err) {
-      console.error('❌ Yahoo error for', symbol + ':', err.message);
+    const quote = await getStockFromFinnhub(symbol);
+    if (quote) {
+      prices[symbol] = quote;
+      console.log('✅ Finnhub:', symbol, '$' + quote.price);
     }
+    // Small delay to respect rate limits (60 calls/min on free tier)
+    await new Promise(r => setTimeout(r, 200));
   }
   
   return Object.keys(prices).length > 0 ? prices : null;
 }
 
-// Search for any symbol
+// Company profile from Finnhub
+async function getCompanyProfile(symbol) {
+  try {
+    const url = `https://finnhub.io/api/v1/stock/profile2?symbol=${symbol}&token=${FINNHUB_API_KEY}`;
+    const response = await axios.get(url, { timeout: 8000 });
+    return response.data;
+  } catch (err) {
+    return null;
+  }
+}
+
+// Search using Yahoo Finance (still works for search)
 async function searchYahooFinance(query) {
   console.log('🔍 Searching Yahoo Finance:', query);
   try {
@@ -198,7 +202,7 @@ async function getForexRates() {
 }
 
 // ============================================================================
-// FALLBACK PRICES (Updated regularly)
+// FALLBACK PRICES
 // ============================================================================
 
 const FALLBACK_PRICES = {
@@ -299,7 +303,7 @@ async function getStockPrices(symbols = ['AAPL', 'MSFT', 'GOOGL', 'TSLA', 'NVDA'
   const cached = cache.get(cacheKey);
   if (cached) return cached;
   
-  const prices = await getYahooFinanceQuote(symbols);
+  const prices = await getStocksFromFinnhub(symbols);
   
   if (prices && Object.keys(prices).length > 0) {
     const result = formatPrices(prices);
@@ -307,7 +311,7 @@ async function getStockPrices(symbols = ['AAPL', 'MSFT', 'GOOGL', 'TSLA', 'NVDA'
     return result;
   }
   
-  // Fallback with what we have
+  // Fallback
   const fallback = {};
   for (const symbol of symbols) {
     if (FALLBACK_PRICES.stocks[symbol]) {
@@ -322,11 +326,17 @@ async function getQuote(symbol) {
   const cached = cache.get(cacheKey);
   if (cached) return cached;
   
-  const prices = await getYahooFinanceQuote([symbol]);
+  // Try Finnhub
+  const quote = await getStockFromFinnhub(symbol);
   
-  if (prices && prices[symbol]) {
+  if (quote) {
+    // Get company name
+    const profile = await getCompanyProfile(symbol);
     const result = {
-      ...prices[symbol],
+      ...quote,
+      name: profile?.name || symbol,
+      industry: profile?.finnhubIndustry,
+      marketCap: profile?.marketCapitalization ? profile.marketCapitalization * 1000000 : null,
       confidence: 'HIGH',
       timestamp: new Date().toISOString()
     };
@@ -342,7 +352,7 @@ async function getQuote(symbol) {
     return { ...FALLBACK_PRICES.etfs[symbol], source: 'ELUXRAJ Oracle', confidence: 'MEDIUM', timestamp: new Date().toISOString() };
   }
   
-  return { error: 'Symbol not found', symbol };
+  return { error: 'Symbol not found or market closed', symbol };
 }
 
 async function search(query) {
@@ -350,23 +360,12 @@ async function search(query) {
 }
 
 async function getETFs(symbols = ['SPY', 'QQQ', 'IWM', 'VTI', 'VOO', 'GLD', 'SLV', 'TLT']) {
-  const cacheKey = 'etfs';
-  const cached = cache.get(cacheKey);
-  if (cached) return cached;
-  
-  const prices = await getYahooFinanceQuote(symbols);
-  
-  if (prices && Object.keys(prices).length > 0) {
-    const result = formatPrices(prices);
-    cache.set(cacheKey, result);
-    return result;
-  }
-  
-  return formatFallback(FALLBACK_PRICES.etfs, 'ELUXRAJ Oracle');
+  return await getStockPrices(symbols);
 }
 
 async function getMutualFunds() {
-  const symbols = ['VFIAX', 'FXAIX', 'VTSAX', 'VBTLX', 'VTIAX'];
+  // Note: Finnhub doesn't support mutual funds well, using ETFs as proxy
+  const symbols = ['VTI', 'VOO', 'BND', 'VEA', 'VWO'];
   return await getStockPrices(symbols);
 }
 
@@ -382,7 +381,7 @@ async function getAllPrices() {
     getCryptoPrices(),
     getMetalsPrices(),
     getStockPrices(['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA', 'META']),
-    getETFs(),
+    getETFs(['SPY', 'QQQ', 'IWM', 'GLD']),
     getForexRates()
   ]);
   
@@ -393,7 +392,7 @@ async function getAllPrices() {
     etfs,
     forex,
     timestamp: new Date().toISOString(),
-    oracleVersion: '3.1'
+    oracleVersion: '3.2'
   };
 }
 
