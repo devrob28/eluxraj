@@ -1,1007 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard | ELUXRAJ™</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    
-    :root {
-      --platinum: #e8e8e8;
-      --navy: #0a192f;
-      --navy-light: #112240;
-      --text: #0a192f;
-      --text-muted: #4a5568;
-      --green: #059669;
-      --red: #dc2626;
-      --gold: #d4af37;
-      --blue: #3b82f6;
-      --purple: #8b5cf6;
-      --bg: #f5f5f5;
-      --bg-alt: #ffffff;
-    }
-    
-    body {
-      font-family: 'Inter', -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-    }
-    
-    /* Nav */
-    nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      padding: 15px 30px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      z-index: 1000;
-      background: var(--navy);
-    }
-    
-    .logo { font-size: 22px; font-weight: 800; letter-spacing: 2px; color: white; }
-    .nav-links { display: flex; gap: 20px; align-items: center; }
-    .nav-links a { color: rgba(255,255,255,0.7); text-decoration: none; font-size: 14px; font-weight: 500; }
-    .nav-links a:hover { color: white; }
-    .nav-btn { background: white; color: var(--navy); padding: 8px 20px; border-radius: 6px; font-weight: 600; font-size: 14px; cursor: pointer; border: none; }
-    
-    /* Container */
-    .dashboard-container { max-width: 1400px; margin: 80px auto 40px; padding: 20px; }
-    
-    /* Header */
-    .dashboard-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 25px;
-      background: var(--bg-alt);
-      border-radius: 16px;
-      margin-bottom: 20px;
-      border: 1px solid rgba(10,25,47,0.08);
-    }
-    
-    .user-info { display: flex; align-items: center; gap: 15px; }
-    .user-avatar { width: 50px; height: 50px; border-radius: 50%; background: var(--navy); display: flex; align-items: center; justify-content: center; font-size: 20px; font-weight: 700; color: white; }
-    .user-details h2 { font-size: 20px; color: var(--navy); }
-    .user-details p { color: var(--text-muted); font-size: 13px; }
-    .tier-badge { padding: 5px 14px; border-radius: 20px; font-size: 10px; font-weight: 700; text-transform: uppercase; background: var(--navy); color: white; margin-left: 10px; }
-    .tier-badge.elite { background: linear-gradient(135deg, var(--gold), #b8860b); }
-    
-    /* Tabs */
-    .dashboard-tabs {
-      display: flex;
-      gap: 8px;
-      margin-bottom: 25px;
-      overflow-x: auto;
-      padding-bottom: 10px;
-    }
-    
-    .tab-btn {
-      padding: 10px 18px;
-      border: none;
-      background: var(--bg-alt);
-      color: var(--text-muted);
-      font-size: 13px;
-      font-weight: 600;
-      cursor: pointer;
-      border-radius: 8px;
-      white-space: nowrap;
-      transition: all 0.3s;
-      border: 1px solid rgba(10,25,47,0.08);
-    }
-    
-    .tab-btn:hover { background: var(--navy); color: white; }
-    .tab-btn.active { background: var(--navy); color: white; }
-    
-    .tab-content { display: none; }
-    .tab-content.active { display: block; }
-    
-    /* Cards */
-    .card {
-      background: var(--bg-alt);
-      border-radius: 16px;
-      padding: 25px;
-      border: 1px solid rgba(10,25,47,0.08);
-      margin-bottom: 20px;
-    }
-    
-    .card-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-    .card-header h3 { font-size: 18px; color: var(--navy); display: flex; align-items: center; gap: 10px; }
-    
-    /* Form elements */
-    .form-group { margin-bottom: 15px; }
-    .form-group label { display: block; font-size: 13px; font-weight: 600; color: var(--navy); margin-bottom: 6px; }
-    .form-group input, .form-group select, .form-group textarea {
-      width: 100%;
-      padding: 12px 15px;
-      border: 2px solid rgba(10,25,47,0.1);
-      border-radius: 8px;
-      font-size: 14px;
-      font-family: inherit;
-    }
-    .form-group input:focus, .form-group select:focus { outline: none; border-color: var(--navy); }
-    
-    .form-row { display: grid; grid-template-columns: repeat(2, 1fr); gap: 15px; }
-    
-    /* Buttons */
-    .btn {
-      padding: 12px 24px;
-      border: none;
-      border-radius: 8px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.3s;
-      font-size: 14px;
-    }
-    
-    .btn-primary { background: var(--navy); color: white; }
-    .btn-primary:hover { background: var(--navy-light); }
-    .btn-secondary { background: var(--bg); color: var(--navy); border: 2px solid var(--navy); }
-    .btn-success { background: var(--green); color: white; }
-    .btn-danger { background: var(--red); color: white; }
-    .btn-sm { padding: 8px 16px; font-size: 12px; }
-    .btn:disabled { opacity: 0.6; cursor: not-allowed; }
-    
-    /* Risk Slider */
-    .risk-container { display: flex; align-items: center; gap: 15px; }
-    .risk-slider { flex: 1; -webkit-appearance: none; height: 8px; border-radius: 4px; background: linear-gradient(to right, var(--green), var(--gold), var(--red)); }
-    .risk-slider::-webkit-slider-thumb { -webkit-appearance: none; width: 22px; height: 22px; border-radius: 50%; background: var(--navy); cursor: pointer; border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.2); }
-    .risk-value { font-size: 20px; font-weight: 700; color: var(--navy); min-width: 40px; text-align: center; }
-    
-    /* Results */
-    .results-box {
-      background: var(--bg);
-      border-radius: 12px;
-      padding: 20px;
-      margin-top: 20px;
-      max-height: 500px;
-      overflow-y: auto;
-      white-space: pre-wrap;
-      line-height: 1.8;
-      font-size: 14px;
-      display: none;
-    }
-    
-    .results-box.active { display: block; }
-    .results-box h1, .results-box h2, .results-box h3 { color: var(--navy); margin: 15px 0 8px; }
-    
-    /* Grid layouts */
-    .grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
-    .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-    .grid-4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
-    
-    /* Price cards */
-    .price-card {
-      background: var(--bg-alt);
-      border: 1px solid rgba(10,25,47,0.08);
-      border-radius: 12px;
-      padding: 18px;
-      transition: all 0.3s;
-    }
-    .price-card:hover { border-color: var(--navy); transform: translateY(-2px); }
-    .price-card .symbol { font-size: 14px; font-weight: 700; color: var(--navy); }
-    .price-card .name { font-size: 11px; color: var(--text-muted); margin-bottom: 10px; }
-    .price-card .price { font-size: 22px; font-weight: 700; color: var(--navy); }
-    .price-card .change { font-size: 13px; font-weight: 600; }
-    .price-card .change.positive { color: var(--green); }
-    .price-card .change.negative { color: var(--red); }
-    
-    /* Watchlist */
-    .watchlist-item {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 15px;
-      background: var(--bg);
-      border-radius: 10px;
-      margin-bottom: 10px;
-    }
-    .watchlist-item .info { display: flex; align-items: center; gap: 15px; }
-    .watchlist-item .symbol { font-weight: 700; color: var(--navy); }
-    .watchlist-item .price { font-size: 18px; font-weight: 600; }
-    .watchlist-item .change { font-size: 13px; }
-    .watchlist-item .actions { display: flex; gap: 8px; }
-    
-    /* Calculator */
-    .calc-result {
-      background: linear-gradient(135deg, var(--navy), var(--navy-light));
-      color: white;
-      padding: 25px;
-      border-radius: 12px;
-      text-align: center;
-      margin-top: 20px;
-    }
-    .calc-result .label { font-size: 14px; opacity: 0.8; margin-bottom: 5px; }
-    .calc-result .value { font-size: 36px; font-weight: 800; }
-    .calc-result .sub { font-size: 13px; opacity: 0.7; margin-top: 10px; }
-    
-    /* Quick tools grid */
-    .quick-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-    }
-    
-    .quick-card {
-      background: var(--bg-alt);
-      border: 1px solid rgba(10,25,47,0.08);
-      border-radius: 14px;
-      padding: 25px;
-      transition: all 0.3s;
-    }
-    .quick-card:hover { border-color: var(--navy); box-shadow: 0 10px 30px rgba(10,25,47,0.1); }
-    .quick-card h4 { font-size: 16px; color: var(--navy); margin-bottom: 8px; display: flex; align-items: center; gap: 8px; }
-    .quick-card p { color: var(--text-muted); font-size: 13px; margin-bottom: 15px; }
-    
-    /* Learning cards */
-    .learn-card {
-      background: var(--bg-alt);
-      border: 1px solid rgba(10,25,47,0.08);
-      border-radius: 14px;
-      padding: 25px;
-      cursor: pointer;
-      transition: all 0.3s;
-    }
-    .learn-card:hover { border-color: var(--purple); transform: translateY(-3px); }
-    .learn-card .icon { font-size: 32px; margin-bottom: 15px; }
-    .learn-card h4 { font-size: 16px; color: var(--navy); margin-bottom: 8px; }
-    .learn-card p { color: var(--text-muted); font-size: 13px; }
-    .learn-card .difficulty { display: inline-block; padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 600; margin-top: 12px; }
-    .learn-card .difficulty.beginner { background: #d1fae5; color: #065f46; }
-    .learn-card .difficulty.intermediate { background: #fef3c7; color: #92400e; }
-    .learn-card .difficulty.advanced { background: #fee2e2; color: #991b1b; }
-    
-    /* AI Section */
-    .ai-box {
-      background: var(--navy);
-      border-radius: 16px;
-      padding: 30px;
-    }
-    .ai-box h3 { color: white; font-size: 20px; margin-bottom: 5px; }
-    .ai-box .subtitle { color: rgba(255,255,255,0.6); font-size: 13px; margin-bottom: 20px; }
-    .ai-input-row { display: flex; gap: 12px; margin-bottom: 15px; }
-    .ai-input { flex: 1; padding: 14px 18px; border: 1px solid rgba(255,255,255,0.2); border-radius: 10px; background: rgba(255,255,255,0.05); color: white; font-size: 14px; }
-    .ai-input::placeholder { color: rgba(255,255,255,0.4); }
-    .ai-input:focus { outline: none; border-color: white; }
-    .ai-btn { padding: 14px 28px; background: white; border: none; border-radius: 10px; color: var(--navy); font-weight: 700; cursor: pointer; }
-    .ai-response { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 12px; padding: 20px; min-height: 120px; color: rgba(255,255,255,0.9); white-space: pre-wrap; line-height: 1.7; font-size: 14px; max-height: 400px; overflow-y: auto; }
-    
-    /* Scanner */
-    .scanner-results { margin-top: 20px; }
-    .scanner-item { display: flex; justify-content: space-between; align-items: center; padding: 15px 20px; background: var(--bg); border-radius: 10px; margin-bottom: 10px; }
-    .scanner-item .ticker { font-weight: 700; color: var(--navy); font-size: 16px; }
-    .scanner-item .signal { padding: 5px 12px; border-radius: 15px; font-size: 11px; font-weight: 700; }
-    .scanner-item .signal.buy { background: #d1fae5; color: #065f46; }
-    .scanner-item .signal.sell { background: #fee2e2; color: #991b1b; }
-    .scanner-item .signal.hold { background: #fef3c7; color: #92400e; }
-    
-    /* Stats row */
-    .stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 15px; margin-bottom: 25px; }
-    .stat-card { background: var(--bg-alt); border: 1px solid rgba(10,25,47,0.08); border-radius: 12px; padding: 20px; text-align: center; }
-    .stat-card .label { font-size: 12px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-    .stat-card .value { font-size: 24px; font-weight: 700; color: var(--navy); margin-top: 5px; }
-    .stat-card .value.up { color: var(--green); }
-    .stat-card .value.down { color: var(--red); }
-    
-    /* Loading */
-    .loading { display: inline-block; width: 18px; height: 18px; border: 2px solid rgba(10,25,47,0.1); border-top-color: var(--navy); border-radius: 50%; animation: spin 1s linear infinite; }
-    @keyframes spin { to { transform: rotate(360deg); } }
-    
-    /* Responsive */
-    @media (max-width: 768px) {
-      .grid-2, .grid-3, .form-row { grid-template-columns: 1fr; }
-      .stats-row { grid-template-columns: repeat(2, 1fr); }
-      .dashboard-header { flex-direction: column; text-align: center; gap: 15px; }
-      .user-info { flex-direction: column; }
-      .nav-links { display: none; }
-      .ai-input-row { flex-direction: column; }
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>ELUXRAJ™</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0a0a0f;--card:rgba(255,255,255,0.03);--border:rgba(255,255,255,0.08);--text:#fff;--muted:rgba(255,255,255,0.5);--accent:#6366f1;--green:#10b981;--red:#ef4444;--gold:#f59e0b}
+body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+nav{position:fixed;top:0;left:0;right:0;height:60px;background:rgba(10,10,15,0.95);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
+.logo{font-size:20px;font-weight:800;color:var(--accent)}
+.user{display:flex;align-items:center;gap:8px;padding:6px 12px;background:var(--card);border:1px solid var(--border);border-radius:20px;font-size:13px}
+main{padding:80px 20px 20px;max-width:1200px;margin:0 auto}
+.hero{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center}
+.hero h1{font-size:24px}.hero h1 span{color:var(--accent)}.hero p{color:var(--muted);font-size:14px}
+.pval{text-align:right}.pval-amt{font-size:32px;font-weight:700}.pval-chg{color:var(--green);font-size:13px}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px}
+.stat-label{font-size:11px;color:var(--muted);margin-bottom:6px}
+.stat-value{font-size:20px;font-weight:700}
+.stat-value.up{color:var(--green)}.stat-value.down{color:var(--red)}
+.stat-sub{font-size:11px;color:var(--muted);margin-top:4px}
+.actions{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
+.action{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:all 0.2s}
+.action:hover{border-color:var(--accent);transform:translateY(-2px)}
+.action .icon{font-size:28px;margin-bottom:10px}
+.action h4{font-size:14px;margin-bottom:4px}.action p{font-size:11px;color:var(--muted)}
+.ai-box{background:linear-gradient(135deg,rgba(99,102,241,0.1),rgba(139,92,246,0.1));border:1px solid rgba(99,102,241,0.3);border-radius:16px;padding:20px;margin-bottom:20px}
+.ai-row{display:flex;gap:10px;margin-bottom:12px;align-items:center}
+.ai-avatar{width:40px;height:40px;background:linear-gradient(135deg,#6366f1,#ec4899);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px}
+.ai-title{font-weight:600}.ai-sub{font-size:12px;color:var(--muted)}
+.ai-input{flex:1;padding:12px 16px;background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px}
+.ai-input:focus{outline:none;border-color:var(--accent)}
+.ai-btn{padding:12px 20px;background:var(--accent);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{padding:6px 12px;background:var(--card);border:1px solid var(--border);border-radius:16px;font-size:11px;color:var(--muted);cursor:pointer}
+.chip:hover{border-color:var(--accent);color:var(--text)}
+.ai-response{margin-top:16px;padding:16px;background:rgba(0,0,0,0.3);border-radius:10px;display:none;line-height:1.7;max-height:400px;overflow-y:auto}
+.ai-response.active{display:block}
+.grid{display:grid;grid-template-columns:2fr 1fr;gap:20px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+.card-head{padding:16px;border-bottom:1px solid var(--border);font-weight:600;font-size:14px}
+.card-body{padding:16px}
+.tools{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
+.tool{background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:10px;padding:16px;cursor:pointer;transition:all 0.2s}
+.tool:hover{border-color:var(--accent)}
+.tool .icon{font-size:20px;margin-bottom:8px}
+.tool h4{font-size:13px;margin-bottom:4px}.tool p{font-size:11px;color:var(--muted)}
+.mkt{padding:12px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.mkt:last-child{border:none}
+.mkt-name{font-weight:600;font-size:13px}
+.mkt-price{font-weight:600;font-size:13px}
+.mkt-chg{font-size:12px}.mkt-chg.up{color:var(--green)}.mkt-chg.down{color:var(--red)}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
+.modal-bg.active{display:flex}
+.modal{background:#111;border:1px solid var(--border);border-radius:16px;width:100%;max-width:500px;max-height:80vh;overflow:hidden}
+.modal-head{padding:20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.modal-title{font-weight:700;font-size:18px}
+.modal-close{background:var(--card);border:1px solid var(--border);width:32px;height:32px;border-radius:8px;cursor:pointer;color:var(--muted);font-size:18px}
+.modal-body{padding:20px;overflow-y:auto;max-height:calc(80vh - 80px)}
+.form-group{margin-bottom:16px}
+.form-label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
+.form-input,.form-select{width:100%;padding:12px;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px}
+.form-input:focus,.form-select:focus{outline:none;border-color:var(--accent)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.btn{width:100%;padding:14px;background:var(--accent);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;font-size:14px}
+.results{margin-top:16px;padding:16px;background:var(--card);border-radius:10px;display:none;line-height:1.7;max-height:300px;overflow-y:auto}
+.results.active{display:block}
+.loading{text-align:center;padding:20px}
+.spinner{width:30px;height:30px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media(max-width:900px){.grid{grid-template-columns:1fr}.stats,.actions{grid-template-columns:repeat(2,1fr)}.hero{flex-direction:column;text-align:center;gap:16px}.pval{text-align:center}}
+</style>
 </head>
 <body>
-
-<nav>
-  <div class="logo">ELUXRAJ</div>
-  <div class="nav-links">
-    <a href="/">Home</a>
-    <a href="#" onclick="showTab('wizard')">Portfolio</a>
-    <a href="#" onclick="showTab('markets')">Markets</a>
-    <button class="nav-btn" onclick="logout()">Logout</button>
-  </div>
-</nav>
-
-<div class="dashboard-container">
-  
-  <!-- Header -->
-  <div class="dashboard-header">
-    <div class="user-info">
-      <div class="user-avatar" id="userAvatar">?</div>
-      <div class="user-details">
-        <h2>Welcome, <span id="userName">Investor</span></h2>
-        <p id="userEmail">Loading...</p>
-      </div>
-      <span class="tier-badge" id="userTier">FREE</span>
-    </div>
-  </div>
-  
-  <!-- Stats Row -->
-  <div class="stats-row">
-    <div class="stat-card">
-      <div class="label">BTC 24h</div>
-      <div class="value up" id="statBtc">+4.73%</div>
-    </div>
-    <div class="stat-card">
-      <div class="label">S&P 500</div>
-      <div class="value up" id="statSpy">+0.34%</div>
-    </div>
-    <div class="stat-card">
-      <div class="label">Gold</div>
-      <div class="value up" id="statGold">+0.13%</div>
-    </div>
-    <div class="stat-card">
-      <div class="label">Fear/Greed</div>
-      <div class="value" id="statFear">72</div>
-    </div>
-  </div>
-  
-  <!-- Tabs -->
-  <div class="dashboard-tabs">
-    <button class="tab-btn active" onclick="showTab('wizard')">🧙 Portfolio Wizard</button>
-    <button class="tab-btn" onclick="showTab('watchlist')">⭐ Watchlist</button>
-    <button class="tab-btn" onclick="showTab('calculator')">🧮 Position Calculator</button>
-    <button class="tab-btn" onclick="showTab('scanner')">🔍 Market Scanner</button>
-    <button class="tab-btn" onclick="showTab('tools')">🛠️ Quick Tools</button>
-    <button class="tab-btn" onclick="showTab('learn')">📚 Learn</button>
-    <button class="tab-btn" onclick="showTab('markets')">📊 Markets</button>
-    <button class="tab-btn" onclick="showTab('ai')">🤖 AI Chat</button>
-  </div>
-
-  <!-- Tab: Portfolio Wizard -->
-  <div class="tab-content active" id="tab-wizard">
-    <div class="card">
-      <div class="card-header">
-        <h3>🧙 Portfolio Builder Wizard</h3>
-      </div>
-      <p style="color: var(--text-muted); margin-bottom: 25px;">Get institutional-grade portfolio recommendations based on Renaissance, Citadel & Millennium strategies</p>
-      
-      <div class="form-row">
-        <div class="form-group">
-          <label>💰 Portfolio Value ($)</label>
-          <input type="number" id="portfolioValue" placeholder="50000" value="50000">
-        </div>
-        <div class="form-group">
-          <label>⏱️ Time Horizon</label>
-          <select id="timeHorizon">
-            <option value="1-2 years">1-2 Years</option>
-            <option value="3-5 years">3-5 Years</option>
-            <option value="5-10 years" selected>5-10 Years</option>
-            <option value="10+ years">10+ Years</option>
-          </select>
-        </div>
-      </div>
-      
-      <div class="form-group">
-        <label>⚡ Risk Tolerance</label>
-        <div class="risk-container">
-          <input type="range" class="risk-slider" id="riskTolerance" min="1" max="10" value="5" oninput="updateRisk()">
-          <div class="risk-value" id="riskValue">5</div>
-        </div>
-        <small style="color: var(--text-muted);" id="riskLabel">Balanced</small>
-      </div>
-      
-      <div class="form-group">
-        <label>🎯 Goals</label>
-        <textarea id="investmentGoals" rows="2" placeholder="e.g., Retirement, wealth building, passive income...">Wealth building and long-term growth</textarea>
-      </div>
-      
-      <button class="btn btn-primary" style="width: 100%;" id="wizardBtn" onclick="runWizard()">✨ Build My Portfolio</button>
-      
-      <div class="results-box" id="wizardResults"></div>
-    </div>
-  </div>
-
-  <!-- Tab: Watchlist -->
-  <div class="tab-content" id="tab-watchlist">
-    <div class="card">
-      <div class="card-header">
-        <h3>⭐ My Watchlist</h3>
-        <button class="btn btn-sm btn-primary" onclick="showAddWatchlist()">+ Add Asset</button>
-      </div>
-      
-      <div id="addWatchlistForm" style="display: none; margin-bottom: 20px; padding: 20px; background: var(--bg); border-radius: 10px;">
-        <div class="form-row">
-          <div class="form-group">
-            <label>Symbol</label>
-            <input type="text" id="watchlistSymbol" placeholder="AAPL, BTC, GOLD">
-          </div>
-          <div class="form-group">
-            <label>Type</label>
-            <select id="watchlistType">
-              <option value="stock">Stock</option>
-              <option value="crypto">Crypto</option>
-              <option value="etf">ETF</option>
-            </select>
-          </div>
-        </div>
-        <button class="btn btn-success btn-sm" onclick="addToWatchlist()">Add</button>
-        <button class="btn btn-secondary btn-sm" onclick="hideAddWatchlist()">Cancel</button>
-      </div>
-      
-      <div id="watchlistItems">
-        <div class="watchlist-item">
-          <div class="info">
-            <span class="symbol">BTC</span>
-            <span class="price" id="wl-btc-price">$91,226</span>
-            <span class="change positive" id="wl-btc-change">+4.73%</span>
-          </div>
-          <div class="actions">
-            <button class="btn btn-sm btn-primary" onclick="getSignal('BTC')">Signal</button>
-            <button class="btn btn-sm btn-danger" onclick="removeFromWatchlist('BTC')">✕</button>
-          </div>
-        </div>
-        <div class="watchlist-item">
-          <div class="info">
-            <span class="symbol">NVDA</span>
-            <span class="price">$139.40</span>
-            <span class="change positive">+2.15%</span>
-          </div>
-          <div class="actions">
-            <button class="btn btn-sm btn-primary" onclick="getSignal('NVDA')">Signal</button>
-            <button class="btn btn-sm btn-danger" onclick="removeFromWatchlist('NVDA')">✕</button>
-          </div>
-        </div>
-        <div class="watchlist-item">
-          <div class="info">
-            <span class="symbol">GOLD</span>
-            <span class="price">$2,650</span>
-            <span class="change positive">+0.13%</span>
-          </div>
-          <div class="actions">
-            <button class="btn btn-sm btn-primary" onclick="getSignal('GOLD')">Signal</button>
-            <button class="btn btn-sm btn-danger" onclick="removeFromWatchlist('GOLD')">✕</button>
-          </div>
-        </div>
-      </div>
-      
-      <div class="results-box" id="watchlistResults"></div>
-    </div>
-  </div>
-
-  <!-- Tab: Position Calculator -->
-  <div class="tab-content" id="tab-calculator">
-    <div class="grid-2">
-      <div class="card">
-        <div class="card-header">
-          <h3>🧮 Position Size Calculator</h3>
-        </div>
-        <p style="color: var(--text-muted); margin-bottom: 20px;">Calculate optimal position size based on risk management rules</p>
-        
-        <div class="form-group">
-          <label>Account Size ($)</label>
-          <input type="number" id="accountSize" placeholder="50000" value="50000">
-        </div>
-        <div class="form-group">
-          <label>Risk Per Trade (%)</label>
-          <input type="number" id="riskPercent" placeholder="2" value="2" step="0.5">
-        </div>
-        <div class="form-group">
-          <label>Entry Price ($)</label>
-          <input type="number" id="entryPrice" placeholder="100" value="100">
-        </div>
-        <div class="form-group">
-          <label>Stop Loss Price ($)</label>
-          <input type="number" id="stopLoss" placeholder="95" value="95">
-        </div>
-        
-        <button class="btn btn-primary" style="width: 100%;" onclick="calculatePosition()">Calculate Position</button>
-        
-        <div class="calc-result" id="calcResult" style="display: none;">
-          <div class="label">Recommended Position Size</div>
-          <div class="value" id="positionShares">0 shares</div>
-          <div class="sub" id="positionValue">$0 total value</div>
-        </div>
-      </div>
-      
-      <div class="card">
-        <div class="card-header">
-          <h3>📊 Risk/Reward Calculator</h3>
-        </div>
-        
-        <div class="form-group">
-          <label>Entry Price ($)</label>
-          <input type="number" id="rrEntry" placeholder="100" value="100">
-        </div>
-        <div class="form-group">
-          <label>Stop Loss ($)</label>
-          <input type="number" id="rrStop" placeholder="95" value="95">
-        </div>
-        <div class="form-group">
-          <label>Target Price ($)</label>
-          <input type="number" id="rrTarget" placeholder="115" value="115">
-        </div>
-        
-        <button class="btn btn-primary" style="width: 100%;" onclick="calculateRR()">Calculate R:R</button>
-        
-        <div class="calc-result" id="rrResult" style="display: none;">
-          <div class="label">Risk/Reward Ratio</div>
-          <div class="value" id="rrRatio">1:3</div>
-          <div class="sub" id="rrDetails">Risk $5 to make $15</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Tab: Market Scanner -->
-  <div class="tab-content" id="tab-scanner">
-    <div class="card">
-      <div class="card-header">
-        <h3>🔍 AI Market Scanner</h3>
-      </div>
-      <p style="color: var(--text-muted); margin-bottom: 20px;">Find trading opportunities using hedge fund criteria</p>
-      
-      <div class="form-row">
-        <div class="form-group">
-          <label>Scan Type</label>
-          <select id="scanType">
-            <option value="oversold">Oversold Stocks (RSI < 30)</option>
-            <option value="overbought">Overbought Stocks (RSI > 70)</option>
-            <option value="breakout">Breakout Candidates</option>
-            <option value="momentum">High Momentum</option>
-            <option value="value">Undervalued (Low P/E)</option>
-            <option value="dividend">High Dividend Yield</option>
-            <option value="hedge-fund">Hedge Fund Favorites</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Sector</label>
-          <select id="scanSector">
-            <option value="all">All Sectors</option>
-            <option value="technology">Technology</option>
-            <option value="healthcare">Healthcare</option>
-            <option value="financials">Financials</option>
-            <option value="energy">Energy</option>
-            <option value="crypto">Crypto</option>
-          </select>
-        </div>
-      </div>
-      
-      <button class="btn btn-primary" style="width: 100%;" id="scanBtn" onclick="runScanner()">🔍 Run Scanner</button>
-      
-      <div class="results-box" id="scannerResults"></div>
-    </div>
-  </div>
-
-  <!-- Tab: Quick Tools -->
-  <div class="tab-content" id="tab-tools">
-    <div class="quick-grid">
-      <div class="quick-card">
-        <h4>📈 Stock Picks</h4>
-        <p>Hedge fund-style stock recommendations</p>
-        <select id="stockSector" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #ddd;">
-          <option value="Technology">Technology</option>
-          <option value="Healthcare">Healthcare</option>
-          <option value="Financials">Financials</option>
-          <option value="All sectors">All Sectors</option>
-        </select>
-        <button class="btn btn-primary btn-sm" style="width: 100%;" onclick="getStockPicks()">Get Picks</button>
-      </div>
-      
-      <div class="quick-card">
-        <h4>₿ Crypto Portfolio</h4>
-        <p>Build your crypto allocation</p>
-        <input type="number" id="cryptoAmount" placeholder="Amount ($)" value="10000" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #ddd;">
-        <button class="btn btn-primary btn-sm" style="width: 100%;" onclick="getCryptoAllocation()">Build Portfolio</button>
-      </div>
-      
-      <div class="quick-card">
-        <h4>📉 Trading Signal</h4>
-        <p>Get entry/exit for any stock</p>
-        <input type="text" id="signalSymbol" placeholder="Symbol (NVDA)" value="NVDA" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #ddd;">
-        <button class="btn btn-primary btn-sm" style="width: 100%;" onclick="getTradingSignal()">Get Signal</button>
-      </div>
-      
-      <div class="quick-card">
-        <h4>🏦 Fund Strategy</h4>
-        <p>Learn from top hedge funds</p>
-        <select id="hedgeFund" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #ddd;">
-          <option value="Renaissance Technologies">Renaissance</option>
-          <option value="Citadel">Citadel</option>
-          <option value="Millennium Management">Millennium</option>
-          <option value="Bridgewater Associates">Bridgewater</option>
-        </select>
-        <button class="btn btn-primary btn-sm" style="width: 100%;" onclick="getHedgeFundStrategy()">Learn</button>
-      </div>
-      
-      <div class="quick-card">
-        <h4>📊 Sector Analysis</h4>
-        <p>Deep dive into sectors</p>
-        <select id="sectorAnalysis" style="width: 100%; padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #ddd;">
-          <option value="Technology">Technology</option>
-          <option value="Healthcare">Healthcare</option>
-          <option value="Cryptocurrency">Cryptocurrency</option>
-          <option value="Energy">Energy</option>
-        </select>
-        <button class="btn btn-primary btn-sm" style="width: 100%;" onclick="getSectorAnalysis()">Analyze</button>
-      </div>
-      
-      <div class="quick-card">
-        <h4>⚖️ Compare</h4>
-        <p>Compare two investments</p>
-        <input type="text" id="asset1" placeholder="Asset 1" value="AAPL" style="width: 48%; padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #ddd;">
-        <input type="text" id="asset2" placeholder="Asset 2" value="MSFT" style="width: 48%; padding: 10px; margin-bottom: 10px; border-radius: 6px; border: 1px solid #ddd; margin-left: 4%;">
-        <button class="btn btn-primary btn-sm" style="width: 100%;" onclick="compareAssets()">Compare</button>
-      </div>
-    </div>
-    
-    <div class="results-box" id="toolResults" style="margin-top: 25px;"></div>
-  </div>
-
-  <!-- Tab: Learn -->
-  <div class="tab-content" id="tab-learn">
-    <div class="card">
-      <div class="card-header">
-        <h3>📚 Learning Center</h3>
-      </div>
-      <p style="color: var(--text-muted); margin-bottom: 25px;">Master investing with AI-powered lessons from hedge fund strategies</p>
-      
-      <div class="grid-3">
-        <div class="learn-card" onclick="learnTopic('value investing')">
-          <div class="icon">📖</div>
-          <h4>Value Investing</h4>
-          <p>Learn Buffett's approach to finding undervalued stocks</p>
-          <span class="difficulty beginner">Beginner</span>
-        </div>
-        
-        <div class="learn-card" onclick="learnTopic('technical analysis basics')">
-          <div class="icon">📊</div>
-          <h4>Technical Analysis</h4>
-          <p>Charts, patterns, and indicators explained</p>
-          <span class="difficulty beginner">Beginner</span>
-        </div>
-        
-        <div class="learn-card" onclick="learnTopic('risk management and position sizing')">
-          <div class="icon">🛡️</div>
-          <h4>Risk Management</h4>
-          <p>Protect your capital like the pros</p>
-          <span class="difficulty beginner">Beginner</span>
-        </div>
-        
-        <div class="learn-card" onclick="learnTopic('options trading strategies')">
-          <div class="icon">📈</div>
-          <h4>Options Trading</h4>
-          <p>Calls, puts, and advanced strategies</p>
-          <span class="difficulty intermediate">Intermediate</span>
-        </div>
-        
-        <div class="learn-card" onclick="learnTopic('cryptocurrency and DeFi investing')">
-          <div class="icon">₿</div>
-          <h4>Crypto & DeFi</h4>
-          <p>Digital assets, yield farming, and more</p>
-          <span class="difficulty intermediate">Intermediate</span>
-        </div>
-        
-        <div class="learn-card" onclick="learnTopic('portfolio diversification and asset allocation')">
-          <div class="icon">⚖️</div>
-          <h4>Asset Allocation</h4>
-          <p>Build a balanced portfolio</p>
-          <span class="difficulty intermediate">Intermediate</span>
-        </div>
-        
-        <div class="learn-card" onclick="learnTopic('quantitative trading and algorithmic strategies')">
-          <div class="icon">🤖</div>
-          <h4>Quant Trading</h4>
-          <p>Math-based strategies like Renaissance</p>
-          <span class="difficulty advanced">Advanced</span>
-        </div>
-        
-        <div class="learn-card" onclick="learnTopic('macro investing and global markets')">
-          <div class="icon">🌍</div>
-          <h4>Macro Investing</h4>
-          <p>Ray Dalio's approach to global markets</p>
-          <span class="difficulty advanced">Advanced</span>
-        </div>
-        
-        <div class="learn-card" onclick="learnTopic('reading financial statements and fundamental analysis')">
-          <div class="icon">📑</div>
-          <h4>Financial Statements</h4>
-          <p>Analyze balance sheets like a pro</p>
-          <span class="difficulty intermediate">Intermediate</span>
-        </div>
-      </div>
-      
-      <div class="results-box" id="learnResults" style="margin-top: 25px;"></div>
-    </div>
-  </div>
-
-  <!-- Tab: Markets -->
-  <div class="tab-content" id="tab-markets">
-    <div class="card">
-      <div class="card-header">
-        <h3>₿ Cryptocurrency</h3>
-        <button class="btn btn-sm btn-secondary" onclick="refreshPrices()">↻ Refresh</button>
-      </div>
-      <div class="grid-4" id="cryptoGrid"><div class="loading"></div></div>
-    </div>
-    
-    <div class="card">
-      <div class="card-header"><h3>🥇 Precious Metals</h3></div>
-      <div class="grid-4" id="metalsGrid"><div class="loading"></div></div>
-    </div>
-    
-    <div class="card">
-      <div class="card-header"><h3>📈 Stocks & ETFs</h3></div>
-      <div class="grid-4" id="stocksGrid"><div class="loading"></div></div>
-    </div>
-  </div>
-
-  <!-- Tab: AI Chat -->
-  <div class="tab-content" id="tab-ai">
-    <div class="ai-box">
-      <h3>🤖 AI Investment Analyst</h3>
-      <p class="subtitle">Ask anything about markets, stocks, crypto, or portfolio strategy</p>
-      
-      <div class="ai-input-row">
-        <input type="text" class="ai-input" id="aiQuery" placeholder="e.g., Should I buy NVDA? What's your Bitcoin outlook?" onkeypress="if(event.key==='Enter')askAI()">
-        <button class="ai-btn" onclick="askAI()">Ask AI</button>
-      </div>
-      
-      <div class="ai-response" id="aiResponse">Ask me anything about investing! I can analyze stocks, build portfolios, explain hedge fund strategies, and provide trading signals based on institutional methods.</div>
-    </div>
-  </div>
-
+<nav><div class="logo">ELUXRAJ</div><div class="user"><span id="userName">Rob</span> <span style="color:var(--gold)">ELITE</span></div></nav>
+<main>
+<section class="hero"><div><h1>Welcome, <span id="heroName">Rob</span> 👋</h1><p>AI wealth intelligence ready</p></div><div class="pval"><div class="pval-amt">$127,482</div><div class="pval-chg">↑ +6.9% this month</div></div></section>
+<section class="stats">
+<div class="stat"><div class="stat-label">₿ BTC 24h</div><div class="stat-value up" id="sBtc">+3.9%</div><div class="stat-sub" id="pBtc">$91,365</div></div>
+<div class="stat"><div class="stat-label">📈 S&P 500</div><div class="stat-value up" id="sSpy">+0.34%</div><div class="stat-sub" id="pSpy">$598</div></div>
+<div class="stat"><div class="stat-label">🥇 Gold</div><div class="stat-value down" id="sGold">-0.22%</div><div class="stat-sub" id="pGold">$4,158</div></div>
+<div class="stat"><div class="stat-label">😱 Fear/Greed</div><div class="stat-value">76</div><div class="stat-sub">Extreme Greed</div></div>
+</section>
+<section class="actions">
+<div class="action" onclick="openModal('wizard')"><div class="icon">🧙</div><h4>Portfolio Wizard</h4><p>AI allocation</p></div>
+<div class="action" onclick="openModal('scanner')"><div class="icon">🔍</div><h4>Market Scanner</h4><p>Find opportunities</p></div>
+<div class="action" onclick="openModal('signal')"><div class="icon">📊</div><h4>Trading Signals</h4><p>Entry & exit</p></div>
+<div class="action" onclick="openModal('calc')"><div class="icon">🧮</div><h4>Position Sizer</h4><p>Risk management</p></div>
+</section>
+<section class="ai-box">
+<div class="ai-row"><div class="ai-avatar">🤖</div><div><div class="ai-title">ELUXRAJ AI</div><div class="ai-sub">Trained on top hedge fund strategies</div></div></div>
+<div class="ai-row"><input class="ai-input" id="aiQ" placeholder="Ask anything... 'Should I buy NVDA?'" onkeypress="if(event.key==='Enter')ask()"><button class="ai-btn" onclick="ask()">Ask →</button></div>
+<div class="chips">
+<span class="chip" onclick="qAsk('Build me a $50K portfolio')">💼 Portfolio</span>
+<span class="chip" onclick="qAsk('Top 5 stocks to buy')">📈 Stocks</span>
+<span class="chip" onclick="qAsk('Analyze BTC')">₿ BTC</span>
+<span class="chip" onclick="qAsk('NVDA signal')">📊 NVDA</span>
+<span class="chip" onclick="qAsk('Crypto allocation $10K')">🪙 Crypto</span>
 </div>
-
+<div class="ai-response" id="aiR"></div>
+</section>
+<div class="grid">
+<div class="card"><div class="card-head">🛠️ Pro Tools</div><div class="card-body"><div class="tools">
+<div class="tool" onclick="openModal('wizard')"><div class="icon">🧙</div><h4>Portfolio Wizard</h4><p>AI allocation</p></div>
+<div class="tool" onclick="openModal('stocks')"><div class="icon">📈</div><h4>Stock Picks</h4><p>Hedge fund style</p></div>
+<div class="tool" onclick="openModal('crypto')"><div class="icon">₿</div><h4>Crypto Builder</h4><p>Optimal allocation</p></div>
+<div class="tool" onclick="openModal('scanner')"><div class="icon">🔍</div><h4>Scanner</h4><p>Find trades</p></div>
+<div class="tool" onclick="openModal('fund')"><div class="icon">🏦</div><h4>Fund Strategies</h4><p>Learn from pros</p></div>
+<div class="tool" onclick="openModal('compare')"><div class="icon">⚖️</div><h4>Compare</h4><p>Side by side</p></div>
+</div></div></div>
+<div class="card"><div class="card-head">📊 Markets</div><div class="card-body">
+<div class="mkt"><span class="mkt-name">BTC</span><span><span class="mkt-price" id="mBtc">$91,365</span> <span class="mkt-chg up" id="cBtc">+3.9%</span></span></div>
+<div class="mkt"><span class="mkt-name">ETH</span><span><span class="mkt-price" id="mEth">$3,029</span> <span class="mkt-chg up" id="cEth">+2.9%</span></span></div>
+<div class="mkt"><span class="mkt-name">GOLD</span><span><span class="mkt-price" id="mGold">$4,158</span> <span class="mkt-chg down" id="cGold">-0.2%</span></span></div>
+<div class="mkt"><span class="mkt-name">SPY</span><span><span class="mkt-price" id="mSpy">$598</span> <span class="mkt-chg up" id="cSpy">+0.3%</span></span></div>
+</div></div>
+</div>
+</main>
+<div class="modal-bg" id="modalBg" onclick="closeModal(event)">
+<div class="modal" onclick="event.stopPropagation()">
+<div class="modal-head"><span class="modal-title" id="mTitle">Tool</span><button class="modal-close" onclick="closeModal()">✕</button></div>
+<div class="modal-body" id="mBody"></div>
+</div>
+</div>
 <script>
-  // Auth
-  const token = localStorage.getItem('eluxraj_token');
-  const user = JSON.parse(localStorage.getItem('eluxraj_user') || '{}');
-  if (!token) window.location.href = '/login.html';
-  
-  document.getElementById('userName').textContent = user.name || 'Investor';
-  document.getElementById('userEmail').textContent = user.email || '';
-  document.getElementById('userAvatar').textContent = (user.name || 'U')[0].toUpperCase();
-  const tierBadge = document.getElementById('userTier');
-  tierBadge.textContent = (user.tier || 'free').toUpperCase();
-  if (user.tier === 'elite') tierBadge.classList.add('elite');
-  
-  // Tabs
-  function showTab(name) {
-    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-    document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-    event.target.classList.add('active');
-    document.getElementById('tab-' + name).classList.add('active');
-    if (name === 'markets') loadPrices();
-  }
-  
-  // Risk slider
-  function updateRisk() {
-    const v = document.getElementById('riskTolerance').value;
-    document.getElementById('riskValue').textContent = v;
-    const labels = ['Very Conservative','Conservative','Mod Conservative','Moderate','Balanced','Mod Aggressive','Growth','Aggressive','Very Aggressive','Maximum'];
-    document.getElementById('riskLabel').textContent = labels[v-1];
-  }
-  
-  // Format markdown
-  function fmt(t) {
-    return t.replace(/### (.*)/g,'<h3>$1</h3>').replace(/## (.*)/g,'<h2>$1</h2>').replace(/# (.*)/g,'<h1>$1</h1>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>');
-  }
-  
-  // API helper
-  async function api(endpoint, data, method='POST') {
-    const opts = { method, headers: { 'Authorization': 'Bearer ' + token } };
-    if (method === 'POST' && data) {
-      opts.headers['Content-Type'] = 'application/json';
-      opts.body = JSON.stringify(data);
-    }
-    const res = await fetch(endpoint, opts);
-    return res.json();
-  }
-  
-  // Portfolio Wizard
-  async function runWizard() {
-    const btn = document.getElementById('wizardBtn');
-    const box = document.getElementById('wizardResults');
-    btn.disabled = true; btn.textContent = '🔄 Building...';
-    box.innerHTML = '<div class="loading"></div>'; box.classList.add('active');
-    
-    const r = await api('/api/ai/portfolio-wizard', {
-      portfolioValue: parseInt(document.getElementById('portfolioValue').value),
-      riskTolerance: parseInt(document.getElementById('riskTolerance').value),
-      timeHorizon: document.getElementById('timeHorizon').value,
-      goals: document.getElementById('investmentGoals').value
-    });
-    
-    box.innerHTML = r.ok ? fmt(r.analysis) : '❌ ' + r.error;
-    btn.disabled = false; btn.textContent = '✨ Build My Portfolio';
-  }
-  
-  // Watchlist
-  function showAddWatchlist() { document.getElementById('addWatchlistForm').style.display = 'block'; }
-  function hideAddWatchlist() { document.getElementById('addWatchlistForm').style.display = 'none'; }
-  function addToWatchlist() {
-    const sym = document.getElementById('watchlistSymbol').value.toUpperCase();
-    if (!sym) return;
-    const html = `<div class="watchlist-item"><div class="info"><span class="symbol">${sym}</span><span class="price">--</span><span class="change">--</span></div><div class="actions"><button class="btn btn-sm btn-primary" onclick="getSignal('${sym}')">Signal</button><button class="btn btn-sm btn-danger" onclick="this.parentElement.parentElement.remove()">✕</button></div></div>`;
-    document.getElementById('watchlistItems').insertAdjacentHTML('beforeend', html);
-    hideAddWatchlist();
-  }
-  function removeFromWatchlist(sym) { event.target.closest('.watchlist-item').remove(); }
-  async function getSignal(sym) {
-    const box = document.getElementById('watchlistResults');
-    box.innerHTML = '🔄 Getting signal for ' + sym + '...'; box.classList.add('active');
-    const r = await api(`/api/ai/signal/${sym}?strategy=swing`, null, 'GET');
-    box.innerHTML = r.ok ? fmt(r.analysis) : '❌ ' + r.error;
-  }
-  
-  // Position Calculator
-  function calculatePosition() {
-    const account = parseFloat(document.getElementById('accountSize').value);
-    const risk = parseFloat(document.getElementById('riskPercent').value) / 100;
-    const entry = parseFloat(document.getElementById('entryPrice').value);
-    const stop = parseFloat(document.getElementById('stopLoss').value);
-    
-    const riskAmount = account * risk;
-    const riskPerShare = Math.abs(entry - stop);
-    const shares = Math.floor(riskAmount / riskPerShare);
-    const totalValue = shares * entry;
-    
-    document.getElementById('positionShares').textContent = shares + ' shares';
-    document.getElementById('positionValue').textContent = '$' + totalValue.toLocaleString() + ' total value | Risk: $' + riskAmount.toFixed(2);
-    document.getElementById('calcResult').style.display = 'block';
-  }
-  
-  function calculateRR() {
-    const entry = parseFloat(document.getElementById('rrEntry').value);
-    const stop = parseFloat(document.getElementById('rrStop').value);
-    const target = parseFloat(document.getElementById('rrTarget').value);
-    
-    const risk = Math.abs(entry - stop);
-    const reward = Math.abs(target - entry);
-    const ratio = (reward / risk).toFixed(2);
-    
-    document.getElementById('rrRatio').textContent = '1:' + ratio;
-    document.getElementById('rrDetails').textContent = `Risk $${risk.toFixed(2)} to make $${reward.toFixed(2)}`;
-    document.getElementById('rrResult').style.display = 'block';
-  }
-  
-  // Scanner
-  async function runScanner() {
-    const btn = document.getElementById('scanBtn');
-    const box = document.getElementById('scannerResults');
-    btn.disabled = true; btn.textContent = '🔄 Scanning...';
-    box.innerHTML = '<div class="loading"></div>'; box.classList.add('active');
-    
-    const type = document.getElementById('scanType').value;
-    const sector = document.getElementById('scanSector').value;
-    
-    const r = await api('/api/ai/analyze', {
-      query: `Run a market scan for ${type} stocks in the ${sector} sector. Provide 5-7 specific ticker symbols with current signal (BUY/SELL/HOLD), entry price, stop loss, and target. Format as a clear list.`
-    });
-    
-    box.innerHTML = r.ok ? fmt(r.analysis) : '❌ ' + r.error;
-    btn.disabled = false; btn.textContent = '🔍 Run Scanner';
-  }
-  
-  // Quick Tools
-  async function getStockPicks() {
-    const box = document.getElementById('toolResults');
-    box.innerHTML = '🔄 Loading...'; box.classList.add('active');
-    const r = await api('/api/ai/stock-picks', { sector: document.getElementById('stockSector').value, count: 5, riskLevel: 'Moderate' });
-    box.innerHTML = r.ok ? fmt(r.analysis) : '❌ ' + r.error;
-  }
-  
-  async function getCryptoAllocation() {
-    const box = document.getElementById('toolResults');
-    box.innerHTML = '🔄 Loading...'; box.classList.add('active');
-    const r = await api('/api/ai/crypto-allocation', { totalCryptoInvestment: parseInt(document.getElementById('cryptoAmount').value), riskTolerance: 'Moderate', experience: 'Intermediate' });
-    box.innerHTML = r.ok ? fmt(r.analysis) : '❌ ' + r.error;
-  }
-  
-  async function getTradingSignal() {
-    const box = document.getElementById('toolResults');
-    box.innerHTML = '🔄 Loading...'; box.classList.add('active');
-    const r = await api(`/api/ai/signal/${document.getElementById('signalSymbol').value.toUpperCase()}?strategy=swing`, null, 'GET');
-    box.innerHTML = r.ok ? fmt(r.analysis) : '❌ ' + r.error;
-  }
-  
-  async function getHedgeFundStrategy() {
-    const box = document.getElementById('toolResults');
-    box.innerHTML = '🔄 Loading...'; box.classList.add('active');
-    const r = await api(`/api/ai/hedge-fund/${encodeURIComponent(document.getElementById('hedgeFund').value)}`, null, 'GET');
-    box.innerHTML = r.ok ? fmt(r.analysis) : '❌ ' + r.error;
-  }
-  
-  async function getSectorAnalysis() {
-    const box = document.getElementById('toolResults');
-    box.innerHTML = '🔄 Loading...'; box.classList.add('active');
-    const r = await api(`/api/ai/sector/${encodeURIComponent(document.getElementById('sectorAnalysis').value)}`, null, 'GET');
-    box.innerHTML = r.ok ? fmt(r.analysis) : '❌ ' + r.error;
-  }
-  
-  async function compareAssets() {
-    const box = document.getElementById('toolResults');
-    box.innerHTML = '🔄 Loading...'; box.classList.add('active');
-    const r = await api(`/api/ai/compare?asset1=${document.getElementById('asset1').value}&asset2=${document.getElementById('asset2').value}`, null, 'GET');
-    box.innerHTML = r.ok ? fmt(r.analysis) : '❌ ' + r.error;
-  }
-  
-  // Learn
-  async function learnTopic(topic) {
-    const box = document.getElementById('learnResults');
-    box.innerHTML = '🔄 Loading lesson...'; box.classList.add('active');
-    const r = await api('/api/ai/analyze', { query: `Teach me about ${topic}. Include: 1) Key concepts, 2) How hedge funds use this, 3) Practical examples, 4) Common mistakes to avoid, 5) Action steps for beginners. Make it comprehensive but easy to understand.` });
-    box.innerHTML = r.ok ? fmt(r.analysis) : '❌ ' + r.error;
-  }
-  
-  // AI Chat
-  async function askAI() {
-    const q = document.getElementById('aiQuery').value.trim();
-    if (!q) return;
-    document.getElementById('aiResponse').textContent = '🔄 Thinking...';
-    const r = await api('/api/ai/analyze', { query: q });
-    document.getElementById('aiResponse').innerHTML = r.ok ? fmt(r.analysis) : '❌ ' + r.error;
-  }
-  
-  // Prices
-  async function loadPrices() {
-    try {
-      const r = await fetch('/api/oracle/all');
-      const d = await r.json();
-      if (d.ok) {
-        let h = '';
-        for (const [s, i] of Object.entries(d.data.crypto || {})) {
-          h += `<div class="price-card"><div class="symbol">${s}</div><div class="name">${i.name||s}</div><div class="price">$${i.price.toLocaleString(undefined,{maximumFractionDigits:2})}</div><div class="change ${i.change24h>=0?'positive':'negative'}">${i.change24h>=0?'+':''}${i.change24h.toFixed(2)}%</div></div>`;
-        }
-        document.getElementById('cryptoGrid').innerHTML = h || 'No data';
-        
-        h = '';
-        for (const [s, i] of Object.entries(d.data.metals || {})) {
-          h += `<div class="price-card"><div class="symbol">${s}</div><div class="price">$${i.price.toLocaleString(undefined,{maximumFractionDigits:2})}</div><div class="change ${i.change24h>=0?'positive':'negative'}">${i.change24h>=0?'+':''}${i.change24h.toFixed(2)}%</div></div>`;
-        }
-        document.getElementById('metalsGrid').innerHTML = h || 'No data';
-        
-        h = '';
-        for (const [s, i] of Object.entries(d.data.stocks || {})) h += `<div class="price-card"><div class="symbol">${s}</div><div class="price">$${i.price.toFixed(2)}</div></div>`;
-        for (const [s, i] of Object.entries(d.data.etfs || {})) h += `<div class="price-card"><div class="symbol">${s}</div><div class="price">$${i.price.toFixed(2)}</div></div>`;
-        document.getElementById('stocksGrid').innerHTML = h || 'No data';
-        
-        // Update stats
-        if (d.data.crypto?.BTC) {
-          const c = d.data.crypto.BTC.change24h;
-          document.getElementById('statBtc').textContent = (c>=0?'+':'')+c.toFixed(2)+'%';
-          document.getElementById('statBtc').className = 'value ' + (c>=0?'up':'down');
-        }
-        if (d.data.metals?.GOLD) {
-          const c = d.data.metals.GOLD.change24h;
-          document.getElementById('statGold').textContent = (c>=0?'+':'')+c.toFixed(2)+'%';
-          document.getElementById('statGold').className = 'value ' + (c>=0?'up':'down');
-        }
-      }
-    } catch(e) { console.error(e); }
-  }
-  
-  function refreshPrices() {
-    document.getElementById('cryptoGrid').innerHTML = '<div class="loading"></div>';
-    document.getElementById('metalsGrid').innerHTML = '<div class="loading"></div>';
-    document.getElementById('stocksGrid').innerHTML = '<div class="loading"></div>';
-    loadPrices();
-  }
-  
-  function logout() {
-    localStorage.removeItem('eluxraj_token');
-    localStorage.removeItem('eluxraj_user');
-    window.location.href = '/';
-  }
-  
-  // Init
-  updateRisk();
-  loadPrices();
+const token=localStorage.getItem('eluxraj_token'),user=JSON.parse(localStorage.getItem('eluxraj_user')||'{}');
+if(!token)window.location.href='/login.html';
+const n=user.name||'Investor';document.getElementById('userName').textContent=n;document.getElementById('heroName').textContent=n;
+async function api(u,d,m='POST'){const o={method:m,headers:{'Authorization':'Bearer '+token}};if(m==='POST'&&d){o.headers['Content-Type']='application/json';o.body=JSON.stringify(d)}return(await fetch(u,o)).json()}
+function fmt(t){return t.replace(/### (.*)/g,'<h3 style="color:var(--accent);margin:12px 0 8px">$1</h3>').replace(/## (.*)/g,'<h2 style="color:var(--accent);margin:12px 0 8px">$1</h2>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>')}
+async function ask(){const q=document.getElementById('aiQ').value.trim(),r=document.getElementById('aiR');if(!q)return;r.classList.add('active');r.innerHTML='<div class="loading"><div class="spinner"></div></div>';const x=await api('/api/ai/analyze',{query:q});r.innerHTML=x.ok?fmt(x.analysis):'Error: '+x.error}
+function qAsk(q){document.getElementById('aiQ').value=q;ask()}
+const M={wizard:{t:'🧙 Portfolio Wizard',h:'<div class="form-group"><label class="form-label">💰 Amount ($)</label><input class="form-input" id="wAmt" value="50000" type="number"></div><div class="form-row"><div class="form-group"><label class="form-label">⏱️ Time</label><select class="form-select" id="wTime"><option>1-2 yrs</option><option>3-5 yrs</option><option selected>5-10 yrs</option><option>10+ yrs</option></select></div><div class="form-group"><label class="form-label">⚡ Risk (1-10)</label><input class="form-input" id="wRisk" type="number" value="5" min="1" max="10"></div></div><div class="form-group"><label class="form-label">🎯 Goals</label><input class="form-input" id="wGoal" value="Wealth building"></div><button class="btn" onclick="runWiz()">✨ Build Portfolio</button><div class="results" id="wR"></div>'},stocks:{t:'📈 Stock Picks',h:'<div class="form-row"><div class="form-group"><label class="form-label">Sector</label><select class="form-select" id="sSec"><option>Technology</option><option>Healthcare</option><option>Financials</option><option>All</option></select></div><div class="form-group"><label class="form-label">Risk</label><select class="form-select" id="sRisk"><option>Conservative</option><option selected>Moderate</option><option>Aggressive</option></select></div></div><button class="btn" onclick="runStocks()">Get Picks</button><div class="results" id="sR"></div>'},crypto:{t:'₿ Crypto Portfolio',h:'<div class="form-row"><div class="form-group"><label class="form-label">Amount ($)</label><input class="form-input" id="cAmt" value="10000" type="number"></div><div class="form-group"><label class="form-label">Risk</label><select class="form-select" id="cRisk"><option>Low</option><option selected>Moderate</option><option>High</option></select></div></div><button class="btn" onclick="runCrypto()">Build</button><div class="results" id="cR"></div>'},scanner:{t:'🔍 Market Scanner',h:'<div class="form-row"><div class="form-group"><label class="form-label">Type</label><select class="form-select" id="scType"><option value="oversold">Oversold</option><option value="breakout">Breakout</option><option value="momentum">Momentum</option></select></div><div class="form-group"><label class="form-label">Sector</label><select class="form-select" id="scSec"><option>All</option><option>Tech</option><option>Healthcare</option></select></div></div><button class="btn" onclick="runScan()">🔍 Scan</button><div class="results" id="scR"></div>'},signal:{t:'📊 Trading Signal',h:'<div class="form-row"><div class="form-group"><label class="form-label">Symbol</label><input class="form-input" id="sigSym" value="NVDA"></div><div class="form-group"><label class="form-label">Strategy</label><select class="form-select" id="sigStr"><option value="swing">Swing</option><option value="day">Day</option><option value="position">Position</option></select></div></div><button class="btn" onclick="runSig()">Get Signal</button><div class="results" id="sigR"></div>'},fund:{t:'🏦 Hedge Fund Strategies',h:'<div class="form-group"><label class="form-label">Fund</label><select class="form-select" id="fundSel"><option>Renaissance Technologies</option><option>Citadel</option><option>Millennium</option><option>Bridgewater</option><option>Two Sigma</option></select></div><button class="btn" onclick="runFund()">Learn</button><div class="results" id="fundR"></div>'},compare:{t:'⚖️ Compare Assets',h:'<div class="form-row"><div class="form-group"><label class="form-label">Asset 1</label><input class="form-input" id="cmp1" value="AAPL"></div><div class="form-group"><label class="form-label">Asset 2</label><input class="form-input" id="cmp2" value="MSFT"></div></div><button class="btn" onclick="runCmp()">Compare</button><div class="results" id="cmpR"></div>'},calc:{t:'🧮 Position Sizer',h:'<div class="form-row"><div class="form-group"><label class="form-label">Account ($)</label><input class="form-input" id="acct" value="50000" type="number"></div><div class="form-group"><label class="form-label">Risk %</label><input class="form-input" id="riskPct" value="2" type="number" step="0.5"></div></div><div class="form-row"><div class="form-group"><label class="form-label">Entry ($)</label><input class="form-input" id="entry" value="100" type="number"></div><div class="form-group"><label class="form-label">Stop ($)</label><input class="form-input" id="stop" value="95" type="number"></div></div><button class="btn" onclick="runCalc()">Calculate</button><div class="results active" id="calcR" style="text-align:center"><div style="font-size:28px;font-weight:700" id="calcShares">200 shares</div><div style="color:var(--muted)" id="calcVal">$20,000 | Risk: $1,000</div></div>'}};
+function openModal(k){const m=M[k];if(!m)return;document.getElementById('mTitle').textContent=m.t;document.getElementById('mBody').innerHTML=m.h;document.getElementById('modalBg').classList.add('active')}
+function closeModal(e){if(!e||e.target.id==='modalBg')document.getElementById('modalBg').classList.remove('active')}
+async function runWiz(){const b=document.getElementById('wR');b.classList.add('active');b.innerHTML='<div class="loading"><div class="spinner"></div></div>';const r=await api('/api/ai/portfolio-wizard',{portfolioValue:+document.getElementById('wAmt').value,riskTolerance:+document.getElementById('wRisk').value,timeHorizon:document.getElementById('wTime').value,goals:document.getElementById('wGoal').value});b.innerHTML=r.ok?fmt(r.analysis):'Error'}
+async function runStocks(){const b=document.getElementById('sR');b.classList.add('active');b.innerHTML='<div class="loading"><div class="spinner"></div></div>';const r=await api('/api/ai/stock-picks',{sector:document.getElementById('sSec').value,count:5,riskLevel:document.getElementById('sRisk').value});b.innerHTML=r.ok?fmt(r.analysis):'Error'}
+async function runCrypto(){const b=document.getElementById('cR');b.classList.add('active');b.innerHTML='<div class="loading"><div class="spinner"></div></div>';const r=await api('/api/ai/crypto-allocation',{totalCryptoInvestment:+document.getElementById('cAmt').value,riskTolerance:document.getElementById('cRisk').value,experience:'Intermediate'});b.innerHTML=r.ok?fmt(r.analysis):'Error'}
+async function runScan(){const b=document.getElementById('scR');b.classList.add('active');b.innerHTML='<div class="loading"><div class="spinner"></div></div>';const r=await api('/api/ai/analyze',{query:'Run '+document.getElementById('scType').value+' scan for '+document.getElementById('scSec').value+'. Give 5 tickers with entry, stop, target.'});b.innerHTML=r.ok?fmt(r.analysis):'Error'}
+async function runSig(){const b=document.getElementById('sigR');b.classList.add('active');b.innerHTML='<div class="loading"><div class="spinner"></div></div>';const r=await api('/api/ai/signal/'+document.getElementById('sigSym').value.toUpperCase()+'?strategy='+document.getElementById('sigStr').value,null,'GET');b.innerHTML=r.ok?fmt(r.analysis):'Error'}
+async function runFund(){const b=document.getElementById('fundR');b.classList.add('active');b.innerHTML='<div class="loading"><div class="spinner"></div></div>';const r=await api('/api/ai/hedge-fund/'+encodeURIComponent(document.getElementById('fundSel').value),null,'GET');b.innerHTML=r.ok?fmt(r.analysis):'Error'}
+async function runCmp(){const b=document.getElementById('cmpR');b.classList.add('active');b.innerHTML='<div class="loading"><div class="spinner"></div></div>';const r=await api('/api/ai/compare?asset1='+document.getElementById('cmp1').value+'&asset2='+document.getElementById('cmp2').value,null,'GET');b.innerHTML=r.ok?fmt(r.analysis):'Error'}
+function runCalc(){const a=+document.getElementById('acct').value,rp=+document.getElementById('riskPct').value/100,e=+document.getElementById('entry').value,s=+document.getElementById('stop').value,risk=a*rp,perShare=Math.abs(e-s),shares=Math.floor(risk/perShare);document.getElementById('calcShares').textContent=shares+' shares';document.getElementById('calcVal').textContent='$'+(shares*e).toLocaleString()+' | Risk: $'+risk.toFixed(0)}
+async function loadPrices(){try{const r=await fetch('/api/oracle/all'),d=await r.json();if(d.ok&&d.data){if(d.data.crypto?.BTC){const p=d.data.crypto.BTC.price,c=d.data.crypto.BTC.change24h;document.getElementById('pBtc').textContent='$'+Math.round(p).toLocaleString();document.getElementById('sBtc').textContent=(c>=0?'+':'')+c.toFixed(1)+'%';document.getElementById('sBtc').className='stat-value '+(c>=0?'up':'down');document.getElementById('mBtc').textContent='$'+Math.round(p).toLocaleString();document.getElementById('cBtc').textContent=(c>=0?'+':'')+c.toFixed(1)+'%';document.getElementById('cBtc').className='mkt-chg '+(c>=0?'up':'down')}if(d.data.crypto?.ETH){const p=d.data.crypto.ETH.price,c=d.data.crypto.ETH.change24h;document.getElementById('mEth').textContent='$'+Math.round(p).toLocaleString();document.getElementById('cEth').textContent=(c>=0?'+':'')+c.toFixed(1)+'%';document.getElementById('cEth').className='mkt-chg '+(c>=0?'up':'down')}if(d.data.metals?.GOLD){const p=d.data.metals.GOLD.price,c=d.data.metals.GOLD.change24h;document.getElementById('pGold').textContent='$'+Math.round(p).toLocaleString();document.getElementById('sGold').textContent=(c>=0?'+':'')+c.toFixed(1)+'%';document.getElementById('sGold').className='stat-value '+(c>=0?'up':'down');document.getElementById('mGold').textContent='$'+Math.round(p).toLocaleString();document.getElementById('cGold').textContent=(c>=0?'+':'')+c.toFixed(1)+'%';document.getElementById('cGold').className='mkt-chg '+(c>=0?'up':'down')}if(d.data.etfs?.SPY){const p=d.data.etfs.SPY.price,c=d.data.etfs.SPY.change24h;document.getElementById('pSpy').textContent='$'+p.toFixed(0);document.getElementById('sSpy').textContent=(c>=0?'+':'')+c.toFixed(1)+'%';document.getElementById('sSpy').className='stat-value '+(c>=0?'up':'down');document.getElementById('mSpy').textContent='$'+p.toFixed(0);document.getElementById('cSpy').textContent=(c>=0?'+':'')+c.toFixed(1)+'%';document.getElementById('cSpy').className='mkt-chg '+(c>=0?'up':'down')}}}catch(e){}}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
+loadPrices();setInterval(loadPrices,60000);
 </script>
-
 </body>
 </html>
