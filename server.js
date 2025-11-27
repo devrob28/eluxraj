@@ -9,6 +9,7 @@ const db = require('./database/db');
 const aiService = require('./services/ai');
 const marketData = require('./services/marketData');
 const authRoutes = require('./routes/auth');
+const aiRoutes = require("./routes/ai");
 const { authenticateToken, optionalAuth, requireTier } = require('./middleware/auth');
 
 const app = express();const oracleRoutes = require('./routes/oracle');
@@ -63,6 +64,7 @@ function sanitizeInput(input) {
 // ============================================================================
 
 app.use('/api/auth', authRoutes);
+app.use("/api/ai", aiRoutes);
 
 // ============================================================================
 // MARKET DATA ENDPOINTS (PUBLIC)
