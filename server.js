@@ -11,7 +11,7 @@ const marketData = require('./services/marketData');
 const authRoutes = require('./routes/auth');
 const { authenticateToken, optionalAuth, requireTier } = require('./middleware/auth');
 
-const app = express();
+const app = express();const oracleRoutes = require('./routes/oracle');
 const PORT = process.env.PORT || 3000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -35,7 +35,7 @@ app.use(helmet({
 app.use(cors());
 
 // Body Parser
-app.use(bodyParser.json());
+app.use(bodyParser.json());app.use('/api/oracle', oracleRoutes);
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, 'public')));
