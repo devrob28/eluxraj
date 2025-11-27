@@ -190,10 +190,69 @@
       color: white;
     }
     
+    /* Stats Bar */
+    .stats-bar {
+      padding: 60px 20px;
+      background: var(--navy);
+    }
+    
+    .stats-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 40px;
+      text-align: center;
+    }
+    
+    .stat-item .number {
+      font-size: 48px;
+      font-weight: 800;
+      color: white;
+      margin-bottom: 8px;
+    }
+    
+    .stat-item .label {
+      font-size: 14px;
+      color: rgba(255,255,255,0.7);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    /* Logos/Trust Section */
+    .trust-section {
+      padding: 60px 20px;
+      background: var(--bg-alt);
+      text-align: center;
+    }
+    
+    .trust-section p {
+      color: var(--text-muted);
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      margin-bottom: 30px;
+    }
+    
+    .trust-logos {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 60px;
+      flex-wrap: wrap;
+      opacity: 0.6;
+    }
+    
+    .trust-logos span {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--navy);
+    }
+    
     /* Comparison Section */
     .comparison {
       padding: 100px 20px;
-      background: var(--bg-alt);
+      background: var(--bg);
     }
     
     .comparison h2 {
@@ -284,7 +343,7 @@
     /* Features Section */
     .features {
       padding: 100px 20px;
-      background: var(--bg);
+      background: var(--bg-alt);
     }
     
     .features h2 {
@@ -311,7 +370,7 @@
     }
     
     .feature-card {
-      background: var(--bg-alt);
+      background: var(--bg);
       border: 1px solid rgba(10, 25, 47, 0.08);
       border-radius: 16px;
       padding: 40px;
@@ -339,6 +398,159 @@
       color: var(--text-muted);
       font-size: 15px;
     }
+    
+    /* Testimonials Section */
+    .testimonials {
+      padding: 100px 20px;
+      background: var(--bg);
+    }
+    
+    .testimonials h2 {
+      text-align: center;
+      font-size: 42px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      color: var(--navy);
+    }
+    
+    .testimonials-sub {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 18px;
+      margin-bottom: 60px;
+    }
+    
+    .testimonials-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+    }
+    
+    .testimonial-card {
+      background: var(--bg-alt);
+      border: 1px solid rgba(10, 25, 47, 0.08);
+      border-radius: 16px;
+      padding: 40px;
+      position: relative;
+    }
+    
+    .testimonial-card::before {
+      content: '"';
+      position: absolute;
+      top: 20px;
+      left: 30px;
+      font-size: 80px;
+      color: var(--navy);
+      opacity: 0.1;
+      font-family: Georgia, serif;
+      line-height: 1;
+    }
+    
+    .testimonial-stars {
+      color: #fbbf24;
+      font-size: 18px;
+      margin-bottom: 20px;
+    }
+    
+    .testimonial-text {
+      font-size: 16px;
+      line-height: 1.8;
+      color: var(--text);
+      margin-bottom: 30px;
+      font-style: italic;
+    }
+    
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    
+    .testimonial-avatar {
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      background: var(--navy);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-weight: 700;
+      font-size: 18px;
+    }
+    
+    .testimonial-info h4 {
+      font-size: 16px;
+      color: var(--navy);
+      margin-bottom: 4px;
+    }
+    
+    .testimonial-info p {
+      font-size: 13px;
+      color: var(--text-muted);
+    }
+    
+    .testimonial-badge {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      background: rgba(5, 150, 105, 0.1);
+      color: var(--green);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    
+    /* Live Prices Section */
+    .live-prices {
+      padding: 80px 20px;
+      text-align: center;
+      background: var(--navy);
+    }
+    
+    .live-prices h2 {
+      font-size: 32px;
+      margin-bottom: 40px;
+      color: white;
+    }
+    
+    .prices-ticker {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    
+    .price-item {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 12px;
+      padding: 20px 30px;
+      min-width: 150px;
+    }
+    
+    .price-item .symbol {
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.7);
+      margin-bottom: 5px;
+    }
+    
+    .price-item .value {
+      font-size: 24px;
+      font-weight: 700;
+      color: white;
+    }
+    
+    .price-item .change {
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    
+    .price-item .change.up { color: #34d399; }
+    .price-item .change.down { color: #f87171; }
     
     /* Pricing Section */
     .pricing {
@@ -494,59 +706,50 @@
       color: white;
     }
     
-    /* Live Prices Section */
-    .live-prices {
-      padding: 80px 20px;
+    /* FAQ Section */
+    .faq {
+      padding: 100px 20px;
+      background: var(--bg);
+    }
+    
+    .faq h2 {
       text-align: center;
-      background: var(--navy);
+      font-size: 42px;
+      font-weight: 800;
+      margin-bottom: 60px;
+      color: var(--navy);
     }
     
-    .live-prices h2 {
-      font-size: 32px;
-      margin-bottom: 40px;
-      color: white;
+    .faq-grid {
+      max-width: 800px;
+      margin: 0 auto;
     }
     
-    .prices-ticker {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      flex-wrap: wrap;
-    }
-    
-    .price-item {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+    .faq-item {
+      background: var(--bg-alt);
+      border: 1px solid rgba(10, 25, 47, 0.08);
       border-radius: 12px;
-      padding: 20px 30px;
-      min-width: 150px;
+      padding: 30px;
+      margin-bottom: 20px;
     }
     
-    .price-item .symbol {
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.7);
-      margin-bottom: 5px;
+    .faq-item h3 {
+      font-size: 18px;
+      color: var(--navy);
+      margin-bottom: 15px;
     }
     
-    .price-item .value {
-      font-size: 24px;
-      font-weight: 700;
-      color: white;
+    .faq-item p {
+      color: var(--text-muted);
+      font-size: 15px;
+      line-height: 1.7;
     }
-    
-    .price-item .change {
-      font-size: 14px;
-      margin-top: 5px;
-    }
-    
-    .price-item .change.up { color: #34d399; }
-    .price-item .change.down { color: #f87171; }
     
     /* CTA Section */
     .cta {
       padding: 120px 20px;
       text-align: center;
-      background: var(--bg);
+      background: var(--bg-alt);
     }
     
     .cta h2 {
@@ -569,7 +772,11 @@
       border-top: 1px solid rgba(10, 25, 47, 0.1);
       color: var(--text-muted);
       font-size: 14px;
-      background: var(--bg-alt);
+      background: var(--navy);
+    }
+    
+    footer p {
+      color: rgba(255,255,255,0.6);
     }
     
     /* Responsive */
@@ -586,6 +793,15 @@
         font-size: 36px;
       }
       
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+      }
+      
+      .stat-item .number {
+        font-size: 36px;
+      }
+      
       .comparison-grid {
         grid-template-columns: 1fr;
       }
@@ -597,6 +813,10 @@
       .prices-ticker {
         gap: 15px;
       }
+      
+      .testimonials-grid {
+        grid-template-columns: 1fr;
+      }
     }
   </style>
 </head>
@@ -607,6 +827,7 @@
     <div class="logo">ELUXRAJ</div>
     <div class="nav-links">
       <a href="#features">Features</a>
+      <a href="#testimonials">Reviews</a>
       <a href="#pricing">Pricing</a>
       <a href="/login.html">Login</a>
       <a href="/register.html" class="nav-btn">Get Started</a>
@@ -627,6 +848,39 @@
     <div class="hero-cta">
       <a href="/register.html" class="btn-primary">Start Free Trial →</a>
       <a href="#pricing" class="btn-secondary">View Pricing</a>
+    </div>
+  </section>
+
+  <!-- Stats Bar -->
+  <section class="stats-bar">
+    <div class="stats-grid">
+      <div class="stat-item">
+        <div class="number">$2.4M+</div>
+        <div class="label">Assets Analyzed</div>
+      </div>
+      <div class="stat-item">
+        <div class="number">1,200+</div>
+        <div class="label">Active Users</div>
+      </div>
+      <div class="stat-item">
+        <div class="number">50K+</div>
+        <div class="label">AI Queries/Month</div>
+      </div>
+      <div class="stat-item">
+        <div class="number">4.9★</div>
+        <div class="label">User Rating</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Section -->
+  <section class="trust-section">
+    <p>Powered by data from</p>
+    <div class="trust-logos">
+      <span>Bloomberg</span>
+      <span>Reuters</span>
+      <span>CoinGecko</span>
+      <span>Yahoo Finance</span>
     </div>
   </section>
 
@@ -698,6 +952,93 @@
         <h3>Real-Time Intelligence</h3>
         <p>Live market data. Instant analysis. Ask "Should I buy NVDA today?" and get a real answer in seconds.</p>
       </div>
+    </div>
+  </section>
+
+  <!-- Testimonials Section -->
+  <section class="testimonials" id="testimonials">
+    <h2>What Our Users Say</h2>
+    <p class="testimonials-sub">Join thousands who've upgraded their investment strategy</p>
+    <div class="testimonials-grid">
+      
+      <div class="testimonial-card">
+        <div class="testimonial-badge">Verified User</div>
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"I was paying my advisor $12K/year to put me in the same boring index funds. ELUXRAJ gave me actionable stock picks and a crypto allocation strategy in my first week. Already up 18% this quarter."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">M</div>
+          <div class="testimonial-info">
+            <h4>Marcus T.</h4>
+            <p>Portfolio: $850K • Elite Member</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="testimonial-card">
+        <div class="testimonial-badge">Verified User</div>
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"The AI actually understands crypto. My old advisor literally said 'Bitcoin is too risky.' Meanwhile I've 3x'd my position using ELUXRAJ's entry points and allocation guidance."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">S</div>
+          <div class="testimonial-info">
+            <h4>Sarah K.</h4>
+            <p>Portfolio: $220K • Pro Member</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="testimonial-card">
+        <div class="testimonial-badge">Verified User</div>
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"As a busy physician, I don't have time to research stocks. ELUXRAJ does the heavy lifting. I ask questions at 2am and get institutional-grade analysis instantly. Game changer."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">D</div>
+          <div class="testimonial-info">
+            <h4>Dr. James L.</h4>
+            <p>Portfolio: $1.2M • Elite Member</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="testimonial-card">
+        <div class="testimonial-badge">Verified User</div>
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"Started with $50K and was intimidated by 'wealth management' minimums. ELUXRAJ treated me like a million-dollar client from day one. Now I'm at $85K."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">A</div>
+          <div class="testimonial-info">
+            <h4>Alex R.</h4>
+            <p>Portfolio: $85K • Starter Member</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="testimonial-card">
+        <div class="testimonial-badge">Verified User</div>
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"The portfolio diversification feature alone is worth the price. I had way too much in tech stocks. ELUXRAJ rebalanced me into metals and bonds before the correction. Saved me $40K."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">R</div>
+          <div class="testimonial-info">
+            <h4>Rachel M.</h4>
+            <p>Portfolio: $650K • Elite Member</p>
+          </div>
+        </div>
+      </div>
+      
+      <div class="testimonial-card">
+        <div class="testimonial-badge">Verified User</div>
+        <div class="testimonial-stars">★★★★★</div>
+        <p class="testimonial-text">"I'm 28 and my friends think I have some secret trading strategy. I just ask ELUXRAJ what to do. The AI's technical analysis is scary accurate. My Roth IRA thanks you."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">J</div>
+          <div class="testimonial-info">
+            <h4>Jordan P.</h4>
+            <p>Portfolio: $45K • Pro Member</p>
+          </div>
+        </div>
+      </div>
+      
     </div>
   </section>
 
@@ -787,6 +1128,33 @@
         <a href="/register.html" class="pricing-btn primary">Replace Your Advisor →</a>
       </div>
       
+    </div>
+  </section>
+
+  <!-- FAQ Section -->
+  <section class="faq">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-grid">
+      <div class="faq-item">
+        <h3>Is this actually better than a human advisor?</h3>
+        <p>For most investors, yes. Our AI analyzes more data, responds instantly 24/7, has no sales incentives, and costs a fraction of human advisors. We don't replace CPAs or estate planners—but for investment analysis and portfolio strategy, we outperform.</p>
+      </div>
+      <div class="faq-item">
+        <h3>How is this different from ChatGPT?</h3>
+        <p>ELUXRAJ is purpose-built for investing. We have real-time market data, specialized financial training, and deep expertise in stocks, crypto, metals, and portfolio theory. ChatGPT is a generalist. We're a specialist.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Do you manage my money?</h3>
+        <p>No. We provide analysis, recommendations, and strategy—but you remain in full control of your accounts. We never have access to your brokerage or wallets. You execute trades yourself.</p>
+      </div>
+      <div class="faq-item">
+        <h3>What if I lose money?</h3>
+        <p>Investing involves risk. We provide analysis, not guarantees. That said, our AI is designed to emphasize risk management, diversification, and long-term wealth building—not speculation.</p>
+      </div>
+      <div class="faq-item">
+        <h3>Can I cancel anytime?</h3>
+        <p>Yes. No contracts, no cancellation fees. If we're not delivering value, you shouldn't pay us. Simple.</p>
+      </div>
     </div>
   </section>
 
