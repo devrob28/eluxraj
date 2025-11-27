@@ -72,11 +72,11 @@ main{padding:80px 20px 20px;max-width:1200px;margin:0 auto}
 @keyframes spin{to{transform:rotate(360deg)}}
 @media(max-width:900px){.grid{grid-template-columns:1fr}.stats,.actions{grid-template-columns:repeat(2,1fr)}.hero{flex-direction:column;text-align:center;gap:16px}.pval{text-align:center}}
 </style>
-</head>
+<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script></head>
 <body>
 <nav><div class="logo">ELUXRAJ</div><div class="user"><span id="userName">Rob</span> <span style="color:var(--gold)">ELITE</span></div></nav>
 <main>
-<section class="hero"><div><h1>Welcome, <span id="heroName">Rob</span> 👋</h1><p>AI wealth intelligence ready</p></div><div class="pval"><div class="pval-amt">$127,482</div><div class="pval-chg">↑ +6.9% this month</div></div></section>
+<section class="hero"><div><h1>Welcome, <span id="heroName">Rob</span> 👋</h1><p>AI wealth intelligence ready</p></div><div style="display:flex;gap:15px;align-items:center"><button onclick="connectBrokerage()" style="padding:12px 20px;background:var(--accent);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer">🔗 Connect Brokerage</button></div><div class="pval"><div class="pval-amt">$127,482</div><div class="pval-chg">↑ +6.9% this month</div></div></section>
 <section class="stats">
 <div class="stat"><div class="stat-label">₿ BTC 24h</div><div class="stat-value up" id="sBtc">+3.9%</div><div class="stat-sub" id="pBtc">$91,365</div></div>
 <div class="stat"><div class="stat-label">📈 S&P 500</div><div class="stat-value up" id="sSpy">+0.34%</div><div class="stat-sub" id="pSpy">$598</div></div>
@@ -149,3 +149,72 @@ loadPrices();setInterval(loadPrices,60000);
 </script>
 </body>
 </html>
+<script>
+// Plaid Link Integration
+async function connectBrokerage() {
+  try {
+    const token = localStorage.getItem('eluxraj_token');
+    const res = await fetch('/api/plaid/create-link-token', {
+      method: 'POST',
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    const data = await res.json();
+    
+    if (!data.ok) {
+      alert('Error: ' + data.error);
+      return;
+    }
+    
+    const handler = Plaid.create({
+      token: data.link_token,
+      onSuccess: async (public_token, metadata) => {
+        await fetch('/api/plaid/exchange-token', {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            public_token: public_token,
+            institution: metadata.institution
+          })
+        });
+        alert('Account connected! Loading holdings...');
+        loadHoldings();
+      },
+      onExit: (err) => {
+        if (err) console.error('Plaid error:', err);
+      }
+    });
+    handler.open();
+  } catch (e) {
+    alert('Connection error: ' + e.message);
+  }
+}
+
+async function loadHoldings() {
+  const token = localStorage.getItem('eluxraj_token');
+  const res = await fetch('/api/plaid/holdings', {
+    headers: { 'Authorization': 'Bearer ' + token }
+  });
+  const data = await res.json();
+  
+  if (data.ok && data.holdings.length > 0) {
+    let html = '<h3 style="color:var(--accent);margin-bottom:15px">Your Portfolio: $' + data.totalValue.toLocaleString() + '</h3>';
+    html += '<div style="max-height:300px;overflow-y:auto">';
+    data.holdings.forEach(h => {
+      const color = h.gain >= 0 ? 'var(--green)' : 'var(--red)';
+      html += '<div style="display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid var(--border)">';
+      html += '<div><strong>' + h.symbol + '</strong><br><span style="font-size:12px;color:var(--muted)">' + h.name.substring(0,25) + '</span></div>';
+      html += '<div style="text-align:right"><strong>$' + h.value.toLocaleString() + '</strong><br><span style="color:' + color + '">' + (h.gain >= 0 ? '+' : '') + h.gainPercent.toFixed(1) + '%</span></div>';
+      html += '</div>';
+    });
+    html += '</div>';
+    document.getElementById('holdingsArea').innerHTML = html;
+    document.getElementById('holdingsArea').style.display = 'block';
+  }
+}
+
+// Load holdings on page load
+document.addEventListener('DOMContentLoaded', loadHoldings);
+</script>
