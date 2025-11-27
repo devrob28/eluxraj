@@ -20,12 +20,11 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 // SECURITY & MIDDLEWARE - UPDATED TO ALLOW GOOGLE FONTS
 // ============================================================================
 
-app.use(helmet({ contentSecurityPolicy: false, crossOriginEmbedderPolicy: false })); // TEMP: disabled CSP
-// OLD: app.use(helmet({
+app.use(helmet({ contentSecurityPolicy: false, 
   contentSecurityPolicy: {
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+      scriptSrc: ["'self'", "'unsafe-inline'"],
       styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
       fontSrc: ["'self'", "https://fonts.gstatic.com"],
       imgSrc: ["'self'", "data:", "https:"],
