@@ -1,54 +1,63 @@
-// services/priceOracle.js - Price Oracle with Yahoo Finance + GoldPrice.org
+// services/priceOracle.js - Price Oracle v3.1 with Yahoo Finance Fix
 const axios = require('axios');
 const NodeCache = require('node-cache');
 
-const cache = new NodeCache({ stdTTL: 60 }); // 1 minute cache
+const cache = new NodeCache({ stdTTL: 60 });
 
 // ============================================================================
-// YAHOO FINANCE - Stocks, ETFs, Mutual Funds, Bonds
+// YAHOO FINANCE - Using v8 chart endpoint (more reliable)
 // ============================================================================
 
 async function getYahooFinanceQuote(symbols) {
   console.log('🔄 Fetching from Yahoo Finance:', symbols.join(','));
-  try {
-    const symbolList = symbols.join(',');
-    const url = `https://query1.finance.yahoo.com/v7/finance/quote?symbols=${symbolList}`;
-    
-    const response = await axios.get(url, {
-      timeout: 10000,
-      headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
-      }
-    });
-    
-    const prices = {};
-    
-    if (response.data.quoteResponse && response.data.quoteResponse.result) {
-      for (const quote of response.data.quoteResponse.result) {
-        prices[quote.symbol] = {
-          price: quote.regularMarketPrice,
-          change24h: quote.regularMarketChangePercent || 0,
-          open: quote.regularMarketOpen,
-          high: quote.regularMarketDayHigh,
-          low: quote.regularMarketDayLow,
-          previousClose: quote.regularMarketPreviousClose,
-          volume: quote.regularMarketVolume,
-          marketCap: quote.marketCap,
-          name: quote.shortName || quote.longName,
-          type: quote.quoteType, // EQUITY, ETF, MUTUALFUND, BOND, etc.
-          exchange: quote.exchange,
-          currency: quote.currency,
-          source: 'Yahoo Finance'
-        };
-      }
+  const prices = {};
+  
+  for (const symbol of symbols) {
+    try {
+      // Use v8 chart endpoint - more reliable than v7 quote
+      const url = `https://query1.finance.yahoo.com/v8/finance/chart/${symbol}?interval=1d&range=1d`;
+      
+      const response = await axios.get(url, {
+        timeout: 8000,
+        headers: {
+          'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+          'Accept': 'application/json',
+          'Accept-Language': 'en-US,en;q=0.9',
+          'Origin': 'https://finance.yahoo.com',
+          'Referer': 'https://finance.yahoo.com/'
+        }
+      });
+      
+      const result = response.data.chart.result[0];
+      const meta = result.meta;
+      const quote = result.indicators.quote[0];
+      
+      prices[symbol] = {
+        price: meta.regularMarketPrice,
+        previousClose: meta.previousClose || meta.chartPreviousClose,
+        change24h: meta.previousClose ? ((meta.regularMarketPrice - meta.previousClose) / meta.previousClose * 100) : 0,
+        open: quote.open ? quote.open[quote.open.length - 1] : null,
+        high: quote.high ? Math.max(...quote.high.filter(h => h !== null)) : null,
+        low: quote.low ? Math.min(...quote.low.filter(l => l !== null)) : null,
+        volume: meta.regularMarketVolume,
+        name: meta.shortName || meta.longName || symbol,
+        type: meta.instrumentType,
+        exchange: meta.exchangeName,
+        currency: meta.currency,
+        source: 'Yahoo Finance'
+      };
+      
+      console.log('✅ Yahoo:', symbol, '$' + meta.regularMarketPrice);
+      
+      // Small delay between requests
+      await new Promise(r => setTimeout(r, 100));
+      
+    } catch (err) {
+      console.error('❌ Yahoo error for', symbol + ':', err.message);
     }
-    
-    console.log('✅ Yahoo Finance success:', Object.keys(prices).length, 'quotes');
-    return prices;
-  } catch (err) {
-    console.error('❌ Yahoo Finance error:', err.message);
-    return null;
   }
+  
+  return Object.keys(prices).length > 0 ? prices : null;
 }
 
 // Search for any symbol
@@ -60,12 +69,11 @@ async function searchYahooFinance(query) {
     const response = await axios.get(url, {
       timeout: 10000,
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'
+        'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36'
       }
     });
     
     const results = [];
-    
     if (response.data.quotes) {
       for (const quote of response.data.quotes) {
         results.push({
@@ -77,7 +85,6 @@ async function searchYahooFinance(query) {
       }
     }
     
-    console.log('✅ Search found:', results.length, 'results');
     return results;
   } catch (err) {
     console.error('❌ Yahoo search error:', err.message);
@@ -112,7 +119,7 @@ async function getCryptoFromCryptoCompare() {
       }
     }
     
-    console.log('✅ CryptoCompare success:', Object.keys(prices).length, 'prices');
+    console.log('✅ CryptoCompare:', Object.keys(prices).length, 'cryptos');
     return prices;
   } catch (err) {
     console.error('❌ CryptoCompare error:', err.message);
@@ -142,36 +149,20 @@ async function getMetalsFromGoldPriceOrg() {
       const item = data.items[0];
       
       if (item.xauPrice) {
-        prices['GOLD'] = {
-          price: item.xauPrice,
-          change24h: item.pcXau || 0,
-          source: 'GoldPrice.org'
-        };
+        prices['GOLD'] = { price: item.xauPrice, change24h: item.pcXau || 0, source: 'GoldPrice.org' };
       }
       if (item.xagPrice) {
-        prices['SILVER'] = {
-          price: item.xagPrice,
-          change24h: item.pcXag || 0,
-          source: 'GoldPrice.org'
-        };
+        prices['SILVER'] = { price: item.xagPrice, change24h: item.pcXag || 0, source: 'GoldPrice.org' };
       }
       if (item.xptPrice) {
-        prices['PLATINUM'] = {
-          price: item.xptPrice,
-          change24h: item.pcXpt || 0,
-          source: 'GoldPrice.org'
-        };
+        prices['PLATINUM'] = { price: item.xptPrice, change24h: item.pcXpt || 0, source: 'GoldPrice.org' };
       }
       if (item.xpdPrice) {
-        prices['PALLADIUM'] = {
-          price: item.xpdPrice,
-          change24h: item.pcXpd || 0,
-          source: 'GoldPrice.org'
-        };
+        prices['PALLADIUM'] = { price: item.xpdPrice, change24h: item.pcXpd || 0, source: 'GoldPrice.org' };
       }
     }
     
-    console.log('✅ GoldPrice.org success:', Object.keys(prices).length, 'metals');
+    console.log('✅ GoldPrice.org:', Object.keys(prices).length, 'metals');
     return prices;
   } catch (err) {
     console.error('❌ GoldPrice.org error:', err.message);
@@ -198,7 +189,7 @@ async function getForexRates() {
       'USD/CAD': { price: response.data.rates.CAD, change24h: 0, source: 'ExchangeRateAPI' }
     };
     
-    console.log('✅ Forex success');
+    console.log('✅ Forex: 6 pairs');
     return formatPrices(prices);
   } catch (err) {
     console.error('❌ Forex error:', err.message);
@@ -207,7 +198,7 @@ async function getForexRates() {
 }
 
 // ============================================================================
-// FALLBACK PRICES
+// FALLBACK PRICES (Updated regularly)
 // ============================================================================
 
 const FALLBACK_PRICES = {
@@ -223,11 +214,20 @@ const FALLBACK_PRICES = {
     PALLADIUM: { price: 1020, change24h: -0.3 }
   },
   stocks: {
-    AAPL: { price: 235, change24h: 1.2 },
-    MSFT: { price: 430, change24h: 0.8 },
-    GOOGL: { price: 175, change24h: 1.5 },
-    TSLA: { price: 350, change24h: 2.1 },
-    NVDA: { price: 145, change24h: 1.8 }
+    AAPL: { price: 235, change24h: 1.2, name: 'Apple Inc.' },
+    MSFT: { price: 430, change24h: 0.8, name: 'Microsoft Corporation' },
+    GOOGL: { price: 175, change24h: 1.5, name: 'Alphabet Inc.' },
+    TSLA: { price: 350, change24h: 2.1, name: 'Tesla Inc.' },
+    NVDA: { price: 145, change24h: 1.8, name: 'NVIDIA Corporation' },
+    AMZN: { price: 205, change24h: 1.0, name: 'Amazon.com Inc.' },
+    META: { price: 565, change24h: 0.9, name: 'Meta Platforms Inc.' }
+  },
+  etfs: {
+    SPY: { price: 596, change24h: 0.5, name: 'SPDR S&P 500 ETF' },
+    QQQ: { price: 505, change24h: 0.8, name: 'Invesco QQQ Trust' },
+    IWM: { price: 235, change24h: 0.3, name: 'iShares Russell 2000 ETF' },
+    VTI: { price: 290, change24h: 0.4, name: 'Vanguard Total Stock Market ETF' },
+    GLD: { price: 242, change24h: 0.2, name: 'SPDR Gold Trust' }
   }
 };
 
@@ -240,7 +240,7 @@ function formatPrices(source) {
   for (const [symbol, data] of Object.entries(source)) {
     result[symbol] = {
       ...data,
-      confidence: data.source && !data.source.includes('Fallback') ? 'HIGH' : 'MEDIUM',
+      confidence: data.source && !data.source.includes('Fallback') && !data.source.includes('Oracle') ? 'HIGH' : 'MEDIUM',
       timestamp: new Date().toISOString()
     };
   }
@@ -251,8 +251,7 @@ function formatFallback(data, source) {
   const result = {};
   for (const [symbol, info] of Object.entries(data)) {
     result[symbol] = {
-      price: info.price,
-      change24h: info.change24h,
+      ...info,
       source: source,
       confidence: 'MEDIUM',
       timestamp: new Date().toISOString()
@@ -271,7 +270,6 @@ async function getCryptoPrices() {
   if (cached) return cached;
   
   const prices = await getCryptoFromCryptoCompare();
-  
   if (prices && Object.keys(prices).length > 0) {
     const result = formatPrices(prices);
     cache.set(cacheKey, result);
@@ -287,7 +285,6 @@ async function getMetalsPrices() {
   if (cached) return cached;
   
   const prices = await getMetalsFromGoldPriceOrg();
-  
   if (prices && Object.keys(prices).length > 0) {
     const result = formatPrices(prices);
     cache.set(cacheKey, result);
@@ -297,7 +294,6 @@ async function getMetalsPrices() {
   return formatFallback(FALLBACK_PRICES.metals, 'ELUXRAJ Oracle');
 }
 
-// Get stock/ETF/mutual fund/bond prices - ANY symbol!
 async function getStockPrices(symbols = ['AAPL', 'MSFT', 'GOOGL', 'TSLA', 'NVDA']) {
   const cacheKey = `stocks_${symbols.sort().join('_')}`;
   const cached = cache.get(cacheKey);
@@ -311,10 +307,16 @@ async function getStockPrices(symbols = ['AAPL', 'MSFT', 'GOOGL', 'TSLA', 'NVDA'
     return result;
   }
   
-  return formatFallback(FALLBACK_PRICES.stocks, 'ELUXRAJ Oracle');
+  // Fallback with what we have
+  const fallback = {};
+  for (const symbol of symbols) {
+    if (FALLBACK_PRICES.stocks[symbol]) {
+      fallback[symbol] = { ...FALLBACK_PRICES.stocks[symbol], source: 'ELUXRAJ Oracle' };
+    }
+  }
+  return formatFallback(Object.keys(fallback).length > 0 ? fallback : FALLBACK_PRICES.stocks, 'ELUXRAJ Oracle');
 }
 
-// Get a single quote for any symbol
 async function getQuote(symbol) {
   const cacheKey = `quote_${symbol}`;
   const cached = cache.get(cacheKey);
@@ -332,30 +334,45 @@ async function getQuote(symbol) {
     return result;
   }
   
+  // Check fallbacks
+  if (FALLBACK_PRICES.stocks[symbol]) {
+    return { ...FALLBACK_PRICES.stocks[symbol], source: 'ELUXRAJ Oracle', confidence: 'MEDIUM', timestamp: new Date().toISOString() };
+  }
+  if (FALLBACK_PRICES.etfs[symbol]) {
+    return { ...FALLBACK_PRICES.etfs[symbol], source: 'ELUXRAJ Oracle', confidence: 'MEDIUM', timestamp: new Date().toISOString() };
+  }
+  
   return { error: 'Symbol not found', symbol };
 }
 
-// Search for symbols
 async function search(query) {
   return await searchYahooFinance(query);
 }
 
-// Get popular ETFs
-async function getETFs() {
-  const etfSymbols = ['SPY', 'QQQ', 'IWM', 'VTI', 'VOO', 'GLD', 'SLV', 'TLT', 'HYG', 'XLF'];
-  return await getStockPrices(etfSymbols);
+async function getETFs(symbols = ['SPY', 'QQQ', 'IWM', 'VTI', 'VOO', 'GLD', 'SLV', 'TLT']) {
+  const cacheKey = 'etfs';
+  const cached = cache.get(cacheKey);
+  if (cached) return cached;
+  
+  const prices = await getYahooFinanceQuote(symbols);
+  
+  if (prices && Object.keys(prices).length > 0) {
+    const result = formatPrices(prices);
+    cache.set(cacheKey, result);
+    return result;
+  }
+  
+  return formatFallback(FALLBACK_PRICES.etfs, 'ELUXRAJ Oracle');
 }
 
-// Get popular mutual funds
 async function getMutualFunds() {
-  const fundSymbols = ['VFIAX', 'FXAIX', 'VTSAX', 'VBTLX', 'VTIAX'];
-  return await getStockPrices(fundSymbols);
+  const symbols = ['VFIAX', 'FXAIX', 'VTSAX', 'VBTLX', 'VTIAX'];
+  return await getStockPrices(symbols);
 }
 
-// Get bonds/treasuries
 async function getBonds() {
-  const bondSymbols = ['TLT', 'IEF', 'SHY', 'BND', 'AGG', 'LQD'];
-  return await getStockPrices(bondSymbols);
+  const symbols = ['TLT', 'IEF', 'SHY', 'BND', 'AGG', 'LQD'];
+  return await getStockPrices(symbols);
 }
 
 async function getAllPrices() {
@@ -364,7 +381,7 @@ async function getAllPrices() {
   const [crypto, metals, stocks, etfs, forex] = await Promise.all([
     getCryptoPrices(),
     getMetalsPrices(),
-    getStockPrices(['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA', 'META', 'BRK-B']),
+    getStockPrices(['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA', 'META']),
     getETFs(),
     getForexRates()
   ]);
@@ -376,7 +393,7 @@ async function getAllPrices() {
     etfs,
     forex,
     timestamp: new Date().toISOString(),
-    oracleVersion: '3.0'
+    oracleVersion: '3.1'
   };
 }
 
