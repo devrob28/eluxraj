@@ -109,7 +109,7 @@ async function analyzeMarket(query, context = {}) {
     }
 
     const response = await openai.chat.completions.create({
-      model: 'gpt-4',
+      model: 'gpt-3.5-turbo',
       messages,
       max_tokens: 1500,
       temperature: 0.7
@@ -118,7 +118,7 @@ async function analyzeMarket(query, context = {}) {
     return {
       ok: true,
       analysis: response.choices[0].message.content,
-      model: 'gpt-4',
+      model: 'gpt-3.5-turbo',
       tokens: response.usage?.total_tokens
     };
   } catch (err) {
@@ -301,7 +301,7 @@ Include:
 async function quickInsight(query) {
   try {
     const response = await openai.chat.completions.create({
-      model: 'gpt-4',
+      model: 'gpt-3.5-turbo',
       messages: [
         { role: 'system', content: MARKET_INTELLIGENCE_PROMPT },
         { role: 'user', content: query }
