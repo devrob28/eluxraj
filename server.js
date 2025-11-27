@@ -20,19 +20,7 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 // SECURITY & MIDDLEWARE - UPDATED TO ALLOW GOOGLE FONTS
 // ============================================================================
 
-app.use(helmet({ contentSecurityPolicy: false, 
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-inline'"],
-      styleSrc: ["'self'", "'unsafe-inline'", "https://fonts.googleapis.com"],
-      fontSrc: ["'self'", "https://fonts.gstatic.com"],
-      imgSrc: ["'self'", "data:", "https:"],
-      connectSrc: ["'self'", "https://api.openai.com", "https://api.coingecko.com", "https://www.alphavantage.co", "https://api.metals.live"]
-    }
-  }
-}));
-
+app.use(helmet({ contentSecurityPolicy: false }));
 app.use(cors());
 
 // Body Parser
