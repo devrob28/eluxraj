@@ -1,18 +1,16 @@
-// routes/ai.js - AI Analysis API Routes
+// routes/ai.js - AI Analysis API Routes with Portfolio Wizard
 const express = require('express');
 const router = express.Router();
 const ai = require('../services/ai');
 const { authenticateToken, optionalAuth } = require('../middleware/auth');
 
-// General analysis (authenticated)
+// General analysis
 router.post('/analyze', optionalAuth, async (req, res) => {
   try {
     const { query } = req.body;
-    
     if (!query) {
       return res.status(400).json({ ok: false, error: 'Query is required' });
     }
-    
     const result = await ai.analyzeMarket(query);
     res.json(result);
   } catch (err) {
@@ -21,24 +19,110 @@ router.post('/analyze', optionalAuth, async (req, res) => {
   }
 });
 
-// Technical analysis
+// Portfolio Wizard - Build complete portfolio
+router.post('/portfolio-wizard', optionalAuth, async (req, res) => {
+  try {
+    const { portfolioValue, riskTolerance, timeHorizon, goals, currentHoldings } = req.body;
+    
+    if (!portfolioValue || !riskTolerance) {
+      return res.status(400).json({ ok: false, error: 'Portfolio value and risk tolerance required' });
+    }
+    
+    const result = await ai.portfolioWizard({
+      portfolioValue,
+      riskTolerance,
+      timeHorizon: timeHorizon || '5+ years',
+      goals,
+      currentHoldings
+    });
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ ok: false, error: 'Portfolio wizard failed' });
+  }
+});
+
+// Stock Picks - Hedge fund style
+router.post('/stock-picks', optionalAuth, async (req, res) => {
+  try {
+    const { sector, strategy, count, riskLevel } = req.body;
+    const result = await ai.getStockPicks({ sector, strategy, count, riskLevel });
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ ok: false, error: 'Stock picks failed' });
+  }
+});
+
+// Mutual Fund Picks
+router.post('/fund-picks', optionalAuth, async (req, res) => {
+  try {
+    const { category, riskLevel, investmentAmount } = req.body;
+    const result = await ai.getMutualFundPicks({ category, riskLevel, investmentAmount });
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ ok: false, error: 'Fund picks failed' });
+  }
+});
+
+// Crypto Allocation
+router.post('/crypto-allocation', optionalAuth, async (req, res) => {
+  try {
+    const { totalCryptoInvestment, riskTolerance, experience } = req.body;
+    const result = await ai.getCryptoAllocation({ totalCryptoInvestment, riskTolerance, experience });
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ ok: false, error: 'Crypto allocation failed' });
+  }
+});
+
+// Hedge Fund Strategy Explainer
+router.get('/hedge-fund/:fund', optionalAuth, async (req, res) => {
+  try {
+    const { fund } = req.params;
+    const result = await ai.getHedgeFundStrategy(fund);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ ok: false, error: 'Hedge fund analysis failed' });
+  }
+});
+
+// Sector Analysis
+router.get('/sector/:sector', optionalAuth, async (req, res) => {
+  try {
+    const { sector } = req.params;
+    const result = await ai.getSectorAnalysis(sector);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ ok: false, error: 'Sector analysis failed' });
+  }
+});
+
+// Market Outlook
+router.get('/outlook', optionalAuth, async (req, res) => {
+  try {
+    const { timeframe } = req.query;
+    const result = await ai.getMarketOutlook(timeframe);
+    res.json(result);
+  } catch (err) {
+    res.status(500).json({ ok: false, error: 'Market outlook failed' });
+  }
+});
+
+// Technical Analysis
 router.get('/technical/:symbol', optionalAuth, async (req, res) => {
   try {
     const { symbol } = req.params;
     const { timeframe } = req.query;
-    
-    const result = await ai.technicalAnalysis(symbol, timeframe || 'daily');
+    const result = await ai.technicalAnalysis(symbol, timeframe);
     res.json(result);
   } catch (err) {
     res.status(500).json({ ok: false, error: 'Technical analysis failed' });
   }
 });
 
-// Fundamental analysis
+// Fundamental Analysis
 router.get('/fundamental/:symbol', optionalAuth, async (req, res) => {
   try {
     const { symbol } = req.params;
-    
     const result = await ai.fundamentalAnalysis(symbol);
     res.json(result);
   } catch (err) {
@@ -46,51 +130,10 @@ router.get('/fundamental/:symbol', optionalAuth, async (req, res) => {
   }
 });
 
-// Portfolio analysis
-router.post('/portfolio', authenticateToken, async (req, res) => {
-  try {
-    const { holdings } = req.body;
-    
-    if (!holdings || !Array.isArray(holdings)) {
-      return res.status(400).json({ ok: false, error: 'Holdings array required' });
-    }
-    
-    const result = await ai.portfolioAnalysis(holdings);
-    res.json(result);
-  } catch (err) {
-    res.status(500).json({ ok: false, error: 'Portfolio analysis failed' });
-  }
-});
-
-// Market outlook
-router.get('/outlook', optionalAuth, async (req, res) => {
-  try {
-    const { timeframe } = req.query;
-    
-    const result = await ai.marketOutlook(timeframe || '1 month');
-    res.json(result);
-  } catch (err) {
-    res.status(500).json({ ok: false, error: 'Market outlook failed' });
-  }
-});
-
-// Crypto deep dive
-router.get('/crypto/:token', optionalAuth, async (req, res) => {
-  try {
-    const { token } = req.params;
-    
-    const result = await ai.cryptoDeepDive(token);
-    res.json(result);
-  } catch (err) {
-    res.status(500).json({ ok: false, error: 'Crypto analysis failed' });
-  }
-});
-
-// Risk assessment
+// Risk Assessment
 router.get('/risk/:investment', optionalAuth, async (req, res) => {
   try {
     const { investment } = req.params;
-    
     const result = await ai.riskAssessment(investment);
     res.json(result);
   } catch (err) {
@@ -98,60 +141,29 @@ router.get('/risk/:investment', optionalAuth, async (req, res) => {
   }
 });
 
-// Trading signal
-router.get('/signal/:symbol', authenticateToken, async (req, res) => {
+// Trading Signal
+router.get('/signal/:symbol', optionalAuth, async (req, res) => {
   try {
     const { symbol } = req.params;
     const { strategy } = req.query;
-    
-    const result = await ai.tradingSignal(symbol, strategy || 'swing');
+    const result = await ai.tradingSignal(symbol, strategy);
     res.json(result);
   } catch (err) {
     res.status(500).json({ ok: false, error: 'Signal generation failed' });
   }
 });
 
-// Compare assets
+// Compare Assets
 router.get('/compare', optionalAuth, async (req, res) => {
   try {
     const { asset1, asset2 } = req.query;
-    
     if (!asset1 || !asset2) {
-      return res.status(400).json({ ok: false, error: 'Both asset1 and asset2 required' });
+      return res.status(400).json({ ok: false, error: 'Both assets required' });
     }
-    
     const result = await ai.compareAssets(asset1, asset2);
     res.json(result);
   } catch (err) {
     res.status(500).json({ ok: false, error: 'Comparison failed' });
-  }
-});
-
-// Educational content
-router.get('/learn/:topic', async (req, res) => {
-  try {
-    const { topic } = req.params;
-    
-    const result = await ai.educationalContent(decodeURIComponent(topic));
-    res.json(result);
-  } catch (err) {
-    res.status(500).json({ ok: false, error: 'Education content failed' });
-  }
-});
-
-// Quick insight (rate limited for non-authenticated)
-router.post('/quick', async (req, res) => {
-  try {
-    const { query } = req.body;
-    
-    if (!query) {
-      return res.status(400).json({ ok: false, error: 'Query required' });
-    }
-    
-    const result = await ai.quickInsight(query);
-    res.json(result);
-  } catch (err) {
-    res.status(500).json({ ok: false, error: 'Quick insight failed' });
   }
 });
 
