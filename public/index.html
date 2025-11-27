@@ -3,164 +3,822 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ELUXRAJ™ | AI-Powered Alternative Investment Research</title>
-  <link rel="stylesheet" href="/styles.css">
+  <title>ELUXRAJ™ | Fire Your Financial Advisor</title>
+  <meta name="description" content="AI-powered investment intelligence. Stock picks. Crypto allocations. Portfolio diversification. No $10,000 minimums. No 1% annual fees. Just results.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    :root {
+      --gold: #b8976a;
+      --gold-light: #d4b896;
+      --dark: #0a0a0a;
+      --darker: #050505;
+      --text: #ffffff;
+      --text-muted: #888888;
+      --green: #10b981;
+      --red: #ef4444;
+    }
+    
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--dark);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    
+    /* Navigation */
+    nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 20px 40px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+      background: rgba(10, 10, 10, 0.9);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    
+    .logo {
+      font-size: 24px;
+      font-weight: 800;
+      letter-spacing: 2px;
+      color: var(--gold);
+    }
+    
+    .nav-links {
+      display: flex;
+      gap: 30px;
+      align-items: center;
+    }
+    
+    .nav-links a {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 14px;
+      font-weight: 500;
+      transition: color 0.3s;
+    }
+    
+    .nav-links a:hover {
+      color: var(--text);
+    }
+    
+    .nav-btn {
+      background: var(--gold);
+      color: var(--dark);
+      padding: 10px 24px;
+      border-radius: 6px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    
+    .nav-btn:hover {
+      background: var(--gold-light);
+      color: var(--dark) !important;
+    }
+    
+    /* Hero Section */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 120px 20px 80px;
+      background: radial-gradient(ellipse at top, rgba(184, 151, 106, 0.1) 0%, transparent 50%);
+    }
+    
+    .hero-badge {
+      background: rgba(184, 151, 106, 0.15);
+      color: var(--gold);
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-size: 13px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      margin-bottom: 30px;
+      text-transform: uppercase;
+    }
+    
+    .hero h1 {
+      font-size: clamp(48px, 8vw, 100px);
+      font-weight: 900;
+      line-height: 1.05;
+      margin-bottom: 30px;
+      letter-spacing: -2px;
+    }
+    
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--gold), var(--gold-light));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .hero-strike {
+      text-decoration: line-through;
+      color: var(--red);
+      opacity: 0.7;
+    }
+    
+    .hero p {
+      font-size: 20px;
+      color: var(--text-muted);
+      max-width: 600px;
+      margin-bottom: 40px;
+    }
+    
+    .hero-cta {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    
+    .btn-primary {
+      background: var(--gold);
+      color: var(--dark);
+      padding: 16px 40px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .btn-primary:hover {
+      background: var(--gold-light);
+      transform: translateY(-2px);
+    }
+    
+    .btn-secondary {
+      background: transparent;
+      color: var(--text);
+      padding: 16px 40px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      border: 1px solid rgba(255,255,255,0.2);
+      transition: all 0.3s;
+    }
+    
+    .btn-secondary:hover {
+      border-color: var(--gold);
+      color: var(--gold);
+    }
+    
+    /* Comparison Section */
+    .comparison {
+      padding: 100px 20px;
+      background: var(--darker);
+    }
+    
+    .comparison h2 {
+      text-align: center;
+      font-size: 42px;
+      font-weight: 800;
+      margin-bottom: 60px;
+    }
+    
+    .comparison-grid {
+      max-width: 1000px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 40px;
+    }
+    
+    .comparison-card {
+      padding: 40px;
+      border-radius: 16px;
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    .comparison-card.old {
+      background: rgba(239, 68, 68, 0.05);
+      border-color: rgba(239, 68, 68, 0.2);
+    }
+    
+    .comparison-card.new {
+      background: rgba(184, 151, 106, 0.08);
+      border-color: rgba(184, 151, 106, 0.3);
+    }
+    
+    .comparison-card h3 {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+    
+    .comparison-card.old h3 {
+      color: var(--red);
+    }
+    
+    .comparison-card.new h3 {
+      color: var(--gold);
+    }
+    
+    .comparison-card .price {
+      font-size: 48px;
+      font-weight: 800;
+      margin-bottom: 30px;
+    }
+    
+    .comparison-card.old .price {
+      text-decoration: line-through;
+      opacity: 0.5;
+    }
+    
+    .comparison-card ul {
+      list-style: none;
+    }
+    
+    .comparison-card li {
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    
+    .comparison-card.old li::before {
+      content: "✗";
+      color: var(--red);
+      font-weight: bold;
+    }
+    
+    .comparison-card.new li::before {
+      content: "✓";
+      color: var(--green);
+      font-weight: bold;
+    }
+    
+    /* Features Section */
+    .features {
+      padding: 100px 20px;
+    }
+    
+    .features h2 {
+      text-align: center;
+      font-size: 42px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+    
+    .features-sub {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 18px;
+      margin-bottom: 60px;
+    }
+    
+    .features-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 30px;
+    }
+    
+    .feature-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 40px;
+      transition: all 0.3s;
+    }
+    
+    .feature-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-5px);
+    }
+    
+    .feature-icon {
+      font-size: 40px;
+      margin-bottom: 20px;
+    }
+    
+    .feature-card h3 {
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+    
+    .feature-card p {
+      color: var(--text-muted);
+      font-size: 15px;
+    }
+    
+    /* Pricing Section */
+    .pricing {
+      padding: 100px 20px;
+      background: var(--darker);
+    }
+    
+    .pricing h2 {
+      text-align: center;
+      font-size: 42px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+    
+    .pricing-sub {
+      text-align: center;
+      color: var(--text-muted);
+      margin-bottom: 60px;
+    }
+    
+    .pricing-grid {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+    }
+    
+    .pricing-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      padding: 40px;
+      position: relative;
+      transition: all 0.3s;
+    }
+    
+    .pricing-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .pricing-card.featured {
+      border: 2px solid var(--gold);
+      background: rgba(184, 151, 106, 0.05);
+      transform: scale(1.05);
+    }
+    
+    .pricing-card.featured:hover {
+      transform: scale(1.07);
+    }
+    
+    .featured-badge {
+      position: absolute;
+      top: -15px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--gold);
+      color: var(--dark);
+      padding: 6px 20px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    
+    .pricing-card h3 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    
+    .pricing-card .tagline {
+      color: var(--text-muted);
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    
+    .pricing-card .price {
+      font-size: 56px;
+      font-weight: 800;
+      margin-bottom: 5px;
+    }
+    
+    .pricing-card .price span {
+      font-size: 18px;
+      font-weight: 400;
+      color: var(--text-muted);
+    }
+    
+    .pricing-card .price-note {
+      color: var(--text-muted);
+      font-size: 13px;
+      margin-bottom: 30px;
+    }
+    
+    .pricing-card ul {
+      list-style: none;
+      margin-bottom: 30px;
+    }
+    
+    .pricing-card li {
+      padding: 10px 0;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    .pricing-card li::before {
+      content: "✓";
+      color: var(--green);
+      font-weight: bold;
+    }
+    
+    .pricing-btn {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      text-align: center;
+      border-radius: 10px;
+      font-weight: 700;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    
+    .pricing-btn.primary {
+      background: var(--gold);
+      color: var(--dark);
+    }
+    
+    .pricing-btn.primary:hover {
+      background: var(--gold-light);
+    }
+    
+    .pricing-btn.secondary {
+      background: rgba(255,255,255,0.1);
+      color: var(--text);
+    }
+    
+    .pricing-btn.secondary:hover {
+      background: rgba(255,255,255,0.15);
+    }
+    
+    /* Live Prices Section */
+    .live-prices {
+      padding: 80px 20px;
+      text-align: center;
+    }
+    
+    .live-prices h2 {
+      font-size: 32px;
+      margin-bottom: 40px;
+    }
+    
+    .prices-ticker {
+      display: flex;
+      justify-content: center;
+      gap: 40px;
+      flex-wrap: wrap;
+    }
+    
+    .price-item {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 20px 30px;
+      min-width: 150px;
+    }
+    
+    .price-item .symbol {
+      font-size: 14px;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+    }
+    
+    .price-item .value {
+      font-size: 24px;
+      font-weight: 700;
+    }
+    
+    .price-item .change {
+      font-size: 14px;
+      margin-top: 5px;
+    }
+    
+    .price-item .change.up { color: var(--green); }
+    .price-item .change.down { color: var(--red); }
+    
+    /* CTA Section */
+    .cta {
+      padding: 120px 20px;
+      text-align: center;
+      background: linear-gradient(180deg, var(--dark) 0%, rgba(184, 151, 106, 0.1) 100%);
+    }
+    
+    .cta h2 {
+      font-size: 48px;
+      font-weight: 800;
+      margin-bottom: 20px;
+    }
+    
+    .cta p {
+      color: var(--text-muted);
+      font-size: 20px;
+      margin-bottom: 40px;
+    }
+    
+    /* Footer */
+    footer {
+      padding: 40px 20px;
+      text-align: center;
+      border-top: 1px solid rgba(255,255,255,0.05);
+      color: var(--text-muted);
+      font-size: 14px;
+    }
+    
+    /* Responsive */
+    @media (max-width: 768px) {
+      nav {
+        padding: 15px 20px;
+      }
+      
+      .nav-links {
+        display: none;
+      }
+      
+      .hero h1 {
+        font-size: 36px;
+      }
+      
+      .comparison-grid {
+        grid-template-columns: 1fr;
+      }
+      
+      .pricing-card.featured {
+        transform: none;
+      }
+      
+      .prices-ticker {
+        gap: 15px;
+      }
+    }
+  </style>
 </head>
 <body>
 
-  <nav class="main-nav">
-    <div class="nav-container">
-      <div class="nav-brand">
-        <a href="/">
-          <span class="logo-icon">◆</span>
-          <span class="logo-text">ELUXRAJ<sup>™</sup></span>
-        </a>
-      </div>
-      <div class="nav-menu">
-        <a href="/pages/about.html">About</a>
-        <a href="/pages/features.html">Features</a>
-        <a href="/pages/pricing.html">Pricing</a>
-        <a href="/login.html">Login</a>
-        <a href="/login.html" class="nav-cta">Start Free Trial</a>
-      </div>
+  <!-- Navigation -->
+  <nav>
+    <div class="logo">ELUXRAJ</div>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#pricing">Pricing</a>
+      <a href="/login.html">Login</a>
+      <a href="/register.html" class="nav-btn">Get Started</a>
     </div>
   </nav>
 
-  <section class="hero-section" style="margin-top: 80px; min-height: 85vh; display: flex; align-items: center; justify-content: center; text-align: center; padding: 100px 40px;">
-    <div style="max-width: 900px;">
-      
-      <p style="font-size: 14px; text-transform: uppercase; letter-spacing: 3px; color: var(--color-champagne); margin-bottom: 20px; font-weight: 600;">AI-Powered Investment Research</p>
-      
-      <h1 style="font-family: var(--font-display); font-size: clamp(36px, 5vw, 60px); font-weight: 700; line-height: 1.1; margin-bottom: 30px; color: var(--color-midnight);">
-        Smarter Research for<br>Alternative Investments
-      </h1>
-      
-      <p style="font-size: 20px; color: var(--color-text-muted); margin-bottom: 40px; line-height: 1.6; max-width: 700px; margin-left: auto; margin-right: auto;">
-        Harness GPT-4 to analyze precious metals, collectibles, and alternative assets. Real-time market data, AI-generated insights, and research tools built for serious investors.
-      </p>
-      
-      <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-bottom: 50px;">
-        <a href="/login.html" class="btn btn-primary" style="font-size: 18px; padding: 18px 40px;">Start 14-Day Free Trial</a>
-        <a href="/pages/features.html" class="btn btn-secondary" style="font-size: 18px; padding: 18px 40px;">See How It Works</a>
-      </div>
-
-      <p style="font-size: 14px; color: var(--color-text-muted);">No credit card required • Cancel anytime</p>
-      
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-badge">🔥 The Advisor Killer</div>
+    <h1>
+      <span class="hero-strike">Financial Advisors</span><br>
+      <span>Are Obsolete.</span>
+    </h1>
+    <p>
+      AI-powered stock picks. Crypto allocations. Portfolio diversification.<br>
+      No $10,000 minimums. No 1% annual fees. Just results.
+    </p>
+    <div class="hero-cta">
+      <a href="/register.html" class="btn-primary">Start Free Trial →</a>
+      <a href="#pricing" class="btn-secondary">View Pricing</a>
     </div>
   </section>
 
-  <!-- What We Offer -->
-  <section style="padding: 100px 40px; background: var(--color-accent);">
-    <div style="max-width: 1200px; margin: 0 auto;">
-      
-      <div style="text-align: center; margin-bottom: 60px;">
-        <p style="font-size: 13px; text-transform: uppercase; letter-spacing: 2px; color: var(--color-champagne); margin-bottom: 15px; font-weight: 600;">What You Get</p>
-        <h2 style="font-family: var(--font-display); font-size: 42px; color: var(--color-midnight); margin-bottom: 20px;">Real Tools, Real Data, Real AI</h2>
-        <p style="color: var(--color-text-muted); font-size: 18px; max-width: 600px; margin: 0 auto;">Everything you need to research alternative investments.</p>
+  <!-- Comparison Section -->
+  <section class="comparison">
+    <h2>The Old Way vs. The New Way</h2>
+    <div class="comparison-grid">
+      <div class="comparison-card old">
+        <h3>Traditional Financial Advisor</h3>
+        <div class="price">$10,000+/yr</div>
+        <ul>
+          <li>1% annual fee on your entire portfolio</li>
+          <li>$10,000+ minimum to even talk to them</li>
+          <li>Meetings once a quarter (maybe)</li>
+          <li>Generic mutual fund recommendations</li>
+          <li>No crypto expertise whatsoever</li>
+          <li>"Call my office Monday"</li>
+          <li>Hidden fees and commissions</li>
+        </ul>
       </div>
-
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px;">
-        
-        <div style="background: var(--color-secondary); border: 1px solid var(--color-border); border-radius: 16px; padding: 40px;">
-          <div style="font-size: 36px; margin-bottom: 20px;">🤖</div>
-          <h3 style="font-family: var(--font-display); font-size: 22px; margin-bottom: 15px; color: var(--color-midnight);">GPT-4 Analysis</h3>
-          <p style="color: var(--color-text-muted); line-height: 1.7;">Get AI-generated investment signals, market analysis, and research summaries powered by the latest AI.</p>
-        </div>
-
-        <div style="background: var(--color-secondary); border: 1px solid var(--color-border); border-radius: 16px; padding: 40px;">
-          <div style="font-size: 36px; margin-bottom: 20px;">📊</div>
-          <h3 style="font-family: var(--font-display); font-size: 22px; margin-bottom: 15px; color: var(--color-midnight);">Live Market Data</h3>
-          <p style="color: var(--color-text-muted); line-height: 1.7;">Real-time prices for gold, silver, platinum, cryptocurrencies, and equities.</p>
-        </div>
-
-        <div style="background: var(--color-secondary); border: 1px solid var(--color-border); border-radius: 16px; padding: 40px;">
-          <div style="font-size: 36px; margin-bottom: 20px;">💎</div>
-          <h3 style="font-family: var(--font-display); font-size: 22px; margin-bottom: 15px; color: var(--color-midnight);">Alternative Focus</h3>
-          <p style="color: var(--color-text-muted); line-height: 1.7;">Specialized for precious metals, rare collectibles, art, and more.</p>
-        </div>
-
-        <div style="background: var(--color-secondary); border: 1px solid var(--color-border); border-radius: 16px; padding: 40px;">
-          <div style="font-size: 36px; margin-bottom: 20px;">📈</div>
-          <h3 style="font-family: var(--font-display); font-size: 22px; margin-bottom: 15px; color: var(--color-midnight);">Risk Assessment</h3>
-          <p style="color: var(--color-text-muted); line-height: 1.7;">AI-powered risk analysis for your investment ideas.</p>
-        </div>
-
-        <div style="background: var(--color-secondary); border: 1px solid var(--color-border); border-radius: 16px; padding: 40px;">
-          <div style="font-size: 36px; margin-bottom: 20px;">🔒</div>
-          <h3 style="font-family: var(--font-display); font-size: 22px; margin-bottom: 15px; color: var(--color-midnight);">Secure & Private</h3>
-          <p style="color: var(--color-text-muted); line-height: 1.7;">Your data stays yours. Encrypted storage, no third-party sharing.</p>
-        </div>
-
-        <div style="background: var(--color-secondary); border: 1px solid var(--color-border); border-radius: 16px; padding: 40px;">
-          <div style="font-size: 36px; margin-bottom: 20px;">⚡</div>
-          <h3 style="font-family: var(--font-display); font-size: 22px; margin-bottom: 15px; color: var(--color-midnight);">Fast & Simple</h3>
-          <p style="color: var(--color-text-muted); line-height: 1.7;">Clean interface, no clutter. Built for busy investors.</p>
-        </div>
-
+      <div class="comparison-card new">
+        <h3>ELUXRAJ AI Agent</h3>
+        <div class="price">$8,000/yr</div>
+        <ul>
+          <li>Flat fee. No percentage of assets.</li>
+          <li>No minimums. Start with $100 or $10M.</li>
+          <li>24/7 availability. Ask anything, anytime.</li>
+          <li>Individual stock & ETF picks</li>
+          <li>Deep crypto expertise built-in</li>
+          <li>Instant responses. Real-time analysis.</li>
+          <li>100% transparent. No hidden fees.</li>
+        </ul>
       </div>
     </div>
   </section>
 
-  <!-- Pricing Preview -->
-  <section style="padding: 100px 40px;">
-    <div style="max-width: 1000px; margin: 0 auto; text-align: center;">
-      <h2 style="font-family: var(--font-display); font-size: 42px; color: var(--color-midnight); margin-bottom: 20px;">Simple, Honest Pricing</h2>
-      <p style="color: var(--color-text-muted); font-size: 18px; margin-bottom: 50px;">Start free, upgrade when ready.</p>
-      
-      <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 30px;">
-        
-        <div style="background: var(--color-secondary); border: 1px solid var(--color-border); border-radius: 16px; padding: 40px; text-align: left;">
-          <h3 style="font-size: 24px; color: var(--color-midnight); margin-bottom: 10px;">Starter</h3>
-          <div style="font-family: var(--font-display); font-size: 48px; color: var(--color-champagne); margin-bottom: 20px;">$35<span style="font-size: 18px; color: var(--color-text-muted);">/mo</span></div>
-          <p style="color: var(--color-text-muted);">AI analysis, real-time prices, 50 queries/month</p>
-        </div>
-
-        <div style="background: var(--color-secondary); border: 2px solid var(--color-champagne); border-radius: 16px; padding: 40px; text-align: left;">
-          <h3 style="font-size: 24px; color: var(--color-midnight); margin-bottom: 10px;">Pro</h3>
-          <div style="font-family: var(--font-display); font-size: 48px; color: var(--color-champagne); margin-bottom: 20px;">$350<span style="font-size: 18px; color: var(--color-text-muted);">/mo</span></div>
-          <p style="color: var(--color-text-muted);">Unlimited queries, portfolio analysis, priority support</p>
-        </div>
-
-        <div style="background: var(--color-secondary); border: 1px solid var(--color-border); border-radius: 16px; padding: 40px; text-align: left;">
-          <h3 style="font-size: 24px; color: var(--color-midnight); margin-bottom: 10px;">Elite</h3>
-          <div style="font-family: var(--font-display); font-size: 48px; color: var(--color-champagne); margin-bottom: 20px;">$8,000<span style="font-size: 18px; color: var(--color-text-muted);">/mo</span></div>
-          <p style="color: var(--color-text-muted);">API access, custom AI models, dedicated support</p>
-        </div>
-
+  <!-- Features Section -->
+  <section class="features" id="features">
+    <h2>What Your AI Agent Does</h2>
+    <p class="features-sub">Everything a $500/hr advisor does. Without the attitude.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">📈</div>
+        <h3>Stock Picks</h3>
+        <p>AI-analyzed recommendations based on fundamentals, technicals, and market conditions. Not generic "buy index funds" advice.</p>
       </div>
-      
-      <a href="/login.html" class="btn btn-primary" style="margin-top: 40px; display: inline-block;">Start Free 14-Day Trial</a>
+      <div class="feature-card">
+        <div class="feature-icon">₿</div>
+        <h3>Crypto Allocations</h3>
+        <p>Bitcoin, Ethereum, Solana, and beyond. We understand DeFi, tokenomics, and on-chain analysis. Your advisor doesn't.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🥇</div>
+        <h3>Gold & Silver</h3>
+        <p>Precious metals allocation for inflation protection and portfolio hedging. Real-time prices and entry points.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚖️</div>
+        <h3>Portfolio Diversification</h3>
+        <p>Tell us your portfolio value. We'll tell you exactly how to allocate across stocks, crypto, metals, and bonds.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🎯</div>
+        <h3>Personalized Strategy</h3>
+        <p>Risk tolerance. Time horizon. Goals. We build a strategy around YOU, not a one-size-fits-all template.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚡</div>
+        <h3>Real-Time Intelligence</h3>
+        <p>Live market data. Instant analysis. Ask "Should I buy NVDA today?" and get a real answer in seconds.</p>
+      </div>
     </div>
   </section>
 
-  <!-- CTA -->
-  <section style="padding: 100px 40px; text-align: center; background: var(--color-accent);">
-    <h2 style="font-family: var(--font-display); font-size: 42px; color: var(--color-midnight); margin-bottom: 20px;">Ready to Upgrade Your Research?</h2>
-    <p style="color: var(--color-text-muted); font-size: 18px; margin-bottom: 40px;">Join investors using AI to make smarter decisions.</p>
-    <a href="/login.html" class="btn btn-primary" style="font-size: 18px; padding: 18px 50px;">Start Free Trial</a>
+  <!-- Live Prices Section -->
+  <section class="live-prices">
+    <h2>📊 Live Market Data</h2>
+    <div class="prices-ticker" id="pricesTicker">
+      <div class="price-item">
+        <div class="symbol">BTC</div>
+        <div class="value" id="btcPrice">$91,226</div>
+        <div class="change up" id="btcChange">+4.73%</div>
+      </div>
+      <div class="price-item">
+        <div class="symbol">ETH</div>
+        <div class="value" id="ethPrice">$3,039</div>
+        <div class="change up" id="ethChange">+3.86%</div>
+      </div>
+      <div class="price-item">
+        <div class="symbol">GOLD</div>
+        <div class="value" id="goldPrice">$4,147</div>
+        <div class="change up" id="goldChange">+0.13%</div>
+      </div>
+      <div class="price-item">
+        <div class="symbol">SPY</div>
+        <div class="value" id="spyPrice">$598.94</div>
+        <div class="change up" id="spyChange">+0.34%</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing Section -->
+  <section class="pricing" id="pricing">
+    <h2>Simple, Honest Pricing</h2>
+    <p class="pricing-sub">No hidden fees. No percentage of assets. No surprises.</p>
+    <div class="pricing-grid">
+      
+      <!-- Starter -->
+      <div class="pricing-card">
+        <h3>Starter</h3>
+        <p class="tagline">For curious investors</p>
+        <div class="price">$35<span>/mo</span></div>
+        <p class="price-note">Billed monthly</p>
+        <ul>
+          <li>Real-time market data</li>
+          <li>AI market analysis</li>
+          <li>Technical indicators</li>
+          <li>Crypto & metals tracking</li>
+          <li>Basic portfolio insights</li>
+        </ul>
+        <a href="/register.html" class="pricing-btn secondary">Get Started</a>
+      </div>
+      
+      <!-- Pro -->
+      <div class="pricing-card">
+        <h3>Pro</h3>
+        <p class="tagline">For serious investors</p>
+        <div class="price">$350<span>/mo</span></div>
+        <p class="price-note">Billed monthly</p>
+        <ul>
+          <li>Everything in Starter</li>
+          <li>Unlimited AI queries</li>
+          <li>Stock & ETF recommendations</li>
+          <li>Crypto deep dives</li>
+          <li>Risk assessments</li>
+          <li>Trading signals</li>
+        </ul>
+        <a href="/register.html" class="pricing-btn secondary">Get Started</a>
+      </div>
+      
+      <!-- Elite -->
+      <div class="pricing-card featured">
+        <div class="featured-badge">🔥 Fire Your Advisor</div>
+        <h3>Elite</h3>
+        <p class="tagline">Your personal AI wealth manager</p>
+        <div class="price">$8,000<span>/yr</span></div>
+        <p class="price-note">Less than most advisors charge on $800K</p>
+        <ul>
+          <li>Everything in Pro</li>
+          <li><strong>Personalized stock picks</strong></li>
+          <li><strong>Mutual fund recommendations</strong></li>
+          <li><strong>Crypto allocation strategy</strong></li>
+          <li><strong>Full portfolio diversification</strong></li>
+          <li><strong>Quarterly rebalancing guidance</strong></li>
+          <li>Priority support</li>
+          <li>1-on-1 onboarding call</li>
+        </ul>
+        <a href="/register.html" class="pricing-btn primary">Replace Your Advisor →</a>
+      </div>
+      
+    </div>
+  </section>
+
+  <!-- CTA Section -->
+  <section class="cta">
+    <h2>Ready to Fire Your Advisor?</h2>
+    <p>Join thousands of investors who stopped paying 1% for mediocre advice.</p>
+    <a href="/register.html" class="btn-primary">Start Free Trial →</a>
   </section>
 
   <!-- Footer -->
-  <footer style="background: var(--color-secondary); border-top: 1px solid var(--color-border); padding: 60px 40px 40px;">
-    <div style="max-width: 1200px; margin: 0 auto; text-align: center;">
-      <div style="font-family: var(--font-display); font-size: 24px; margin-bottom: 20px; color: var(--color-midnight);">◆ ELUXRAJ</div>
-      <p style="color: var(--color-text-muted); font-size: 14px; margin-bottom: 30px;">AI-powered research tools for alternative investments.</p>
-      
-      <div style="margin-bottom: 30px;">
-        <a href="/pages/about.html" style="color: var(--color-text-muted); text-decoration: none; margin: 0 15px;">About</a>
-        <a href="/pages/features.html" style="color: var(--color-text-muted); text-decoration: none; margin: 0 15px;">Features</a>
-        <a href="/pages/pricing.html" style="color: var(--color-text-muted); text-decoration: none; margin: 0 15px;">Pricing</a>
-        <a href="/pages/contact.html" style="color: var(--color-text-muted); text-decoration: none; margin: 0 15px;">Contact</a>
-        <a href="/legal/terms.html" style="color: var(--color-text-muted); text-decoration: none; margin: 0 15px;">Terms</a>
-        <a href="/legal/privacy.html" style="color: var(--color-text-muted); text-decoration: none; margin: 0 15px;">Privacy</a>
-      </div>
-      
-      <p style="color: var(--color-text-muted); font-size: 13px; margin-bottom: 15px;">© 2025 ELUXRAJ. All rights reserved.</p>
-      <p style="color: var(--color-text-muted); font-size: 11px; max-width: 800px; margin: 0 auto; line-height: 1.6;">
-        <strong>Important:</strong> ELUXRAJ provides research tools for informational purposes only. This is not financial advice. All investments carry risk. Past performance does not guarantee future results.
-      </p>
-    </div>
+  <footer>
+    <p>© 2025 ELUXRAJ™. All rights reserved. This is not financial advice. Past performance does not guarantee future results.</p>
   </footer>
+
+  <!-- Live Price Updates -->
+  <script>
+    async function updatePrices() {
+      try {
+        const res = await fetch('/api/oracle/all');
+        const data = await res.json();
+        
+        if (data.ok) {
+          // BTC
+          if (data.data.crypto?.BTC) {
+            document.getElementById('btcPrice').textContent = '$' + Math.round(data.data.crypto.BTC.price).toLocaleString();
+            const btcChange = data.data.crypto.BTC.change24h;
+            document.getElementById('btcChange').textContent = (btcChange >= 0 ? '+' : '') + btcChange.toFixed(2) + '%';
+            document.getElementById('btcChange').className = 'change ' + (btcChange >= 0 ? 'up' : 'down');
+          }
+          
+          // ETH
+          if (data.data.crypto?.ETH) {
+            document.getElementById('ethPrice').textContent = '$' + Math.round(data.data.crypto.ETH.price).toLocaleString();
+            const ethChange = data.data.crypto.ETH.change24h;
+            document.getElementById('ethChange').textContent = (ethChange >= 0 ? '+' : '') + ethChange.toFixed(2) + '%';
+            document.getElementById('ethChange').className = 'change ' + (ethChange >= 0 ? 'up' : 'down');
+          }
+          
+          // Gold
+          if (data.data.metals?.GOLD) {
+            document.getElementById('goldPrice').textContent = '$' + Math.round(data.data.metals.GOLD.price).toLocaleString();
+            const goldChange = data.data.metals.GOLD.change24h;
+            document.getElementById('goldChange').textContent = (goldChange >= 0 ? '+' : '') + goldChange.toFixed(2) + '%';
+            document.getElementById('goldChange').className = 'change ' + (goldChange >= 0 ? 'up' : 'down');
+          }
+          
+          // SPY
+          if (data.data.etfs?.SPY) {
+            document.getElementById('spyPrice').textContent = '$' + data.data.etfs.SPY.price.toFixed(2);
+            const spyChange = data.data.etfs.SPY.change24h;
+            document.getElementById('spyChange').textContent = (spyChange >= 0 ? '+' : '') + spyChange.toFixed(2) + '%';
+            document.getElementById('spyChange').className = 'change ' + (spyChange >= 0 ? 'up' : 'down');
+          }
+        }
+      } catch (err) {
+        console.log('Price update error:', err);
+      }
+    }
+    
+    // Initial load
+    updatePrices();
+    
+    // Update every 2 minutes
+    setInterval(updatePrices, 120000);
+  </script>
 
 </body>
 </html>
