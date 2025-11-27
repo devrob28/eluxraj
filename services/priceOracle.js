@@ -1,38 +1,11 @@
-// services/priceOracle.js - Price Oracle with Fallbacks
+// services/priceOracle.js - Price Oracle with GoldPrice.org
 const axios = require('axios');
 const NodeCache = require('node-cache');
 
 const cache = new NodeCache({ stdTTL: 120 }); // 2 minute cache
 
 // ============================================================================
-// FALLBACK PRICES (Updated periodically as backup)
-// ============================================================================
-
-const FALLBACK_PRICES = {
-  crypto: {
-    BTC: { price: 91500, change24h: 2.5 },
-    ETH: { price: 3060, change24h: 3.1 },
-    SOL: { price: 143, change24h: 2.8 },
-    ADA: { price: 0.85, change24h: 1.5 },
-    DOT: { price: 7.20, change24h: 2.0 }
-  },
-  metals: {
-    GOLD: { price: 2650, change24h: 0.3 },
-    SILVER: { price: 30.50, change24h: 0.5 },
-    PLATINUM: { price: 950, change24h: 0.2 },
-    PALLADIUM: { price: 1020, change24h: -0.3 }
-  },
-  stocks: {
-    AAPL: { price: 235, change24h: 1.2 },
-    MSFT: { price: 430, change24h: 0.8 },
-    GOOGL: { price: 175, change24h: 1.5 },
-    TSLA: { price: 350, change24h: 2.1 },
-    NVDA: { price: 145, change24h: 1.8 }
-  }
-};
-
-// ============================================================================
-// CRYPTO - CryptoCompare (Datacenter-friendly)
+// CRYPTO - CryptoCompare (Works from datacenter)
 // ============================================================================
 
 async function getCryptoFromCryptoCompare() {
@@ -63,25 +36,100 @@ async function getCryptoFromCryptoCompare() {
 }
 
 // ============================================================================
-// METALS - Fallback Only (Most free APIs block datacenters)
+// METALS - GoldPrice.org (Primary)
 // ============================================================================
 
-async function getMetalsPrices() {
-  console.log('🔄 Using metals fallback prices...');
-  // Most free metals APIs block datacenter IPs
-  // Using fallback prices - can be updated manually or via paid API
-  const prices = {};
-  for (const [symbol, data] of Object.entries(FALLBACK_PRICES.metals)) {
-    prices[symbol] = {
-      price: data.price,
-      change24h: data.change24h,
-      source: 'ELUXRAJ Oracle',
-      confidence: 'MEDIUM',
-      timestamp: new Date().toISOString()
-    };
+async function getMetalsFromGoldPriceOrg() {
+  console.log('🔄 Fetching metals from GoldPrice.org...');
+  try {
+    const url = 'https://data-asg.goldprice.org/dbXRates/USD';
+    const response = await axios.get(url, {
+      timeout: 10000,
+      headers: {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+      }
+    });
+    
+    console.log('GoldPrice.org response received');
+    
+    const data = response.data;
+    const prices = {};
+    
+    // GoldPrice.org returns items array with xauPrice (gold), xagPrice (silver), etc.
+    if (data.items && data.items.length > 0) {
+      const item = data.items[0];
+      
+      // Gold (XAU)
+      if (item.xauPrice) {
+        prices['GOLD'] = {
+          price: item.xauPrice,
+          change24h: item.pcXau || 0,
+          source: 'GoldPrice.org'
+        };
+      }
+      
+      // Silver (XAG)
+      if (item.xagPrice) {
+        prices['SILVER'] = {
+          price: item.xagPrice,
+          change24h: item.pcXag || 0,
+          source: 'GoldPrice.org'
+        };
+      }
+      
+      // Platinum (XPT)
+      if (item.xptPrice) {
+        prices['PLATINUM'] = {
+          price: item.xptPrice,
+          change24h: item.pcXpt || 0,
+          source: 'GoldPrice.org'
+        };
+      }
+      
+      // Palladium (XPD)
+      if (item.xpdPrice) {
+        prices['PALLADIUM'] = {
+          price: item.xpdPrice,
+          change24h: item.pcXpd || 0,
+          source: 'GoldPrice.org'
+        };
+      }
+    }
+    
+    console.log('✅ GoldPrice.org success:', JSON.stringify(prices));
+    return prices;
+  } catch (err) {
+    console.error('❌ GoldPrice.org error:', err.message);
+    return null;
   }
-  return prices;
 }
+
+// ============================================================================
+// FALLBACK PRICES (If APIs fail)
+// ============================================================================
+
+const FALLBACK_PRICES = {
+  crypto: {
+    BTC: { price: 91500, change24h: 2.5 },
+    ETH: { price: 3060, change24h: 3.1 },
+    SOL: { price: 143, change24h: 2.8 },
+    ADA: { price: 0.44, change24h: 1.5 },
+    DOT: { price: 2.35, change24h: 2.0 }
+  },
+  metals: {
+    GOLD: { price: 2650, change24h: 0.3 },
+    SILVER: { price: 30.50, change24h: 0.5 },
+    PLATINUM: { price: 950, change24h: 0.2 },
+    PALLADIUM: { price: 1020, change24h: -0.3 }
+  },
+  stocks: {
+    AAPL: { price: 235, change24h: 1.2 },
+    MSFT: { price: 430, change24h: 0.8 },
+    GOOGL: { price: 175, change24h: 1.5 },
+    TSLA: { price: 350, change24h: 2.1 },
+    NVDA: { price: 145, change24h: 1.8 }
+  }
+};
 
 // ============================================================================
 // STOCKS - Alpha Vantage with Fallback
@@ -93,12 +141,11 @@ async function getStockPrices() {
   
   if (!apiKey) {
     console.log('⚠️ No Alpha Vantage key, using fallback');
-    return formatFallback(FALLBACK_PRICES.stocks, 'Fallback');
+    return formatFallback(FALLBACK_PRICES.stocks, 'ELUXRAJ Oracle');
   }
   
   try {
     const prices = {};
-    // Only fetch 1-2 to avoid rate limits
     const symbol = 'AAPL';
     const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${apiKey}`;
     const response = await axios.get(url, { timeout: 10000 });
@@ -123,12 +170,12 @@ async function getStockPrices() {
     return formatPrices(prices);
   } catch (err) {
     console.error('❌ AlphaVantage error:', err.message);
-    return formatFallback(FALLBACK_PRICES.stocks, 'Fallback');
+    return formatFallback(FALLBACK_PRICES.stocks, 'ELUXRAJ Oracle');
   }
 }
 
 // ============================================================================
-// FOREX - ExchangeRate API (Works well)
+// FOREX - ExchangeRate API (Works great)
 // ============================================================================
 
 async function getForexRates() {
@@ -207,7 +254,6 @@ async function getCryptoPrices() {
     return cached;
   }
   
-  // Try CryptoCompare first
   const prices = await getCryptoFromCryptoCompare();
   
   if (prices && Object.keys(prices).length > 0) {
@@ -216,9 +262,32 @@ async function getCryptoPrices() {
     return result;
   }
   
-  // Fallback
   console.log('⚠️ Using crypto fallback');
   const fallback = formatFallback(FALLBACK_PRICES.crypto, 'ELUXRAJ Oracle');
+  cache.set(cacheKey, fallback);
+  return fallback;
+}
+
+async function getMetalsPrices() {
+  const cacheKey = 'metals';
+  const cached = cache.get(cacheKey);
+  if (cached) {
+    console.log('📦 Returning cached metals');
+    return cached;
+  }
+  
+  // Try GoldPrice.org first
+  const prices = await getMetalsFromGoldPriceOrg();
+  
+  if (prices && Object.keys(prices).length > 0) {
+    const result = formatPrices(prices);
+    cache.set(cacheKey, result);
+    return result;
+  }
+  
+  // Fallback
+  console.log('⚠️ Using metals fallback');
+  const fallback = formatFallback(FALLBACK_PRICES.metals, 'ELUXRAJ Oracle');
   cache.set(cacheKey, fallback);
   return fallback;
 }
@@ -239,7 +308,7 @@ async function getAllPrices() {
     stocks,
     forex,
     timestamp: new Date().toISOString(),
-    oracleVersion: '1.2'
+    oracleVersion: '2.0'
   };
 }
 
