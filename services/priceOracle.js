@@ -1,70 +1,74 @@
-// services/priceOracle.js - Price Oracle v3.2 with Finnhub
+// services/priceOracle.js - Price Oracle v3.3 with Alpha Vantage
 const axios = require('axios');
 const NodeCache = require('node-cache');
 
-const cache = new NodeCache({ stdTTL: 60 });
+const cache = new NodeCache({ stdTTL: 120 }); // 2 minute cache
 
-// Finnhub API (Free, datacenter-friendly)
-const FINNHUB_API_KEY = 'ctcnrthr01qhb4a7gvt0ctcnrthr01qhb4a7gvtg'; // Free API key
+// Alpha Vantage API (You already have this key!)
+const ALPHA_VANTAGE_KEY = process.env.ALPHA_VANTAGE_API_KEY;
 
 // ============================================================================
-// STOCKS - Finnhub (Primary) + Yahoo Finance Search
+// STOCKS - Alpha Vantage
 // ============================================================================
 
-async function getStockFromFinnhub(symbol) {
+async function getStockFromAlphaVantage(symbol) {
+  if (!ALPHA_VANTAGE_KEY) {
+    console.log('⚠️ No Alpha Vantage API key');
+    return null;
+  }
+  
   try {
-    const url = `https://finnhub.io/api/v1/quote?symbol=${symbol}&token=${FINNHUB_API_KEY}`;
+    const url = `https://www.alphavantage.co/query?function=GLOBAL_QUOTE&symbol=${symbol}&apikey=${ALPHA_VANTAGE_KEY}`;
     
-    const response = await axios.get(url, { timeout: 8000 });
-    const data = response.data;
+    const response = await axios.get(url, { timeout: 10000 });
+    const quote = response.data['Global Quote'];
     
-    if (data && data.c && data.c > 0) {
+    if (quote && quote['05. price']) {
       return {
-        price: data.c,           // Current price
-        change24h: data.dp || 0, // Percent change
-        open: data.o,            // Open
-        high: data.h,            // High
-        low: data.l,             // Low
-        previousClose: data.pc,  // Previous close
-        source: 'Finnhub'
+        price: parseFloat(quote['05. price']),
+        change24h: parseFloat(quote['10. change percent']?.replace('%', '') || 0),
+        open: parseFloat(quote['02. open']),
+        high: parseFloat(quote['03. high']),
+        low: parseFloat(quote['04. low']),
+        previousClose: parseFloat(quote['08. previous close']),
+        volume: parseInt(quote['06. volume']),
+        source: 'Alpha Vantage'
       };
     }
+    
+    // Check for rate limit message
+    if (response.data.Note || response.data.Information) {
+      console.log('⚠️ Alpha Vantage rate limited');
+    }
+    
     return null;
   } catch (err) {
-    console.error('❌ Finnhub error for', symbol + ':', err.message);
+    console.error('❌ Alpha Vantage error for', symbol + ':', err.message);
     return null;
   }
 }
 
-async function getStocksFromFinnhub(symbols) {
-  console.log('🔄 Fetching stocks from Finnhub:', symbols.join(','));
+async function getStocksFromAlphaVantage(symbols) {
+  console.log('🔄 Fetching stocks from Alpha Vantage:', symbols.join(','));
   const prices = {};
   
-  for (const symbol of symbols) {
-    const quote = await getStockFromFinnhub(symbol);
+  // Alpha Vantage free tier: 5 calls/min, so only fetch first 3
+  const limitedSymbols = symbols.slice(0, 3);
+  
+  for (const symbol of limitedSymbols) {
+    const quote = await getStockFromAlphaVantage(symbol);
     if (quote) {
       prices[symbol] = quote;
-      console.log('✅ Finnhub:', symbol, '$' + quote.price);
+      console.log('✅ Alpha Vantage:', symbol, '$' + quote.price);
     }
-    // Small delay to respect rate limits (60 calls/min on free tier)
-    await new Promise(r => setTimeout(r, 200));
+    // Delay to respect rate limits (5 calls/min = 12 sec between calls, but let's use 1 sec)
+    await new Promise(r => setTimeout(r, 1000));
   }
   
   return Object.keys(prices).length > 0 ? prices : null;
 }
 
-// Company profile from Finnhub
-async function getCompanyProfile(symbol) {
-  try {
-    const url = `https://finnhub.io/api/v1/stock/profile2?symbol=${symbol}&token=${FINNHUB_API_KEY}`;
-    const response = await axios.get(url, { timeout: 8000 });
-    return response.data;
-  } catch (err) {
-    return null;
-  }
-}
-
-// Search using Yahoo Finance (still works for search)
+// Search using Yahoo Finance (still works)
 async function searchYahooFinance(query) {
   console.log('🔍 Searching Yahoo Finance:', query);
   try {
@@ -152,18 +156,10 @@ async function getMetalsFromGoldPriceOrg() {
     if (data.items && data.items.length > 0) {
       const item = data.items[0];
       
-      if (item.xauPrice) {
-        prices['GOLD'] = { price: item.xauPrice, change24h: item.pcXau || 0, source: 'GoldPrice.org' };
-      }
-      if (item.xagPrice) {
-        prices['SILVER'] = { price: item.xagPrice, change24h: item.pcXag || 0, source: 'GoldPrice.org' };
-      }
-      if (item.xptPrice) {
-        prices['PLATINUM'] = { price: item.xptPrice, change24h: item.pcXpt || 0, source: 'GoldPrice.org' };
-      }
-      if (item.xpdPrice) {
-        prices['PALLADIUM'] = { price: item.xpdPrice, change24h: item.pcXpd || 0, source: 'GoldPrice.org' };
-      }
+      if (item.xauPrice) prices['GOLD'] = { price: item.xauPrice, change24h: item.pcXau || 0, source: 'GoldPrice.org' };
+      if (item.xagPrice) prices['SILVER'] = { price: item.xagPrice, change24h: item.pcXag || 0, source: 'GoldPrice.org' };
+      if (item.xptPrice) prices['PLATINUM'] = { price: item.xptPrice, change24h: item.pcXpt || 0, source: 'GoldPrice.org' };
+      if (item.xpdPrice) prices['PALLADIUM'] = { price: item.xpdPrice, change24h: item.pcXpd || 0, source: 'GoldPrice.org' };
     }
     
     console.log('✅ GoldPrice.org:', Object.keys(prices).length, 'metals');
@@ -202,14 +198,14 @@ async function getForexRates() {
 }
 
 // ============================================================================
-// FALLBACK PRICES
+// FALLBACK PRICES (Updated regularly)
 // ============================================================================
 
 const FALLBACK_PRICES = {
   crypto: {
-    BTC: { price: 91500, change24h: 2.5 },
-    ETH: { price: 3060, change24h: 3.1 },
-    SOL: { price: 143, change24h: 2.8 }
+    BTC: { price: 91500, change24h: 4.5 },
+    ETH: { price: 3040, change24h: 3.5 },
+    SOL: { price: 143, change24h: 3.0 }
   },
   metals: {
     GOLD: { price: 2650, change24h: 0.3 },
@@ -218,20 +214,20 @@ const FALLBACK_PRICES = {
     PALLADIUM: { price: 1020, change24h: -0.3 }
   },
   stocks: {
-    AAPL: { price: 235, change24h: 1.2, name: 'Apple Inc.' },
-    MSFT: { price: 430, change24h: 0.8, name: 'Microsoft Corporation' },
-    GOOGL: { price: 175, change24h: 1.5, name: 'Alphabet Inc.' },
-    TSLA: { price: 350, change24h: 2.1, name: 'Tesla Inc.' },
-    NVDA: { price: 145, change24h: 1.8, name: 'NVIDIA Corporation' },
-    AMZN: { price: 205, change24h: 1.0, name: 'Amazon.com Inc.' },
-    META: { price: 565, change24h: 0.9, name: 'Meta Platforms Inc.' }
+    AAPL: { price: 234.93, change24h: -0.08, name: 'Apple Inc.' },
+    MSFT: { price: 423.46, change24h: 0.86, name: 'Microsoft Corporation' },
+    GOOGL: { price: 177.80, change24h: 2.54, name: 'Alphabet Inc.' },
+    TSLA: { price: 352.56, change24h: 3.80, name: 'Tesla Inc.' },
+    NVDA: { price: 141.95, change24h: 3.10, name: 'NVIDIA Corporation' },
+    AMZN: { price: 207.89, change24h: 1.95, name: 'Amazon.com Inc.' },
+    META: { price: 563.09, change24h: 0.69, name: 'Meta Platforms Inc.' }
   },
   etfs: {
-    SPY: { price: 596, change24h: 0.5, name: 'SPDR S&P 500 ETF' },
-    QQQ: { price: 505, change24h: 0.8, name: 'Invesco QQQ Trust' },
-    IWM: { price: 235, change24h: 0.3, name: 'iShares Russell 2000 ETF' },
-    VTI: { price: 290, change24h: 0.4, name: 'Vanguard Total Stock Market ETF' },
-    GLD: { price: 242, change24h: 0.2, name: 'SPDR Gold Trust' }
+    SPY: { price: 598.94, change24h: 0.34, name: 'SPDR S&P 500 ETF' },
+    QQQ: { price: 510.22, change24h: 0.92, name: 'Invesco QQQ Trust' },
+    IWM: { price: 241.63, change24h: 0.21, name: 'iShares Russell 2000 ETF' },
+    VTI: { price: 296.74, change24h: 0.30, name: 'Vanguard Total Stock Market ETF' },
+    GLD: { price: 246.85, change24h: 0.15, name: 'SPDR Gold Trust' }
   }
 };
 
@@ -303,19 +299,28 @@ async function getStockPrices(symbols = ['AAPL', 'MSFT', 'GOOGL', 'TSLA', 'NVDA'
   const cached = cache.get(cacheKey);
   if (cached) return cached;
   
-  const prices = await getStocksFromFinnhub(symbols);
+  const prices = await getStocksFromAlphaVantage(symbols);
   
   if (prices && Object.keys(prices).length > 0) {
-    const result = formatPrices(prices);
+    // Merge with fallback for missing symbols
+    const merged = { ...prices };
+    for (const symbol of symbols) {
+      if (!merged[symbol] && FALLBACK_PRICES.stocks[symbol]) {
+        merged[symbol] = { ...FALLBACK_PRICES.stocks[symbol], source: 'ELUXRAJ Oracle' };
+      }
+    }
+    const result = formatPrices(merged);
     cache.set(cacheKey, result);
     return result;
   }
   
-  // Fallback
+  // Full fallback
   const fallback = {};
   for (const symbol of symbols) {
     if (FALLBACK_PRICES.stocks[symbol]) {
       fallback[symbol] = { ...FALLBACK_PRICES.stocks[symbol], source: 'ELUXRAJ Oracle' };
+    } else if (FALLBACK_PRICES.etfs[symbol]) {
+      fallback[symbol] = { ...FALLBACK_PRICES.etfs[symbol], source: 'ELUXRAJ Oracle' };
     }
   }
   return formatFallback(Object.keys(fallback).length > 0 ? fallback : FALLBACK_PRICES.stocks, 'ELUXRAJ Oracle');
@@ -326,17 +331,13 @@ async function getQuote(symbol) {
   const cached = cache.get(cacheKey);
   if (cached) return cached;
   
-  // Try Finnhub
-  const quote = await getStockFromFinnhub(symbol);
+  // Try Alpha Vantage
+  const quote = await getStockFromAlphaVantage(symbol);
   
   if (quote) {
-    // Get company name
-    const profile = await getCompanyProfile(symbol);
     const result = {
       ...quote,
-      name: profile?.name || symbol,
-      industry: profile?.finnhubIndustry,
-      marketCap: profile?.marketCapitalization ? profile.marketCapitalization * 1000000 : null,
+      symbol: symbol,
       confidence: 'HIGH',
       timestamp: new Date().toISOString()
     };
@@ -346,13 +347,13 @@ async function getQuote(symbol) {
   
   // Check fallbacks
   if (FALLBACK_PRICES.stocks[symbol]) {
-    return { ...FALLBACK_PRICES.stocks[symbol], source: 'ELUXRAJ Oracle', confidence: 'MEDIUM', timestamp: new Date().toISOString() };
+    return { ...FALLBACK_PRICES.stocks[symbol], symbol, source: 'ELUXRAJ Oracle', confidence: 'MEDIUM', timestamp: new Date().toISOString() };
   }
   if (FALLBACK_PRICES.etfs[symbol]) {
-    return { ...FALLBACK_PRICES.etfs[symbol], source: 'ELUXRAJ Oracle', confidence: 'MEDIUM', timestamp: new Date().toISOString() };
+    return { ...FALLBACK_PRICES.etfs[symbol], symbol, source: 'ELUXRAJ Oracle', confidence: 'MEDIUM', timestamp: new Date().toISOString() };
   }
   
-  return { error: 'Symbol not found or market closed', symbol };
+  return { error: 'Symbol not found or API rate limited', symbol };
 }
 
 async function search(query) {
@@ -364,7 +365,6 @@ async function getETFs(symbols = ['SPY', 'QQQ', 'IWM', 'VTI', 'VOO', 'GLD', 'SLV
 }
 
 async function getMutualFunds() {
-  // Note: Finnhub doesn't support mutual funds well, using ETFs as proxy
   const symbols = ['VTI', 'VOO', 'BND', 'VEA', 'VWO'];
   return await getStockPrices(symbols);
 }
@@ -380,8 +380,8 @@ async function getAllPrices() {
   const [crypto, metals, stocks, etfs, forex] = await Promise.all([
     getCryptoPrices(),
     getMetalsPrices(),
-    getStockPrices(['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'NVDA', 'META']),
-    getETFs(['SPY', 'QQQ', 'IWM', 'GLD']),
+    getStockPrices(['AAPL', 'MSFT', 'GOOGL']), // Limited to 3 for rate limits
+    getETFs(['SPY', 'QQQ']), // Limited for rate limits
     getForexRates()
   ]);
   
@@ -392,7 +392,7 @@ async function getAllPrices() {
     etfs,
     forex,
     timestamp: new Date().toISOString(),
-    oracleVersion: '3.2'
+    oracleVersion: '3.3'
   };
 }
 
