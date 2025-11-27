@@ -406,3 +406,4 @@ process.on('SIGTERM', () => {
 });
 
 module.exports = app;
+
