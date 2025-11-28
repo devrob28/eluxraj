@@ -20,6 +20,9 @@ const chronicleRoutes = require('./routes/chronicle');
 const mirrorRoutes = require('./routes/mirror');
 const phantomRoutes = require('./routes/phantom');
 const sovereignRoutes = require('./routes/sovereign');
+const atlasRoutes = require('./routes/atlas');
+const fidelityRoutes = require('./routes/fidelity');
+const attestRoutes = require('./routes/attest');
 const aiRoutes = require("./routes/ai");
 const { authenticateToken, optionalAuth, requireTier } = require('./middleware/auth');
 
@@ -75,6 +78,9 @@ app.use('/api/chronicle', chronicleRoutes);
 app.use('/api/mirror', mirrorRoutes);
 app.use('/api/phantom', phantomRoutes);
 app.use('/api/sovereign', sovereignRoutes);
+app.use('/api/atlas', atlasRoutes);
+app.use('/api/fidelity', fidelityRoutes);
+app.use('/api/attest', attestRoutes);
 
 // ============================================================================
 // MARKET DATA ENDPOINTS (PUBLIC)
