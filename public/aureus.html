@@ -1,0 +1,813 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AUREUS™ Private Dealflow | ELUXRAJ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #000000;
+      --card: #0a0a0f;
+      --card2: #111118;
+      --border: #1a1a2e;
+      --accent: #6366f1;
+      --accent2: #8b5cf6;
+      --green: #10b981;
+      --red: #ef4444;
+      --gold: #f59e0b;
+      --text: #ffffff;
+      --muted: #71717a;
+    }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      background: var(--card);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .logo {
+      font-size: 20px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .logo span {
+      background: linear-gradient(135deg, var(--gold), #fbbf24);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .header-actions { display: flex; gap: 12px; }
+    .header-btn {
+      padding: 8px 16px;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 13px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.3s;
+    }
+    .header-btn:hover { border-color: var(--accent); }
+    .header-btn.primary { background: linear-gradient(135deg, var(--gold), #fbbf24); border: none; color: black; font-weight: 600; }
+    
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    
+    /* Hero */
+    .hero {
+      text-align: center;
+      padding: 60px 20px;
+      background: linear-gradient(180deg, rgba(245,158,11,0.1) 0%, transparent 100%);
+      border-radius: 24px;
+      margin-bottom: 40px;
+    }
+    .hero h1 {
+      font-size: 42px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, var(--gold), #fbbf24);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 600px;
+      margin: 0 auto 32px;
+    }
+    .hero-stats {
+      display: flex;
+      justify-content: center;
+      gap: 48px;
+    }
+    .hero-stat-value {
+      font-size: 32px;
+      font-weight: 800;
+      color: var(--gold);
+    }
+    .hero-stat-label {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    
+    /* Filters */
+    .filters {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 24px;
+      flex-wrap: wrap;
+    }
+    .filter-btn {
+      padding: 10px 20px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--muted);
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .filter-btn:hover { border-color: var(--gold); color: var(--text); }
+    .filter-btn.active { background: var(--gold); border-color: var(--gold); color: black; font-weight: 600; }
+    
+    /* Deals Grid */
+    .deals-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+      gap: 20px;
+    }
+    .deal-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.3s;
+      cursor: pointer;
+    }
+    .deal-card:hover {
+      border-color: var(--gold);
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(245,158,11,0.1);
+    }
+    .deal-header {
+      padding: 24px 24px 16px;
+      border-bottom: 1px solid var(--border);
+    }
+    .deal-type {
+      display: inline-block;
+      padding: 4px 12px;
+      background: rgba(245,158,11,0.1);
+      border: 1px solid rgba(245,158,11,0.3);
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--gold);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      margin-bottom: 12px;
+    }
+    .deal-title {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .deal-originator {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .deal-body {
+      padding: 20px 24px;
+    }
+    .deal-stats {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .deal-stat {
+      background: var(--bg);
+      border-radius: 10px;
+      padding: 14px;
+    }
+    .deal-stat-label {
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+    .deal-stat-value {
+      font-size: 18px;
+      font-weight: 700;
+    }
+    .deal-stat-value.green { color: var(--green); }
+    .deal-progress {
+      margin-bottom: 16px;
+    }
+    .deal-progress-bar {
+      height: 6px;
+      background: var(--border);
+      border-radius: 3px;
+      overflow: hidden;
+      margin-bottom: 8px;
+    }
+    .deal-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--gold), #fbbf24);
+      border-radius: 3px;
+    }
+    .deal-progress-text {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted);
+    }
+    .deal-footer {
+      padding: 16px 24px;
+      border-top: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .deal-interest {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    .deal-btn {
+      padding: 10px 20px;
+      background: linear-gradient(135deg, var(--gold), #fbbf24);
+      border: none;
+      border-radius: 8px;
+      color: black;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    
+    /* Empty State */
+    .empty-state {
+      text-align: center;
+      padding: 80px 20px;
+      color: var(--muted);
+    }
+    .empty-state-icon { font-size: 64px; margin-bottom: 20px; }
+    .empty-state-title { font-size: 24px; color: var(--text); margin-bottom: 8px; }
+    
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: rgba(0,0,0,0.9);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow: hidden;
+    }
+    .modal-header {
+      padding: 24px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-header h2 { font-size: 20px; }
+    .modal-close {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--card2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-size: 20px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-close:hover { color: var(--red); border-color: var(--red); }
+    .modal-body {
+      padding: 24px;
+      overflow-y: auto;
+      max-height: calc(90vh - 80px);
+    }
+    .form-group { margin-bottom: 20px; }
+    .form-label { display: block; font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+    .form-input, .form-select, .form-textarea {
+      width: 100%;
+      padding: 14px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      color: var(--text);
+      font-size: 15px;
+      font-family: inherit;
+    }
+    .form-input:focus, .form-textarea:focus { outline: none; border-color: var(--gold); }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .btn {
+      width: 100%;
+      padding: 16px;
+      background: linear-gradient(135deg, var(--gold), #fbbf24);
+      border: none;
+      border-radius: 12px;
+      color: black;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    .btn.secondary {
+      background: var(--card2);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+    
+    /* Deal Detail */
+    .deal-detail-header {
+      margin-bottom: 24px;
+    }
+    .deal-detail-title {
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 8px;
+    }
+    .deal-detail-meta {
+      display: flex;
+      gap: 16px;
+      color: var(--muted);
+      font-size: 14px;
+    }
+    .deal-detail-section {
+      background: var(--bg);
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 16px;
+    }
+    .deal-detail-section h3 {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 12px;
+    }
+    .highlight-list {
+      list-style: none;
+    }
+    .highlight-list li {
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
+    }
+    .highlight-list li:last-child { border-bottom: none; }
+    .highlight-list li::before {
+      content: '✓';
+      color: var(--green);
+      margin-right: 10px;
+      font-weight: bold;
+    }
+    
+    @media (max-width: 768px) {
+      .deals-grid { grid-template-columns: 1fr; }
+      .hero h1 { font-size: 28px; }
+      .hero-stats { flex-direction: column; gap: 20px; }
+      .form-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">💎 <span>AUREUS</span></div>
+    <div class="header-actions">
+      <button class="header-btn" onclick="openCreateDealModal()">+ List a Deal</button>
+      <a href="/dashboard.html" class="header-btn">← Dashboard</a>
+    </div>
+  </header>
+  
+  <div class="container">
+    <div class="hero">
+      <h1>Private <span>Dealflow</span> Exchange</h1>
+      <p>Exclusive access to pre-IPO, secondary shares, real estate, and alternative investments curated for ELUXRAJ members.</p>
+      <div class="hero-stats">
+        <div>
+          <div class="hero-stat-value" id="totalDeals">0</div>
+          <div class="hero-stat-label">Active Deals</div>
+        </div>
+        <div>
+          <div class="hero-stat-value" id="totalRaised">$0</div>
+          <div class="hero-stat-label">Capital Committed</div>
+        </div>
+        <div>
+          <div class="hero-stat-value" id="avgReturn">0%</div>
+          <div class="hero-stat-label">Avg. Target Return</div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="filters">
+      <button class="filter-btn active" onclick="filterDeals('all', this)">All Deals</button>
+      <button class="filter-btn" onclick="filterDeals('pre-ipo', this)">Pre-IPO</button>
+      <button class="filter-btn" onclick="filterDeals('secondary', this)">Secondary</button>
+      <button class="filter-btn" onclick="filterDeals('real-estate', this)">Real Estate</button>
+      <button class="filter-btn" onclick="filterDeals('crypto-fund', this)">Crypto Funds</button>
+      <button class="filter-btn" onclick="filterDeals('collectibles', this)">Collectibles</button>
+      <button class="filter-btn" onclick="filterDeals('venture', this)">Venture</button>
+    </div>
+    
+    <div class="deals-grid" id="dealsGrid">
+      <div class="empty-state">
+        <div class="empty-state-icon">💎</div>
+        <div class="empty-state-title">Loading deals...</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Deal Detail Modal -->
+  <div class="modal-overlay" id="dealDetailModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Deal Details</h2>
+        <button class="modal-close" onclick="closeDealDetail()">×</button>
+      </div>
+      <div class="modal-body" id="dealDetailBody"></div>
+    </div>
+  </div>
+  
+  <!-- Create Deal Modal -->
+  <div class="modal-overlay" id="createDealModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>List a New Deal</h2>
+        <button class="modal-close" onclick="closeCreateDealModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label class="form-label">Deal Title</label>
+          <input class="form-input" id="dealTitle" placeholder="e.g. SpaceX Secondary Shares">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Deal Type</label>
+            <select class="form-select" id="dealType">
+              <option value="pre-ipo">Pre-IPO</option>
+              <option value="secondary">Secondary</option>
+              <option value="real-estate">Real Estate</option>
+              <option value="crypto-fund">Crypto Fund</option>
+              <option value="collectibles">Collectibles</option>
+              <option value="venture">Venture</option>
+              <option value="debt">Debt</option>
+              <option value="art">Art</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Asset Class</label>
+            <input class="form-input" id="dealAssetClass" placeholder="e.g. Technology">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Description</label>
+          <textarea class="form-textarea" id="dealDescription" rows="3" placeholder="Describe the opportunity..."></textarea>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Minimum Investment ($)</label>
+            <input class="form-input" id="dealMinimum" type="number" value="25000">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Target Raise ($)</label>
+            <input class="form-input" id="dealTarget" type="number" placeholder="1000000">
+          </div>
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Expected Return</label>
+            <input class="form-input" id="dealReturn" placeholder="e.g. 25-35% IRR">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Term (Months)</label>
+            <input class="form-input" id="dealTerm" type="number" value="36">
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Visibility</label>
+          <select class="form-select" id="dealVisibility">
+            <option value="members">All Members</option>
+            <option value="pro">Pro & Elite Only</option>
+            <option value="elite">Elite Only</option>
+          </select>
+        </div>
+        <button class="btn" onclick="createDeal()">Submit Deal for Review</button>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Interest Modal -->
+  <div class="modal-overlay" id="interestModal">
+    <div class="modal">
+      <div class="modal-header">
+        <h2>Express Interest</h2>
+        <button class="modal-close" onclick="closeInterestModal()">×</button>
+      </div>
+      <div class="modal-body">
+        <p style="color:var(--muted);margin-bottom:20px">Expressing interest is non-binding. You'll be contacted by the deal originator to proceed.</p>
+        <div class="form-group">
+          <label class="form-label">Investment Amount ($)</label>
+          <input class="form-input" id="interestAmount" type="number" placeholder="50000">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Message (Optional)</label>
+          <textarea class="form-textarea" id="interestMessage" rows="3" placeholder="Any questions or comments..."></textarea>
+        </div>
+        <button class="btn" onclick="submitInterest()">Submit Interest</button>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    const token = localStorage.getItem('eluxraj_token');
+    const user = JSON.parse(localStorage.getItem('eluxraj_user') || '{}');
+    let currentDealId = null;
+    let currentFilter = 'all';
+    let allDeals = [];
+    
+    if (!token) window.location.href = '/login.html';
+    
+    // Load deals
+    async function loadDeals() {
+      try {
+        const res = await fetch('/api/aureus/deals', {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        const data = await res.json();
+        
+        if (data.ok) {
+          allDeals = data.deals;
+          renderDeals(allDeals);
+          updateStats(allDeals);
+        }
+      } catch (e) {
+        console.error('Failed to load deals:', e);
+      }
+    }
+    
+    // Update stats
+    function updateStats(deals) {
+      document.getElementById('totalDeals').textContent = deals.length;
+      
+      const totalRaised = deals.reduce((sum, d) => sum + parseFloat(d.current_raised || 0), 0);
+      document.getElementById('totalRaised').textContent = '$' + (totalRaised / 1000000).toFixed(1) + 'M';
+      
+      const returns = deals.filter(d => d.expected_return).map(d => {
+        const match = d.expected_return.match(/(\d+)/);
+        return match ? parseInt(match[1]) : 0;
+      });
+      const avgReturn = returns.length > 0 ? (returns.reduce((a,b) => a+b, 0) / returns.length) : 0;
+      document.getElementById('avgReturn').textContent = avgReturn.toFixed(0) + '%';
+    }
+    
+    // Render deals
+    function renderDeals(deals) {
+      const grid = document.getElementById('dealsGrid');
+      
+      if (deals.length === 0) {
+        grid.innerHTML = `
+          <div class="empty-state" style="grid-column:1/-1">
+            <div class="empty-state-icon">💎</div>
+            <div class="empty-state-title">No deals available</div>
+            <p style="margin-top:8px">Be the first to list a deal!</p>
+          </div>
+        `;
+        return;
+      }
+      
+      grid.innerHTML = deals.map(d => {
+        const progress = d.target_raise > 0 ? (d.current_raised / d.target_raise * 100) : 0;
+        return `
+          <div class="deal-card" onclick="openDealDetail('${d.deal_id}')">
+            <div class="deal-header">
+              <div class="deal-type">${d.deal_type.replace('-', ' ')}</div>
+              <div class="deal-title">${d.title}</div>
+              <div class="deal-originator">by ${d.originator_name || 'Anonymous'}</div>
+            </div>
+            <div class="deal-body">
+              <div class="deal-stats">
+                <div class="deal-stat">
+                  <div class="deal-stat-label">Minimum</div>
+                  <div class="deal-stat-value">$${(d.minimum_investment / 1000).toFixed(0)}K</div>
+                </div>
+                <div class="deal-stat">
+                  <div class="deal-stat-label">Target Return</div>
+                  <div class="deal-stat-value green">${d.expected_return || 'TBD'}</div>
+                </div>
+              </div>
+              <div class="deal-progress">
+                <div class="deal-progress-bar">
+                  <div class="deal-progress-fill" style="width:${Math.min(progress, 100)}%"></div>
+                </div>
+                <div class="deal-progress-text">
+                  <span>$${(d.current_raised / 1000).toFixed(0)}K raised</span>
+                  <span>$${(d.target_raise / 1000000).toFixed(1)}M target</span>
+                </div>
+              </div>
+            </div>
+            <div class="deal-footer">
+              <span class="deal-interest">${d.interest_count || 0} interested</span>
+              <button class="deal-btn" onclick="event.stopPropagation(); openInterestModal('${d.deal_id}')">Express Interest</button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+    
+    // Filter deals
+    function filterDeals(type, btn) {
+      currentFilter = type;
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      
+      if (type === 'all') {
+        renderDeals(allDeals);
+      } else {
+        renderDeals(allDeals.filter(d => d.deal_type === type));
+      }
+    }
+    
+    // Open deal detail
+    async function openDealDetail(dealId) {
+      currentDealId = dealId;
+      
+      try {
+        const res = await fetch('/api/aureus/deal/' + dealId, {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        const data = await res.json();
+        
+        if (data.ok) {
+          const d = data.deal;
+          const progress = d.target_raise > 0 ? (d.current_raised / d.target_raise * 100) : 0;
+          
+          document.getElementById('dealDetailBody').innerHTML = `
+            <div class="deal-detail-header">
+              <div class="deal-type">${d.deal_type.replace('-', ' ')}</div>
+              <div class="deal-detail-title">${d.title}</div>
+              <div class="deal-detail-meta">
+                <span>by ${d.originator_name || 'Anonymous'}</span>
+                <span>•</span>
+                <span>${d.term_months} month term</span>
+                <span>•</span>
+                <span>${d.risk_level} risk</span>
+              </div>
+            </div>
+            
+            <div class="deal-detail-section">
+              <h3>Investment Terms</h3>
+              <div class="deal-stats">
+                <div class="deal-stat">
+                  <div class="deal-stat-label">Minimum Investment</div>
+                  <div class="deal-stat-value">$${parseFloat(d.minimum_investment).toLocaleString()}</div>
+                </div>
+                <div class="deal-stat">
+                  <div class="deal-stat-label">Target Return</div>
+                  <div class="deal-stat-value green">${d.expected_return || 'TBD'}</div>
+                </div>
+              </div>
+              <div class="deal-progress" style="margin-top:16px">
+                <div class="deal-progress-bar">
+                  <div class="deal-progress-fill" style="width:${Math.min(progress, 100)}%"></div>
+                </div>
+                <div class="deal-progress-text">
+                  <span>$${parseFloat(d.current_raised).toLocaleString()} raised</span>
+                  <span>$${parseFloat(d.target_raise).toLocaleString()} target</span>
+                </div>
+              </div>
+            </div>
+            
+            <div class="deal-detail-section">
+              <h3>Description</h3>
+              <p style="font-size:14px;line-height:1.7">${d.description || 'No description provided.'}</p>
+            </div>
+            
+            ${d.highlights && d.highlights.length > 0 ? `
+            <div class="deal-detail-section">
+              <h3>Highlights</h3>
+              <ul class="highlight-list">
+                ${JSON.parse(d.highlights).map(h => `<li>${h}</li>`).join('')}
+              </ul>
+            </div>
+            ` : ''}
+            
+            <button class="btn" onclick="closeDealDetail(); openInterestModal('${d.deal_id}')" style="margin-top:16px">
+              ${d.userInterested ? '✓ Interest Submitted' : 'Express Interest'}
+            </button>
+          `;
+          
+          document.getElementById('dealDetailModal').classList.add('active');
+        }
+      } catch (e) {
+        console.error('Failed to load deal:', e);
+      }
+    }
+    
+    function closeDealDetail() {
+      document.getElementById('dealDetailModal').classList.remove('active');
+    }
+    
+    // Interest modal
+    function openInterestModal(dealId) {
+      currentDealId = dealId;
+      document.getElementById('interestModal').classList.add('active');
+    }
+    
+    function closeInterestModal() {
+      document.getElementById('interestModal').classList.remove('active');
+    }
+    
+    async function submitInterest() {
+      const amount = document.getElementById('interestAmount').value;
+      const message = document.getElementById('interestMessage').value;
+      
+      if (!amount) return alert('Please enter an investment amount');
+      
+      try {
+        const res = await fetch('/api/aureus/deal/' + currentDealId + '/interest', {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ amount: parseFloat(amount), message })
+        });
+        const data = await res.json();
+        
+        if (data.ok) {
+          closeInterestModal();
+          loadDeals();
+          alert('Interest submitted! The deal originator will contact you.');
+        } else {
+          alert(data.error || 'Failed to submit interest');
+        }
+      } catch (e) {
+        alert('Connection error');
+      }
+    }
+    
+    // Create deal modal
+    function openCreateDealModal() {
+      document.getElementById('createDealModal').classList.add('active');
+    }
+    
+    function closeCreateDealModal() {
+      document.getElementById('createDealModal').classList.remove('active');
+    }
+    
+    async function createDeal() {
+      const data = {
+        title: document.getElementById('dealTitle').value,
+        dealType: document.getElementById('dealType').value,
+        assetClass: document.getElementById('dealAssetClass').value,
+        description: document.getElementById('dealDescription').value,
+        minimumInvestment: parseFloat(document.getElementById('dealMinimum').value),
+        targetRaise: parseFloat(document.getElementById('dealTarget').value),
+        expectedReturn: document.getElementById('dealReturn').value,
+        termMonths: parseInt(document.getElementById('dealTerm').value),
+        visibility: document.getElementById('dealVisibility').value
+      };
+      
+      if (!data.title) return alert('Please enter a deal title');
+      
+      try {
+        const res = await fetch('/api/aureus/deals', {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(data)
+        });
+        const result = await res.json();
+        
+        if (result.ok) {
+          closeCreateDealModal();
+          alert('Deal submitted for review! It will appear once approved.');
+        } else {
+          alert(result.error || 'Failed to create deal');
+        }
+      } catch (e) {
+        alert('Connection error');
+      }
+    }
+    
+    // Init
+    loadDeals();
+  </script>
+</body>
+</html>
