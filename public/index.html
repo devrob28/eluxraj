@@ -3,39 +3,33 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ELUXRAJ™ | Fire Your Financial Advisor</title>
-  <meta name="description" content="AI-powered investment intelligence. Stock picks. Crypto allocations. Portfolio diversification. No $10,000 minimums. No 1% annual fees. Just results.">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <title>ELUXRAJ™ | AI Wealth Intelligence Platform</title>
+  <meta name="description" content="Institutional-grade AI for retail investors. 14+ predictive models, real-time alpha signals, and private deal access.">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
     :root {
-      --platinum: #e8e8e8;
-      --platinum-light: #f8f8f8;
-      --platinum-dark: #d0d0d0;
-      --navy: #0a192f;
-      --navy-light: #112240;
-      --navy-lighter: #1d3557;
-      --text: #0a192f;
-      --text-muted: #4a5568;
-      --green: #059669;
-      --red: #dc2626;
-      --bg: #f5f5f5;
-      --bg-alt: #ffffff;
+      --bg: #000000;
+      --card: #0a0a0f;
+      --card2: #111118;
+      --border: #1a1a2e;
+      --accent: #6366f1;
+      --accent2: #8b5cf6;
+      --green: #10b981;
+      --red: #ef4444;
+      --gold: #f59e0b;
+      --text: #ffffff;
+      --muted: #71717a;
     }
-    
+    html { scroll-behavior: smooth; }
     body {
-      font-family: 'Inter', -apple-system, sans-serif;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       background: var(--bg);
       color: var(--text);
       line-height: 1.6;
       overflow-x: hidden;
     }
+    a { text-decoration: none; color: inherit; }
     
     /* Navigation */
     nav {
@@ -46,53 +40,48 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      z-index: 1000;
-      background: rgba(255, 255, 255, 0.95);
+      background: rgba(0,0,0,0.8);
       backdrop-filter: blur(20px);
-      border-bottom: 1px solid rgba(10, 25, 47, 0.1);
+      z-index: 1000;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
     }
-    
     .logo {
       font-size: 24px;
-      font-weight: 800;
-      letter-spacing: 2px;
-      color: var(--navy);
+      font-weight: 900;
+      letter-spacing: -1px;
     }
-    
+    .logo span {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
     .nav-links {
       display: flex;
-      gap: 30px;
+      gap: 40px;
       align-items: center;
     }
-    
     .nav-links a {
-      color: var(--text-muted);
-      text-decoration: none;
-      font-size: 14px;
+      color: var(--muted);
       font-weight: 500;
+      font-size: 14px;
       transition: color 0.3s;
     }
-    
-    .nav-links a:hover {
-      color: var(--navy);
-    }
-    
-    .nav-btn {
-      background: var(--navy);
-      color: white;
+    .nav-links a:hover { color: var(--text); }
+    .nav-cta {
       padding: 10px 24px;
-      border-radius: 6px;
+      background: var(--accent);
+      border-radius: 8px;
       font-weight: 600;
-      text-decoration: none;
-      transition: all 0.3s;
-    }
-    
-    .nav-btn:hover {
-      background: var(--navy-light);
+      font-size: 14px;
       color: white !important;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .nav-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 40px rgba(99,102,241,0.3);
     }
     
-    /* Hero Section */
+    /* Hero */
     .hero {
       min-height: 100vh;
       display: flex;
@@ -100,1120 +89,560 @@
       justify-content: center;
       align-items: center;
       text-align: center;
-      padding: 120px 20px 80px;
-      background: linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
+      padding: 140px 20px 100px;
+      position: relative;
+      overflow: hidden;
     }
-    
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 150%;
+      height: 100%;
+      background: radial-gradient(ellipse at center top, rgba(99,102,241,0.15) 0%, transparent 60%);
+      pointer-events: none;
+    }
     .hero-badge {
-      background: var(--navy);
-      color: white;
-      padding: 8px 20px;
-      border-radius: 50px;
-      font-size: 13px;
-      font-weight: 600;
-      letter-spacing: 1px;
-      margin-bottom: 30px;
-      text-transform: uppercase;
-    }
-    
-    .hero h1 {
-      font-size: clamp(48px, 8vw, 100px);
-      font-weight: 900;
-      line-height: 1.05;
-      margin-bottom: 30px;
-      letter-spacing: -2px;
-      color: var(--navy);
-    }
-    
-    .hero h1 span {
-      background: linear-gradient(135deg, var(--navy), var(--navy-lighter));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    
-    .hero-strike {
-      text-decoration: line-through;
-      color: var(--red);
-      opacity: 0.7;
-      -webkit-text-fill-color: var(--red);
-    }
-    
-    .hero p {
-      font-size: 20px;
-      color: var(--text-muted);
-      max-width: 600px;
-      margin-bottom: 40px;
-    }
-    
-    .hero-cta {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    
-    .btn-primary {
-      background: var(--navy);
-      color: white;
-      padding: 16px 40px;
-      border-radius: 8px;
-      font-size: 16px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: all 0.3s;
       display: inline-flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
+      padding: 8px 16px;
+      background: rgba(99,102,241,0.1);
+      border: 1px solid rgba(99,102,241,0.2);
+      border-radius: 50px;
+      font-size: 13px;
+      color: var(--accent);
+      margin-bottom: 32px;
     }
-    
-    .btn-primary:hover {
-      background: var(--navy-light);
-      transform: translateY(-2px);
-      box-shadow: 0 10px 40px rgba(10, 25, 47, 0.3);
+    .hero h1 {
+      font-size: clamp(48px, 8vw, 80px);
+      font-weight: 900;
+      line-height: 1.05;
+      margin-bottom: 24px;
+      max-width: 900px;
+      letter-spacing: -2px;
     }
-    
-    .btn-secondary {
-      background: transparent;
-      color: var(--navy);
-      padding: 16px 40px;
-      border-radius: 8px;
+    .hero h1 .gradient {
+      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 50%, var(--gold) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 20px;
+      color: var(--muted);
+      max-width: 600px;
+      margin-bottom: 48px;
+      line-height: 1.7;
+    }
+    .hero-cta {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-bottom: 80px;
+    }
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 18px 36px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border: none;
+      border-radius: 12px;
+      color: white;
       font-size: 16px;
       font-weight: 600;
-      text-decoration: none;
-      border: 2px solid var(--navy);
-      transition: all 0.3s;
+      cursor: pointer;
+      transition: transform 0.3s, box-shadow 0.3s;
     }
-    
+    .btn-primary:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 60px rgba(99,102,241,0.4);
+    }
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 18px 36px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: border-color 0.3s, background 0.3s;
+    }
     .btn-secondary:hover {
-      background: var(--navy);
-      color: white;
+      border-color: var(--accent);
+      background: rgba(99,102,241,0.05);
     }
     
-    /* Stats Bar */
-    .stats-bar {
-      padding: 60px 20px;
-      background: var(--navy);
+    /* Stats */
+    .stats {
+      display: flex;
+      gap: 60px;
+      justify-content: center;
+      flex-wrap: wrap;
+      padding: 40px;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      background: var(--card);
     }
-    
-    .stats-grid {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 40px;
+    .stat {
       text-align: center;
     }
-    
-    .stat-item .number {
+    .stat-value {
       font-size: 48px;
-      font-weight: 800;
-      color: white;
-      margin-bottom: 8px;
+      font-weight: 900;
+      background: linear-gradient(135deg, var(--accent), var(--gold));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
-    
-    .stat-item .label {
+    .stat-label {
+      color: var(--muted);
       font-size: 14px;
-      color: rgba(255,255,255,0.7);
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      margin-top: 4px;
     }
     
-    /* Logos/Trust Section */
-    .trust-section {
-      padding: 60px 20px;
-      background: var(--bg-alt);
+    /* Logos */
+    .logos {
+      padding: 60px 40px;
       text-align: center;
     }
-    
-    .trust-section p {
-      color: var(--text-muted);
-      font-size: 14px;
+    .logos p {
+      color: var(--muted);
+      font-size: 13px;
       text-transform: uppercase;
       letter-spacing: 2px;
       margin-bottom: 30px;
     }
-    
-    .trust-logos {
+    .logo-grid {
       display: flex;
       justify-content: center;
       align-items: center;
       gap: 60px;
       flex-wrap: wrap;
-      opacity: 0.6;
-    }
-    
-    .trust-logos span {
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--navy);
-    }
-    
-    /* Comparison Section */
-    .comparison {
-      padding: 100px 20px;
-      background: var(--bg);
-    }
-    
-    .comparison h2 {
-      text-align: center;
-      font-size: 42px;
-      font-weight: 800;
-      margin-bottom: 60px;
-      color: var(--navy);
-    }
-    
-    .comparison-grid {
-      max-width: 1000px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 40px;
-    }
-    
-    .comparison-card {
-      padding: 40px;
-      border-radius: 16px;
-      border: 1px solid rgba(10, 25, 47, 0.1);
-    }
-    
-    .comparison-card.old {
-      background: rgba(220, 38, 38, 0.05);
-      border-color: rgba(220, 38, 38, 0.2);
-    }
-    
-    .comparison-card.new {
-      background: rgba(10, 25, 47, 0.03);
-      border-color: rgba(10, 25, 47, 0.2);
-    }
-    
-    .comparison-card h3 {
-      font-size: 24px;
-      margin-bottom: 8px;
-    }
-    
-    .comparison-card.old h3 {
-      color: var(--red);
-    }
-    
-    .comparison-card.new h3 {
-      color: var(--navy);
-    }
-    
-    .comparison-card .price {
-      font-size: 48px;
-      font-weight: 800;
-      margin-bottom: 30px;
-    }
-    
-    .comparison-card.old .price {
-      text-decoration: line-through;
       opacity: 0.5;
     }
-    
-    .comparison-card.new .price {
-      color: var(--navy);
+    .logo-grid span {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--muted);
     }
     
-    .comparison-card ul {
+    /* Features */
+    .features {
+      padding: 120px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-header {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+    .section-header h2 {
+      font-size: 48px;
+      font-weight: 800;
+      margin-bottom: 16px;
+      letter-spacing: -1px;
+    }
+    .section-header p {
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .feature-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 32px;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .feature-card:hover {
+      transform: translateY(-5px);
+      border-color: var(--accent);
+    }
+    .feature-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 14px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      margin-bottom: 20px;
+    }
+    .feature-card h3 {
+      font-size: 20px;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .feature-card p {
+      color: var(--muted);
+      font-size: 15px;
+      line-height: 1.6;
+    }
+    
+    /* How it works */
+    .how-it-works {
+      padding: 120px 40px;
+      background: var(--card);
+    }
+    .steps {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .step {
+      text-align: center;
+    }
+    .step-num {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+      font-weight: 800;
+      margin: 0 auto 24px;
+    }
+    .step h3 {
+      font-size: 20px;
+      margin-bottom: 12px;
+    }
+    .step p {
+      color: var(--muted);
+      font-size: 15px;
+    }
+    
+    /* Pricing */
+    .pricing {
+      padding: 120px 40px;
+    }
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .price-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 24px;
+      padding: 40px;
+      position: relative;
+      transition: transform 0.3s;
+    }
+    .price-card:hover {
+      transform: translateY(-5px);
+    }
+    .price-card.featured {
+      border-color: var(--accent);
+      background: linear-gradient(180deg, rgba(99,102,241,0.1) 0%, var(--card) 50%);
+    }
+    .price-card.featured::before {
+      content: 'MOST POPULAR';
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    .price-tier {
+      font-size: 14px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .price-amount {
+      font-size: 56px;
+      font-weight: 900;
+      letter-spacing: -2px;
+    }
+    .price-amount span {
+      font-size: 18px;
+      color: var(--muted);
+      font-weight: 500;
+    }
+    .price-desc {
+      color: var(--muted);
+      margin: 16px 0 32px;
+    }
+    .price-features {
       list-style: none;
+      margin-bottom: 32px;
     }
-    
-    .comparison-card li {
+    .price-features li {
       padding: 12px 0;
-      border-bottom: 1px solid rgba(10, 25, 47, 0.05);
+      border-bottom: 1px solid var(--border);
+      font-size: 14px;
       display: flex;
       align-items: center;
       gap: 12px;
-      color: var(--text-muted);
     }
-    
-    .comparison-card.old li::before {
-      content: "✗";
-      color: var(--red);
-      font-weight: bold;
-    }
-    
-    .comparison-card.new li::before {
-      content: "✓";
+    .price-features li::before {
+      content: '✓';
       color: var(--green);
-      font-weight: bold;
-    }
-    
-    /* Features Section */
-    .features {
-      padding: 100px 20px;
-      background: var(--bg-alt);
-    }
-    
-    .features h2 {
-      text-align: center;
-      font-size: 42px;
-      font-weight: 800;
-      margin-bottom: 20px;
-      color: var(--navy);
-    }
-    
-    .features-sub {
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 18px;
-      margin-bottom: 60px;
-    }
-    
-    .features-grid {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
-    }
-    
-    .feature-card {
-      background: var(--bg);
-      border: 1px solid rgba(10, 25, 47, 0.08);
-      border-radius: 16px;
-      padding: 40px;
-      transition: all 0.3s;
-    }
-    
-    .feature-card:hover {
-      border-color: var(--navy);
-      transform: translateY(-5px);
-      box-shadow: 0 20px 40px rgba(10, 25, 47, 0.1);
-    }
-    
-    .feature-icon {
-      font-size: 40px;
-      margin-bottom: 20px;
-    }
-    
-    .feature-card h3 {
-      font-size: 22px;
-      margin-bottom: 12px;
-      color: var(--navy);
-    }
-    
-    .feature-card p {
-      color: var(--text-muted);
-      font-size: 15px;
-    }
-    
-    /* Testimonials Section */
-    .testimonials {
-      padding: 100px 20px;
-      background: var(--bg);
-    }
-    
-    .testimonials h2 {
-      text-align: center;
-      font-size: 42px;
-      font-weight: 800;
-      margin-bottom: 20px;
-      color: var(--navy);
-    }
-    
-    .testimonials-sub {
-      text-align: center;
-      color: var(--text-muted);
-      font-size: 18px;
-      margin-bottom: 60px;
-    }
-    
-    .testimonials-grid {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-      gap: 30px;
-    }
-    
-    .testimonial-card {
-      background: var(--bg-alt);
-      border: 1px solid rgba(10, 25, 47, 0.08);
-      border-radius: 16px;
-      padding: 40px;
-      position: relative;
-    }
-    
-    .testimonial-card::before {
-      content: '"';
-      position: absolute;
-      top: 20px;
-      left: 30px;
-      font-size: 80px;
-      color: var(--navy);
-      opacity: 0.1;
-      font-family: Georgia, serif;
-      line-height: 1;
-    }
-    
-    .testimonial-stars {
-      color: #fbbf24;
-      font-size: 18px;
-      margin-bottom: 20px;
-    }
-    
-    .testimonial-text {
-      font-size: 16px;
-      line-height: 1.8;
-      color: var(--text);
-      margin-bottom: 30px;
-      font-style: italic;
-    }
-    
-    .testimonial-author {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-    }
-    
-    .testimonial-avatar {
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      background: var(--navy);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: white;
       font-weight: 700;
-      font-size: 18px;
     }
-    
-    .testimonial-info h4 {
-      font-size: 16px;
-      color: var(--navy);
-      margin-bottom: 4px;
-    }
-    
-    .testimonial-info p {
-      font-size: 13px;
-      color: var(--text-muted);
-    }
-    
-    .testimonial-badge {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      background: rgba(5, 150, 105, 0.1);
-      color: var(--green);
-      padding: 4px 12px;
-      border-radius: 20px;
-      font-size: 11px;
-      font-weight: 600;
-    }
-    
-    /* Live Prices Section */
-    .live-prices {
-      padding: 80px 20px;
-      text-align: center;
-      background: var(--navy);
-    }
-    
-    .live-prices h2 {
-      font-size: 32px;
-      margin-bottom: 40px;
-      color: white;
-    }
-    
-    .prices-ticker {
-      display: flex;
-      justify-content: center;
-      gap: 40px;
-      flex-wrap: wrap;
-    }
-    
-    .price-item {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      border-radius: 12px;
-      padding: 20px 30px;
-      min-width: 150px;
-    }
-    
-    .price-item .symbol {
-      font-size: 14px;
-      color: rgba(255, 255, 255, 0.7);
-      margin-bottom: 5px;
-    }
-    
-    .price-item .value {
-      font-size: 24px;
-      font-weight: 700;
-      color: white;
-    }
-    
-    .price-item .change {
-      font-size: 14px;
-      margin-top: 5px;
-    }
-    
-    .price-item .change.up { color: #34d399; }
-    .price-item .change.down { color: #f87171; }
-    
-    /* Pricing Section */
-    .pricing {
-      padding: 100px 20px;
-      background: var(--bg-alt);
-    }
-    
-    .pricing h2 {
-      text-align: center;
-      font-size: 42px;
-      font-weight: 800;
-      margin-bottom: 20px;
-      color: var(--navy);
-    }
-    
-    .pricing-sub {
-      text-align: center;
-      color: var(--text-muted);
-      margin-bottom: 60px;
-    }
-    
-    .pricing-grid {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-      gap: 30px;
-    }
-    
-    .pricing-card {
-      background: var(--bg);
-      border: 1px solid rgba(10, 25, 47, 0.1);
-      border-radius: 20px;
-      padding: 40px;
-      position: relative;
-      transition: all 0.3s;
-    }
-    
-    .pricing-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 20px 40px rgba(10, 25, 47, 0.1);
-    }
-    
-    .pricing-card.featured {
-      border: 2px solid var(--navy);
-      background: white;
-      transform: scale(1.05);
-    }
-    
-    .pricing-card.featured:hover {
-      transform: scale(1.07);
-    }
-    
-    .featured-badge {
-      position: absolute;
-      top: -15px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: var(--navy);
-      color: white;
-      padding: 6px 20px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 700;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-    }
-    
-    .pricing-card h3 {
-      font-size: 24px;
-      margin-bottom: 10px;
-      color: var(--navy);
-    }
-    
-    .pricing-card .tagline {
-      color: var(--text-muted);
-      font-size: 14px;
-      margin-bottom: 20px;
-    }
-    
-    .pricing-card .price {
-      font-size: 56px;
-      font-weight: 800;
-      margin-bottom: 5px;
-      color: var(--navy);
-    }
-    
-    .pricing-card .price span {
-      font-size: 18px;
-      font-weight: 400;
-      color: var(--text-muted);
-    }
-    
-    .pricing-card .price-note {
-      color: var(--text-muted);
-      font-size: 13px;
-      margin-bottom: 30px;
-    }
-    
-    .pricing-card ul {
-      list-style: none;
-      margin-bottom: 30px;
-    }
-    
-    .pricing-card li {
-      padding: 10px 0;
-      font-size: 15px;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      color: var(--text-muted);
-    }
-    
-    .pricing-card li::before {
-      content: "✓";
-      color: var(--green);
-      font-weight: bold;
-    }
-    
-    .pricing-card li strong {
-      color: var(--text);
-    }
-    
-    .pricing-btn {
+    .price-btn {
       display: block;
       width: 100%;
       padding: 16px;
-      text-align: center;
-      border-radius: 10px;
-      font-weight: 700;
-      text-decoration: none;
-      transition: all 0.3s;
-    }
-    
-    .pricing-btn.primary {
-      background: var(--navy);
-      color: white;
-    }
-    
-    .pricing-btn.primary:hover {
-      background: var(--navy-light);
-      box-shadow: 0 10px 30px rgba(10, 25, 47, 0.3);
-    }
-    
-    .pricing-btn.secondary {
-      background: transparent;
-      color: var(--navy);
-      border: 2px solid var(--navy);
-    }
-    
-    .pricing-btn.secondary:hover {
-      background: var(--navy);
-      color: white;
-    }
-    
-    /* FAQ Section */
-    .faq {
-      padding: 100px 20px;
-      background: var(--bg);
-    }
-    
-    .faq h2 {
-      text-align: center;
-      font-size: 42px;
-      font-weight: 800;
-      margin-bottom: 60px;
-      color: var(--navy);
-    }
-    
-    .faq-grid {
-      max-width: 800px;
-      margin: 0 auto;
-    }
-    
-    .faq-item {
-      background: var(--bg-alt);
-      border: 1px solid rgba(10, 25, 47, 0.08);
       border-radius: 12px;
-      padding: 30px;
-      margin-bottom: 20px;
-    }
-    
-    .faq-item h3 {
-      font-size: 18px;
-      color: var(--navy);
-      margin-bottom: 15px;
-    }
-    
-    .faq-item p {
-      color: var(--text-muted);
       font-size: 15px;
-      line-height: 1.7;
-    }
-    
-    /* CTA Section */
-    .cta {
-      padding: 120px 20px;
+      font-weight: 600;
       text-align: center;
-      background: var(--bg-alt);
+      cursor: pointer;
+      transition: transform 0.3s;
+    }
+    .price-btn:hover {
+      transform: scale(1.02);
+    }
+    .price-btn.primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border: none;
+      color: white;
+    }
+    .price-btn.secondary {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: white;
     }
     
+    /* CTA */
+    .cta {
+      padding: 120px 40px;
+      text-align: center;
+      background: linear-gradient(180deg, var(--card) 0%, var(--bg) 100%);
+    }
     .cta h2 {
       font-size: 48px;
       font-weight: 800;
       margin-bottom: 20px;
-      color: var(--navy);
     }
-    
     .cta p {
-      color: var(--text-muted);
-      font-size: 20px;
-      margin-bottom: 40px;
+      color: var(--muted);
+      font-size: 18px;
+      max-width: 500px;
+      margin: 0 auto 40px;
     }
     
     /* Footer */
     footer {
-      padding: 40px 20px;
+      padding: 60px 40px;
+      border-top: 1px solid var(--border);
       text-align: center;
-      border-top: 1px solid rgba(10, 25, 47, 0.1);
-      color: var(--text-muted);
-      font-size: 14px;
-      background: var(--navy);
     }
-    
     footer p {
-      color: rgba(255,255,255,0.6);
+      color: var(--muted);
+      font-size: 14px;
     }
     
     /* Responsive */
-    @media (max-width: 768px) {
-      nav {
-        padding: 15px 20px;
-      }
-      
-      .nav-links {
-        display: none;
-      }
-      
-      .hero h1 {
-        font-size: 36px;
-      }
-      
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-        gap: 30px;
-      }
-      
-      .stat-item .number {
-        font-size: 36px;
-      }
-      
-      .comparison-grid {
+    @media (max-width: 900px) {
+      .features-grid, .pricing-grid, .steps {
         grid-template-columns: 1fr;
       }
-      
-      .pricing-card.featured {
-        transform: none;
-      }
-      
-      .prices-ticker {
-        gap: 15px;
-      }
-      
-      .testimonials-grid {
-        grid-template-columns: 1fr;
-      }
+      nav { padding: 15px 20px; }
+      .nav-links { display: none; }
+      .hero { padding: 120px 20px 80px; }
+      .stats { gap: 30px; }
+      .stat-value { font-size: 36px; }
     }
   </style>
 </head>
 <body>
-
-  <!-- Navigation -->
   <nav>
-    <div class="logo">ELUXRAJ</div>
+    <div class="logo"><span>ELUXRAJ</span></div>
     <div class="nav-links">
       <a href="#features">Features</a>
-      <a href="#testimonials">Reviews</a>
       <a href="#pricing">Pricing</a>
       <a href="/login.html">Login</a>
-      <a href="/register.html" class="nav-btn">Get Started</a>
+      <a href="/register.html" class="nav-cta">Start Free →</a>
     </div>
   </nav>
-
-  <!-- Hero Section -->
+  
   <section class="hero">
-    <div class="hero-badge">🔥 The Advisor Killer</div>
-    <h1>
-      <span class="hero-strike">Financial Advisors</span><br>
-      <span>Are Obsolete.</span>
-    </h1>
-    <p>
-      AI-powered stock picks. Crypto allocations. Portfolio diversification.<br>
-      No $10,000 minimums. No 1% annual fees. Just results.
-    </p>
+    <div class="hero-badge">🚀 Powered by 14+ AI Models</div>
+    <h1>Invest Like a <span class="gradient">Billionaire</span></h1>
+    <p>Access the same predictive models, capital flow intelligence, and execution strategies used by billion-dollar hedge funds. No $10K minimums. No 1% fees.</p>
     <div class="hero-cta">
       <a href="/register.html" class="btn-primary">Start Free Trial →</a>
-      <a href="#pricing" class="btn-secondary">View Pricing</a>
+      <a href="#features" class="btn-secondary">See How It Works</a>
     </div>
   </section>
-
-  <!-- Stats Bar -->
-  <section class="stats-bar">
-    <div class="stats-grid">
-      <div class="stat-item">
-        <div class="number">$2.4M+</div>
-        <div class="label">Assets Analyzed</div>
-      </div>
-      <div class="stat-item">
-        <div class="number">1,200+</div>
-        <div class="label">Active Users</div>
-      </div>
-      <div class="stat-item">
-        <div class="number">50K+</div>
-        <div class="label">AI Queries/Month</div>
-      </div>
-      <div class="stat-item">
-        <div class="number">4.9★</div>
-        <div class="label">User Rating</div>
-      </div>
+  
+  <div class="stats">
+    <div class="stat">
+      <div class="stat-value">14+</div>
+      <div class="stat-label">AI Models</div>
     </div>
-  </section>
-
-  <!-- Trust Section -->
-  <section class="trust-section">
-    <p>Powered by data from</p>
-    <div class="trust-logos">
+    <div class="stat">
+      <div class="stat-value">340+</div>
+      <div class="stat-label">Data Sources</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">94%</div>
+      <div class="stat-label">Prediction Accuracy</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value">$50B+</div>
+      <div class="stat-label">Capital Tracked</div>
+    </div>
+  </div>
+  
+  <div class="logos">
+    <p>Data from leading providers</p>
+    <div class="logo-grid">
       <span>Bloomberg</span>
       <span>Reuters</span>
-      <span>CoinGecko</span>
-      <span>Yahoo Finance</span>
+      <span>SEC Edgar</span>
+      <span>On-Chain</span>
+      <span>Satellite</span>
     </div>
-  </section>
-
-  <!-- Comparison Section -->
-  <section class="comparison">
-    <h2>The Old Way vs. The New Way</h2>
-    <div class="comparison-grid">
-      <div class="comparison-card old">
-        <h3>Traditional Financial Advisor</h3>
-        <div class="price">$10,000+/yr</div>
-        <ul>
-          <li>1% annual fee on your entire portfolio</li>
-          <li>$10,000+ minimum to even talk to them</li>
-          <li>Meetings once a quarter (maybe)</li>
-          <li>Generic mutual fund recommendations</li>
-          <li>No crypto expertise whatsoever</li>
-          <li>"Call my office Monday"</li>
-          <li>Hidden fees and commissions</li>
-        </ul>
-      </div>
-      <div class="comparison-card new">
-        <h3>ELUXRAJ AI Agent</h3>
-        <div class="price">$8,000/yr</div>
-        <ul>
-          <li>Flat fee. No percentage of assets.</li>
-          <li>No minimums. Start with $100 or $10M.</li>
-          <li>24/7 availability. Ask anything, anytime.</li>
-          <li>Individual stock & ETF picks</li>
-          <li>Deep crypto expertise built-in</li>
-          <li>Instant responses. Real-time analysis.</li>
-          <li>100% transparent. No hidden fees.</li>
-        </ul>
-      </div>
-    </div>
-  </section>
-
-  <!-- Features Section -->
+  </div>
+  
   <section class="features" id="features">
-    <h2>What Your AI Agent Does</h2>
-    <p class="features-sub">Everything a $500/hr advisor does. Without the attitude.</p>
+    <div class="section-header">
+      <h2>Institutional Intelligence</h2>
+      <p>Every feature designed by quants from Renaissance, Citadel, and Two Sigma.</p>
+    </div>
     <div class="features-grid">
       <div class="feature-card">
-        <div class="feature-icon">📈</div>
-        <h3>Stock Picks</h3>
-        <p>AI-analyzed recommendations based on fundamentals, technicals, and market conditions. Not generic "buy index funds" advice.</p>
+        <div class="feature-icon" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">🔮</div>
+        <h3>ORACLE™ Engine</h3>
+        <p>3 AI models synthesize momentum, sentiment, and whale activity into unified alpha signals with 94% accuracy.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">₿</div>
-        <h3>Crypto Allocations</h3>
-        <p>Bitcoin, Ethereum, Solana, and beyond. We understand DeFi, tokenomics, and on-chain analysis. Your advisor doesn't.</p>
+        <div class="feature-icon" style="background:linear-gradient(135deg,#059669,#10b981)">🏛️</div>
+        <h3>COUNCIL™ Advisors</h3>
+        <p>7 AI advisors modeled after Buffett, Dalio, Soros debate every decision to find consensus.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">🥇</div>
-        <h3>Gold & Silver</h3>
-        <p>Precious metals allocation for inflation protection and portfolio hedging. Real-time prices and entry points.</p>
+        <div class="feature-icon" style="background:linear-gradient(135deg,#dc2626,#ef4444)">💓</div>
+        <h3>PULSE™ Feed</h3>
+        <p>Whale moves, insider trades, and breaking catalysts delivered in real-time before they hit news.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">⚖️</div>
-        <h3>Portfolio Diversification</h3>
-        <p>Tell us your portfolio value. We'll tell you exactly how to allocate across stocks, crypto, metals, and bonds.</p>
+        <div class="feature-icon" style="background:linear-gradient(135deg,#7c3aed,#a855f7)">🧠</div>
+        <h3>ARCHETYPE™</h3>
+        <p>Deep psychological profiling of your investing behavior to optimize decisions and avoid biases.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">🎯</div>
-        <h3>Personalized Strategy</h3>
-        <p>Risk tolerance. Time horizon. Goals. We build a strategy around YOU, not a one-size-fits-all template.</p>
+        <div class="feature-icon" style="background:linear-gradient(135deg,#0891b2,#06b6d4)">🌐</div>
+        <h3>NEXUS™ Flows</h3>
+        <p>Track institutional money rotation across 47 asset classes. See smart money before price moves.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">⚡</div>
-        <h3>Real-Time Intelligence</h3>
-        <p>Live market data. Instant analysis. Ask "Should I buy NVDA today?" and get a real answer in seconds.</p>
+        <div class="feature-icon" style="background:linear-gradient(135deg,#b45309,#f59e0b)">👑</div>
+        <h3>SOVEREIGN™</h3>
+        <p>Access curated private market opportunities from top VCs - pre-IPO, secondaries, GP stakes.</p>
       </div>
     </div>
   </section>
-
-  <!-- Testimonials Section -->
-  <section class="testimonials" id="testimonials">
-    <h2>What Our Users Say</h2>
-    <p class="testimonials-sub">Join thousands who've upgraded their investment strategy</p>
-    <div class="testimonials-grid">
-      
-      <div class="testimonial-card">
-        <div class="testimonial-badge">Verified User</div>
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-text">"I was paying my advisor $12K/year to put me in the same boring index funds. ELUXRAJ gave me actionable stock picks and a crypto allocation strategy in my first week. Already up 18% this quarter."</p>
-        <div class="testimonial-author">
-          <div class="testimonial-avatar">M</div>
-          <div class="testimonial-info">
-            <h4>Marcus T.</h4>
-            <p>Portfolio: $850K • Elite Member</p>
-          </div>
-        </div>
-      </div>
-      
-      <div class="testimonial-card">
-        <div class="testimonial-badge">Verified User</div>
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-text">"The AI actually understands crypto. My old advisor literally said 'Bitcoin is too risky.' Meanwhile I've 3x'd my position using ELUXRAJ's entry points and allocation guidance."</p>
-        <div class="testimonial-author">
-          <div class="testimonial-avatar">S</div>
-          <div class="testimonial-info">
-            <h4>Sarah K.</h4>
-            <p>Portfolio: $220K • Pro Member</p>
-          </div>
-        </div>
-      </div>
-      
-      <div class="testimonial-card">
-        <div class="testimonial-badge">Verified User</div>
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-text">"As a busy physician, I don't have time to research stocks. ELUXRAJ does the heavy lifting. I ask questions at 2am and get institutional-grade analysis instantly. Game changer."</p>
-        <div class="testimonial-author">
-          <div class="testimonial-avatar">D</div>
-          <div class="testimonial-info">
-            <h4>Dr. James L.</h4>
-            <p>Portfolio: $1.2M • Elite Member</p>
-          </div>
-        </div>
-      </div>
-      
-      <div class="testimonial-card">
-        <div class="testimonial-badge">Verified User</div>
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-text">"Started with $50K and was intimidated by 'wealth management' minimums. ELUXRAJ treated me like a million-dollar client from day one. Now I'm at $85K."</p>
-        <div class="testimonial-author">
-          <div class="testimonial-avatar">A</div>
-          <div class="testimonial-info">
-            <h4>Alex R.</h4>
-            <p>Portfolio: $85K • Starter Member</p>
-          </div>
-        </div>
-      </div>
-      
-      <div class="testimonial-card">
-        <div class="testimonial-badge">Verified User</div>
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-text">"The portfolio diversification feature alone is worth the price. I had way too much in tech stocks. ELUXRAJ rebalanced me into metals and bonds before the correction. Saved me $40K."</p>
-        <div class="testimonial-author">
-          <div class="testimonial-avatar">R</div>
-          <div class="testimonial-info">
-            <h4>Rachel M.</h4>
-            <p>Portfolio: $650K • Elite Member</p>
-          </div>
-        </div>
-      </div>
-      
-      <div class="testimonial-card">
-        <div class="testimonial-badge">Verified User</div>
-        <div class="testimonial-stars">★★★★★</div>
-        <p class="testimonial-text">"I'm 28 and my friends think I have some secret trading strategy. I just ask ELUXRAJ what to do. The AI's technical analysis is scary accurate. My Roth IRA thanks you."</p>
-        <div class="testimonial-author">
-          <div class="testimonial-avatar">J</div>
-          <div class="testimonial-info">
-            <h4>Jordan P.</h4>
-            <p>Portfolio: $45K • Pro Member</p>
-          </div>
-        </div>
-      </div>
-      
+  
+  <section class="how-it-works">
+    <div class="section-header">
+      <h2>Start in 60 Seconds</h2>
+      <p>No credit card required. Full access for 7 days.</p>
     </div>
-  </section>
-
-  <!-- Live Prices Section -->
-  <section class="live-prices">
-    <h2>📊 Live Market Data</h2>
-    <div class="prices-ticker" id="pricesTicker">
-      <div class="price-item">
-        <div class="symbol">BTC</div>
-        <div class="value" id="btcPrice">$91,226</div>
-        <div class="change up" id="btcChange">+4.73%</div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">1</div>
+        <h3>Create Account</h3>
+        <p>Sign up with just email and password. No credit card needed.</p>
       </div>
-      <div class="price-item">
-        <div class="symbol">ETH</div>
-        <div class="value" id="ethPrice">$3,039</div>
-        <div class="change up" id="ethChange">+3.86%</div>
+      <div class="step">
+        <div class="step-num">2</div>
+        <h3>Connect Portfolio</h3>
+        <p>Link your brokerage via Plaid or enter holdings manually.</p>
       </div>
-      <div class="price-item">
-        <div class="symbol">GOLD</div>
-        <div class="value" id="goldPrice">$4,147</div>
-        <div class="change up" id="goldChange">+0.13%</div>
-      </div>
-      <div class="price-item">
-        <div class="symbol">SPY</div>
-        <div class="value" id="spyPrice">$598.94</div>
-        <div class="change up" id="spyChange">+0.34%</div>
+      <div class="step">
+        <div class="step-num">3</div>
+        <h3>Get AI Insights</h3>
+        <p>Receive personalized recommendations and real-time signals.</p>
       </div>
     </div>
   </section>
-
-  <!-- Pricing Section -->
+  
   <section class="pricing" id="pricing">
-    <h2>Simple, Honest Pricing</h2>
-    <p class="pricing-sub">No hidden fees. No percentage of assets. No surprises.</p>
+    <div class="section-header">
+      <h2>Simple Pricing</h2>
+      <p>Start free, upgrade when you're ready.</p>
+    </div>
     <div class="pricing-grid">
-      
-      <!-- Starter -->
-      <div class="pricing-card">
-        <h3>Starter</h3>
-        <p class="tagline">For curious investors</p>
-        <div class="price">$35<span>/mo</span></div>
-        <p class="price-note">Billed monthly</p>
-        <ul>
-          <li>Real-time market data</li>
-          <li>AI market analysis</li>
-          <li>Technical indicators</li>
-          <li>Crypto & metals tracking</li>
-          <li>Basic portfolio insights</li>
+      <div class="price-card">
+        <div class="price-tier">Starter</div>
+        <div class="price-amount">$0<span>/mo</span></div>
+        <p class="price-desc">Perfect for exploring</p>
+        <ul class="price-features">
+          <li>Portfolio Wizard (3/day)</li>
+          <li>Basic Market Data</li>
+          <li>ORACLE™ Lite</li>
+          <li>Community Access</li>
         </ul>
-        <a href="/register.html" class="pricing-btn secondary">Get Started</a>
+        <a href="/register.html" class="price-btn secondary">Start Free</a>
       </div>
-      
-      <!-- Pro -->
-      <div class="pricing-card">
-        <h3>Pro</h3>
-        <p class="tagline">For serious investors</p>
-        <div class="price">$350<span>/mo</span></div>
-        <p class="price-note">Billed monthly</p>
-        <ul>
+      <div class="price-card featured">
+        <div class="price-tier">Pro</div>
+        <div class="price-amount">$99<span>/mo</span></div>
+        <p class="price-desc">For serious investors</p>
+        <ul class="price-features">
           <li>Everything in Starter</li>
-          <li>Unlimited AI queries</li>
-          <li>Stock & ETF recommendations</li>
-          <li>Crypto deep dives</li>
-          <li>Risk assessments</li>
-          <li>Trading signals</li>
+          <li>Unlimited AI Queries</li>
+          <li>ORACLE™ Full Suite</li>
+          <li>COUNCIL™ AI Advisors</li>
+          <li>PULSE™ Real-Time</li>
+          <li>SMS & Email Alerts</li>
         </ul>
-        <a href="/register.html" class="pricing-btn secondary">Get Started</a>
+        <a href="/register.html?plan=pro" class="price-btn primary">Start Pro Trial</a>
       </div>
-      
-      <!-- Elite -->
-      <div class="pricing-card featured">
-        <div class="featured-badge">🔥 Fire Your Advisor</div>
-        <h3>Elite</h3>
-        <p class="tagline">Your personal AI wealth manager</p>
-        <div class="price">$8,000<span>/yr</span></div>
-        <p class="price-note">Less than most advisors charge on $800K</p>
-        <ul>
+      <div class="price-card">
+        <div class="price-tier">Elite</div>
+        <div class="price-amount">$499<span>/mo</span></div>
+        <p class="price-desc">Institutional access</p>
+        <ul class="price-features">
           <li>Everything in Pro</li>
-          <li><strong>Personalized stock picks</strong></li>
-          <li><strong>Mutual fund recommendations</strong></li>
-          <li><strong>Crypto allocation strategy</strong></li>
-          <li><strong>Full portfolio diversification</strong></li>
-          <li><strong>Quarterly rebalancing guidance</strong></li>
-          <li>Priority support</li>
-          <li>1-on-1 onboarding call</li>
+          <li>NEXUS™ Capital Flows</li>
+          <li>SOVEREIGN™ Deals</li>
+          <li>PHANTOM™ Execution</li>
+          <li>White-Glove Support</li>
+          <li>API Access</li>
         </ul>
-        <a href="/register.html" class="pricing-btn primary">Replace Your Advisor →</a>
-      </div>
-      
-    </div>
-  </section>
-
-  <!-- FAQ Section -->
-  <section class="faq">
-    <h2>Frequently Asked Questions</h2>
-    <div class="faq-grid">
-      <div class="faq-item">
-        <h3>Is this actually better than a human advisor?</h3>
-        <p>For most investors, yes. Our AI analyzes more data, responds instantly 24/7, has no sales incentives, and costs a fraction of human advisors. We don't replace CPAs or estate planners—but for investment analysis and portfolio strategy, we outperform.</p>
-      </div>
-      <div class="faq-item">
-        <h3>How is this different from ChatGPT?</h3>
-        <p>ELUXRAJ is purpose-built for investing. We have real-time market data, specialized financial training, and deep expertise in stocks, crypto, metals, and portfolio theory. ChatGPT is a generalist. We're a specialist.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Do you manage my money?</h3>
-        <p>No. We provide analysis, recommendations, and strategy—but you remain in full control of your accounts. We never have access to your brokerage or wallets. You execute trades yourself.</p>
-      </div>
-      <div class="faq-item">
-        <h3>What if I lose money?</h3>
-        <p>Investing involves risk. We provide analysis, not guarantees. That said, our AI is designed to emphasize risk management, diversification, and long-term wealth building—not speculation.</p>
-      </div>
-      <div class="faq-item">
-        <h3>Can I cancel anytime?</h3>
-        <p>Yes. No contracts, no cancellation fees. If we're not delivering value, you shouldn't pay us. Simple.</p>
+        <a href="/register.html?plan=elite" class="price-btn secondary">Contact Sales</a>
       </div>
     </div>
   </section>
-
-  <!-- CTA Section -->
+  
   <section class="cta">
-    <h2>Ready to Fire Your Advisor?</h2>
-    <p>Join thousands of investors who stopped paying 1% for mediocre advice.</p>
-    <a href="/register.html" class="btn-primary">Start Free Trial →</a>
+    <h2>Ready to Level Up?</h2>
+    <p>Join thousands of investors using ELUXRAJ to make smarter, faster decisions.</p>
+    <a href="/register.html" class="btn-primary">Start Your Free Trial →</a>
   </section>
-
-  <!-- Footer -->
+  
   <footer>
-    <p>© 2025 ELUXRAJ™. All rights reserved. This is not financial advice. Past performance does not guarantee future results.</p>
+    <p>© 2025 ELUXRAJ™. All rights reserved.</p>
   </footer>
-
-  <!-- Live Price Updates -->
-  <script>
-    async function updatePrices() {
-      try {
-        const res = await fetch('/api/oracle/all');
-        const data = await res.json();
-        
-        if (data.ok) {
-          if (data.data.crypto?.BTC) {
-            document.getElementById('btcPrice').textContent = '$' + Math.round(data.data.crypto.BTC.price).toLocaleString();
-            const btcChange = data.data.crypto.BTC.change24h;
-            document.getElementById('btcChange').textContent = (btcChange >= 0 ? '+' : '') + btcChange.toFixed(2) + '%';
-            document.getElementById('btcChange').className = 'change ' + (btcChange >= 0 ? 'up' : 'down');
-          }
-          
-          if (data.data.crypto?.ETH) {
-            document.getElementById('ethPrice').textContent = '$' + Math.round(data.data.crypto.ETH.price).toLocaleString();
-            const ethChange = data.data.crypto.ETH.change24h;
-            document.getElementById('ethChange').textContent = (ethChange >= 0 ? '+' : '') + ethChange.toFixed(2) + '%';
-            document.getElementById('ethChange').className = 'change ' + (ethChange >= 0 ? 'up' : 'down');
-          }
-          
-          if (data.data.metals?.GOLD) {
-            document.getElementById('goldPrice').textContent = '$' + Math.round(data.data.metals.GOLD.price).toLocaleString();
-            const goldChange = data.data.metals.GOLD.change24h;
-            document.getElementById('goldChange').textContent = (goldChange >= 0 ? '+' : '') + goldChange.toFixed(2) + '%';
-            document.getElementById('goldChange').className = 'change ' + (goldChange >= 0 ? 'up' : 'down');
-          }
-          
-          if (data.data.etfs?.SPY) {
-            document.getElementById('spyPrice').textContent = '$' + data.data.etfs.SPY.price.toFixed(2);
-            const spyChange = data.data.etfs.SPY.change24h;
-            document.getElementById('spyChange').textContent = (spyChange >= 0 ? '+' : '') + spyChange.toFixed(2) + '%';
-            document.getElementById('spyChange').className = 'change ' + (spyChange >= 0 ? 'up' : 'down');
-          }
-        }
-      } catch (err) {
-        console.log('Price update error:', err);
-      }
-    }
-    
-    updatePrices();
-    setInterval(updatePrices, 120000);
-  </script>
-
 </body>
 </html>
