@@ -76,7 +76,7 @@ main{padding:80px 20px 20px;max-width:1200px;margin:0 auto}
 <body>
 <nav><div class="logo">ELUXRAJ</div><div class="user"><span id="userName">Rob</span> <span style="color:var(--gold)">ELITE</span></div></nav>
 <main>
-<section class="hero"><div><h1>Welcome, <span id="heroName">Rob</span> 👋</h1><p>AI wealth intelligence ready</p></div><div style="display:flex;gap:15px;align-items:center"><button onclick="connectBrokerage()" style="padding:12px 20px;background:var(--accent);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer">🔗 Connect Brokerage</button><button onclick="openAlertModal()" style="padding:12px 20px;background:var(--gold);border:none;border-radius:10px;color:#000;font-weight:600;cursor:pointer;margin-left:10px">🔔 Set Alert</button></div><div class="pval"><div class="pval-amt">$127,482</div><div class="pval-chg">↑ +6.9% this month</div></div></section>
+<section class="hero"><div><h1>Welcome, <span id="heroName">Rob</span> 👋</h1><p>AI wealth intelligence ready</p></div><div style="display:flex;gap:15px;align-items:center"><button onclick="connectBrokerage()" style="padding:12px 20px;background:var(--accent);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer">🔗 Connect Brokerage</button><button onclick="openAlertModal()" style="padding:12px 20px;background:var(--gold);border:none;border-radius:10px;color:#000;font-weight:600;cursor:pointer;margin-left:10px">🔔 Set Alert</button><button onclick="openOracle()" style="padding:12px 20px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;margin-left:10px">🔮 ORACLE</button><button onclick="openCouncil()" style="padding:12px 20px;background:linear-gradient(135deg,#059669,#10b981);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;margin-left:10px">🏛️ COUNCIL</button><button onclick="openPulse()" style="padding:12px 20px;background:linear-gradient(135deg,#dc2626,#ef4444);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;margin-left:10px">💓 PULSE</button></div><div class="pval"><div class="pval-amt">$127,482</div><div class="pval-chg">↑ +6.9% this month</div></div></section>
 <section class="stats">
 <div class="stat"><div class="stat-label">₿ BTC 24h</div><div class="stat-value up" id="sBtc">+3.9%</div><div class="stat-sub" id="pBtc">$91,365</div></div>
 <div class="stat"><div class="stat-label">📈 S&P 500</div><div class="stat-value up" id="sSpy">+0.34%</div><div class="stat-sub" id="pSpy">$598</div></div>
@@ -247,7 +247,7 @@ function openAlertModal() {
       <label class="form-label">📧 Email</label>
       <input class="form-input" id="alertEmail" placeholder="you@email.com">
     </div>
-    <button class="btn" onclick="createAlert()">🔔 Set Alert</button>
+    <button class="btn" onclick="createAlert()">🔔 Set Alert</button><button onclick="openOracle()" style="padding:12px 20px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;margin-left:10px">🔮 ORACLE</button><button onclick="openCouncil()" style="padding:12px 20px;background:linear-gradient(135deg,#059669,#10b981);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;margin-left:10px">🏛️ COUNCIL</button><button onclick="openPulse()" style="padding:12px 20px;background:linear-gradient(135deg,#dc2626,#ef4444);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;margin-left:10px">💓 PULSE</button>
     <div id="alertResult" style="margin-top:15px"></div>
   `;
   document.getElementById('mTitle').textContent = '🔔 Set Price Alert';
@@ -279,5 +279,144 @@ async function createAlert() {
   document.getElementById('alertResult').innerHTML = result.ok 
     ? '<div style="color:var(--green)">✅ Alert created! You will be notified when ' + data.symbol + ' hits $' + data.targetPrice + '</div>'
     : '<div style="color:var(--red)">❌ ' + result.error + '</div>';
+}
+</script>
+<script>
+// ORACLE™ - Predictive Alpha Engine
+async function openOracle() {
+  const html = `
+    <div class="form-group">
+      <label class="form-label">Asset Symbol</label>
+      <input class="form-input" id="oracleSymbol" value="BTC" placeholder="BTC, ETH, NVDA, AAPL...">
+    </div>
+    <div class="form-group">
+      <label class="form-label">Capital to Deploy ($)</label>
+      <input class="form-input" id="oracleCapital" type="number" value="50000">
+    </div>
+    <button class="btn" onclick="runOracle()">🔮 Run ORACLE Analysis</button>
+    <div id="oracleResult" style="margin-top:20px"></div>
+  `;
+  document.getElementById('mTitle').textContent = '🔮 ORACLE™ Predictive Engine';
+  document.getElementById('mBody').innerHTML = html;
+  document.getElementById('modalBg').classList.add('active');
+}
+
+async function runOracle() {
+  const symbol = document.getElementById('oracleSymbol').value;
+  const capital = document.getElementById('oracleCapital').value;
+  document.getElementById('oracleResult').innerHTML = '<div style="color:var(--accent)">⏳ ORACLE synthesizing 3 models...</div>';
+  
+  const res = await fetch('/api/oracle-ai/synthesize/' + symbol + '?capital=' + capital);
+  const data = await res.json();
+  
+  if (data.ok) {
+    const o = data.oracle;
+    const color = o.recommendation.includes('ACCUMULATE') ? 'var(--green)' : 
+                  o.recommendation.includes('REDUCE') ? 'var(--red)' : 'var(--gold)';
+    
+    let html = '<div style="background:var(--card);border-radius:12px;padding:20px;border:1px solid var(--border)">';
+    html += '<h3 style="color:' + color + ';font-size:24px;margin-bottom:15px">' + o.recommendation + '</h3>';
+    html += '<div style="font-size:18px;margin-bottom:15px">' + o.action + '</div>';
+    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">';
+    html += '<div style="background:var(--bg);padding:12px;border-radius:8px"><span style="color:var(--muted)">Confidence</span><br><strong style="font-size:20px">' + o.confidence + '%</strong></div>';
+    html += '<div style="background:var(--bg);padding:12px;border-radius:8px"><span style="color:var(--muted)">Position Size</span><br><strong style="font-size:20px;color:var(--green)">$' + o.position_size.toLocaleString() + '</strong></div>';
+    html += '<div style="background:var(--bg);padding:12px;border-radius:8px"><span style="color:var(--muted)">Risk Level</span><br><strong style="font-size:20px">' + o.risk_level + '</strong></div>';
+    html += '<div style="background:var(--bg);padding:12px;border-radius:8px"><span style="color:var(--muted)">Models Used</span><br><strong style="font-size:20px">3</strong></div>';
+    html += '</div>';
+    
+    html += '<h4 style="color:var(--accent);margin-bottom:10px">📊 Model Breakdown</h4>';
+    html += '<div style="font-size:13px">';
+    html += '<div style="padding:8px;border-bottom:1px solid var(--border)"><strong>MOMENTUM-7:</strong> ' + o.models.MOMENTUM_7.signal + ' (' + o.models.MOMENTUM_7.confidence + '% confidence)</div>';
+    html += '<div style="padding:8px;border-bottom:1px solid var(--border)"><strong>SENTIMENT-∞:</strong> ' + o.models.SENTIMENT_INF.signal + ' (' + o.models.SENTIMENT_INF.confidence + '% confidence)</div>';
+    html += '<div style="padding:8px"><strong>WHALE-WATCH:</strong> ' + o.models.WHALE_WATCH.signal + ' (' + o.models.WHALE_WATCH.confidence + '% confidence)</div>';
+    html += '</div></div>';
+    
+    document.getElementById('oracleResult').innerHTML = html;
+  } else {
+    document.getElementById('oracleResult').innerHTML = '<div style="color:var(--red)">❌ ' + data.error + '</div>';
+  }
+}
+
+// COUNCIL™ - AI Board of Directors
+async function openCouncil() {
+  const html = `
+    <div class="form-group">
+      <label class="form-label">Investment Question</label>
+      <textarea class="form-input" id="councilQuestion" rows="3" placeholder="Should I buy NVDA at current prices?">Should I accumulate BTC at $95,000?</textarea>
+    </div>
+    <button class="btn" onclick="runCouncil()">🏛️ Convene The Council</button>
+    <div id="councilResult" style="margin-top:20px"></div>
+  `;
+  document.getElementById('mTitle').textContent = '🏛️ COUNCIL™ AI Board of Directors';
+  document.getElementById('mBody').innerHTML = html;
+  document.getElementById('modalBg').classList.add('active');
+}
+
+async function runCouncil() {
+  const question = document.getElementById('councilQuestion').value;
+  document.getElementById('councilResult').innerHTML = '<div style="color:var(--accent)">⏳ Council convening... 7 AI advisors debating...</div>';
+  
+  const res = await fetch('/api/council/convene', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ question })
+  });
+  const data = await res.json();
+  
+  if (data.ok) {
+    const c = data.council;
+    let html = '<div style="max-height:400px;overflow-y:auto">';
+    
+    c.advisors.forEach(a => {
+      const color = a.stance === 'BUY' || a.stance === 'BULLISH' ? 'var(--green)' : 
+                    a.stance === 'SELL' || a.stance === 'BEARISH' ? 'var(--red)' : 'var(--gold)';
+      html += '<div style="background:var(--card);border-radius:10px;padding:15px;margin-bottom:10px;border-left:3px solid ' + color + '">';
+      html += '<div style="display:flex;justify-content:space-between;margin-bottom:8px">';
+      html += '<strong style="color:var(--accent)">' + a.name + '</strong>';
+      html += '<span style="color:' + color + ';font-weight:bold">' + a.stance + '</span>';
+      html += '</div>';
+      html += '<div style="font-size:13px;color:var(--muted)">' + a.philosophy + '</div>';
+      html += '<div style="margin-top:8px;font-size:14px">"' + a.opinion + '"</div>';
+      html += '</div>';
+    });
+    
+    html += '<div style="background:linear-gradient(135deg,var(--accent),#8b5cf6);border-radius:10px;padding:20px;margin-top:15px">';
+    html += '<h4 style="color:white;margin-bottom:10px">⚖️ COUNCIL SYNTHESIS</h4>';
+    html += '<div style="color:white;font-size:16px">' + c.synthesis.recommendation + '</div>';
+    html += '<div style="color:rgba(255,255,255,0.8);margin-top:10px;font-size:14px">Confidence: ' + c.synthesis.confidence + '% | Dissent: ' + c.synthesis.dissent + '%</div>';
+    html += '</div></div>';
+    
+    document.getElementById('councilResult').innerHTML = html;
+  } else {
+    document.getElementById('councilResult').innerHTML = '<div style="color:var(--red)">❌ ' + data.error + '</div>';
+  }
+}
+
+// PULSE™ - Real-time Alpha Feed
+async function openPulse() {
+  document.getElementById('mTitle').textContent = '💓 PULSE™ Real-Time Alpha Feed';
+  document.getElementById('mBody').innerHTML = '<div style="color:var(--accent)">⏳ Loading alpha signals...</div>';
+  document.getElementById('modalBg').classList.add('active');
+  
+  const res = await fetch('/api/pulse/feed');
+  const data = await res.json();
+  
+  if (data.ok) {
+    let html = '<div style="max-height:450px;overflow-y:auto">';
+    data.signals.forEach((s, i) => {
+      const icon = s.type === 'whale' ? '🐋' : s.type === 'insider' ? '👔' : s.type === 'momentum' ? '📈' : s.type === 'news' ? '📰' : '⚡';
+      const color = s.sentiment === 'bullish' ? 'var(--green)' : s.sentiment === 'bearish' ? 'var(--red)' : 'var(--gold)';
+      html += '<div style="background:var(--card);border-radius:10px;padding:15px;margin-bottom:10px;border-left:3px solid ' + color + '">';
+      html += '<div style="display:flex;justify-content:space-between;align-items:center">';
+      html += '<span style="font-size:20px">' + icon + '</span>';
+      html += '<span style="font-size:12px;color:var(--muted)">' + s.time + '</span>';
+      html += '</div>';
+      html += '<div style="margin-top:8px;font-size:14px">' + s.message + '</div>';
+      html += '<div style="margin-top:5px;font-size:12px;color:' + color + '">' + s.impact + '</div>';
+      html += '</div>';
+    });
+    html += '</div>';
+    document.getElementById('mBody').innerHTML = html;
+  }
 }
 </script>
