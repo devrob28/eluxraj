@@ -295,3 +295,22 @@ router.get("/create-users-table", async (req, res) => {
     res.json({ ok: false, error: err.message });
   }
 });
+
+router.post("/test-register", async (req, res) => {
+  try {
+    const { email, password, name } = req.body;
+    const bcrypt = require('bcryptjs');
+    const passwordHash = await bcrypt.hash(password, 12);
+    const userId = 'user_' + Date.now();
+    
+    const result = await db.query(`
+      INSERT INTO users (user_id, email, password_hash, name, tier, status)
+      VALUES ($1, $2, $3, $4, $5, $6)
+      RETURNING *
+    `, [userId, email, passwordHash, name, 'free', 'active']);
+    
+    res.json({ ok: true, user: result.rows[0] });
+  } catch (err) {
+    res.json({ ok: false, error: err.message, detail: err.detail, code: err.code });
+  }
+});
