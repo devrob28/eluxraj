@@ -76,7 +76,7 @@ main{padding:80px 20px 20px;max-width:1200px;margin:0 auto}
 <body>
 <nav><div class="logo">ELUXRAJ</div><div class="user"><span id="userName">Rob</span> <span style="color:var(--gold)">ELITE</span></div></nav>
 <main>
-<section class="hero"><div><h1>Welcome, <span id="heroName">Rob</span> 👋</h1><p>AI wealth intelligence ready</p></div><div style="display:flex;gap:15px;align-items:center"><button onclick="connectBrokerage()" style="padding:12px 20px;background:var(--accent);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer">🔗 Connect Brokerage</button></div><div class="pval"><div class="pval-amt">$127,482</div><div class="pval-chg">↑ +6.9% this month</div></div></section>
+<section class="hero"><div><h1>Welcome, <span id="heroName">Rob</span> 👋</h1><p>AI wealth intelligence ready</p></div><div style="display:flex;gap:15px;align-items:center"><button onclick="connectBrokerage()" style="padding:12px 20px;background:var(--accent);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer">🔗 Connect Brokerage</button><button onclick="openAlertModal()" style="padding:12px 20px;background:var(--gold);border:none;border-radius:10px;color:#000;font-weight:600;cursor:pointer;margin-left:10px">🔔 Set Alert</button></div><div class="pval"><div class="pval-amt">$127,482</div><div class="pval-chg">↑ +6.9% this month</div></div></section>
 <section class="stats">
 <div class="stat"><div class="stat-label">₿ BTC 24h</div><div class="stat-value up" id="sBtc">+3.9%</div><div class="stat-sub" id="pBtc">$91,365</div></div>
 <div class="stat"><div class="stat-label">📈 S&P 500</div><div class="stat-value up" id="sSpy">+0.34%</div><div class="stat-sub" id="pSpy">$598</div></div>
@@ -217,4 +217,67 @@ async function loadHoldings() {
 
 // Load holdings on page load
 document.addEventListener('DOMContentLoaded', loadHoldings);
+</script>
+<script>
+// Set Price Alert
+function openAlertModal() {
+  const html = `
+    <div class="form-group">
+      <label class="form-label">Symbol</label>
+      <input class="form-input" id="alertSymbol" value="BTC" placeholder="BTC, NVDA, AAPL...">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label class="form-label">Target Price ($)</label>
+        <input class="form-input" id="alertPrice" type="number" value="100000">
+      </div>
+      <div class="form-group">
+        <label class="form-label">Direction</label>
+        <select class="form-select" id="alertDir">
+          <option value="above">Above (📈)</option>
+          <option value="below">Below (📉)</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">📱 Phone (for SMS)</label>
+      <input class="form-input" id="alertPhone" placeholder="+1234567890">
+    </div>
+    <div class="form-group">
+      <label class="form-label">📧 Email</label>
+      <input class="form-input" id="alertEmail" placeholder="you@email.com">
+    </div>
+    <button class="btn" onclick="createAlert()">🔔 Set Alert</button>
+    <div id="alertResult" style="margin-top:15px"></div>
+  `;
+  document.getElementById('mTitle').textContent = '🔔 Set Price Alert';
+  document.getElementById('mBody').innerHTML = html;
+  document.getElementById('modalBg').classList.add('active');
+}
+
+async function createAlert() {
+  const token = localStorage.getItem('eluxraj_token');
+  const data = {
+    symbol: document.getElementById('alertSymbol').value,
+    targetPrice: document.getElementById('alertPrice').value,
+    direction: document.getElementById('alertDir').value,
+    alertType: 'both',
+    phone: document.getElementById('alertPhone').value,
+    email: document.getElementById('alertEmail').value
+  };
+  
+  const res = await fetch('/api/alerts', {
+    method: 'POST',
+    headers: {
+      'Authorization': 'Bearer ' + token,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(data)
+  });
+  
+  const result = await res.json();
+  document.getElementById('alertResult').innerHTML = result.ok 
+    ? '<div style="color:var(--green)">✅ Alert created! You will be notified when ' + data.symbol + ' hits $' + data.targetPrice + '</div>'
+    : '<div style="color:var(--red)">❌ ' + result.error + '</div>';
+}
 </script>
