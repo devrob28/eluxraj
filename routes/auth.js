@@ -333,3 +333,21 @@ router.post("/test-register", async (req, res) => {
     res.json({ ok: false, error: err.message, detail: err.detail, code: err.code });
   }
 });
+
+// Temporary password reset (remove in production)
+router.post("/reset-password-temp", async (req, res) => {
+  try {
+    const { email, newPassword } = req.body;
+    const bcrypt = require('bcryptjs');
+    const passwordHash = await bcrypt.hash(newPassword, 12);
+    
+    await db.query(
+      'UPDATE users SET password_hash = $1 WHERE email = $2',
+      [passwordHash, email]
+    );
+    
+    res.json({ ok: true, message: 'Password reset' });
+  } catch (e) {
+    res.json({ ok: false, error: e.message });
+  }
+});
