@@ -89,6 +89,9 @@ app.use('/api/sovereign', sovereignRoutes);
 app.use('/api/atlas', atlasRoutes);
 app.use('/api/fidelity', fidelityRoutes);
 app.use('/api/attest', attestRoutes);
+app.use("/api/setup", require("./routes/setup-social"));
+app.use("/api/circles", require("./routes/circles"));
+app.use("/api/conviction", require("./routes/conviction"));
 app.use("/api/admin", require("./routes/admin"));
 app.use("/api/admin", require("./routes/admin"));
 
