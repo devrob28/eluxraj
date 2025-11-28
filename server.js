@@ -89,6 +89,7 @@ app.use('/api/sovereign', sovereignRoutes);
 app.use('/api/atlas', atlasRoutes);
 app.use('/api/fidelity', fidelityRoutes);
 app.use('/api/attest', attestRoutes);
+app.use("/api/seed-deals", require("./routes/seed-deals"));
 app.use("/api/aureus", require("./routes/aureus"));
 app.use("/api/ledgerlink", require("./routes/ledgerlink"));
 app.use("/api/setup-marketplace", require("./routes/setup-marketplace"));
