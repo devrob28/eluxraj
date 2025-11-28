@@ -1,115 +1,95 @@
-// Real-Time Alert System
 const twilio = require('twilio');
-const nodemailer = require('nodemailer');
+const sgMail = require('@sendgrid/mail');
 
-// Twilio SMS
-const twilioClient = twilio(
-  process.env.TWILIO_ACCOUNT_SID,
-  process.env.TWILIO_AUTH_TOKEN
-);
+// Initialize Twilio
+const twilioClient = process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN
+  ? twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
+  : null;
 
-// Email transporter
-const emailTransporter = nodemailer.createTransport({
-  host: 'smtp.gmail.com',
-  port: 587,
-  auth: {
-    user: process.env.EMAIL_USER,
-    pass: process.env.EMAIL_PASS
+// Initialize SendGrid
+if (process.env.SENDGRID_API_KEY) {
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+}
+
+// Send SMS
+async function sendSMS(to, message) {
+  if (!twilioClient) {
+    console.log('SMS (demo):', message);
+    return { ok: true, demo: true };
   }
-});
-
-// Alert types
-const ALERT_TYPES = {
-  PRICE_TARGET: 'price_target',
-  PRICE_DROP: 'price_drop',
-  AI_SIGNAL: 'ai_signal',
-  PORTFOLIO_CHANGE: 'portfolio_change',
-  NEWS: 'breaking_news'
-};
-
-// Send SMS alert
-async function sendSMS(phone, message) {
+  
   try {
     await twilioClient.messages.create({
-      body: `🚨 ELUXRAJ Alert: ${message}`,
-      from: process.env.TWILIO_PHONE,
-      to: phone
+      body: message,
+      from: process.env.TWILIO_PHONE_NUMBER,
+      to: to
     });
     return { ok: true };
-  } catch (err) {
-    console.error('SMS error:', err);
-    return { ok: false, error: err.message };
+  } catch (error) {
+    console.error('SMS error:', error);
+    return { ok: false, error: error.message };
   }
 }
 
-// Send email alert
+// Send Email
 async function sendEmail(to, subject, html) {
+  if (!process.env.SENDGRID_API_KEY) {
+    console.log('Email (demo):', subject);
+    return { ok: true, demo: true };
+  }
+  
   try {
-    await emailTransporter.sendMail({
-      from: '"ELUXRAJ Alerts" <alerts@eluxraj.ai>',
-      to,
-      subject: `🚨 ${subject}`,
-      html
+    await sgMail.send({
+      to: to,
+      from: process.env.FROM_EMAIL || 'alerts@eluxraj.ai',
+      subject: subject,
+      html: html
     });
     return { ok: true };
-  } catch (err) {
-    console.error('Email error:', err);
-    return { ok: false, error: err.message };
+  } catch (error) {
+    console.error('Email error:', error);
+    return { ok: false, error: error.message };
   }
 }
 
-// Create price alert
-async function createPriceAlert(userId, symbol, targetPrice, direction) {
-  // Store in database
-  // direction: 'above' or 'below'
-  return {
-    id: Date.now(),
-    userId,
-    symbol,
-    targetPrice,
-    direction,
-    active: true,
-    createdAt: new Date()
-  };
+// Alert templates
+function priceAlertSMS(symbol, price, direction, target) {
+  return `🚨 ELUXRAJ Alert: ${symbol} ${direction === 'above' ? '📈' : '📉'} $${price} (Target: $${target})`;
 }
 
-// Check and trigger alerts
-async function checkAlerts(currentPrices) {
-  // Get all active alerts from DB
-  // Compare with current prices
-  // Trigger if conditions met
-}
-
-// AI Signal Alert
-async function sendAISignalAlert(user, signal) {
-  const message = `${signal.action} ${signal.symbol} @ $${signal.entry} | Target: $${signal.target} | Stop: $${signal.stop}`;
-  
-  if (user.alertPreferences?.sms) {
-    await sendSMS(user.phone, message);
-  }
-  
-  if (user.alertPreferences?.email) {
-    await sendEmail(user.email, `AI Signal: ${signal.action} ${signal.symbol}`, `
-      <div style="font-family: Arial; padding: 20px;">
-        <h2>🤖 AI Trading Signal</h2>
-        <p><strong>Action:</strong> ${signal.action}</p>
-        <p><strong>Symbol:</strong> ${signal.symbol}</p>
-        <p><strong>Entry:</strong> $${signal.entry}</p>
-        <p><strong>Target:</strong> $${signal.target}</p>
-        <p><strong>Stop Loss:</strong> $${signal.stop}</p>
-        <p><strong>Confidence:</strong> ${signal.confidence}</p>
-        <br>
-        <a href="https://eluxraj.ai/dashboard" style="background: #6366f1; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px;">View in Dashboard</a>
+function priceAlertEmail(symbol, price, direction, target) {
+  return `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+      <div style="background: linear-gradient(135deg, #6366f1, #8b5cf6); padding: 20px; text-align: center;">
+        <h1 style="color: white; margin: 0;">ELUXRAJ™ Price Alert</h1>
       </div>
-    `);
-  }
+      <div style="padding: 30px; background: #1a1a2e; color: white;">
+        <h2 style="color: ${direction === 'above' ? '#10b981' : '#ef4444'};">
+          ${symbol} ${direction === 'above' ? '📈 Above' : '📉 Below'} Target
+        </h2>
+        <table style="width: 100%; margin: 20px 0;">
+          <tr>
+            <td style="padding: 10px; border-bottom: 1px solid #333;">Symbol</td>
+            <td style="padding: 10px; border-bottom: 1px solid #333; font-weight: bold;">${symbol}</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border-bottom: 1px solid #333;">Current Price</td>
+            <td style="padding: 10px; border-bottom: 1px solid #333; font-weight: bold;">$${price}</td>
+          </tr>
+          <tr>
+            <td style="padding: 10px; border-bottom: 1px solid #333;">Your Target</td>
+            <td style="padding: 10px; border-bottom: 1px solid #333;">$${target}</td>
+          </tr>
+        </table>
+        <a href="https://eluxraj.ai/dashboard.html" style="display: inline-block; background: #6366f1; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px;">View Dashboard</a>
+      </div>
+    </div>
+  `;
 }
 
 module.exports = {
-  ALERT_TYPES,
   sendSMS,
   sendEmail,
-  createPriceAlert,
-  checkAlerts,
-  sendAISignalAlert
+  priceAlertSMS,
+  priceAlertEmail
 };

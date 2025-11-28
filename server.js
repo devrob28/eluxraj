@@ -10,6 +10,7 @@ const aiService = require('./services/ai');
 const marketData = require('./services/marketData');
 const authRoutes = require('./routes/auth');
 const plaidRoutes = require('./routes/plaid');
+const alertsRoutes = require('./routes/alerts');
 const aiRoutes = require("./routes/ai");
 const { authenticateToken, optionalAuth, requireTier } = require('./middleware/auth');
 
@@ -55,6 +56,7 @@ function sanitizeInput(input) {
 app.use('/api/auth', authRoutes);
 app.use("/api/ai", aiRoutes);
 app.use('/api/plaid', plaidRoutes);
+app.use('/api/alerts', alertsRoutes);
 
 // ============================================================================
 // MARKET DATA ENDPOINTS (PUBLIC)
