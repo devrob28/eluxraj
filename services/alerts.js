@@ -1,15 +1,21 @@
 const twilio = require('twilio');
-const sgMail = require('@sendgrid/mail');
+const nodemailer = require('nodemailer');
 
 // Initialize Twilio
 const twilioClient = process.env.TWILIO_ACCOUNT_SID && process.env.TWILIO_AUTH_TOKEN
   ? twilio(process.env.TWILIO_ACCOUNT_SID, process.env.TWILIO_AUTH_TOKEN)
   : null;
 
-// Initialize SendGrid
-if (process.env.SENDGRID_API_KEY) {
-  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-}
+// Initialize Gmail transporter
+const emailTransporter = process.env.GMAIL_USER && process.env.GMAIL_APP_PASSWORD
+  ? nodemailer.createTransport({
+      service: 'gmail',
+      auth: {
+        user: process.env.GMAIL_USER,
+        pass: process.env.GMAIL_APP_PASSWORD
+      }
+    })
+  : null;
 
 // Send SMS
 async function sendSMS(to, message) {
@@ -31,17 +37,17 @@ async function sendSMS(to, message) {
   }
 }
 
-// Send Email
+// Send Email via Gmail
 async function sendEmail(to, subject, html) {
-  if (!process.env.SENDGRID_API_KEY) {
+  if (!emailTransporter) {
     console.log('Email (demo):', subject);
     return { ok: true, demo: true };
   }
   
   try {
-    await sgMail.send({
+    await emailTransporter.sendMail({
+      from: `ELUXRAJ Alerts <${process.env.GMAIL_USER}>`,
       to: to,
-      from: process.env.FROM_EMAIL || 'alerts@eluxraj.ai',
       subject: subject,
       html: html
     });
@@ -54,42 +60,24 @@ async function sendEmail(to, subject, html) {
 
 // Alert templates
 function priceAlertSMS(symbol, price, direction, target) {
-  return `🚨 ELUXRAJ Alert: ${symbol} ${direction === 'above' ? '📈' : '📉'} $${price} (Target: $${target})`;
+  return `🚨 ELUXRAJ: ${symbol} hit $${price} (${direction} $${target})`;
 }
 
 function priceAlertEmail(symbol, price, direction, target) {
   return `
-    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
+    <div style="font-family: Arial; max-width: 600px; margin: 0 auto;">
       <div style="background: linear-gradient(135deg, #6366f1, #8b5cf6); padding: 20px; text-align: center;">
-        <h1 style="color: white; margin: 0;">ELUXRAJ™ Price Alert</h1>
+        <h1 style="color: white; margin: 0;">🚨 ELUXRAJ Alert</h1>
       </div>
-      <div style="padding: 30px; background: #1a1a2e; color: white;">
+      <div style="padding: 30px; background: #0a0a0f; color: white;">
         <h2 style="color: ${direction === 'above' ? '#10b981' : '#ef4444'};">
-          ${symbol} ${direction === 'above' ? '📈 Above' : '📉 Below'} Target
+          ${symbol} ${direction === 'above' ? '📈' : '📉'} $${price}
         </h2>
-        <table style="width: 100%; margin: 20px 0;">
-          <tr>
-            <td style="padding: 10px; border-bottom: 1px solid #333;">Symbol</td>
-            <td style="padding: 10px; border-bottom: 1px solid #333; font-weight: bold;">${symbol}</td>
-          </tr>
-          <tr>
-            <td style="padding: 10px; border-bottom: 1px solid #333;">Current Price</td>
-            <td style="padding: 10px; border-bottom: 1px solid #333; font-weight: bold;">$${price}</td>
-          </tr>
-          <tr>
-            <td style="padding: 10px; border-bottom: 1px solid #333;">Your Target</td>
-            <td style="padding: 10px; border-bottom: 1px solid #333;">$${target}</td>
-          </tr>
-        </table>
-        <a href="https://eluxraj.ai/dashboard.html" style="display: inline-block; background: #6366f1; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px;">View Dashboard</a>
+        <p>Your target of $${target} was hit!</p>
+        <a href="https://eluxraj.ai/dashboard.html" style="display: inline-block; background: #6366f1; color: white; padding: 12px 24px; text-decoration: none; border-radius: 8px; margin-top: 20px;">View Dashboard</a>
       </div>
     </div>
   `;
 }
 
-module.exports = {
-  sendSMS,
-  sendEmail,
-  priceAlertSMS,
-  priceAlertEmail
-};
+module.exports = { sendSMS, sendEmail, priceAlertSMS, priceAlertEmail };
