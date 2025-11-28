@@ -34,7 +34,7 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 // SECURITY & MIDDLEWARE - UPDATED TO ALLOW GOOGLE FONTS
 // ============================================================================
 
-app.use(helmet({ contentSecurityPolicy: false }));
+// app.use(helmet({ contentSecurityPolicy: false }));
 app.use(cors());
 
 // Body Parser
