@@ -54,7 +54,7 @@ router.post('/register', [
 
     // Generate JWT token
     const token = generateToken({
-      id: user.user_id,
+      id: user.user_id, name: user.name,
       email: user.email,
       tier: user.tier
     });
@@ -66,7 +66,7 @@ router.post('/register', [
       message: 'Account created successfully',
       token,
       user: {
-        id: user.user_id,
+        id: user.user_id, name: user.name,
         email: user.email,
         name: user.name,
         tier: user.tier
@@ -139,7 +139,7 @@ router.post('/login', [
 
     // Generate token
     const token = generateToken({
-      id: user.user_id,
+      id: user.user_id, name: user.name,
       email: user.email,
       tier: user.tier
     });
@@ -151,7 +151,7 @@ router.post('/login', [
       message: 'Login successful',
       token,
       user: {
-        id: user.user_id,
+        id: user.user_id, name: user.name,
         email: user.email,
         name: user.name,
         tier: user.tier,
