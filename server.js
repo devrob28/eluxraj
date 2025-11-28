@@ -11,6 +11,7 @@ const marketData = require('./services/marketData');
 const authRoutes = require('./routes/auth');
 const plaidRoutes = require('./routes/plaid');
 const alertsRoutes = require('./routes/alerts');
+const oracleAIRoutes = require('./routes/oracle-ai');
 const aiRoutes = require("./routes/ai");
 const { authenticateToken, optionalAuth, requireTier } = require('./middleware/auth');
 
@@ -57,6 +58,7 @@ app.use('/api/auth', authRoutes);
 app.use("/api/ai", aiRoutes);
 app.use('/api/plaid', plaidRoutes);
 app.use('/api/alerts', alertsRoutes);
+app.use('/api/oracle-ai', oracleAIRoutes);
 
 // ============================================================================
 // MARKET DATA ENDPOINTS (PUBLIC)
