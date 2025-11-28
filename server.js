@@ -27,6 +27,14 @@ const aiRoutes = require("./routes/ai");
 const { authenticateToken, optionalAuth, requireTier } = require('./middleware/auth');
 
 const app = express();const oracleRoutes = require('./routes/oracle');
+
+// Disable all CSP - allow everything
+app.use((req, res, next) => {
+  res.removeHeader("Content-Security-Policy");
+  res.removeHeader("X-Content-Security-Policy");
+  res.setHeader("Content-Security-Policy", "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:;");
+  next();
+});
 const PORT = process.env.PORT || 3000;
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
