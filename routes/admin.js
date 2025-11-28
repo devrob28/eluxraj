@@ -4,7 +4,7 @@ const db = require('../database/db');
 const { authenticateToken } = require('../middleware/auth');
 
 // Admin emails (add yours)
-const ADMIN_EMAILS = ['rob@test.com', 'robtest@test.com', 'admin@eluxraj.ai'];
+const ADMIN_EMAILS = ['rob@test.com', 'robtest@test.com', 'admin@eluxraj.ai', 'support@eluxraj.ai'];
 
 // Admin check middleware
 const isAdmin = async (req, res, next) => {
