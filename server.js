@@ -440,3 +440,4 @@ process.on('SIGTERM', () => {
 
 module.exports = app;
 
+app.use("/api/seed-deals", require("./routes/seed-deals"));
