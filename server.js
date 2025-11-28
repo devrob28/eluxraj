@@ -89,6 +89,8 @@ app.use('/api/sovereign', sovereignRoutes);
 app.use('/api/atlas', atlasRoutes);
 app.use('/api/fidelity', fidelityRoutes);
 app.use('/api/attest', attestRoutes);
+app.use("/api/admin", require("./routes/admin"));
+app.use("/api/admin", require("./routes/admin"));
 
 // ============================================================================
 // MARKET DATA ENDPOINTS (PUBLIC)
@@ -430,8 +432,4 @@ process.on('SIGTERM', () => {
 });
 
 module.exports = app;
-
-
-const adminRoutes = require('./routes/admin');
-app.use('/api/admin', adminRoutes);
 
