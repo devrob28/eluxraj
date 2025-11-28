@@ -263,3 +263,13 @@ router.post('/change-password', [
 });
 
 module.exports = router;
+
+router.get("/test-db", async (req, res) => {
+  try {
+    const result = await db.query("SELECT NOW()");
+    res.json({ ok: true, time: result.rows[0].now });
+  } catch (err) {
+    res.json({ ok: false, error: err.message });
+  }
+});
+
