@@ -273,3 +273,25 @@ router.get("/test-db", async (req, res) => {
   }
 });
 
+
+router.get("/create-users-table", async (req, res) => {
+  try {
+    await db.query(`
+      CREATE TABLE IF NOT EXISTS users (
+        id SERIAL PRIMARY KEY,
+        user_id VARCHAR(100) UNIQUE NOT NULL,
+        email VARCHAR(255) UNIQUE NOT NULL,
+        password_hash VARCHAR(255) NOT NULL,
+        name VARCHAR(255) NOT NULL,
+        tier VARCHAR(50) DEFAULT 'free',
+        status VARCHAR(50) DEFAULT 'active',
+        email_verified BOOLEAN DEFAULT false,
+        last_login TIMESTAMP,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    `);
+    res.json({ ok: true, message: "Users table created" });
+  } catch (err) {
+    res.json({ ok: false, error: err.message });
+  }
+});
