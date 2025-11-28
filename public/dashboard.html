@@ -1,1193 +1,759 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>ELUXRAJ™</title>
-<style>
-*{margin:0;padding:0;box-sizing:border-box}
-:root{--bg:#0a0a0f;--card:rgba(255,255,255,0.03);--border:rgba(255,255,255,0.08);--text:#fff;--muted:rgba(255,255,255,0.5);--accent:#6366f1;--green:#10b981;--red:#ef4444;--gold:#f59e0b}
-body{font-family:system-ui,sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-nav{position:fixed;top:0;left:0;right:0;height:60px;background:rgba(10,10,15,0.95);border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 20px;z-index:100}
-.logo{font-size:20px;font-weight:800;color:var(--accent)}
-.user{display:flex;align-items:center;gap:8px;padding:6px 12px;background:var(--card);border:1px solid var(--border);border-radius:20px;font-size:13px}
-main{padding:80px 20px 20px;max-width:1200px;margin:0 auto}
-.hero{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;margin-bottom:20px;display:flex;justify-content:space-between;align-items:center}
-.hero h1{font-size:24px}.hero h1 span{color:var(--accent)}.hero p{color:var(--muted);font-size:14px}
-.pval{text-align:right}.pval-amt{font-size:32px;font-weight:700}.pval-chg{color:var(--green);font-size:13px}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
-.stat{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px}
-.stat-label{font-size:11px;color:var(--muted);margin-bottom:6px}
-.stat-value{font-size:20px;font-weight:700}
-.stat-value.up{color:var(--green)}.stat-value.down{color:var(--red)}
-.stat-sub{font-size:11px;color:var(--muted);margin-top:4px}
-.actions{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:20px}
-.action{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:all 0.2s}
-.action:hover{border-color:var(--accent);transform:translateY(-2px)}
-.action .icon{font-size:28px;margin-bottom:10px}
-.action h4{font-size:14px;margin-bottom:4px}.action p{font-size:11px;color:var(--muted)}
-.ai-box{background:linear-gradient(135deg,rgba(99,102,241,0.1),rgba(139,92,246,0.1));border:1px solid rgba(99,102,241,0.3);border-radius:16px;padding:20px;margin-bottom:20px}
-.ai-row{display:flex;gap:10px;margin-bottom:12px;align-items:center}
-.ai-avatar{width:40px;height:40px;background:linear-gradient(135deg,#6366f1,#ec4899);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:20px}
-.ai-title{font-weight:600}.ai-sub{font-size:12px;color:var(--muted)}
-.ai-input{flex:1;padding:12px 16px;background:rgba(0,0,0,0.3);border:1px solid var(--border);border-radius:10px;color:var(--text);font-size:14px}
-.ai-input:focus{outline:none;border-color:var(--accent)}
-.ai-btn{padding:12px 20px;background:var(--accent);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer}
-.chips{display:flex;gap:8px;flex-wrap:wrap}
-.chip{padding:6px 12px;background:var(--card);border:1px solid var(--border);border-radius:16px;font-size:11px;color:var(--muted);cursor:pointer}
-.chip:hover{border-color:var(--accent);color:var(--text)}
-.ai-response{margin-top:16px;padding:16px;background:rgba(0,0,0,0.3);border-radius:10px;display:none;line-height:1.7;max-height:400px;overflow-y:auto}
-.ai-response.active{display:block}
-.grid{display:grid;grid-template-columns:2fr 1fr;gap:20px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
-.card-head{padding:16px;border-bottom:1px solid var(--border);font-weight:600;font-size:14px}
-.card-body{padding:16px}
-.tools{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-.tool{background:rgba(0,0,0,0.2);border:1px solid var(--border);border-radius:10px;padding:16px;cursor:pointer;transition:all 0.2s}
-.tool:hover{border-color:var(--accent)}
-.tool .icon{font-size:20px;margin-bottom:8px}
-.tool h4{font-size:13px;margin-bottom:4px}.tool p{font-size:11px;color:var(--muted)}
-.mkt{padding:12px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-.mkt:last-child{border:none}
-.mkt-name{font-weight:600;font-size:13px}
-.mkt-price{font-weight:600;font-size:13px}
-.mkt-chg{font-size:12px}.mkt-chg.up{color:var(--green)}.mkt-chg.down{color:var(--red)}
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:200;display:none;align-items:center;justify-content:center;padding:20px}
-.modal-bg.active{display:flex}
-.modal{background:#111;border:1px solid var(--border);border-radius:16px;width:100%;max-width:500px;max-height:80vh;overflow:hidden}
-.modal-head{padding:20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
-.modal-title{font-weight:700;font-size:18px}
-.modal-close{background:var(--card);border:1px solid var(--border);width:32px;height:32px;border-radius:8px;cursor:pointer;color:var(--muted);font-size:18px}
-.modal-body{padding:20px;overflow-y:auto;max-height:calc(80vh - 80px)}
-.form-group{margin-bottom:16px}
-.form-label{display:block;font-size:12px;color:var(--muted);margin-bottom:6px}
-.form-input,.form-select{width:100%;padding:12px;background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--text);font-size:14px}
-.form-input:focus,.form-select:focus{outline:none;border-color:var(--accent)}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.btn{width:100%;padding:14px;background:var(--accent);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;font-size:14px}
-.results{margin-top:16px;padding:16px;background:var(--card);border-radius:10px;display:none;line-height:1.7;max-height:300px;overflow-y:auto}
-.results.active{display:block}
-.loading{text-align:center;padding:20px}
-.spinner{width:30px;height:30px;border:3px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite;margin:0 auto}
-@keyframes spin{to{transform:rotate(360deg)}}
-@media(max-width:900px){.grid{grid-template-columns:1fr}.stats,.actions{grid-template-columns:repeat(2,1fr)}.hero{flex-direction:column;text-align:center;gap:16px}.pval{text-align:center}}
-</style>
-<script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script></head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | ELUXRAJ™</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    :root {
+      --bg: #0a0a0f;
+      --card: #12121a;
+      --border: #1e1e2e;
+      --accent: #6366f1;
+      --accent2: #8b5cf6;
+      --green: #10b981;
+      --red: #ef4444;
+      --gold: #f59e0b;
+      --text: #ffffff;
+      --muted: #71717a;
+    }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+    }
+    
+    /* Header */
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px 24px;
+      border-bottom: 1px solid var(--border);
+      background: var(--card);
+    }
+    .logo {
+      font-size: 20px;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .user-badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .tier-badge {
+      padding: 4px 12px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+    }
+    
+    /* Main Container */
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    
+    /* Hero Section */
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: center;
+      margin-bottom: 24px;
+    }
+    .hero-left h1 {
+      font-size: 28px;
+      margin-bottom: 4px;
+    }
+    .hero-left h1 span { color: var(--accent); }
+    .hero-left p { color: var(--muted); }
+    .portfolio-value {
+      text-align: right;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 20px 32px;
+    }
+    .pv-amount {
+      font-size: 36px;
+      font-weight: 800;
+    }
+    .pv-change {
+      color: var(--green);
+      font-size: 14px;
+    }
+    
+    /* Quick Actions Grid */
+    .actions-section {
+      margin-bottom: 24px;
+    }
+    .actions-section h3 {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .actions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 12px;
+    }
+    .action-btn {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 20px 16px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-decoration: none;
+      color: var(--text);
+    }
+    .action-btn:hover {
+      border-color: var(--accent);
+      transform: translateY(-2px);
+    }
+    .action-btn .icon {
+      font-size: 24px;
+    }
+    .action-btn .label {
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .action-btn.primary {
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border: none;
+    }
+    .action-btn.gold {
+      background: linear-gradient(135deg, #b45309, var(--gold));
+      border: none;
+    }
+    .action-btn.green {
+      background: linear-gradient(135deg, #047857, var(--green));
+      border: none;
+    }
+    .action-btn.red {
+      background: linear-gradient(135deg, #b91c1c, var(--red));
+      border: none;
+    }
+    .action-btn.purple {
+      background: linear-gradient(135deg, #6d28d9, #a855f7);
+      border: none;
+    }
+    .action-btn.cyan {
+      background: linear-gradient(135deg, #0e7490, #06b6d4);
+      border: none;
+    }
+    .action-btn.gray {
+      background: linear-gradient(135deg, #374151, #6b7280);
+      border: none;
+    }
+    
+    /* Market Data Grid */
+    .market-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .market-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .market-card .label {
+      font-size: 12px;
+      color: var(--muted);
+      margin-bottom: 8px;
+    }
+    .market-card .value {
+      font-size: 24px;
+      font-weight: 700;
+    }
+    .market-card .change {
+      font-size: 14px;
+      margin-top: 4px;
+    }
+    .market-card .change.up { color: var(--green); }
+    .market-card .change.down { color: var(--red); }
+    
+    /* Tools Grid */
+    .tools-section h3 {
+      font-size: 14px;
+      color: var(--muted);
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .tools-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .tool-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 24px;
+      cursor: pointer;
+      transition: all 0.3s;
+      text-align: center;
+    }
+    .tool-card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+    .tool-card .icon {
+      font-size: 32px;
+      margin-bottom: 12px;
+    }
+    .tool-card .name {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .tool-card .desc {
+      font-size: 13px;
+      color: var(--muted);
+    }
+    
+    /* Modal */
+    .modal-bg {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    .modal-bg.active { display: flex; }
+    .modal {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      width: 100%;
+      max-width: 600px;
+      max-height: 90vh;
+      overflow: hidden;
+    }
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 24px;
+      border-bottom: 1px solid var(--border);
+    }
+    .modal-header h2 {
+      font-size: 20px;
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      color: var(--muted);
+      font-size: 24px;
+      cursor: pointer;
+    }
+    .modal-body {
+      padding: 24px;
+      overflow-y: auto;
+      max-height: calc(90vh - 70px);
+    }
+    .form-group { margin-bottom: 16px; }
+    .form-label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .form-input, .form-select {
+      width: 100%;
+      padding: 12px 14px;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-size: 15px;
+    }
+    .form-input:focus, .form-select:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+    .btn {
+      padding: 14px 24px;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      border: none;
+      border-radius: 10px;
+      color: white;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      transition: transform 0.3s;
+    }
+    .btn:hover { transform: translateY(-2px); }
+    
+    @media (max-width: 768px) {
+      .hero { grid-template-columns: 1fr; }
+      .portfolio-value { text-align: left; }
+      .market-grid { grid-template-columns: repeat(2, 1fr); }
+      .actions-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+  </style>
+</head>
 <body>
-<nav><div class="logo">ELUXRAJ</div><div class="user"><span id="userName">Rob</span> <span style="color:var(--gold)">ELITE</span></div></nav>
-<main>
-<section class="hero"><div><h1>Welcome, <span id="heroName">Rob</span> 👋</h1><p>AI wealth intelligence ready</p></div><div style="display:flex;gap:15px;align-items:center"><button onclick="connectBrokerage()" style="padding:12px 20px;background:var(--accent);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer">🔗 Connect Brokerage</button><button onclick="openAlertModal()" style="padding:12px 20px;background:var(--gold);border:none;border-radius:10px;color:#000;font-weight:600;cursor:pointer;margin-left:10px">🔔 Set Alert</button><button onclick="openOracle()" style="padding:12px 20px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;margin-left:10px">🔮 ORACLE</button><button onclick="openCouncil()" style="padding:12px 20px;background:linear-gradient(135deg,#059669,#10b981);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;margin-left:10px">🏛️ COUNCIL</button><button onclick="openPulse()" style="padding:12px 20px;background:linear-gradient(135deg,#dc2626,#ef4444);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;margin-left:10px">💓 PULSE</button><button onclick="openArchetype()" style="padding:12px 20px;background:linear-gradient(135deg,#7c3aed,#a855f7);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;margin-left:10px">🧠 ARCHETYPE</button><button onclick="openNexus()" style="padding:12px 20px;background:linear-gradient(135deg,#0891b2,#06b6d4);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;margin-left:10px">🌐 NEXUS</button><button onclick="openMirror()" style="padding:12px 20px;background:linear-gradient(135deg,#475569,#64748b);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;margin-left:10px">🪞 MIRROR</button><button onclick="openPhantom()" style="padding:12px 20px;background:linear-gradient(135deg,#1f2937,#374151);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;margin-left:10px">👻 PHANTOM</button><button onclick="openSovereign()" style="padding:12px 20px;background:linear-gradient(135deg,#b45309,#d97706);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;margin-left:10px">👑 SOVEREIGN</button><button onclick="openAtlas()" style="padding:12px 20px;background:linear-gradient(135deg,#0f766e,#14b8a6);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;margin-left:10px">🗺️ ATLAS</button><button onclick="openFidelity()" style="padding:12px 20px;background:linear-gradient(135deg,#4338ca,#6366f1);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;margin-left:10px">📡 FIDELITY</button><button onclick="openAttest()" style="padding:12px 20px;background:linear-gradient(135deg,#92400e,#f59e0b);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;margin-left:10px">📜 ATTEST</button></div><div class="pval"><div class="pval-amt">$127,482</div><div class="pval-chg">↑ +6.9% this month</div></div></section>
-<section class="stats">
-<div class="stat"><div class="stat-label">₿ BTC 24h</div><div class="stat-value up" id="sBtc">+3.9%</div><div class="stat-sub" id="pBtc">$91,365</div></div>
-<div class="stat"><div class="stat-label">📈 S&P 500</div><div class="stat-value up" id="sSpy">+0.34%</div><div class="stat-sub" id="pSpy">$598</div></div>
-<div class="stat"><div class="stat-label">🥇 Gold</div><div class="stat-value down" id="sGold">-0.22%</div><div class="stat-sub" id="pGold">$4,158</div></div>
-<div class="stat"><div class="stat-label">😱 Fear/Greed</div><div class="stat-value">76</div><div class="stat-sub">Extreme Greed</div></div>
-</section>
-<section class="actions">
-<div class="action" onclick="openModal('wizard')"><div class="icon">🧙</div><h4>Portfolio Wizard</h4><p>AI allocation</p></div>
-<div class="action" onclick="openModal('scanner')"><div class="icon">🔍</div><h4>Market Scanner</h4><p>Find opportunities</p></div>
-<div class="action" onclick="openModal('signal')"><div class="icon">📊</div><h4>Trading Signals</h4><p>Entry & exit</p></div>
-<div class="action" onclick="openModal('calc')"><div class="icon">🧮</div><h4>Position Sizer</h4><p>Risk management</p></div>
-</section>
-<section class="ai-box">
-<div class="ai-row"><div class="ai-avatar">🤖</div><div><div class="ai-title">ELUXRAJ AI</div><div class="ai-sub">Trained on top hedge fund strategies</div></div></div>
-<div class="ai-row"><input class="ai-input" id="aiQ" placeholder="Ask anything... 'Should I buy NVDA?'" onkeypress="if(event.key==='Enter')ask()"><button class="ai-btn" onclick="ask()">Ask →</button></div>
-<div class="chips">
-<span class="chip" onclick="qAsk('Build me a $50K portfolio')">💼 Portfolio</span>
-<span class="chip" onclick="qAsk('Top 5 stocks to buy')">📈 Stocks</span>
-<span class="chip" onclick="qAsk('Analyze BTC')">₿ BTC</span>
-<span class="chip" onclick="qAsk('NVDA signal')">📊 NVDA</span>
-<span class="chip" onclick="qAsk('Crypto allocation $10K')">🪙 Crypto</span>
-</div>
-<div class="ai-response" id="aiR"></div>
-</section>
-<div class="grid">
-<div class="card"><div class="card-head">🛠️ Pro Tools</div><div class="card-body"><div class="tools">
-<div class="tool" onclick="openModal('wizard')"><div class="icon">🧙</div><h4>Portfolio Wizard</h4><p>AI allocation</p></div>
-<div class="tool" onclick="openModal('stocks')"><div class="icon">📈</div><h4>Stock Picks</h4><p>Hedge fund style</p></div>
-<div class="tool" onclick="openModal('crypto')"><div class="icon">₿</div><h4>Crypto Builder</h4><p>Optimal allocation</p></div>
-<div class="tool" onclick="openModal('scanner')"><div class="icon">🔍</div><h4>Scanner</h4><p>Find trades</p></div>
-<div class="tool" onclick="openModal('fund')"><div class="icon">🏦</div><h4>Fund Strategies</h4><p>Learn from pros</p></div>
-<div class="tool" onclick="openModal('compare')"><div class="icon">⚖️</div><h4>Compare</h4><p>Side by side</p></div>
-</div></div></div>
-<div class="card"><div class="card-head">📊 Markets</div><div class="card-body">
-<div class="mkt"><span class="mkt-name">BTC</span><span><span class="mkt-price" id="mBtc">$91,365</span> <span class="mkt-chg up" id="cBtc">+3.9%</span></span></div>
-<div class="mkt"><span class="mkt-name">ETH</span><span><span class="mkt-price" id="mEth">$3,029</span> <span class="mkt-chg up" id="cEth">+2.9%</span></span></div>
-<div class="mkt"><span class="mkt-name">GOLD</span><span><span class="mkt-price" id="mGold">$4,158</span> <span class="mkt-chg down" id="cGold">-0.2%</span></span></div>
-<div class="mkt"><span class="mkt-name">SPY</span><span><span class="mkt-price" id="mSpy">$598</span> <span class="mkt-chg up" id="cSpy">+0.3%</span></span></div>
-</div></div>
-</div>
-</main>
-<div class="modal-bg" id="modalBg" onclick="closeModal(event)">
-<div class="modal" onclick="event.stopPropagation()">
-<div class="modal-head"><span class="modal-title" id="mTitle">Tool</span><button class="modal-close" onclick="closeModal()">✕</button></div>
-<div class="modal-body" id="mBody"></div>
-</div>
-</div>
-<script>
-const token=localStorage.getItem('eluxraj_token'),user=JSON.parse(localStorage.getItem('eluxraj_user')||'{}');
-if(!token)window.location.href='/login.html';
-const n=user.name||'Investor';document.getElementById('userName').textContent=n;document.getElementById('heroName').textContent=n;
-async function api(u,d,m='POST'){const o={method:m,headers:{'Authorization':'Bearer '+token}};if(m==='POST'&&d){o.headers['Content-Type']='application/json';o.body=JSON.stringify(d)}return(await fetch(u,o)).json()}
-function fmt(t){return t.replace(/### (.*)/g,'<h3 style="color:var(--accent);margin:12px 0 8px">$1</h3>').replace(/## (.*)/g,'<h2 style="color:var(--accent);margin:12px 0 8px">$1</h2>').replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>').replace(/\n/g,'<br>')}
-async function ask(){const q=document.getElementById('aiQ').value.trim(),r=document.getElementById('aiR');if(!q)return;r.classList.add('active');r.innerHTML='<div class="loading"><div class="spinner"></div></div>';const x=await api('/api/ai/analyze',{query:q});r.innerHTML=x.ok?fmt(x.analysis):'Error: '+x.error}
-function qAsk(q){document.getElementById('aiQ').value=q;ask()}
-const M={wizard:{t:'🧙 Portfolio Wizard',h:'<div class="form-group"><label class="form-label">💰 Amount ($)</label><input class="form-input" id="wAmt" value="50000" type="number"></div><div class="form-row"><div class="form-group"><label class="form-label">⏱️ Time</label><select class="form-select" id="wTime"><option>1-2 yrs</option><option>3-5 yrs</option><option selected>5-10 yrs</option><option>10+ yrs</option></select></div><div class="form-group"><label class="form-label">⚡ Risk (1-10)</label><input class="form-input" id="wRisk" type="number" value="5" min="1" max="10"></div></div><div class="form-group"><label class="form-label">🎯 Goals</label><input class="form-input" id="wGoal" value="Wealth building"></div><button class="btn" onclick="runWiz()">✨ Build Portfolio</button><div class="results" id="wR"></div>'},stocks:{t:'📈 Stock Picks',h:'<div class="form-row"><div class="form-group"><label class="form-label">Sector</label><select class="form-select" id="sSec"><option>Technology</option><option>Healthcare</option><option>Financials</option><option>All</option></select></div><div class="form-group"><label class="form-label">Risk</label><select class="form-select" id="sRisk"><option>Conservative</option><option selected>Moderate</option><option>Aggressive</option></select></div></div><button class="btn" onclick="runStocks()">Get Picks</button><div class="results" id="sR"></div>'},crypto:{t:'₿ Crypto Portfolio',h:'<div class="form-row"><div class="form-group"><label class="form-label">Amount ($)</label><input class="form-input" id="cAmt" value="10000" type="number"></div><div class="form-group"><label class="form-label">Risk</label><select class="form-select" id="cRisk"><option>Low</option><option selected>Moderate</option><option>High</option></select></div></div><button class="btn" onclick="runCrypto()">Build</button><div class="results" id="cR"></div>'},scanner:{t:'🔍 Market Scanner',h:'<div class="form-row"><div class="form-group"><label class="form-label">Type</label><select class="form-select" id="scType"><option value="oversold">Oversold</option><option value="breakout">Breakout</option><option value="momentum">Momentum</option></select></div><div class="form-group"><label class="form-label">Sector</label><select class="form-select" id="scSec"><option>All</option><option>Tech</option><option>Healthcare</option></select></div></div><button class="btn" onclick="runScan()">🔍 Scan</button><div class="results" id="scR"></div>'},signal:{t:'📊 Trading Signal',h:'<div class="form-row"><div class="form-group"><label class="form-label">Symbol</label><input class="form-input" id="sigSym" value="NVDA"></div><div class="form-group"><label class="form-label">Strategy</label><select class="form-select" id="sigStr"><option value="swing">Swing</option><option value="day">Day</option><option value="position">Position</option></select></div></div><button class="btn" onclick="runSig()">Get Signal</button><div class="results" id="sigR"></div>'},fund:{t:'🏦 Hedge Fund Strategies',h:'<div class="form-group"><label class="form-label">Fund</label><select class="form-select" id="fundSel"><option>Renaissance Technologies</option><option>Citadel</option><option>Millennium</option><option>Bridgewater</option><option>Two Sigma</option></select></div><button class="btn" onclick="runFund()">Learn</button><div class="results" id="fundR"></div>'},compare:{t:'⚖️ Compare Assets',h:'<div class="form-row"><div class="form-group"><label class="form-label">Asset 1</label><input class="form-input" id="cmp1" value="AAPL"></div><div class="form-group"><label class="form-label">Asset 2</label><input class="form-input" id="cmp2" value="MSFT"></div></div><button class="btn" onclick="runCmp()">Compare</button><div class="results" id="cmpR"></div>'},calc:{t:'🧮 Position Sizer',h:'<div class="form-row"><div class="form-group"><label class="form-label">Account ($)</label><input class="form-input" id="acct" value="50000" type="number"></div><div class="form-group"><label class="form-label">Risk %</label><input class="form-input" id="riskPct" value="2" type="number" step="0.5"></div></div><div class="form-row"><div class="form-group"><label class="form-label">Entry ($)</label><input class="form-input" id="entry" value="100" type="number"></div><div class="form-group"><label class="form-label">Stop ($)</label><input class="form-input" id="stop" value="95" type="number"></div></div><button class="btn" onclick="runCalc()">Calculate</button><div class="results active" id="calcR" style="text-align:center"><div style="font-size:28px;font-weight:700" id="calcShares">200 shares</div><div style="color:var(--muted)" id="calcVal">$20,000 | Risk: $1,000</div></div>'}};
-function openModal(k){const m=M[k];if(!m)return;document.getElementById('mTitle').textContent=m.t;document.getElementById('mBody').innerHTML=m.h;document.getElementById('modalBg').classList.add('active')}
-function closeModal(e){if(!e||e.target.id==='modalBg')document.getElementById('modalBg').classList.remove('active')}
-async function runWiz(){const b=document.getElementById('wR');b.classList.add('active');b.innerHTML='<div class="loading"><div class="spinner"></div></div>';const r=await api('/api/ai/portfolio-wizard',{portfolioValue:+document.getElementById('wAmt').value,riskTolerance:+document.getElementById('wRisk').value,timeHorizon:document.getElementById('wTime').value,goals:document.getElementById('wGoal').value});b.innerHTML=r.ok?fmt(r.analysis):'Error'}
-async function runStocks(){const b=document.getElementById('sR');b.classList.add('active');b.innerHTML='<div class="loading"><div class="spinner"></div></div>';const r=await api('/api/ai/stock-picks',{sector:document.getElementById('sSec').value,count:5,riskLevel:document.getElementById('sRisk').value});b.innerHTML=r.ok?fmt(r.analysis):'Error'}
-async function runCrypto(){const b=document.getElementById('cR');b.classList.add('active');b.innerHTML='<div class="loading"><div class="spinner"></div></div>';const r=await api('/api/ai/crypto-allocation',{totalCryptoInvestment:+document.getElementById('cAmt').value,riskTolerance:document.getElementById('cRisk').value,experience:'Intermediate'});b.innerHTML=r.ok?fmt(r.analysis):'Error'}
-async function runScan(){const b=document.getElementById('scR');b.classList.add('active');b.innerHTML='<div class="loading"><div class="spinner"></div></div>';const r=await api('/api/ai/analyze',{query:'Run '+document.getElementById('scType').value+' scan for '+document.getElementById('scSec').value+'. Give 5 tickers with entry, stop, target.'});b.innerHTML=r.ok?fmt(r.analysis):'Error'}
-async function runSig(){const b=document.getElementById('sigR');b.classList.add('active');b.innerHTML='<div class="loading"><div class="spinner"></div></div>';const r=await api('/api/ai/signal/'+document.getElementById('sigSym').value.toUpperCase()+'?strategy='+document.getElementById('sigStr').value,null,'GET');b.innerHTML=r.ok?fmt(r.analysis):'Error'}
-async function runFund(){const b=document.getElementById('fundR');b.classList.add('active');b.innerHTML='<div class="loading"><div class="spinner"></div></div>';const r=await api('/api/ai/hedge-fund/'+encodeURIComponent(document.getElementById('fundSel').value),null,'GET');b.innerHTML=r.ok?fmt(r.analysis):'Error'}
-async function runCmp(){const b=document.getElementById('cmpR');b.classList.add('active');b.innerHTML='<div class="loading"><div class="spinner"></div></div>';const r=await api('/api/ai/compare?asset1='+document.getElementById('cmp1').value+'&asset2='+document.getElementById('cmp2').value,null,'GET');b.innerHTML=r.ok?fmt(r.analysis):'Error'}
-function runCalc(){const a=+document.getElementById('acct').value,rp=+document.getElementById('riskPct').value/100,e=+document.getElementById('entry').value,s=+document.getElementById('stop').value,risk=a*rp,perShare=Math.abs(e-s),shares=Math.floor(risk/perShare);document.getElementById('calcShares').textContent=shares+' shares';document.getElementById('calcVal').textContent='$'+(shares*e).toLocaleString()+' | Risk: $'+risk.toFixed(0)}
-async function loadPrices(){try{const r=await fetch('/api/oracle/all'),d=await r.json();if(d.ok&&d.data){if(d.data.crypto?.BTC){const p=d.data.crypto.BTC.price,c=d.data.crypto.BTC.change24h;document.getElementById('pBtc').textContent='$'+Math.round(p).toLocaleString();document.getElementById('sBtc').textContent=(c>=0?'+':'')+c.toFixed(1)+'%';document.getElementById('sBtc').className='stat-value '+(c>=0?'up':'down');document.getElementById('mBtc').textContent='$'+Math.round(p).toLocaleString();document.getElementById('cBtc').textContent=(c>=0?'+':'')+c.toFixed(1)+'%';document.getElementById('cBtc').className='mkt-chg '+(c>=0?'up':'down')}if(d.data.crypto?.ETH){const p=d.data.crypto.ETH.price,c=d.data.crypto.ETH.change24h;document.getElementById('mEth').textContent='$'+Math.round(p).toLocaleString();document.getElementById('cEth').textContent=(c>=0?'+':'')+c.toFixed(1)+'%';document.getElementById('cEth').className='mkt-chg '+(c>=0?'up':'down')}if(d.data.metals?.GOLD){const p=d.data.metals.GOLD.price,c=d.data.metals.GOLD.change24h;document.getElementById('pGold').textContent='$'+Math.round(p).toLocaleString();document.getElementById('sGold').textContent=(c>=0?'+':'')+c.toFixed(1)+'%';document.getElementById('sGold').className='stat-value '+(c>=0?'up':'down');document.getElementById('mGold').textContent='$'+Math.round(p).toLocaleString();document.getElementById('cGold').textContent=(c>=0?'+':'')+c.toFixed(1)+'%';document.getElementById('cGold').className='mkt-chg '+(c>=0?'up':'down')}if(d.data.etfs?.SPY){const p=d.data.etfs.SPY.price,c=d.data.etfs.SPY.change24h;document.getElementById('pSpy').textContent='$'+p.toFixed(0);document.getElementById('sSpy').textContent=(c>=0?'+':'')+c.toFixed(1)+'%';document.getElementById('sSpy').className='stat-value '+(c>=0?'up':'down');document.getElementById('mSpy').textContent='$'+p.toFixed(0);document.getElementById('cSpy').textContent=(c>=0?'+':'')+c.toFixed(1)+'%';document.getElementById('cSpy').className='mkt-chg '+(c>=0?'up':'down')}}}catch(e){}}
-document.addEventListener('keydown',e=>{if(e.key==='Escape')closeModal()});
-loadPrices();setInterval(loadPrices,60000);
-</script>
+  <header>
+    <div class="logo">ELUXRAJ™</div>
+    <div class="user-badge">
+      <span id="userName">Rob</span>
+      <span class="tier-badge" id="userTier">ELITE</span>
+    </div>
+  </header>
+  
+  <div class="container">
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-left">
+        <h1>Welcome, <span id="heroName">Rob</span> 👋</h1>
+        <p>AI wealth intelligence ready</p>
+      </div>
+      <div class="portfolio-value">
+        <div class="pv-amount">$127,482</div>
+        <div class="pv-change">↑ +6.9% this month</div>
+      </div>
+    </div>
+    
+    <!-- AI Features -->
+    <div class="actions-section">
+      <h3>🤖 AI Intelligence Suite</h3>
+      <div class="actions-grid">
+        <div class="action-btn primary" onclick="openOracle()">
+          <span class="icon">🔮</span>
+          <span class="label">ORACLE</span>
+        </div>
+        <div class="action-btn green" onclick="openCouncil()">
+          <span class="icon">🏛️</span>
+          <span class="label">COUNCIL</span>
+        </div>
+        <div class="action-btn red" onclick="openPulse()">
+          <span class="icon">💓</span>
+          <span class="label">PULSE</span>
+        </div>
+        <div class="action-btn purple" onclick="openArchetype()">
+          <span class="icon">🧠</span>
+          <span class="label">ARCHETYPE</span>
+        </div>
+        <div class="action-btn cyan" onclick="openNexus()">
+          <span class="icon">🌐</span>
+          <span class="label">NEXUS</span>
+        </div>
+        <div class="action-btn gray" onclick="openMirror()">
+          <span class="icon">🪞</span>
+          <span class="label">MIRROR</span>
+        </div>
+        <div class="action-btn gray" onclick="openPhantom()">
+          <span class="icon">👻</span>
+          <span class="label">PHANTOM</span>
+        </div>
+        <div class="action-btn gold" onclick="openSovereign()">
+          <span class="icon">👑</span>
+          <span class="label">SOVEREIGN</span>
+        </div>
+        <div class="action-btn cyan" onclick="openAtlas()">
+          <span class="icon">🗺️</span>
+          <span class="label">ATLAS</span>
+        </div>
+        <div class="action-btn primary" onclick="openFidelity()">
+          <span class="icon">📡</span>
+          <span class="label">FIDELITY</span>
+        </div>
+        <div class="action-btn gold" onclick="openAttest()">
+          <span class="icon">📜</span>
+          <span class="label">ATTEST</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Quick Actions -->
+    <div class="actions-section">
+      <h3>⚡ Quick Actions</h3>
+      <div class="actions-grid">
+        <div class="action-btn" onclick="connectBrokerage()">
+          <span class="icon">🔗</span>
+          <span class="label">Connect Brokerage</span>
+        </div>
+        <div class="action-btn" onclick="openAlertModal()">
+          <span class="icon">🔔</span>
+          <span class="label">Set Alert</span>
+        </div>
+      </div>
+    </div>
+    
+    <!-- Market Data -->
+    <div class="market-grid">
+      <div class="market-card">
+        <div class="label">₿ BTC 24h</div>
+        <div class="value">$91,434</div>
+        <div class="change up">+0.2%</div>
+      </div>
+      <div class="market-card">
+        <div class="label">📈 S&P 500</div>
+        <div class="value">$599</div>
+        <div class="change up">+0.3%</div>
+      </div>
+      <div class="market-card">
+        <div class="label">🪙 Gold</div>
+        <div class="value">$4,174</div>
+        <div class="change up">+0.1%</div>
+      </div>
+      <div class="market-card">
+        <div class="label">😱 Fear/Greed</div>
+        <div class="value">76</div>
+        <div class="change">Extreme Greed</div>
+      </div>
+    </div>
+    
+    <!-- Pro Tools -->
+    <div class="tools-section">
+      <h3>🛠️ Pro Tools</h3>
+      <div class="tools-grid">
+        <div class="tool-card" onclick="openPortfolioWizard()">
+          <div class="icon">🧙</div>
+          <div class="name">Portfolio Wizard</div>
+          <div class="desc">AI allocation</div>
+        </div>
+        <div class="tool-card" onclick="openStockPicks()">
+          <div class="icon">📈</div>
+          <div class="name">Stock Picks</div>
+          <div class="desc">Top recommendations</div>
+        </div>
+        <div class="tool-card" onclick="openCrypto()">
+          <div class="icon">₿</div>
+          <div class="name">Crypto Builder</div>
+          <div class="desc">VC-backed tokens</div>
+        </div>
+        <div class="tool-card" onclick="openScanner()">
+          <div class="icon">🔍</div>
+          <div class="name">Market Scanner</div>
+          <div class="desc">Find opportunities</div>
+        </div>
+        <div class="tool-card" onclick="openSignals()">
+          <div class="icon">📊</div>
+          <div class="name">Trading Signals</div>
+          <div class="desc">Entry & exit</div>
+        </div>
+        <div class="tool-card" onclick="openPositionSizer()">
+          <div class="icon">🎯</div>
+          <div class="name">Position Sizer</div>
+          <div class="desc">Risk management</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal -->
+  <div class="modal-bg" id="modalBg" onclick="if(event.target===this)closeModal()">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="mTitle">Modal Title</h2>
+        <button class="modal-close" onclick="closeModal()">×</button>
+      </div>
+      <div class="modal-body" id="mBody">Content</div>
+    </div>
+  </div>
+  
+  <script src="https://cdn.plaid.com/link/v2/stable/link-initialize.js"></script>
+  <script>
+    // Load user data
+    const user = JSON.parse(localStorage.getItem('eluxraj_user') || '{"name":"Guest","tier":"free"}');
+    document.getElementById('userName').textContent = user.name;
+    document.getElementById('heroName').textContent = user.name?.split(' ')[0] || 'Guest';
+    document.getElementById('userTier').textContent = (user.tier || 'FREE').toUpperCase();
+    
+    function closeModal() {
+      document.getElementById('modalBg').classList.remove('active');
+    }
+    
+    // ORACLE™
+    async function openOracle() {
+      const html = `
+        <div class="form-group">
+          <label class="form-label">Asset Symbol</label>
+          <input class="form-input" id="oracleSymbol" value="BTC" placeholder="BTC, ETH, NVDA...">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Capital to Deploy ($)</label>
+          <input class="form-input" id="oracleCapital" type="number" value="50000">
+        </div>
+        <button class="btn" onclick="runOracle()">🔮 Run ORACLE Analysis</button>
+        <div id="oracleResult" style="margin-top:20px"></div>
+      `;
+      document.getElementById('mTitle').textContent = '🔮 ORACLE™ Predictive Engine';
+      document.getElementById('mBody').innerHTML = html;
+      document.getElementById('modalBg').classList.add('active');
+    }
+    
+    async function runOracle() {
+      const symbol = document.getElementById('oracleSymbol').value;
+      const capital = document.getElementById('oracleCapital').value;
+      document.getElementById('oracleResult').innerHTML = '<div style="color:var(--accent)">⏳ Synthesizing 3 AI models...</div>';
+      
+      const res = await fetch('/api/oracle-ai/synthesize/' + symbol + '?capital=' + capital);
+      const data = await res.json();
+      
+      if (data.ok) {
+        const o = data.oracle;
+        const color = o.recommendation.includes('ACCUMULATE') ? 'var(--green)' : o.recommendation.includes('REDUCE') ? 'var(--red)' : 'var(--gold)';
+        let html = '<div style="background:var(--bg);border-radius:12px;padding:20px;margin-top:15px">';
+        html += '<h3 style="color:' + color + ';font-size:24px;margin-bottom:10px">' + o.recommendation + '</h3>';
+        html += '<p style="margin-bottom:15px">' + o.action + '</p>';
+        html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">';
+        html += '<div style="background:var(--card);padding:12px;border-radius:8px"><div style="color:var(--muted);font-size:12px">Confidence</div><div style="font-size:20px;font-weight:bold">' + o.confidence + '%</div></div>';
+        html += '<div style="background:var(--card);padding:12px;border-radius:8px"><div style="color:var(--muted);font-size:12px">Position Size</div><div style="font-size:20px;font-weight:bold;color:var(--green)">$' + o.position_size.toLocaleString() + '</div></div>';
+        html += '</div></div>';
+        document.getElementById('oracleResult').innerHTML = html;
+      } else {
+        document.getElementById('oracleResult').innerHTML = '<div style="color:var(--red)">Error: ' + data.error + '</div>';
+      }
+    }
+    
+    // COUNCIL™
+    async function openCouncil() {
+      const html = `
+        <div class="form-group">
+          <label class="form-label">Investment Question</label>
+          <textarea class="form-input" id="councilQ" rows="3" placeholder="Should I buy NVDA at current prices?">Should I accumulate BTC at $95,000?</textarea>
+        </div>
+        <button class="btn" onclick="runCouncil()">🏛️ Convene Council</button>
+        <div id="councilResult" style="margin-top:20px"></div>
+      `;
+      document.getElementById('mTitle').textContent = '🏛️ COUNCIL™ AI Board';
+      document.getElementById('mBody').innerHTML = html;
+      document.getElementById('modalBg').classList.add('active');
+    }
+    
+    async function runCouncil() {
+      const question = document.getElementById('councilQ').value;
+      document.getElementById('councilResult').innerHTML = '<div style="color:var(--accent)">⏳ 7 AI advisors debating...</div>';
+      
+      const res = await fetch('/api/council/convene', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ question })
+      });
+      const data = await res.json();
+      
+      if (data.ok) {
+        const c = data.council;
+        let html = '<div style="max-height:300px;overflow-y:auto;margin-top:15px">';
+        c.advisors.forEach(a => {
+          const color = a.stance === 'BUY' ? 'var(--green)' : a.stance === 'SELL' ? 'var(--red)' : 'var(--gold)';
+          html += '<div style="background:var(--bg);padding:12px;border-radius:8px;margin-bottom:8px;border-left:3px solid ' + color + '">';
+          html += '<div style="display:flex;justify-content:space-between"><strong>' + a.name + '</strong><span style="color:' + color + '">' + a.stance + '</span></div>';
+          html += '<div style="font-size:13px;color:var(--muted);margin-top:4px">"' + a.opinion + '"</div>';
+          html += '</div>';
+        });
+        html += '<div style="background:var(--accent);padding:15px;border-radius:10px;margin-top:15px;color:white">';
+        html += '<strong>Synthesis:</strong> ' + c.synthesis.recommendation;
+        html += '</div></div>';
+        document.getElementById('councilResult').innerHTML = html;
+      }
+    }
+    
+    // PULSE™
+    async function openPulse() {
+      document.getElementById('mTitle').textContent = '💓 PULSE™ Real-Time Feed';
+      document.getElementById('mBody').innerHTML = '<div style="color:var(--accent)">⏳ Loading alpha signals...</div>';
+      document.getElementById('modalBg').classList.add('active');
+      
+      const res = await fetch('/api/pulse/feed');
+      const data = await res.json();
+      
+      if (data.ok) {
+        let html = '<div style="max-height:400px;overflow-y:auto">';
+        data.signals.forEach(s => {
+          const icon = s.type === 'whale' ? '🐋' : s.type === 'insider' ? '👔' : s.type === 'momentum' ? '📈' : '⚡';
+          const color = s.sentiment === 'bullish' ? 'var(--green)' : s.sentiment === 'bearish' ? 'var(--red)' : 'var(--gold)';
+          html += '<div style="background:var(--bg);padding:15px;border-radius:10px;margin-bottom:10px;border-left:3px solid ' + color + '">';
+          html += '<div style="display:flex;justify-content:space-between"><span style="font-size:20px">' + icon + '</span><span style="color:var(--muted);font-size:12px">' + s.time + '</span></div>';
+          html += '<div style="margin-top:8px">' + s.message + '</div>';
+          html += '<div style="margin-top:5px;font-size:12px;color:' + color + '">' + s.impact + '</div>';
+          html += '</div>';
+        });
+        html += '</div>';
+        document.getElementById('mBody').innerHTML = html;
+      }
+    }
+    
+    // Placeholder functions for other features
+    function openArchetype() { openGenericModal('🧠 ARCHETYPE™', 'Investor psychology profiling coming soon...'); }
+    function openNexus() { openGenericModal('🌐 NEXUS™', 'Capital flow detection coming soon...'); }
+    function openMirror() { openGenericModal('🪞 MIRROR™', 'Portfolio stress testing coming soon...'); }
+    function openPhantom() { openGenericModal('👻 PHANTOM™', 'Stealth execution coming soon...'); }
+    function openSovereign() { openGenericModal('👑 SOVEREIGN™', 'Private deal matching coming soon...'); }
+    function openAtlas() { openGenericModal('🗺️ ATLAS™', 'Asset graph intelligence coming soon...'); }
+    function openFidelity() { openGenericModal('📡 FIDELITY™', 'Data pipeline status coming soon...'); }
+    function openAttest() { openGenericModal('📜 ATTEST™', 'Provenance certificates coming soon...'); }
+    
+    function openPortfolioWizard() {
+      const html = `
+        <div class="form-group">
+          <label class="form-label">Amount ($)</label>
+          <input class="form-input" id="wizAmount" type="number" value="100000">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="form-group">
+            <label class="form-label">Time Horizon</label>
+            <select class="form-select" id="wizTime">
+              <option value="1-3 yrs">1-3 years</option>
+              <option value="5-10 yrs" selected>5-10 years</option>
+              <option value="10+ yrs">10+ years</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Risk (1-10)</label>
+            <input class="form-input" id="wizRisk" type="number" value="7" min="1" max="10">
+          </div>
+        </div>
+        <button class="btn" onclick="runWizard()">✨ Build Portfolio</button>
+        <div id="wizResult" style="margin-top:20px"></div>
+      `;
+      document.getElementById('mTitle').textContent = '🧙 Portfolio Wizard';
+      document.getElementById('mBody').innerHTML = html;
+      document.getElementById('modalBg').classList.add('active');
+    }
+    
+    async function runWizard() {
+      document.getElementById('wizResult').innerHTML = '<div style="color:var(--accent)">⏳ Building your portfolio...</div>';
+      const res = await fetch('/api/ai/portfolio-wizard', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          portfolioValue: document.getElementById('wizAmount').value,
+          timeHorizon: document.getElementById('wizTime').value,
+          riskTolerance: document.getElementById('wizRisk').value
+        })
+      });
+      const data = await res.json();
+      if (data.ok) {
+        document.getElementById('wizResult').innerHTML = '<div style="background:var(--bg);padding:20px;border-radius:12px;white-space:pre-wrap;font-size:14px;max-height:400px;overflow-y:auto">' + data.analysis + '</div>';
+      }
+    }
+    
+    function openStockPicks() { openGenericModal('📈 Stock Picks', 'Loading...'); }
+    function openCrypto() { openGenericModal('₿ Crypto Builder', 'Loading...'); }
+    function openScanner() { openGenericModal('🔍 Market Scanner', 'Loading...'); }
+    function openSignals() { openGenericModal('📊 Trading Signals', 'Loading...'); }
+    function openPositionSizer() { openGenericModal('🎯 Position Sizer', 'Loading...'); }
+    
+    function openGenericModal(title, content) {
+      document.getElementById('mTitle').textContent = title;
+      document.getElementById('mBody').innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted)">' + content + '</div>';
+      document.getElementById('modalBg').classList.add('active');
+    }
+    
+    // Connect Brokerage
+    async function connectBrokerage() {
+      document.getElementById('mTitle').textContent = '🔗 Connect Brokerage';
+      document.getElementById('mBody').innerHTML = '<div style="color:var(--accent)">⏳ Initializing Plaid...</div>';
+      document.getElementById('modalBg').classList.add('active');
+      
+      const token = localStorage.getItem('eluxraj_token');
+      const res = await fetch('/api/plaid/create-link-token', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + token }
+      });
+      const data = await res.json();
+      
+      if (data.ok) {
+        const handler = Plaid.create({
+          token: data.link_token,
+          onSuccess: (public_token) => {
+            alert('Account connected successfully!');
+            closeModal();
+          },
+          onExit: () => closeModal()
+        });
+        handler.open();
+      } else {
+        document.getElementById('mBody').innerHTML = '<div style="color:var(--red)">Error: ' + data.error + '</div>';
+      }
+    }
+    
+    // Set Alert
+    function openAlertModal() {
+      const html = `
+        <div class="form-group">
+          <label class="form-label">Symbol</label>
+          <input class="form-input" id="alertSymbol" value="BTC" placeholder="BTC, NVDA...">
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="form-group">
+            <label class="form-label">Target Price ($)</label>
+            <input class="form-input" id="alertPrice" type="number" value="100000">
+          </div>
+          <div class="form-group">
+            <label class="form-label">Direction</label>
+            <select class="form-select" id="alertDir">
+              <option value="above">Above 📈</option>
+              <option value="below">Below 📉</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label">📱 Phone (for SMS)</label>
+          <input class="form-input" id="alertPhone" placeholder="+1234567890">
+        </div>
+        <button class="btn" onclick="createAlert()">🔔 Set Alert</button>
+        <div id="alertResult" style="margin-top:15px"></div>
+      `;
+      document.getElementById('mTitle').textContent = '🔔 Set Price Alert';
+      document.getElementById('mBody').innerHTML = html;
+      document.getElementById('modalBg').classList.add('active');
+    }
+    
+    async function createAlert() {
+      const token = localStorage.getItem('eluxraj_token');
+      const data = {
+        symbol: document.getElementById('alertSymbol').value,
+        targetPrice: document.getElementById('alertPrice').value,
+        direction: document.getElementById('alertDir').value,
+        alertType: 'sms',
+        phone: document.getElementById('alertPhone').value
+      };
+      
+      const res = await fetch('/api/alerts', {
+        method: 'POST',
+        headers: { 'Authorization': 'Bearer ' + token, 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+      const result = await res.json();
+      
+      document.getElementById('alertResult').innerHTML = result.ok 
+        ? '<div style="color:var(--green)">✅ Alert created!</div>'
+        : '<div style="color:var(--red)">❌ ' + result.error + '</div>';
+    }
+  </script>
 </body>
 </html>
-<script>
-// Plaid Link Integration
-async function connectBrokerage() {
-  try {
-    const token = localStorage.getItem('eluxraj_token');
-    const res = await fetch('/api/plaid/create-link-token', {
-      method: 'POST',
-      headers: { 'Authorization': 'Bearer ' + token }
-    });
-    const data = await res.json();
-    
-    if (!data.ok) {
-      alert('Error: ' + data.error);
-      return;
-    }
-    
-    const handler = Plaid.create({
-      token: data.link_token,
-      onSuccess: async (public_token, metadata) => {
-        await fetch('/api/plaid/exchange-token', {
-          method: 'POST',
-          headers: {
-            'Authorization': 'Bearer ' + token,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            public_token: public_token,
-            institution: metadata.institution
-          })
-        });
-        alert('Account connected! Loading holdings...');
-        loadHoldings();
-      },
-      onExit: (err) => {
-        if (err) console.error('Plaid error:', err);
-      }
-    });
-    handler.open();
-  } catch (e) {
-    alert('Connection error: ' + e.message);
-  }
-}
-
-async function loadHoldings() {
-  const token = localStorage.getItem('eluxraj_token');
-  const res = await fetch('/api/plaid/holdings', {
-    headers: { 'Authorization': 'Bearer ' + token }
-  });
-  const data = await res.json();
-  
-  if (data.ok && data.holdings.length > 0) {
-    let html = '<h3 style="color:var(--accent);margin-bottom:15px">Your Portfolio: $' + data.totalValue.toLocaleString() + '</h3>';
-    html += '<div style="max-height:300px;overflow-y:auto">';
-    data.holdings.forEach(h => {
-      const color = h.gain >= 0 ? 'var(--green)' : 'var(--red)';
-      html += '<div style="display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid var(--border)">';
-      html += '<div><strong>' + h.symbol + '</strong><br><span style="font-size:12px;color:var(--muted)">' + h.name.substring(0,25) + '</span></div>';
-      html += '<div style="text-align:right"><strong>$' + h.value.toLocaleString() + '</strong><br><span style="color:' + color + '">' + (h.gain >= 0 ? '+' : '') + h.gainPercent.toFixed(1) + '%</span></div>';
-      html += '</div>';
-    });
-    html += '</div>';
-    document.getElementById('holdingsArea').innerHTML = html;
-    document.getElementById('holdingsArea').style.display = 'block';
-  }
-}
-
-// Load holdings on page load
-document.addEventListener('DOMContentLoaded', loadHoldings);
-</script>
-<script>
-// Set Price Alert
-function openAlertModal() {
-  const html = `
-    <div class="form-group">
-      <label class="form-label">Symbol</label>
-      <input class="form-input" id="alertSymbol" value="BTC" placeholder="BTC, NVDA, AAPL...">
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label class="form-label">Target Price ($)</label>
-        <input class="form-input" id="alertPrice" type="number" value="100000">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Direction</label>
-        <select class="form-select" id="alertDir">
-          <option value="above">Above (📈)</option>
-          <option value="below">Below (📉)</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="form-label">📱 Phone (for SMS)</label>
-      <input class="form-input" id="alertPhone" placeholder="+1234567890">
-    </div>
-    <div class="form-group">
-      <label class="form-label">📧 Email</label>
-      <input class="form-input" id="alertEmail" placeholder="you@email.com">
-    </div>
-    <button class="btn" onclick="createAlert()">🔔 Set Alert</button><button onclick="openOracle()" style="padding:12px 20px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;margin-left:10px">🔮 ORACLE</button><button onclick="openCouncil()" style="padding:12px 20px;background:linear-gradient(135deg,#059669,#10b981);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;margin-left:10px">🏛️ COUNCIL</button><button onclick="openPulse()" style="padding:12px 20px;background:linear-gradient(135deg,#dc2626,#ef4444);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;margin-left:10px">💓 PULSE</button><button onclick="openArchetype()" style="padding:12px 20px;background:linear-gradient(135deg,#7c3aed,#a855f7);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;margin-left:10px">🧠 ARCHETYPE</button><button onclick="openNexus()" style="padding:12px 20px;background:linear-gradient(135deg,#0891b2,#06b6d4);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;margin-left:10px">🌐 NEXUS</button><button onclick="openMirror()" style="padding:12px 20px;background:linear-gradient(135deg,#475569,#64748b);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;margin-left:10px">🪞 MIRROR</button><button onclick="openPhantom()" style="padding:12px 20px;background:linear-gradient(135deg,#1f2937,#374151);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;margin-left:10px">👻 PHANTOM</button><button onclick="openSovereign()" style="padding:12px 20px;background:linear-gradient(135deg,#b45309,#d97706);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;margin-left:10px">👑 SOVEREIGN</button><button onclick="openAtlas()" style="padding:12px 20px;background:linear-gradient(135deg,#0f766e,#14b8a6);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;margin-left:10px">🗺️ ATLAS</button><button onclick="openFidelity()" style="padding:12px 20px;background:linear-gradient(135deg,#4338ca,#6366f1);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;margin-left:10px">📡 FIDELITY</button><button onclick="openAttest()" style="padding:12px 20px;background:linear-gradient(135deg,#92400e,#f59e0b);border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer;margin-left:10px">📜 ATTEST</button>
-    <div id="alertResult" style="margin-top:15px"></div>
-  `;
-  document.getElementById('mTitle').textContent = '🔔 Set Price Alert';
-  document.getElementById('mBody').innerHTML = html;
-  document.getElementById('modalBg').classList.add('active');
-}
-
-async function createAlert() {
-  const token = localStorage.getItem('eluxraj_token');
-  const data = {
-    symbol: document.getElementById('alertSymbol').value,
-    targetPrice: document.getElementById('alertPrice').value,
-    direction: document.getElementById('alertDir').value,
-    alertType: 'both',
-    phone: document.getElementById('alertPhone').value,
-    email: document.getElementById('alertEmail').value
-  };
-  
-  const res = await fetch('/api/alerts', {
-    method: 'POST',
-    headers: {
-      'Authorization': 'Bearer ' + token,
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify(data)
-  });
-  
-  const result = await res.json();
-  document.getElementById('alertResult').innerHTML = result.ok 
-    ? '<div style="color:var(--green)">✅ Alert created! You will be notified when ' + data.symbol + ' hits $' + data.targetPrice + '</div>'
-    : '<div style="color:var(--red)">❌ ' + result.error + '</div>';
-}
-</script>
-<script>
-// ORACLE™ - Predictive Alpha Engine
-async function openOracle() {
-  const html = `
-    <div class="form-group">
-      <label class="form-label">Asset Symbol</label>
-      <input class="form-input" id="oracleSymbol" value="BTC" placeholder="BTC, ETH, NVDA, AAPL...">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Capital to Deploy ($)</label>
-      <input class="form-input" id="oracleCapital" type="number" value="50000">
-    </div>
-    <button class="btn" onclick="runOracle()">🔮 Run ORACLE Analysis</button>
-    <div id="oracleResult" style="margin-top:20px"></div>
-  `;
-  document.getElementById('mTitle').textContent = '🔮 ORACLE™ Predictive Engine';
-  document.getElementById('mBody').innerHTML = html;
-  document.getElementById('modalBg').classList.add('active');
-}
-
-async function runOracle() {
-  const symbol = document.getElementById('oracleSymbol').value;
-  const capital = document.getElementById('oracleCapital').value;
-  document.getElementById('oracleResult').innerHTML = '<div style="color:var(--accent)">⏳ ORACLE synthesizing 3 models...</div>';
-  
-  const res = await fetch('/api/oracle-ai/synthesize/' + symbol + '?capital=' + capital);
-  const data = await res.json();
-  
-  if (data.ok) {
-    const o = data.oracle;
-    const color = o.recommendation.includes('ACCUMULATE') ? 'var(--green)' : 
-                  o.recommendation.includes('REDUCE') ? 'var(--red)' : 'var(--gold)';
-    
-    let html = '<div style="background:var(--card);border-radius:12px;padding:20px;border:1px solid var(--border)">';
-    html += '<h3 style="color:' + color + ';font-size:24px;margin-bottom:15px">' + o.recommendation + '</h3>';
-    html += '<div style="font-size:18px;margin-bottom:15px">' + o.action + '</div>';
-    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:20px">';
-    html += '<div style="background:var(--bg);padding:12px;border-radius:8px"><span style="color:var(--muted)">Confidence</span><br><strong style="font-size:20px">' + o.confidence + '%</strong></div>';
-    html += '<div style="background:var(--bg);padding:12px;border-radius:8px"><span style="color:var(--muted)">Position Size</span><br><strong style="font-size:20px;color:var(--green)">$' + o.position_size.toLocaleString() + '</strong></div>';
-    html += '<div style="background:var(--bg);padding:12px;border-radius:8px"><span style="color:var(--muted)">Risk Level</span><br><strong style="font-size:20px">' + o.risk_level + '</strong></div>';
-    html += '<div style="background:var(--bg);padding:12px;border-radius:8px"><span style="color:var(--muted)">Models Used</span><br><strong style="font-size:20px">3</strong></div>';
-    html += '</div>';
-    
-    html += '<h4 style="color:var(--accent);margin-bottom:10px">📊 Model Breakdown</h4>';
-    html += '<div style="font-size:13px">';
-    html += '<div style="padding:8px;border-bottom:1px solid var(--border)"><strong>MOMENTUM-7:</strong> ' + o.models.MOMENTUM_7.signal + ' (' + o.models.MOMENTUM_7.confidence + '% confidence)</div>';
-    html += '<div style="padding:8px;border-bottom:1px solid var(--border)"><strong>SENTIMENT-∞:</strong> ' + o.models.SENTIMENT_INF.signal + ' (' + o.models.SENTIMENT_INF.confidence + '% confidence)</div>';
-    html += '<div style="padding:8px"><strong>WHALE-WATCH:</strong> ' + o.models.WHALE_WATCH.signal + ' (' + o.models.WHALE_WATCH.confidence + '% confidence)</div>';
-    html += '</div></div>';
-    
-    document.getElementById('oracleResult').innerHTML = html;
-  } else {
-    document.getElementById('oracleResult').innerHTML = '<div style="color:var(--red)">❌ ' + data.error + '</div>';
-  }
-}
-
-// COUNCIL™ - AI Board of Directors
-async function openCouncil() {
-  const html = `
-    <div class="form-group">
-      <label class="form-label">Investment Question</label>
-      <textarea class="form-input" id="councilQuestion" rows="3" placeholder="Should I buy NVDA at current prices?">Should I accumulate BTC at $95,000?</textarea>
-    </div>
-    <button class="btn" onclick="runCouncil()">🏛️ Convene The Council</button>
-    <div id="councilResult" style="margin-top:20px"></div>
-  `;
-  document.getElementById('mTitle').textContent = '🏛️ COUNCIL™ AI Board of Directors';
-  document.getElementById('mBody').innerHTML = html;
-  document.getElementById('modalBg').classList.add('active');
-}
-
-async function runCouncil() {
-  const question = document.getElementById('councilQuestion').value;
-  document.getElementById('councilResult').innerHTML = '<div style="color:var(--accent)">⏳ Council convening... 7 AI advisors debating...</div>';
-  
-  const res = await fetch('/api/council/convene', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ question })
-  });
-  const data = await res.json();
-  
-  if (data.ok) {
-    const c = data.council;
-    let html = '<div style="max-height:400px;overflow-y:auto">';
-    
-    c.advisors.forEach(a => {
-      const color = a.stance === 'BUY' || a.stance === 'BULLISH' ? 'var(--green)' : 
-                    a.stance === 'SELL' || a.stance === 'BEARISH' ? 'var(--red)' : 'var(--gold)';
-      html += '<div style="background:var(--card);border-radius:10px;padding:15px;margin-bottom:10px;border-left:3px solid ' + color + '">';
-      html += '<div style="display:flex;justify-content:space-between;margin-bottom:8px">';
-      html += '<strong style="color:var(--accent)">' + a.name + '</strong>';
-      html += '<span style="color:' + color + ';font-weight:bold">' + a.stance + '</span>';
-      html += '</div>';
-      html += '<div style="font-size:13px;color:var(--muted)">' + a.philosophy + '</div>';
-      html += '<div style="margin-top:8px;font-size:14px">"' + a.opinion + '"</div>';
-      html += '</div>';
-    });
-    
-    html += '<div style="background:linear-gradient(135deg,var(--accent),#8b5cf6);border-radius:10px;padding:20px;margin-top:15px">';
-    html += '<h4 style="color:white;margin-bottom:10px">⚖️ COUNCIL SYNTHESIS</h4>';
-    html += '<div style="color:white;font-size:16px">' + c.synthesis.recommendation + '</div>';
-    html += '<div style="color:rgba(255,255,255,0.8);margin-top:10px;font-size:14px">Confidence: ' + c.synthesis.confidence + '% | Dissent: ' + c.synthesis.dissent + '%</div>';
-    html += '</div></div>';
-    
-    document.getElementById('councilResult').innerHTML = html;
-  } else {
-    document.getElementById('councilResult').innerHTML = '<div style="color:var(--red)">❌ ' + data.error + '</div>';
-  }
-}
-
-// PULSE™ - Real-time Alpha Feed
-async function openPulse() {
-  document.getElementById('mTitle').textContent = '💓 PULSE™ Real-Time Alpha Feed';
-  document.getElementById('mBody').innerHTML = '<div style="color:var(--accent)">⏳ Loading alpha signals...</div>';
-  document.getElementById('modalBg').classList.add('active');
-  
-  const res = await fetch('/api/pulse/feed');
-  const data = await res.json();
-  
-  if (data.ok) {
-    let html = '<div style="max-height:450px;overflow-y:auto">';
-    data.signals.forEach((s, i) => {
-      const icon = s.type === 'whale' ? '🐋' : s.type === 'insider' ? '👔' : s.type === 'momentum' ? '📈' : s.type === 'news' ? '📰' : '⚡';
-      const color = s.sentiment === 'bullish' ? 'var(--green)' : s.sentiment === 'bearish' ? 'var(--red)' : 'var(--gold)';
-      html += '<div style="background:var(--card);border-radius:10px;padding:15px;margin-bottom:10px;border-left:3px solid ' + color + '">';
-      html += '<div style="display:flex;justify-content:space-between;align-items:center">';
-      html += '<span style="font-size:20px">' + icon + '</span>';
-      html += '<span style="font-size:12px;color:var(--muted)">' + s.time + '</span>';
-      html += '</div>';
-      html += '<div style="margin-top:8px;font-size:14px">' + s.message + '</div>';
-      html += '<div style="margin-top:5px;font-size:12px;color:' + color + '">' + s.impact + '</div>';
-      html += '</div>';
-    });
-    html += '</div>';
-    document.getElementById('mBody').innerHTML = html;
-  }
-}
-</script>
-<script>
-// ARCHETYPE™ - Investor Profiling
-async function openArchetype() {
-  const html = `
-    <div class="form-group">
-      <label class="form-label">Risk Tolerance (1-10)</label>
-      <input class="form-input" id="archRisk" type="number" value="7" min="1" max="10">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Investment Time Horizon</label>
-      <select class="form-select" id="archTime">
-        <option value="1-2 years">1-2 years</option>
-        <option value="3-5 years" selected>3-5 years</option>
-        <option value="5-10 years">5-10 years</option>
-        <option value="10+ years">10+ years</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">If your portfolio dropped 20%, you would:</label>
-      <select class="form-select" id="archLoss">
-        <option value="Panic sell everything">Panic sell everything</option>
-        <option value="Sell some to reduce risk">Sell some to reduce risk</option>
-        <option value="Hold and wait">Hold and wait</option>
-        <option value="Buy more aggressively" selected>Buy more aggressively</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Primary Goal</label>
-      <select class="form-select" id="archGoal">
-        <option value="Preserve capital">Preserve capital</option>
-        <option value="Steady income">Steady income</option>
-        <option value="Long-term growth" selected>Long-term growth</option>
-        <option value="Aggressive wealth building">Aggressive wealth building</option>
-        <option value="Speculation/moonshots">Speculation/moonshots</option>
-      </select>
-    </div>
-    <button class="btn" onclick="runArchetype()">🧠 Analyze My Psychology</button>
-    <div id="archResult" style="margin-top:20px"></div>
-  `;
-  document.getElementById('mTitle').textContent = '🧠 ARCHETYPE™ Investor Psychology';
-  document.getElementById('mBody').innerHTML = html;
-  document.getElementById('modalBg').classList.add('active');
-}
-
-async function runArchetype() {
-  document.getElementById('archResult').innerHTML = '<div style="color:var(--accent)">⏳ Analyzing your investor psychology...</div>';
-  
-  const data = {
-    riskTolerance: document.getElementById('archRisk').value,
-    timeHorizon: document.getElementById('archTime').value,
-    reactionToLoss: document.getElementById('archLoss').value,
-    investmentGoals: document.getElementById('archGoal').value
-  };
-  
-  const res = await fetch('/api/archetype/profile', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
-  });
-  const result = await res.json();
-  
-  if (result.ok) {
-    const p = result.profile;
-    let html = '<div style="max-height:400px;overflow-y:auto">';
-    
-    html += '<div style="background:linear-gradient(135deg,var(--accent),#8b5cf6);border-radius:12px;padding:20px;margin-bottom:15px;text-align:center">';
-    html += '<div style="font-size:14px;color:rgba(255,255,255,0.8)">You are</div>';
-    html += '<div style="font-size:24px;font-weight:bold;color:white">' + p.archetype_name + '</div>';
-    html += '<div style="font-size:13px;color:rgba(255,255,255,0.7);margin-top:5px">Similar to: ' + p.famous_investor_match + '</div>';
-    html += '</div>';
-    
-    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px">';
-    html += '<div style="background:var(--card);padding:12px;border-radius:8px;text-align:center"><div style="color:var(--muted);font-size:12px">Loss Aversion</div><div style="font-size:20px;font-weight:bold">' + p.risk_personality.loss_aversion_score + '</div></div>';
-    html += '<div style="background:var(--card);padding:12px;border-radius:8px;text-align:center"><div style="color:var(--muted);font-size:12px">FOMO Risk</div><div style="font-size:20px;font-weight:bold">' + p.risk_personality.fomo_susceptibility + '</div></div>';
-    html += '<div style="background:var(--card);padding:12px;border-radius:8px;text-align:center"><div style="color:var(--muted);font-size:12px">Conviction</div><div style="font-size:20px;font-weight:bold">' + p.risk_personality.conviction_strength + '</div></div>';
-    html += '<div style="background:var(--card);padding:12px;border-radius:8px;text-align:center"><div style="color:var(--muted);font-size:12px">Patience</div><div style="font-size:20px;font-weight:bold">' + p.risk_personality.patience_index + '</div></div>';
-    html += '</div>';
-    
-    html += '<div style="background:var(--card);border-radius:10px;padding:15px;margin-bottom:10px">';
-    html += '<h4 style="color:var(--green);margin-bottom:8px">✅ Your Strengths</h4>';
-    html += '<div style="font-size:13px">' + p.behavioral_patterns.strengths.join(' • ') + '</div>';
-    html += '</div>';
-    
-    html += '<div style="background:var(--card);border-radius:10px;padding:15px;margin-bottom:10px">';
-    html += '<h4 style="color:var(--red);margin-bottom:8px">⚠️ Blind Spots</h4>';
-    html += '<div style="font-size:13px">' + p.behavioral_patterns.blind_spots.join(' • ') + '</div>';
-    html += '</div>';
-    
-    html += '<div style="background:var(--card);border-radius:10px;padding:15px">';
-    html += '<h4 style="color:var(--accent);margin-bottom:8px">📋 Your Rules</h4>';
-    p.personalized_rules.forEach(r => {
-      html += '<div style="font-size:13px;padding:5px 0;border-bottom:1px solid var(--border)">• ' + r + '</div>';
-    });
-    html += '</div></div>';
-    
-    document.getElementById('archResult').innerHTML = html;
-  } else {
-    document.getElementById('archResult').innerHTML = '<div style="color:var(--red)">❌ ' + result.error + '</div>';
-  }
-}
-
-// NEXUS™ - Capital Flow Detection
-async function openNexus() {
-  const html = `
-    <div class="form-group">
-      <label class="form-label">Sector to Analyze</label>
-      <select class="form-select" id="nexusSector">
-        <option value="AI & Semiconductors">AI & Semiconductors</option>
-        <option value="Cryptocurrency">Cryptocurrency</option>
-        <option value="Technology">Technology</option>
-        <option value="Healthcare">Healthcare</option>
-        <option value="Energy">Energy</option>
-        <option value="Financials">Financials</option>
-        <option value="Real Estate">Real Estate</option>
-      </select>
-    </div>
-    <button class="btn" onclick="runNexus()">🌐 Detect Capital Flows</button>
-    <hr style="border-color:var(--border);margin:20px 0">
-    <div class="form-group">
-      <label class="form-label">Or Track Smart Money on Specific Asset</label>
-      <input class="form-input" id="nexusAsset" placeholder="NVDA, BTC, AAPL...">
-    </div>
-    <button class="btn" style="background:var(--gold);color:#000" onclick="runSmartMoney()">🐋 Track Smart Money</button>
-    <div id="nexusResult" style="margin-top:20px"></div>
-  `;
-  document.getElementById('mTitle').textContent = '🌐 NEXUS™ Capital Flow Intelligence';
-  document.getElementById('mBody').innerHTML = html;
-  document.getElementById('modalBg').classList.add('active');
-}
-
-async function runNexus() {
-  const sector = document.getElementById('nexusSector').value;
-  document.getElementById('nexusResult').innerHTML = '<div style="color:var(--accent)">⏳ Scanning institutional flows for ' + sector + '...</div>';
-  
-  const res = await fetch('/api/nexus/flows/' + encodeURIComponent(sector));
-  const data = await res.json();
-  
-  if (data.ok) {
-    const n = data.nexus;
-    const flowColor = n.flow_direction === 'INFLOW' ? 'var(--green)' : n.flow_direction === 'OUTFLOW' ? 'var(--red)' : 'var(--gold)';
-    
-    let html = '<div style="max-height:400px;overflow-y:auto">';
-    html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px">';
-    html += '<div style="font-size:24px;font-weight:bold;color:' + flowColor + '">' + n.flow_direction + '</div>';
-    html += '<div style="background:' + flowColor + ';color:#000;padding:5px 12px;border-radius:20px;font-weight:bold">' + n.flow_intensity + ' INTENSITY</div>';
-    html += '</div>';
-    
-    html += '<h4 style="color:var(--accent);margin:15px 0 10px">🏦 Smart Money Moves</h4>';
-    n.smart_money_moves.forEach(m => {
-      const actionColor = m.action === 'ACCUMULATING' || m.action === 'INITIATING' ? 'var(--green)' : 'var(--red)';
-      html += '<div style="background:var(--card);padding:12px;border-radius:8px;margin-bottom:8px">';
-      html += '<div style="display:flex;justify-content:space-between"><strong>' + m.institution + '</strong><span style="color:' + actionColor + '">' + m.action + '</span></div>';
-      html += '<div style="font-size:13px;color:var(--muted)">Targets: ' + m.targets.join(', ') + ' | Size: ' + m.estimated_size + '</div>';
-      html += '</div>';
-    });
-    
-    if (n.rotation_detected) {
-      html += '<div style="background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:10px;padding:15px;margin:15px 0">';
-      html += '<h4 style="color:var(--accent);margin-bottom:8px">🔄 Rotation Detected</h4>';
-      html += '<div style="color:var(--red)">' + n.rotation_detected.from_sector + ' →</div>';
-      html += '<div style="color:var(--green)">' + n.rotation_detected.to_sector + '</div>';
-      html += '<div style="font-size:13px;color:var(--muted);margin-top:5px">' + n.rotation_detected.magnitude + ' over ' + n.rotation_detected.timeline + '</div>';
-      html += '</div>';
-    }
-    
-    html += '<div style="background:var(--card);border-radius:10px;padding:15px;margin-top:15px">';
-    html += '<h4 style="color:var(--accent);margin-bottom:8px">📈 Positioning</h4>';
-    html += '<div style="font-size:14px">' + n.prediction.positioning + '</div>';
-    html += '</div></div>';
-    
-    document.getElementById('nexusResult').innerHTML = html;
-  } else {
-    document.getElementById('nexusResult').innerHTML = '<div style="color:var(--red)">❌ ' + data.error + '</div>';
-  }
-}
-
-async function runSmartMoney() {
-  const asset = document.getElementById('nexusAsset').value;
-  if (!asset) { alert('Enter an asset symbol'); return; }
-  
-  document.getElementById('nexusResult').innerHTML = '<div style="color:var(--accent)">⏳ Tracking institutional activity on ' + asset + '...</div>';
-  
-  const res = await fetch('/api/nexus/smart-money/' + asset);
-  const data = await res.json();
-  
-  if (data.ok) {
-    const n = data.nexus;
-    const trendColor = n.ownership_trend === 'INCREASING' ? 'var(--green)' : n.ownership_trend === 'DECREASING' ? 'var(--red)' : 'var(--gold)';
-    
-    let html = '<div style="max-height:400px;overflow-y:auto">';
-    html += '<div style="text-align:center;margin-bottom:15px">';
-    html += '<div style="font-size:32px;font-weight:bold">' + n.asset + '</div>';
-    html += '<div style="font-size:18px;color:' + trendColor + '">Institutional Ownership: ' + n.institutional_ownership + ' (' + n.ownership_trend + ')</div>';
-    html += '</div>';
-    
-    html += '<h4 style="color:var(--accent);margin:15px 0 10px">🏛️ Top Holders</h4>';
-    n.top_holders.forEach(h => {
-      const changeColor = h.change.includes('+') ? 'var(--green)' : 'var(--red)';
-      html += '<div style="display:flex;justify-content:space-between;padding:8px;border-bottom:1px solid var(--border)">';
-      html += '<span>' + h.name + '</span>';
-      html += '<span style="color:' + changeColor + '">' + h.change + '</span>';
-      html += '</div>';
-    });
-    
-    html += '<div style="background:var(--card);border-radius:10px;padding:15px;margin-top:15px">';
-    html += '<h4 style="color:var(--accent);margin-bottom:8px">🎯 Smart Money Verdict</h4>';
-    html += '<div style="font-size:14px">' + n.smart_money_verdict + '</div>';
-    html += '</div></div>';
-    
-    document.getElementById('nexusResult').innerHTML = html;
-  } else {
-    document.getElementById('nexusResult').innerHTML = '<div style="color:var(--red)">❌ ' + data.error + '</div>';
-  }
-}
-</script>
-<script>
-// MIRROR™ - Portfolio Simulator
-async function openMirror() {
-  const html = `
-    <div style="margin-bottom:20px">
-      <h4 style="color:var(--accent);margin-bottom:10px">🔮 Stress Test Your Portfolio</h4>
-      <select class="form-select" id="stressScenario" style="margin-bottom:10px">
-        <option value="2008 Financial Crisis">2008 Financial Crisis</option>
-        <option value="COVID March 2020 Crash">COVID March 2020 Crash</option>
-        <option value="Dot-Com Bubble Burst">Dot-Com Bubble Burst</option>
-        <option value="1987 Black Monday">1987 Black Monday</option>
-        <option value="Rising Interest Rates">Rising Interest Rates</option>
-        <option value="Crypto Winter 2022">Crypto Winter 2022</option>
-        <option value="Stagflation Scenario">Stagflation Scenario</option>
-      </select>
-      <button class="btn" onclick="runStressTest()">💥 Run Stress Test</button>
-    </div>
-    <div style="margin-bottom:20px">
-      <h4 style="color:var(--accent);margin-bottom:10px">📊 Monte Carlo Simulation</h4>
-      <div class="form-group">
-        <label class="form-label">Years to Simulate</label>
-        <input class="form-input" id="mcYears" type="number" value="5" min="1" max="30">
-      </div>
-      <button class="btn" style="background:var(--gold);color:#000" onclick="runMonteCarlo()">🎲 Run 10,000 Simulations</button>
-    </div>
-    <div id="mirrorResult"></div>
-  `;
-  document.getElementById('mTitle').textContent = '🪞 MIRROR™ Portfolio Simulator';
-  document.getElementById('mBody').innerHTML = html;
-  document.getElementById('modalBg').classList.add('active');
-}
-
-async function runStressTest() {
-  const scenario = document.getElementById('stressScenario').value;
-  document.getElementById('mirrorResult').innerHTML = '<div style="color:var(--accent)">⏳ Simulating ' + scenario + '...</div>';
-  
-  const portfolio = { holdings: ['VOO:40%', 'QQQ:25%', 'BTC:15%', 'NVDA:10%', 'BND:10%'] };
-  
-  const res = await fetch('/api/mirror/stress-test', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ portfolio, scenario })
-  });
-  const data = await res.json();
-  
-  if (data.ok) {
-    const s = data.stress;
-    let html = '<div style="background:linear-gradient(135deg,#7f1d1d,#991b1b);border-radius:12px;padding:20px;margin-top:15px">';
-    html += '<h3 style="color:white;margin-bottom:15px">💥 ' + s.scenario + '</h3>';
-    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">';
-    html += '<div style="background:rgba(0,0,0,0.3);padding:12px;border-radius:8px"><div style="color:rgba(255,255,255,0.7);font-size:12px">Max Drawdown</div><div style="color:#ef4444;font-size:24px;font-weight:bold">' + s.portfolio_impact.estimated_drawdown + '</div></div>';
-    html += '<div style="background:rgba(0,0,0,0.3);padding:12px;border-radius:8px"><div style="color:rgba(255,255,255,0.7);font-size:12px">Recovery Time</div><div style="color:white;font-size:24px;font-weight:bold">' + s.portfolio_impact.recovery_time + '</div></div>';
-    html += '</div>';
-    html += '<div style="margin-top:15px;color:rgba(255,255,255,0.9)">';
-    html += '<strong>Survivors:</strong> ' + s.survivors.join(', ') + '<br>';
-    html += '<strong>Casualties:</strong> ' + s.casualties.join(', ');
-    html += '</div></div>';
-    document.getElementById('mirrorResult').innerHTML = html;
-  }
-}
-
-async function runMonteCarlo() {
-  const years = document.getElementById('mcYears').value;
-  document.getElementById('mirrorResult').innerHTML = '<div style="color:var(--accent)">⏳ Running 10,000 simulations over ' + years + ' years...</div>';
-  
-  const portfolio = { holdings: ['VOO:40%', 'QQQ:25%', 'BTC:15%', 'NVDA:10%', 'BND:10%'], value: 100000 };
-  
-  const res = await fetch('/api/mirror/monte-carlo', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ portfolio, years })
-  });
-  const data = await res.json();
-  
-  if (data.ok) {
-    const m = data.simulation;
-    let html = '<div style="background:var(--card);border-radius:12px;padding:20px;margin-top:15px">';
-    html += '<h3 style="color:var(--accent);margin-bottom:15px">📊 10,000 Simulations Complete</h3>';
-    html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:15px">';
-    html += '<div style="background:var(--bg);padding:12px;border-radius:8px;text-align:center"><div style="color:var(--muted);font-size:11px">Median</div><div style="color:var(--green);font-size:18px;font-weight:bold">' + m.projected_values.median_ending + '</div></div>';
-    html += '<div style="background:var(--bg);padding:12px;border-radius:8px;text-align:center"><div style="color:var(--muted);font-size:11px">Best 5%</div><div style="color:var(--green);font-size:18px;font-weight:bold">' + m.projected_values.optimistic_ending + '</div></div>';
-    html += '<div style="background:var(--bg);padding:12px;border-radius:8px;text-align:center"><div style="color:var(--muted);font-size:11px">Worst 5%</div><div style="color:var(--red);font-size:18px;font-weight:bold">' + m.projected_values.pessimistic_ending + '</div></div>';
-    html += '</div>';
-    html += '<div style="font-size:14px;color:var(--muted)">';
-    html += '<div>✅ ' + m.outcomes.probability_positive + ' chance of positive return</div>';
-    html += '<div>🚀 ' + m.outcomes.probability_double + ' chance of doubling</div>';
-    html += '</div></div>';
-    document.getElementById('mirrorResult').innerHTML = html;
-  }
-}
-
-// PHANTOM™ - Execution Intelligence
-async function openPhantom() {
-  const html = `
-    <div class="form-group">
-      <label class="form-label">Asset</label>
-      <input class="form-input" id="phantomAsset" value="BTC" placeholder="BTC, NVDA, ETH...">
-    </div>
-    <div class="form-row" style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-      <div class="form-group">
-        <label class="form-label">Order Size ($)</label>
-        <input class="form-input" id="phantomSize" type="number" value="500000">
-      </div>
-      <div class="form-group">
-        <label class="form-label">Direction</label>
-        <select class="form-select" id="phantomDir">
-          <option value="BUY">BUY</option>
-          <option value="SELL">SELL</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Urgency</label>
-      <select class="form-select" id="phantomUrgency">
-        <option value="Patient">Patient (Best price)</option>
-        <option value="Normal" selected>Normal</option>
-        <option value="Urgent">Urgent (Fast fill)</option>
-      </select>
-    </div>
-    <button class="btn" onclick="runPhantom()">👻 Generate Execution Plan</button>
-    <div id="phantomResult" style="margin-top:20px"></div>
-  `;
-  document.getElementById('mTitle').textContent = '👻 PHANTOM™ Stealth Execution';
-  document.getElementById('mBody').innerHTML = html;
-  document.getElementById('modalBg').classList.add('active');
-}
-
-async function runPhantom() {
-  document.getElementById('phantomResult').innerHTML = '<div style="color:var(--accent)">⏳ Designing stealth execution strategy...</div>';
-  
-  const order = {
-    asset: document.getElementById('phantomAsset').value,
-    size: parseInt(document.getElementById('phantomSize').value),
-    direction: document.getElementById('phantomDir').value,
-    urgency: document.getElementById('phantomUrgency').value
-  };
-  
-  const res = await fetch('/api/phantom/plan', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(order)
-  });
-  const data = await res.json();
-  
-  if (data.ok) {
-    const p = data.execution;
-    let html = '<div style="background:var(--card);border-radius:12px;padding:20px">';
-    html += '<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px">';
-    html += '<h3 style="color:var(--accent)">' + p.strategy + ' Strategy</h3>';
-    html += '<div style="background:var(--green);color:#000;padding:5px 12px;border-radius:20px;font-size:12px;font-weight:bold">Impact: ' + p.estimated_impact + '</div>';
-    html += '</div>';
-    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px">';
-    html += '<div style="background:var(--bg);padding:12px;border-radius:8px"><div style="color:var(--muted);font-size:11px">Total Orders</div><div style="font-size:18px;font-weight:bold">' + p.execution_plan.total_orders + '</div></div>';
-    html += '<div style="background:var(--bg);padding:12px;border-radius:8px"><div style="color:var(--muted);font-size:11px">Avg Order</div><div style="font-size:18px;font-weight:bold">' + p.execution_plan.avg_order_size + '</div></div>';
-    html += '</div>';
-    html += '<h4 style="color:var(--accent);margin:15px 0 10px">📍 Execution Steps</h4>';
-    p.step_by_step.forEach((step, i) => {
-      html += '<div style="padding:8px;border-left:2px solid var(--accent);margin-bottom:5px;padding-left:12px;font-size:13px"><strong>' + (i+1) + '.</strong> ' + step + '</div>';
-    });
-    html += '</div>';
-    document.getElementById('phantomResult').innerHTML = html;
-  }
-}
-
-// SOVEREIGN™ - Private Deal Flow
-async function openSovereign() {
-  const html = `
-    <div class="form-group">
-      <label class="form-label">Capital to Deploy ($)</label>
-      <input class="form-input" id="sovCapital" type="number" value="1000000">
-    </div>
-    <div class="form-group">
-      <label class="form-label">Preferred Sectors</label>
-      <select class="form-select" id="sovSector" multiple style="height:100px">
-        <option value="AI Infrastructure" selected>AI Infrastructure</option>
-        <option value="Crypto/Web3">Crypto/Web3</option>
-        <option value="Fintech">Fintech</option>
-        <option value="Healthcare">Healthcare</option>
-        <option value="Climate Tech">Climate Tech</option>
-        <option value="Defense Tech">Defense Tech</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label class="form-label">Liquidity Preference</label>
-      <select class="form-select" id="sovLiquidity">
-        <option value="2-3 year lock">2-3 year lock</option>
-        <option value="5-7 year lock" selected>5-7 year lock</option>
-        <option value="10+ year lock">10+ year lock</option>
-      </select>
-    </div>
-    <button class="btn" onclick="runSovereign()">👑 Find Private Deals</button>
-    <div id="sovResult" style="margin-top:20px"></div>
-  `;
-  document.getElementById('mTitle').textContent = '👑 SOVEREIGN™ Private Capital Matching';
-  document.getElementById('mBody').innerHTML = html;
-  document.getElementById('modalBg').classList.add('active');
-}
-
-async function runSovereign() {
-  document.getElementById('sovResult').innerHTML = '<div style="color:var(--accent)">⏳ Scanning private market opportunities...</div>';
-  
-  const sectors = Array.from(document.getElementById('sovSector').selectedOptions).map(o => o.value);
-  
-  const profile = {
-    capital: parseInt(document.getElementById('sovCapital').value),
-    riskTolerance: 7,
-    sectors: sectors,
-    liquidity: document.getElementById('sovLiquidity').value
-  };
-  
-  const res = await fetch('/api/sovereign/match', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(profile)
-  });
-  const data = await res.json();
-  
-  if (data.ok) {
-    const s = data.matches;
-    let html = '<div style="max-height:400px;overflow-y:auto">';
-    html += '<div style="background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:12px;padding:15px;margin-bottom:15px;text-align:center">';
-    html += '<div style="color:rgba(255,255,255,0.7);font-size:12px">Investor Tier</div>';
-    html += '<div style="color:white;font-size:20px;font-weight:bold">' + s.investor_tier + '</div>';
-    html += '</div>';
-    
-    s.matches.forEach(m => {
-      html += '<div style="background:var(--card);border-radius:10px;padding:15px;margin-bottom:10px;border-left:3px solid var(--accent)">';
-      html += '<div style="display:flex;justify-content:space-between;align-items:start;margin-bottom:10px">';
-      html += '<div><strong style="font-size:16px">' + m.opportunity + '</strong><br><span style="color:var(--muted);font-size:12px">' + m.type + ' • ' + m.round + '</span></div>';
-      html += '<div style="background:var(--accent);color:white;padding:3px 10px;border-radius:20px;font-size:12px">' + m.match_score + '% match</div>';
-      html += '</div>';
-      html += '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;font-size:12px">';
-      html += '<div><span style="color:var(--muted)">Allocation</span><br><strong>' + m.allocation_available + '</strong></div>';
-      html += '<div><span style="color:var(--muted)">IRR Target</span><br><strong style="color:var(--green)">' + m.projected_irr + '</strong></div>';
-      html += '<div><span style="color:var(--muted)">Lead</span><br><strong>' + m.lead_investor + '</strong></div>';
-      html += '</div></div>';
-    });
-    
-    html += '</div>';
-    document.getElementById('sovResult').innerHTML = html;
-  }
-}
-</script>
-<script>
-// ATLAS™ - Unified Asset Graph
-async function openAtlas() {
-  const html = `
-    <div class="form-group">
-      <label class="form-label">Build Asset Graph</label>
-      <input class="form-input" id="atlasAsset" placeholder="BTC, NVDA, AAPL..." value="NVDA">
-      <button class="btn" style="margin-top:10px" onclick="runAtlasAsset()">🗺️ Build Graph</button>
-    </div>
-    <hr style="border-color:var(--border);margin:20px 0">
-    <div class="form-group">
-      <label class="form-label">Entity Intelligence</label>
-      <input class="form-input" id="atlasEntity" placeholder="Berkshire Hathaway, Pantera Capital..." value="Citadel">
-      <button class="btn" style="margin-top:10px;background:var(--gold);color:#000" onclick="runAtlasEntity()">🏛️ Profile Entity</button>
-    </div>
-    <hr style="border-color:var(--border);margin:20px 0">
-    <div class="form-group">
-      <label class="form-label">Relationship Analysis</label>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <input class="form-input" id="atlasRel1" placeholder="Asset 1" value="NVDA">
-        <input class="form-input" id="atlasRel2" placeholder="Asset 2" value="AMD">
-      </div>
-      <button class="btn" style="margin-top:10px;background:var(--green)" onclick="runAtlasRelation()">🔗 Analyze Relationship</button>
-    </div>
-    <div id="atlasResult" style="margin-top:20px"></div>
-  `;
-  document.getElementById('mTitle').textContent = '🗺️ ATLAS™ Unified Asset Graph';
-  document.getElementById('mBody').innerHTML = html;
-  document.getElementById('modalBg').classList.add('active');
-}
-
-async function runAtlasAsset() {
-  const asset = document.getElementById('atlasAsset').value;
-  document.getElementById('atlasResult').innerHTML = '<div style="color:var(--accent)">⏳ Building knowledge graph for ' + asset + '...</div>';
-  
-  const res = await fetch('/api/atlas/asset/' + asset);
-  const data = await res.json();
-  
-  if (data.ok) {
-    const g = data.graph;
-    let html = '<div style="max-height:350px;overflow-y:auto">';
-    html += '<div style="background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:12px;padding:15px;margin-bottom:15px">';
-    html += '<h3 style="color:white;margin-bottom:5px">' + g.asset.full_name + '</h3>';
-    html += '<div style="color:rgba(255,255,255,0.7);font-size:13px">' + g.asset.type + ' | ' + g.entity_graph.issuer.jurisdiction + '</div>';
-    html += '</div>';
-    
-    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px">';
-    html += '<div style="background:var(--card);padding:12px;border-radius:8px"><div style="color:var(--muted);font-size:11px">Market Cap</div><div style="font-size:16px;font-weight:bold">' + g.performance_metrics.market_cap + '</div></div>';
-    html += '<div style="background:var(--card);padding:12px;border-radius:8px"><div style="color:var(--muted);font-size:11px">YTD Return</div><div style="font-size:16px;font-weight:bold;color:var(--green)">' + g.performance_metrics.ytd_return + '</div></div>';
-    html += '</div>';
-    
-    html += '<h4 style="color:var(--accent);margin-bottom:10px">🏛️ Major Holders</h4>';
-    g.entity_graph.major_holders.slice(0,3).forEach(h => {
-      html += '<div style="display:flex;justify-content:space-between;padding:8px;border-bottom:1px solid var(--border);font-size:13px">';
-      html += '<span>' + h.entity + '</span><span style="color:var(--accent)">' + h.stake + '</span>';
-      html += '</div>';
-    });
-    
-    html += '<h4 style="color:var(--accent);margin:15px 0 10px">🔗 Connected Assets</h4>';
-    html += '<div style="display:flex;flex-wrap:wrap;gap:8px">';
-    g.connected_assets.slice(0,5).forEach(c => {
-      html += '<span style="background:var(--card);padding:5px 12px;border-radius:20px;font-size:12px">' + c.asset + ' (' + c.relationship + ')</span>';
-    });
-    html += '</div></div>';
-    
-    document.getElementById('atlasResult').innerHTML = html;
-  }
-}
-
-async function runAtlasEntity() {
-  const entity = document.getElementById('atlasEntity').value;
-  document.getElementById('atlasResult').innerHTML = '<div style="color:var(--accent)">⏳ Profiling ' + entity + '...</div>';
-  
-  const res = await fetch('/api/atlas/entity/' + encodeURIComponent(entity));
-  const data = await res.json();
-  
-  if (data.ok) {
-    const e = data.entity;
-    let html = '<div style="max-height:350px;overflow-y:auto">';
-    html += '<div style="background:var(--card);border-radius:12px;padding:15px;margin-bottom:15px">';
-    html += '<h3 style="color:var(--accent)">' + e.entity.name + '</h3>';
-    html += '<div style="color:var(--muted);font-size:13px">' + e.entity.type + ' | ' + e.entity.jurisdiction + ' | Est. ' + e.entity.founded + '</div>';
-    html += '</div>';
-    
-    html += '<h4 style="color:var(--accent);margin-bottom:10px">📊 Top Holdings</h4>';
-    e.holdings.public_equity.slice(0,5).forEach(h => {
-      html += '<div style="display:flex;justify-content:space-between;padding:8px;border-bottom:1px solid var(--border);font-size:13px">';
-      html += '<span>' + h.asset + '</span><span>' + h.value + ' (' + h.pct_portfolio + ')</span>';
-      html += '</div>';
-    });
-    
-    html += '<div style="background:var(--bg);border-radius:10px;padding:15px;margin-top:15px">';
-    html += '<h4 style="color:var(--accent);margin-bottom:8px">🎯 Investment Style</h4>';
-    html += '<div style="font-size:13px">' + e.investment_style.strategy + ' | ' + e.investment_style.holding_period + ' | ' + e.investment_style.concentration + '</div>';
-    html += '</div></div>';
-    
-    document.getElementById('atlasResult').innerHTML = html;
-  }
-}
-
-async function runAtlasRelation() {
-  const a1 = document.getElementById('atlasRel1').value;
-  const a2 = document.getElementById('atlasRel2').value;
-  document.getElementById('atlasResult').innerHTML = '<div style="color:var(--accent)">⏳ Analyzing relationship...</div>';
-  
-  const res = await fetch('/api/atlas/relationship?asset1=' + a1 + '&asset2=' + a2);
-  const data = await res.json();
-  
-  if (data.ok) {
-    const r = data.relationship;
-    let html = '<div style="background:var(--card);border-radius:12px;padding:20px">';
-    html += '<div style="text-align:center;margin-bottom:15px">';
-    html += '<span style="font-size:24px;font-weight:bold">' + r.asset1 + '</span>';
-    html += '<span style="color:var(--accent);margin:0 15px">↔️</span>';
-    html += '<span style="font-size:24px;font-weight:bold">' + r.asset2 + '</span>';
-    html += '</div>';
-    html += '<div style="text-align:center;color:var(--accent);font-size:18px;margin-bottom:15px">' + r.relationship.type + ' (Strength: ' + r.relationship.strength + '/100)</div>';
-    html += '<div style="font-size:14px;color:var(--muted);margin-bottom:15px">' + r.relationship.description + '</div>';
-    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">';
-    html += '<div style="background:var(--bg);padding:12px;border-radius:8px;text-align:center"><div style="color:var(--muted);font-size:11px">30d Correlation</div><div style="font-size:18px;font-weight:bold">' + r.correlation.price_correlation_30d + '</div></div>';
-    html += '<div style="background:var(--bg);padding:12px;border-radius:8px;text-align:center"><div style="color:var(--muted);font-size:11px">1Y Correlation</div><div style="font-size:18px;font-weight:bold">' + r.correlation.price_correlation_1y + '</div></div>';
-    html += '</div></div>';
-    
-    document.getElementById('atlasResult').innerHTML = html;
-  }
-}
-
-// FIDELITY PIPELINE™ - Data Feeds
-async function openFidelity() {
-  const html = `
-    <div class="form-group">
-      <label class="form-label">Real-Time Data Ingestion</label>
-      <input class="form-input" id="fidelityAsset" placeholder="BTC, ETH, NVDA..." value="BTC">
-      <button class="btn" style="margin-top:10px" onclick="runFidelityIngest()">📡 Ingest Live Data</button>
-    </div>
-    <hr style="border-color:var(--border);margin:20px 0">
-    <button class="btn" style="background:var(--gold);color:#000" onclick="runFidelityStatus()">🔧 Pipeline Status</button>
-    <div id="fidelityResult" style="margin-top:20px"></div>
-  `;
-  document.getElementById('mTitle').textContent = '📡 FIDELITY PIPELINE™ Data Fusion';
-  document.getElementById('mBody').innerHTML = html;
-  document.getElementById('modalBg').classList.add('active');
-}
-
-async function runFidelityStatus() {
-  const res = await fetch('/api/fidelity/status');
-  const data = await res.json();
-  
-  if (data.ok) {
-    const p = data.pipeline;
-    let html = '<div style="background:linear-gradient(135deg,#064e3b,#059669);border-radius:12px;padding:15px;margin-bottom:15px;text-align:center">';
-    html += '<div style="font-size:24px;font-weight:bold;color:white">🟢 ' + p.health + '</div>';
-    html += '<div style="color:rgba(255,255,255,0.8)">' + p.total_sources + ' data sources connected</div>';
-    html += '</div>';
-    
-    html += '<div style="max-height:250px;overflow-y:auto">';
-    Object.entries(p.pipelines).forEach(([name, info]) => {
-      html += '<div style="display:flex;justify-content:space-between;align-items:center;padding:10px;border-bottom:1px solid var(--border)">';
-      html += '<div><strong>' + name.replace(/_/g, ' ').toUpperCase() + '</strong><br><span style="font-size:11px;color:var(--muted)">' + info.sources.join(', ') + '</span></div>';
-      html += '<div style="text-align:right"><span style="color:var(--green)">' + info.status + '</span><br><span style="font-size:11px;color:var(--muted)">' + info.latency + '</span></div>';
-      html += '</div>';
-    });
-    html += '</div>';
-    
-    document.getElementById('fidelityResult').innerHTML = html;
-  }
-}
-
-async function runFidelityIngest() {
-  const asset = document.getElementById('fidelityAsset').value;
-  document.getElementById('fidelityResult').innerHTML = '<div style="color:var(--accent)">⏳ Ingesting real-time data from ' + 8 + ' pipelines...</div>';
-  
-  const res = await fetch('/api/fidelity/ingest/' + asset);
-  const data = await res.json();
-  
-  if (data.ok) {
-    const d = data.data;
-    let html = '<div style="max-height:350px;overflow-y:auto">';
-    
-    const streams = d.data_streams;
-    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px">';
-    html += '<div style="background:var(--card);padding:12px;border-radius:8px"><div style="color:var(--muted);font-size:11px">Price</div><div style="font-size:20px;font-weight:bold">' + streams.market_data.price + '</div></div>';
-    html += '<div style="background:var(--card);padding:12px;border-radius:8px"><div style="color:var(--muted);font-size:11px">24h Volume</div><div style="font-size:20px;font-weight:bold">' + streams.market_data.volume_24h + '</div></div>';
-    html += '</div>';
-    
-    if (streams.onchain) {
-      html += '<div style="background:var(--card);border-radius:10px;padding:12px;margin-bottom:10px">';
-      html += '<h4 style="color:var(--accent);font-size:13px;margin-bottom:8px">⛓️ On-Chain</h4>';
-      html += '<div style="font-size:12px">Exchange Inflow: ' + streams.onchain.exchange_inflow + ' | Outflow: ' + streams.onchain.exchange_outflow + '</div>';
-      html += '</div>';
-    }
-    
-    if (streams.sentiment) {
-      const sentColor = streams.sentiment.sentiment_score > 0 ? 'var(--green)' : 'var(--red)';
-      html += '<div style="background:var(--card);border-radius:10px;padding:12px;margin-bottom:10px">';
-      html += '<h4 style="color:var(--accent);font-size:13px;margin-bottom:8px">📊 Sentiment</h4>';
-      html += '<div style="font-size:12px">Score: <span style="color:' + sentColor + '">' + streams.sentiment.sentiment_score + '</span> | Mentions: ' + streams.sentiment.twitter_mentions_24h + '</div>';
-      html += '</div>';
-    }
-    
-    html += '<div style="background:linear-gradient(135deg,#1e1b4b,#312e81);border-radius:10px;padding:12px;margin-top:15px">';
-    html += '<h4 style="color:white;font-size:13px;margin-bottom:8px">🔮 Fusion Insight</h4>';
-    html += '<div style="color:rgba(255,255,255,0.9);font-size:13px">' + d.fusion_insights.actionable_intelligence + '</div>';
-    html += '</div></div>';
-    
-    document.getElementById('fidelityResult').innerHTML = html;
-  }
-}
-
-// ATTEST™ - Provenance
-async function openAttest() {
-  const html = `
-    <div class="form-group">
-      <label class="form-label">Create Provenance Certificate</label>
-      <select class="form-select" id="attestType">
-        <option value="Rare Coin">Rare Coin</option>
-        <option value="Fine Art">Fine Art</option>
-        <option value="Luxury Watch">Luxury Watch</option>
-        <option value="Wine Collection">Wine Collection</option>
-        <option value="Classic Car">Classic Car</option>
-        <option value="Collectible">Collectible</option>
-      </select>
-      <input class="form-input" id="attestName" placeholder="Asset name/description" style="margin-top:10px" value="1933 Double Eagle $20 Gold Coin">
-      <button class="btn" style="margin-top:10px" onclick="runAttestCreate()">📜 Create Certificate</button>
-    </div>
-    <hr style="border-color:var(--border);margin:20px 0">
-    <div class="form-group">
-      <label class="form-label">Verify Existing Certificate</label>
-      <input class="form-input" id="attestVerify" placeholder="Certificate ID (ATTEST-XXXX...)">
-      <button class="btn" style="margin-top:10px;background:var(--green)" onclick="runAttestVerify()">✅ Verify</button>
-    </div>
-    <div id="attestResult" style="margin-top:20px"></div>
-  `;
-  document.getElementById('mTitle').textContent = '📜 ATTEST™ Provenance & Authentication';
-  document.getElementById('mBody').innerHTML = html;
-  document.getElementById('modalBg').classList.add('active');
-}
-
-async function runAttestCreate() {
-  const assetType = document.getElementById('attestType').value;
-  const assetName = document.getElementById('attestName').value;
-  document.getElementById('attestResult').innerHTML = '<div style="color:var(--accent)">⏳ Creating provenance certificate...</div>';
-  
-  const res = await fetch('/api/attest/certificate', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ type: assetType, name: assetName })
-  });
-  const data = await res.json();
-  
-  if (data.ok) {
-    const c = data.certificate;
-    let html = '<div style="max-height:350px;overflow-y:auto">';
-    
-    html += '<div style="background:linear-gradient(135deg,#78350f,#b45309);border-radius:12px;padding:20px;margin-bottom:15px;text-align:center">';
-    html += '<div style="font-size:12px;color:rgba(255,255,255,0.7)">CERTIFICATE ID</div>';
-    html += '<div style="font-size:16px;font-weight:bold;color:white;font-family:monospace">' + c.certificate.id + '</div>';
-    html += '<div style="margin-top:10px;padding:10px;background:rgba(0,0,0,0.2);border-radius:8px">';
-    html += '<div style="color:white;font-size:16px">' + c.asset.name + '</div>';
-    html += '<div style="color:rgba(255,255,255,0.7);font-size:13px">' + c.asset.category + '</div>';
-    html += '</div></div>';
-    
-    html += '<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:15px">';
-    html += '<div style="background:var(--card);padding:12px;border-radius:8px;text-align:center"><div style="color:var(--muted);font-size:11px">Valuation</div><div style="font-size:14px;font-weight:bold">' + c.valuation.current_estimate + '</div></div>';
-    html += '<div style="background:var(--card);padding:12px;border-radius:8px;text-align:center"><div style="color:var(--muted);font-size:11px">Auth Score</div><div style="font-size:14px;font-weight:bold;color:var(--green)">' + c.authentication.authentication_score + '/100</div></div>';
-    html += '</div>';
-    
-    html += '<h4 style="color:var(--accent);margin-bottom:10px;font-size:13px">📜 Provenance Chain</h4>';
-    c.provenance_chain.forEach(p => {
-      html += '<div style="padding:8px;border-left:2px solid var(--accent);margin-bottom:5px;padding-left:12px;font-size:12px">';
-      html += '<strong>' + p.date + '</strong>: ' + p.event + '<br>';
-      html += '<span style="color:var(--muted)">' + p.from + ' → ' + p.to + '</span>';
-      html += '</div>';
-    });
-    
-    html += '<button class="btn" style="width:100%;margin-top:15px;background:var(--accent)" onclick="alert(\'NFT minting coming soon!\')">🎨 Mint as NFT</button>';
-    html += '</div>';
-    
-    document.getElementById('attestResult').innerHTML = html;
-  }
-}
-
-async function runAttestVerify() {
-  const certId = document.getElementById('attestVerify').value;
-  if (!certId) { alert('Enter a certificate ID'); return; }
-  
-  document.getElementById('attestResult').innerHTML = '<div style="color:var(--accent)">⏳ Verifying certificate...</div>';
-  
-  const res = await fetch('/api/attest/verify/' + certId);
-  const data = await res.json();
-  
-  if (data.ok) {
-    const v = data.verification;
-    const statusColor = v.status === 'VERIFIED' ? 'var(--green)' : v.status === 'SUSPICIOUS' ? 'var(--red)' : 'var(--gold)';
-    
-    let html = '<div style="background:' + statusColor + ';border-radius:12px;padding:20px;text-align:center;margin-bottom:15px">';
-    html += '<div style="font-size:32px">✓</div>';
-    html += '<div style="font-size:24px;font-weight:bold;color:white">' + v.status + '</div>';
-    html += '<div style="color:rgba(255,255,255,0.8)">Confidence: ' + v.overall_confidence + '%</div>';
-    html += '</div>';
-    
-    html += '<h4 style="color:var(--accent);margin-bottom:10px;font-size:13px">🔍 Checks Performed</h4>';
-    v.checks_performed.forEach(c => {
-      const checkColor = c.result === 'PASS' ? 'var(--green)' : 'var(--red)';
-      html += '<div style="display:flex;justify-content:space-between;padding:8px;border-bottom:1px solid var(--border);font-size:12px">';
-      html += '<span>' + c.check + '</span><span style="color:' + checkColor + '">' + c.result + '</span>';
-      html += '</div>';
-    });
-    
-    document.getElementById('attestResult').innerHTML = html;
-  }
-}
-</script>
