@@ -415,6 +415,12 @@ app.use((err, req, res, next) => {
 // START SERVER
 // ============================================================================
 
+
+// Stripe routes
+app.use("/api/stripe", require("./routes/stripe"));
+app.use("/api/setup-stripe", require("./routes/setup-stripe"));
+app.use("/api/seed-deals", require("./routes/seed-deals"));
+
 const server = app.listen(PORT, () => {
   console.log(`
 ╔═══════════════════════════════════════════════════════════╗
@@ -441,10 +447,6 @@ process.on('SIGTERM', () => {
   });
 });
 
-// Stripe routes
-app.use("/api/stripe", require("./routes/stripe"));
-app.use("/api/setup-stripe", require("./routes/setup-stripe"));
-app.use("/api/seed-deals", require("./routes/seed-deals"));
 
 module.exports = app;
 
