@@ -587,7 +587,30 @@
     </div>
     
     
-    <!-- Premium Features -->
+    
+    <!-- Upgrade Banner -->
+    <div id="upgradeBanner" class="section" style="margin-bottom:32px;display:none">
+      <div style="background:linear-gradient(135deg,rgba(99,102,241,0.15),rgba(139,92,246,0.15));border:1px solid rgba(99,102,241,0.3);border-radius:20px;padding:32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px">
+        <div>
+          <div style="font-size:24px;font-weight:700;margin-bottom:8px">Unlock Premium Features</div>
+          <div style="color:#a1a1aa">Get unlimited AI queries, ORACLE full suite, real-time alerts & more</div>
+        </div>
+        <a href="/pricing.html" style="padding:14px 32px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:12px;color:white;font-weight:600;text-decoration:none;white-space:nowrap">Upgrade to Pro →</a>
+      </div>
+    </div>
+
+    <!-- Current Plan Badge -->
+    <script>
+      (function() {
+        const user = JSON.parse(localStorage.getItem('eluxraj_user') || '{}');
+        const banner = document.getElementById('upgradeBanner');
+        if (user.tier === 'free' || !user.tier) {
+          banner.style.display = 'block';
+        }
+      })();
+    </script>
+
+<!-- Premium Features -->
     <div class="section" style="margin-bottom:32px">
       <h2 style="margin-bottom:20px">🦄 Premium Suite</h2>
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px">
