@@ -4,12 +4,13 @@ const MARKET_DATA = {
   
   async getBitcoin() {
     try {
-      const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true');
+      // CoinCap API - more reliable, no API key needed
+      const res = await fetch('https://api.coincap.io/v2/assets/bitcoin');
       const data = await res.json();
-      if (data.bitcoin) {
+      if (data.data) {
         return {
-          price: Math.round(data.bitcoin.usd),
-          change: (data.bitcoin.usd_24h_change || 0).toFixed(1)
+          price: Math.round(parseFloat(data.data.priceUsd)),
+          change: parseFloat(data.data.changePercent24Hr).toFixed(1)
         };
       }
       throw new Error('No data');
@@ -21,12 +22,13 @@ const MARKET_DATA = {
   
   async getGold() {
     try {
-      const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=pax-gold&vs_currencies=usd&include_24hr_change=true');
+      // Use PAX Gold from CoinCap as gold proxy
+      const res = await fetch('https://api.coincap.io/v2/assets/pax-gold');
       const data = await res.json();
-      if (data['pax-gold']) {
+      if (data.data) {
         return {
-          price: Math.round(data['pax-gold'].usd),
-          change: (data['pax-gold'].usd_24h_change || 0).toFixed(1)
+          price: Math.round(parseFloat(data.data.priceUsd)),
+          change: parseFloat(data.data.changePercent24Hr).toFixed(1)
         };
       }
       throw new Error('No data');
@@ -55,15 +57,9 @@ const MARKET_DATA = {
   },
   
   async getSP500() {
-    // For real S&P 500 data, you need Alpha Vantage or similar
-    // Using realistic estimate for now
-    try {
-      const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd');
-      // Just checking if API is reachable, return realistic S&P value
-      return { price: 5998, change: '0.4' };
-    } catch (e) {
-      return { price: 5998, change: '0.4' };
-    }
+    // S&P 500 requires paid API for real-time
+    // Return realistic current value
+    return { price: 5998, change: '0.4' };
   },
   
   async getAll() {
