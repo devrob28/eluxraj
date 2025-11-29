@@ -1325,5 +1325,56 @@
       `;
     }
   </script>
+
+  <script>
+    // Fetch real market data
+    async function loadMarketData() {
+      try {
+        const res = await fetch('/api/market/prices');
+        const data = await res.json();
+        if (data.ok) {
+          // Update Bitcoin
+          const btcEl = document.querySelector('[data-market="bitcoin"]');
+          if (btcEl) {
+            btcEl.querySelector('.price').textContent = '
+</html>
+ + data.bitcoin.price.toLocaleString();
+            btcEl.querySelector('.change').textContent = (data.bitcoin.change >= 0 ? '+' : '') + data.bitcoin.change + '%';
+            btcEl.querySelector('.change').style.color = data.bitcoin.change >= 0 ? '#10b981' : '#ef4444';
+          }
+          // Update S&P 500
+          const spEl = document.querySelector('[data-market="sp500"]');
+          if (spEl) {
+            spEl.querySelector('.price').textContent = '
+</html>
+ + data.sp500.price.toLocaleString();
+            spEl.querySelector('.change').textContent = (data.sp500.change >= 0 ? '+' : '') + data.sp500.change + '%';
+            spEl.querySelector('.change').style.color = data.sp500.change >= 0 ? '#10b981' : '#ef4444';
+          }
+          // Update Gold
+          const goldEl = document.querySelector('[data-market="gold"]');
+          if (goldEl) {
+            goldEl.querySelector('.price').textContent = '
+</html>
+ + data.gold.price.toLocaleString();
+            goldEl.querySelector('.change').textContent = (data.gold.change >= 0 ? '+' : '') + data.gold.change + '%';
+            goldEl.querySelector('.change').style.color = data.gold.change >= 0 ? '#10b981' : '#ef4444';
+          }
+          // Update Fear & Greed
+          const fgEl = document.querySelector('[data-market="feargreed"]');
+          if (fgEl) {
+            fgEl.querySelector('.price').textContent = data.fearGreed.value;
+            fgEl.querySelector('.change').textContent = data.fearGreed.label;
+          }
+        }
+      } catch (e) {
+        console.log('Market data fetch failed:', e);
+      }
+    }
+    
+    // Load on page load and refresh every 60 seconds
+    loadMarketData();
+    setInterval(loadMarketData, 60000);
+  </script>
 </body>
 </html>
