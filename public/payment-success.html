@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Payment Successful | ELUXRAJ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #000;
+      color: #fff;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 20px;
+    }
+    .container { max-width: 500px; }
+    .icon {
+      width: 100px;
+      height: 100px;
+      background: linear-gradient(135deg, #10b981, #34d399);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      margin: 0 auto 32px;
+      animation: pop 0.5s ease;
+    }
+    @keyframes pop {
+      0% { transform: scale(0); }
+      80% { transform: scale(1.1); }
+      100% { transform: scale(1); }
+    }
+    h1 {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+    p {
+      color: #71717a;
+      font-size: 18px;
+      margin-bottom: 32px;
+      line-height: 1.6;
+    }
+    .btn {
+      display: inline-block;
+      padding: 16px 40px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      border-radius: 12px;
+      color: white;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      transition: transform 0.3s;
+    }
+    .btn:hover { transform: translateY(-3px); }
+    .features {
+      margin-top: 40px;
+      padding-top: 40px;
+      border-top: 1px solid #1e1e2e;
+      text-align: left;
+    }
+    .features h3 {
+      font-size: 14px;
+      color: #71717a;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 16px;
+    }
+    .feature-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 0;
+      font-size: 15px;
+    }
+    .feature-item::before {
+      content: '✓';
+      color: #10b981;
+      font-weight: 700;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">✓</div>
+    <h1>Welcome to <span id="tierName">Pro</span>!</h1>
+    <p>Your payment was successful. You now have full access to all premium features.</p>
+    <a href="/dashboard.html" class="btn">Enter Dashboard →</a>
+    
+    <div class="features">
+      <h3>You now have access to:</h3>
+      <div id="featuresList">
+        <div class="feature-item">Unlimited AI Queries</div>
+        <div class="feature-item">ORACLE Full Suite</div>
+        <div class="feature-item">COUNCIL AI Advisors</div>
+        <div class="feature-item">PULSE Real-Time</div>
+        <div class="feature-item">Priority Support</div>
+      </div>
+    </div>
+  </div>
+  
+  <script>
+    // Update local storage with new tier (will be refreshed on next login)
+    const user = JSON.parse(localStorage.getItem('eluxraj_user') || '{}');
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    // Refetch user data to get updated tier
+    const token = localStorage.getItem('eluxraj_token');
+    if (token) {
+      fetch('/api/auth/me', {
+        headers: { 'Authorization': 'Bearer ' + token }
+      })
+      .then(r => r.json())
+      .then(data => {
+        if (data.ok) {
+          localStorage.setItem('eluxraj_user', JSON.stringify(data.user));
+          document.getElementById('tierName').textContent = data.user.tier.charAt(0).toUpperCase() + data.user.tier.slice(1);
+        }
+      });
+    }
+  </script>
+</body>
+</html>

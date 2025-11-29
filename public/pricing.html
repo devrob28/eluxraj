@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pricing | ELUXRAJ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #000;
+      color: #fff;
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+    .container { max-width: 1100px; margin: 0 auto; }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 60px;
+    }
+    .logo {
+      font-size: 24px;
+      font-weight: 800;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .back-link {
+      color: #71717a;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .back-link:hover { color: #fff; }
+    
+    h1 {
+      text-align: center;
+      font-size: 48px;
+      font-weight: 800;
+      margin-bottom: 16px;
+    }
+    .subtitle {
+      text-align: center;
+      color: #71717a;
+      font-size: 18px;
+      margin-bottom: 60px;
+    }
+    
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .price-card {
+      background: #0a0a0f;
+      border: 1px solid #1e1e2e;
+      border-radius: 24px;
+      padding: 40px;
+      position: relative;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .price-card:hover {
+      transform: translateY(-5px);
+    }
+    .price-card.featured {
+      border-color: #6366f1;
+      background: linear-gradient(180deg, rgba(99,102,241,0.1) 0%, #0a0a0f 50%);
+    }
+    .popular-badge {
+      position: absolute;
+      top: -14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      padding: 8px 20px;
+      border-radius: 50px;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: 1px;
+    }
+    .tier-name {
+      font-size: 14px;
+      color: #71717a;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .price {
+      font-size: 56px;
+      font-weight: 900;
+      letter-spacing: -2px;
+      margin-bottom: 8px;
+    }
+    .price span {
+      font-size: 18px;
+      color: #71717a;
+      font-weight: 500;
+    }
+    .price-desc {
+      color: #71717a;
+      margin-bottom: 32px;
+    }
+    .features {
+      list-style: none;
+      margin-bottom: 32px;
+    }
+    .features li {
+      padding: 12px 0;
+      border-bottom: 1px solid #1e1e2e;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .features li::before {
+      content: '✓';
+      color: #10b981;
+      font-weight: 700;
+    }
+    .btn {
+      display: block;
+      width: 100%;
+      padding: 16px;
+      border-radius: 12px;
+      font-size: 15px;
+      font-weight: 600;
+      text-align: center;
+      cursor: pointer;
+      border: none;
+      transition: transform 0.3s, opacity 0.3s;
+    }
+    .btn:hover { transform: scale(1.02); }
+    .btn:disabled { opacity: 0.7; cursor: not-allowed; }
+    .btn-primary {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: white;
+    }
+    .btn-secondary {
+      background: transparent;
+      border: 1px solid #1e1e2e;
+      color: white;
+    }
+    .btn-current {
+      background: #1e1e2e;
+      color: #71717a;
+      cursor: default;
+    }
+    
+    .guarantee {
+      text-align: center;
+      margin-top: 40px;
+      color: #71717a;
+      font-size: 14px;
+    }
+    
+    @media (max-width: 900px) {
+      .pricing-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
+      h1 { font-size: 32px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">ELUXRAJ</div>
+      <a href="/dashboard.html" class="back-link">← Back to Dashboard</a>
+    </header>
+    
+    <h1>Choose Your Plan</h1>
+    <p class="subtitle">Unlock institutional-grade investment intelligence</p>
+    
+    <div class="pricing-grid">
+      <div class="price-card">
+        <div class="tier-name">Starter</div>
+        <div class="price">$0<span>/mo</span></div>
+        <p class="price-desc">Perfect for exploring</p>
+        <ul class="features">
+          <li>Portfolio Wizard (3/day)</li>
+          <li>Basic Market Data</li>
+          <li>ORACLE Lite</li>
+          <li>Community Access</li>
+        </ul>
+        <button class="btn btn-current" id="freeBtn">Current Plan</button>
+      </div>
+      
+      <div class="price-card featured">
+        <div class="popular-badge">MOST POPULAR</div>
+        <div class="tier-name">Pro</div>
+        <div class="price">$107<span>/mo</span></div>
+        <p class="price-desc">For serious investors</p>
+        <ul class="features">
+          <li>Everything in Starter</li>
+          <li>Unlimited AI Queries</li>
+          <li>ORACLE Full Suite</li>
+          <li>COUNCIL AI Advisors</li>
+          <li>PULSE Real-Time</li>
+          <li>SMS & Email Alerts</li>
+        </ul>
+        <button class="btn btn-primary" id="proBtn" onclick="subscribe('pro')">Upgrade to Pro</button>
+      </div>
+      
+      <div class="price-card">
+        <div class="tier-name">Elite</div>
+        <div class="price">$800<span>/mo</span></div>
+        <p class="price-desc">Institutional access</p>
+        <ul class="features">
+          <li>Everything in Pro</li>
+          <li>NEXUS Capital Flows</li>
+          <li>SOVEREIGN Deals</li>
+          <li>PHANTOM Execution</li>
+          <li>White-Glove Support</li>
+          <li>API Access</li>
+        </ul>
+        <button class="btn btn-secondary" id="eliteBtn" onclick="subscribe('elite')">Upgrade to Elite</button>
+      </div>
+    </div>
+    
+    <p class="guarantee">🔒 Cancel anytime. 7-day money-back guarantee.</p>
+  </div>
+  
+  <script>
+    const token = localStorage.getItem('eluxraj_token');
+    const user = JSON.parse(localStorage.getItem('eluxraj_user') || '{}');
+    
+    // Update buttons based on current tier
+    if (user.tier === 'pro') {
+      document.getElementById('freeBtn').textContent = 'Downgrade';
+      document.getElementById('freeBtn').className = 'btn btn-secondary';
+      document.getElementById('proBtn').textContent = 'Current Plan';
+      document.getElementById('proBtn').className = 'btn btn-current';
+      document.getElementById('proBtn').onclick = null;
+    } else if (user.tier === 'elite') {
+      document.getElementById('freeBtn').textContent = 'Downgrade';
+      document.getElementById('freeBtn').className = 'btn btn-secondary';
+      document.getElementById('proBtn').textContent = 'Downgrade';
+      document.getElementById('proBtn').className = 'btn btn-secondary';
+      document.getElementById('eliteBtn').textContent = 'Current Plan';
+      document.getElementById('eliteBtn').className = 'btn btn-current';
+      document.getElementById('eliteBtn').onclick = null;
+    }
+    
+    async function subscribe(tier) {
+      if (!token) {
+        window.location.href = '/login.html?redirect=pricing';
+        return;
+      }
+      
+      const btn = document.getElementById(tier + 'Btn');
+      btn.disabled = true;
+      btn.textContent = 'Loading...';
+      
+      try {
+        const res = await fetch('/api/stripe/checkout', {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ tier })
+        });
+        
+        const data = await res.json();
+        
+        if (data.ok && data.url) {
+          window.location.href = data.url;
+        } else {
+          alert(data.error || 'Failed to start checkout');
+          btn.disabled = false;
+          btn.textContent = 'Upgrade to ' + tier.charAt(0).toUpperCase() + tier.slice(1);
+        }
+      } catch (e) {
+        alert('Connection error');
+        btn.disabled = false;
+        btn.textContent = 'Upgrade to ' + tier.charAt(0).toUpperCase() + tier.slice(1);
+      }
+    }
+  </script>
+</body>
+</html>
