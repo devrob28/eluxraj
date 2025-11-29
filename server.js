@@ -93,7 +93,6 @@ app.use("/api/auth", require("./routes/password-reset"));
 app.use("/api/setup-email", require("./routes/setup-email"));
 app.use("/api/unicorn", require("./routes/unicorn"));
 app.use("/api/setup-unicorn", require("./routes/setup-unicorn"));
-app.use("/api/seed-deals", require("./routes/seed-deals"));
 app.use("/api/aureus", require("./routes/aureus"));
 app.use("/api/ledgerlink", require("./routes/ledgerlink"));
 app.use("/api/setup-marketplace", require("./routes/setup-marketplace"));
@@ -442,10 +441,11 @@ process.on('SIGTERM', () => {
   });
 });
 
-module.exports = app;
-
-app.use("/api/seed-deals", require("./routes/seed-deals"));
-
 // Stripe routes
 app.use("/api/stripe", require("./routes/stripe"));
 app.use("/api/setup-stripe", require("./routes/setup-stripe"));
+app.use("/api/seed-deals", require("./routes/seed-deals"));
+
+module.exports = app;
+
+
