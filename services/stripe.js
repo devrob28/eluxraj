@@ -1,14 +1,19 @@
-const Stripe = require('stripe');
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+const STRIPE_SECRET_KEY = process.env.STRIPE_SECRET_KEY;
+
+let stripe = null;
+if (STRIPE_SECRET_KEY) {
+  const Stripe = require('stripe');
+  stripe = new Stripe(STRIPE_SECRET_KEY);
+}
 
 const PRICES = {
   pro: {
-    monthly: 10700, // $107 in cents
+    monthly: 10700,
     name: 'Pro',
     features: ['Unlimited AI Queries', 'ORACLE Full Suite', 'COUNCIL AI Advisors', 'PULSE Real-Time', 'SMS & Email Alerts']
   },
   elite: {
-    monthly: 80000, // $800 in cents
+    monthly: 80000,
     name: 'Elite',
     features: ['Everything in Pro', 'NEXUS Capital Flows', 'SOVEREIGN Deals', 'PHANTOM Execution', 'White-Glove Support', 'API Access']
   }
@@ -16,6 +21,7 @@ const PRICES = {
 
 const STRIPE_SERVICE = {
   async createCheckoutSession(userId, userEmail, tier) {
+    if (!stripe) throw new Error('Stripe not configured');
     if (!PRICES[tier]) throw new Error('Invalid tier');
     
     const session = await stripe.checkout.sessions.create({
@@ -43,6 +49,7 @@ const STRIPE_SERVICE = {
   },
   
   async createPortalSession(customerId) {
+    if (!stripe) throw new Error('Stripe not configured');
     const session = await stripe.billingPortal.sessions.create({
       customer: customerId,
       return_url: 'https://eluxraj.ai/dashboard.html'
@@ -51,20 +58,17 @@ const STRIPE_SERVICE = {
   },
   
   async handleWebhook(payload, signature) {
+    if (!stripe) throw new Error('Stripe not configured');
     const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
-    let event;
-    
-    try {
-      event = stripe.webhooks.constructEvent(payload, signature, endpointSecret);
-    } catch (e) {
-      throw new Error('Webhook signature verification failed');
-    }
-    
-    return event;
+    return stripe.webhooks.constructEvent(payload, signature, endpointSecret);
   },
   
   getPrices() {
     return PRICES;
+  },
+  
+  isConfigured() {
+    return !!stripe;
   }
 };
 
