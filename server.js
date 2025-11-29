@@ -387,6 +387,11 @@ app.get('/api/admin/users', async (req, res) => {
   }
 });
 
+// Stripe routes
+app.use("/api/stripe", require("./routes/stripe"));
+app.use("/api/setup-stripe", require("./routes/setup-stripe"));
+app.use("/api/seed-deals", require("./routes/seed-deals"));
+
 // ============================================================================
 // ERROR HANDLING
 // ============================================================================
@@ -415,13 +420,6 @@ app.use((err, req, res, next) => {
 // START SERVER
 // ============================================================================
 
-
-
-
-// Stripe routes
-app.use("/api/stripe", require("./routes/stripe"));
-app.use("/api/setup-stripe", require("./routes/setup-stripe"));
-app.use("/api/seed-deals", require("./routes/seed-deals"));
 
 const server = app.listen(PORT, () => {
   console.log(`
