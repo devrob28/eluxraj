@@ -89,6 +89,8 @@ app.use('/api/sovereign', sovereignRoutes);
 app.use('/api/atlas', atlasRoutes);
 app.use('/api/fidelity', fidelityRoutes);
 app.use('/api/attest', attestRoutes);
+app.use("/api/auth", require("./routes/password-reset"));
+app.use("/api/setup-email", require("./routes/setup-email"));
 app.use("/api/unicorn", require("./routes/unicorn"));
 app.use("/api/setup-unicorn", require("./routes/setup-unicorn"));
 app.use("/api/seed-deals", require("./routes/seed-deals"));

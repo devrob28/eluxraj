@@ -4,6 +4,7 @@ const router = express.Router();
 const bcrypt = require('bcryptjs');
 const { body, validationResult } = require('express-validator');
 const db = require('../database/db');
+const EMAIL = require('../services/email');
 const { generateToken, authenticateToken } = require('../middleware/auth');
 
 // POST /api/auth/register - Create new user account
