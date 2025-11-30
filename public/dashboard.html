@@ -1,6 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- PWA Meta Tags -->
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#6366f1">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="ELUXRAJ">
+  <link rel="apple-touch-icon" href="/icons/icon-192.png">
+
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard | ELUXRAJ™</title>
@@ -1323,6 +1331,12 @@
         </div>
         <p style="color:var(--muted);font-size:12px;margin-top:16px;text-align:center">Powered by Plaid. Your credentials are never stored.</p>
       `;
+    }
+  </script>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('/sw.js').then(() => console.log('SW registered'));
     }
   </script>
 </body>
