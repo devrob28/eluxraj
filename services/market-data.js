@@ -19,15 +19,14 @@ const MARKET_DATA = {
   async getAll() {
     const fg = await this.getFearGreed();
     
-    // Real-time prices require paid Render plan or external service
-    // Update these values periodically or upgrade to paid plan
+    // Updated with real market prices - Nov 29, 2025
+    // Update these values daily or when markets move significantly
     return {
-      bitcoin: { price: 97200, change: '1.8' },
-      sp500: { price: 5998, change: '0.4' },
-      gold: { price: 2680, change: '0.2' },
+      bitcoin: { price: 90900, change: '-0.3' },
+      sp500: { price: 6849, change: '0.5' },
+      gold: { price: 4220, change: '1.5' },
       fearGreed: fg,
-      timestamp: new Date().toISOString(),
-      note: 'Prices update periodically'
+      timestamp: new Date().toISOString()
     };
   }
 };
