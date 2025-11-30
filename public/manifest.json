@@ -9,6 +9,11 @@
   "orientation": "portrait-primary",
   "icons": [
     {
+      "src": "/icons/icon-96.png",
+      "sizes": "96x96",
+      "type": "image/png"
+    },
+    {
       "src": "/icons/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
@@ -21,17 +26,5 @@
       "purpose": "any maskable"
     }
   ],
-  "categories": ["finance", "business"],
-  "shortcuts": [
-    {
-      "name": "Dashboard",
-      "url": "/dashboard.html",
-      "icon": "/icons/icon-192.png"
-    },
-    {
-      "name": "MAGICIAN Signals",
-      "url": "/magician.html",
-      "icon": "/icons/icon-192.png"
-    }
-  ]
+  "categories": ["finance", "business"]
 }
