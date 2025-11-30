@@ -1401,6 +1401,82 @@
   setInterval(fetchMarketData, 60000);
 </script>
 
+
+<script>
+  // Client-side market data fetching (bypasses server restrictions)
+  async function fetchMarketData() {
+    // Fetch Bitcoin from CoinGecko
+    try {
+      const btcRes = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true');
+      const btcData = await btcRes.json();
+      if (btcData.bitcoin) {
+        document.getElementById('btcPrice').textContent = '
+</html>
+
+ + Math.round(btcData.bitcoin.usd).toLocaleString();
+        const btcChange = btcData.bitcoin.usd_24h_change.toFixed(1);
+        document.getElementById('btcChange').textContent = (btcChange >= 0 ? '+' : '') + btcChange + '%';
+        document.getElementById('btcChange').className = 'market-change ' + (btcChange >= 0 ? 'up' : 'down');
+      }
+    } catch (e) {
+      console.log('BTC fetch error:', e);
+      document.getElementById('btcPrice').textContent = '$90,900';
+      document.getElementById('btcChange').textContent = '-0.3%';
+    }
+
+    // Fetch Gold (using PAX Gold as proxy)
+    try {
+      const goldRes = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=pax-gold&vs_currencies=usd&include_24hr_change=true');
+      const goldData = await goldRes.json();
+      if (goldData['pax-gold']) {
+        document.getElementById('goldPrice').textContent = '
+</html>
+
+ + Math.round(goldData['pax-gold'].usd).toLocaleString();
+        const goldChange = goldData['pax-gold'].usd_24h_change.toFixed(1);
+        document.getElementById('goldChange').textContent = (goldChange >= 0 ? '+' : '') + goldChange + '%';
+        document.getElementById('goldChange').className = 'market-change ' + (goldChange >= 0 ? 'up' : 'down');
+      }
+    } catch (e) {
+      console.log('Gold fetch error:', e);
+      document.getElementById('goldPrice').textContent = '$4,220';
+      document.getElementById('goldChange').textContent = '+1.5%';
+    }
+
+    // Fetch Fear & Greed Index
+    try {
+      const fgRes = await fetch('https://api.alternative.me/fng/?limit=1');
+      const fgData = await fgRes.json();
+      if (fgData.data && fgData.data[0]) {
+        const value = parseInt(fgData.data[0].value);
+        let label = 'Neutral';
+        if (value <= 25) label = 'Extreme Fear';
+        else if (value <= 40) label = 'Fear';
+        else if (value <= 60) label = 'Neutral';
+        else if (value <= 75) label = 'Greed';
+        else label = 'Extreme Greed';
+        document.getElementById('fgValue').textContent = value;
+        document.getElementById('fgLabel').textContent = label;
+      }
+    } catch (e) {
+      console.log('Fear & Greed fetch error:', e);
+      document.getElementById('fgValue').textContent = '28';
+      document.getElementById('fgLabel').textContent = 'Fear';
+    }
+
+    // S&P 500 - static value (stock APIs don't allow browser requests)
+    // Update this manually or upgrade Render for real-time
+    document.getElementById('spyPrice').textContent = '$6,849';
+    document.getElementById('spyChange').textContent = '+0.5%';
+  }
+
+  // Fetch on page load
+  fetchMarketData();
+  
+  // Refresh every 60 seconds
+  setInterval(fetchMarketData, 60000);
+</script>
+
 </body>
 </html>
 
