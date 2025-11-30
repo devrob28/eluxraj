@@ -494,12 +494,7 @@
     
     async function loadMessages() {
       try {
-        let url = `/api/circle-messages/${circleId}`;
-        if (lastMessageTime) {
-          url += `?since=${encodeURIComponent(lastMessageTime)}`;
-        }
-        
-        const res = await fetch(url, {
+        const res = await fetch(`/api/circle-messages/${circleId}`, {
           headers: { 'Authorization': 'Bearer ' + token }
         });
         const data = await res.json();
@@ -507,16 +502,13 @@
         if (data.ok && data.messages.length > 0) {
           document.getElementById('emptyState').style.display = 'none';
           
-          if (!lastMessageTime) {
-            // Initial load - replace all
-            document.getElementById('messagesContainer').innerHTML = '';
-          }
-          
           data.messages.forEach(msg => {
-            appendMessage(msg);
+            if (!renderedMessageIds.has(msg.id)) {
+              renderedMessageIds.add(msg.id);
+              appendMessage(msg);
+            }
           });
           
-          lastMessageTime = data.messages[data.messages.length - 1].created_at;
           scrollToBottom();
         }
       } catch (e) {
@@ -530,6 +522,7 @@
       
       const div = document.createElement('div');
       div.className = `message ${isOwn ? 'outgoing' : 'incoming'}`;
+      div.setAttribute('data-id', msg.id);
       
       const time = new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
       
@@ -572,9 +565,13 @@
           input.value = '';
           input.style.height = 'auto';
           document.getElementById('emptyState').style.display = 'none';
-          appendMessage(data.message);
-          lastMessageTime = data.message.created_at;
-          scrollToBottom();
+          
+          // Add message immediately if not already rendered
+          if (!renderedMessageIds.has(data.message.id)) {
+            renderedMessageIds.add(data.message.id);
+            appendMessage(data.message);
+            scrollToBottom();
+          }
         } else {
           alert(data.error || 'Failed to send message');
         }
@@ -630,7 +627,6 @@
     }
     
     function startPolling() {
-      // Poll for new messages every 3 seconds
       pollInterval = setInterval(loadMessages, 3000);
     }
     
@@ -638,12 +634,10 @@
       window.location.href = '/circles.html';
     }
     
-    // Cleanup on page leave
     window.addEventListener('beforeunload', () => {
       if (pollInterval) clearInterval(pollInterval);
     });
     
-    init();
-  </script>
+    init();</script>
 </body>
 </html>
