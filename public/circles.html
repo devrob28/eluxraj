@@ -717,6 +717,11 @@
     setInterval(() => {
       if (currentCircle) loadMessages();
     }, 5000);
-  </script>
+  
+  function openCircleChat(circleId) {
+    window.location.href = '/circle-chat.html?id=' + circleId;
+  }
+  
+</script>
 </body>
 </html>

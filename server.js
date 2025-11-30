@@ -389,6 +389,8 @@ app.get('/api/admin/users', async (req, res) => {
 
 // Stripe routes
 app.use("/api/market", require("./routes/market"));
+app.use("/api/circle-messages", require("./routes/circle-messages"));
+app.use("/api/setup-circles", require("./routes/setup-circles"));
 app.use("/api/stripe", require("./routes/stripe"));
 app.use("/api/setup-stripe", require("./routes/setup-stripe"));
 app.use("/api/seed-deals", require("./routes/seed-deals"));

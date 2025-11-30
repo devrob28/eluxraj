@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Circle Chat | ELUXRAJ</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: #0e0e10;
+      color: #fff;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* Header - Telegram style */
+    .chat-header {
+      background: #1c1c1e;
+      padding: 12px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid #2c2c2e;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    
+    .back-btn {
+      background: none;
+      border: none;
+      color: #6366f1;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 4px;
+    }
+    
+    .circle-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 16px;
+    }
+    
+    .circle-info {
+      flex: 1;
+    }
+    
+    .circle-name {
+      font-weight: 600;
+      font-size: 16px;
+    }
+    
+    .circle-status {
+      font-size: 12px;
+      color: #8e8e93;
+    }
+    
+    .header-actions {
+      display: flex;
+      gap: 16px;
+    }
+    
+    .header-btn {
+      background: none;
+      border: none;
+      color: #6366f1;
+      font-size: 20px;
+      cursor: pointer;
+    }
+    
+    /* Messages Container */
+    .messages-container {
+      flex: 1;
+      overflow-y: auto;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      background: #0e0e10;
+    }
+    
+    /* Message Bubbles - Telegram style */
+    .message {
+      max-width: 75%;
+      padding: 8px 12px;
+      border-radius: 16px;
+      position: relative;
+      animation: fadeIn 0.2s ease;
+    }
+    
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    
+    .message.incoming {
+      align-self: flex-start;
+      background: #1c1c1e;
+      border-bottom-left-radius: 4px;
+    }
+    
+    .message.outgoing {
+      align-self: flex-end;
+      background: #6366f1;
+      border-bottom-right-radius: 4px;
+    }
+    
+    .message-sender {
+      font-size: 12px;
+      font-weight: 600;
+      color: #6366f1;
+      margin-bottom: 2px;
+    }
+    
+    .message.outgoing .message-sender {
+      display: none;
+    }
+    
+    .message-text {
+      font-size: 15px;
+      line-height: 1.4;
+      word-wrap: break-word;
+    }
+    
+    .message-time {
+      font-size: 11px;
+      color: rgba(255,255,255,0.5);
+      margin-top: 4px;
+      text-align: right;
+    }
+    
+    .message.outgoing .message-time {
+      color: rgba(255,255,255,0.7);
+    }
+    
+    /* Date Separator */
+    .date-separator {
+      text-align: center;
+      margin: 16px 0;
+    }
+    
+    .date-separator span {
+      background: #2c2c2e;
+      padding: 4px 12px;
+      border-radius: 12px;
+      font-size: 12px;
+      color: #8e8e93;
+    }
+    
+    /* Input Area - Telegram style */
+    .input-area {
+      background: #1c1c1e;
+      padding: 8px 12px;
+      display: flex;
+      align-items: flex-end;
+      gap: 8px;
+      border-top: 1px solid #2c2c2e;
+    }
+    
+    .attach-btn {
+      background: none;
+      border: none;
+      color: #8e8e93;
+      font-size: 24px;
+      cursor: pointer;
+      padding: 8px;
+    }
+    
+    .message-input-container {
+      flex: 1;
+      background: #2c2c2e;
+      border-radius: 20px;
+      display: flex;
+      align-items: flex-end;
+    }
+    
+    .message-input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 15px;
+      padding: 10px 16px;
+      resize: none;
+      max-height: 120px;
+      font-family: inherit;
+    }
+    
+    .message-input:focus {
+      outline: none;
+    }
+    
+    .message-input::placeholder {
+      color: #8e8e93;
+    }
+    
+    .emoji-btn {
+      background: none;
+      border: none;
+      color: #8e8e93;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 10px;
+    }
+    
+    .send-btn {
+      background: #6366f1;
+      border: none;
+      color: #fff;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 18px;
+      transition: transform 0.2s, background 0.2s;
+    }
+    
+    .send-btn:hover {
+      background: #5558e3;
+      transform: scale(1.05);
+    }
+    
+    .send-btn:disabled {
+      background: #3c3c3e;
+      cursor: not-allowed;
+    }
+    
+    /* Members Sidebar */
+    .members-sidebar {
+      position: fixed;
+      top: 0;
+      right: -300px;
+      width: 300px;
+      height: 100%;
+      background: #1c1c1e;
+      transition: right 0.3s ease;
+      z-index: 200;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .members-sidebar.open {
+      right: 0;
+    }
+    
+    .sidebar-header {
+      padding: 16px;
+      border-bottom: 1px solid #2c2c2e;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    
+    .sidebar-header h3 {
+      font-size: 18px;
+    }
+    
+    .close-sidebar {
+      background: none;
+      border: none;
+      color: #8e8e93;
+      font-size: 24px;
+      cursor: pointer;
+    }
+    
+    .members-list {
+      flex: 1;
+      overflow-y: auto;
+      padding: 8px;
+    }
+    
+    .member-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      border-radius: 12px;
+      transition: background 0.2s;
+    }
+    
+    .member-item:hover {
+      background: #2c2c2e;
+    }
+    
+    .member-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+    }
+    
+    .member-name {
+      font-weight: 500;
+    }
+    
+    .member-role {
+      font-size: 12px;
+      color: #8e8e93;
+    }
+    
+    /* Overlay */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: rgba(0,0,0,0.5);
+      z-index: 150;
+      display: none;
+    }
+    
+    .overlay.open {
+      display: block;
+    }
+    
+    /* Empty State */
+    .empty-state {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      color: #8e8e93;
+      gap: 12px;
+    }
+    
+    .empty-state-icon {
+      font-size: 64px;
+      opacity: 0.5;
+    }
+    
+    /* Typing Indicator */
+    .typing-indicator {
+      display: none;
+      align-self: flex-start;
+      background: #1c1c1e;
+      padding: 12px 16px;
+      border-radius: 16px;
+      border-bottom-left-radius: 4px;
+    }
+    
+    .typing-dots {
+      display: flex;
+      gap: 4px;
+    }
+    
+    .typing-dots span {
+      width: 8px;
+      height: 8px;
+      background: #8e8e93;
+      border-radius: 50%;
+      animation: typing 1.4s infinite;
+    }
+    
+    .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+    
+    @keyframes typing {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-4px); }
+    }
+    
+    /* Mobile Responsive */
+    @media (max-width: 600px) {
+      .message { max-width: 85%; }
+      .members-sidebar { width: 100%; right: -100%; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <div class="chat-header">
+    <button class="back-btn" onclick="goBack()">←</button>
+    <div class="circle-avatar" id="circleAvatar">V</div>
+    <div class="circle-info">
+      <div class="circle-name" id="circleName">Loading...</div>
+      <div class="circle-status" id="circleStatus">Loading members...</div>
+    </div>
+    <div class="header-actions">
+      <button class="header-btn" onclick="toggleMembers()">👥</button>
+    </div>
+  </div>
+  
+  <!-- Messages -->
+  <div class="messages-container" id="messagesContainer">
+    <div class="empty-state" id="emptyState">
+      <div class="empty-state-icon">💬</div>
+      <div>No messages yet</div>
+      <div>Be the first to say hello!</div>
+    </div>
+  </div>
+  
+  <!-- Input Area -->
+  <div class="input-area">
+    <div class="message-input-container">
+      <textarea class="message-input" id="messageInput" placeholder="Message" rows="1" onkeydown="handleKeyDown(event)"></textarea>
+    </div>
+    <button class="send-btn" id="sendBtn" onclick="sendMessage()">➤</button>
+  </div>
+  
+  <!-- Members Sidebar -->
+  <div class="overlay" id="overlay" onclick="toggleMembers()"></div>
+  <div class="members-sidebar" id="membersSidebar">
+    <div class="sidebar-header">
+      <h3>Members</h3>
+      <button class="close-sidebar" onclick="toggleMembers()">×</button>
+    </div>
+    <div class="members-list" id="membersList">
+      <!-- Members loaded dynamically -->
+    </div>
+  </div>
+  
+  <script>
+    const token = localStorage.getItem('eluxraj_token');
+    const user = JSON.parse(localStorage.getItem('eluxraj_user') || '{}');
+    const urlParams = new URLSearchParams(window.location.search);
+    const circleId = urlParams.get('id');
+    
+    let lastMessageTime = null;
+    let pollInterval = null;
+    
+    if (!token) {
+      window.location.href = '/login.html?redirect=circles';
+    }
+    
+    if (!circleId) {
+      window.location.href = '/circles.html';
+    }
+    
+    // Initialize
+    async function init() {
+      await loadCircleInfo();
+      await joinCircle();
+      await loadMessages();
+      await loadMembers();
+      startPolling();
+      
+      // Auto-resize textarea
+      const input = document.getElementById('messageInput');
+      input.addEventListener('input', () => {
+        input.style.height = 'auto';
+        input.style.height = Math.min(input.scrollHeight, 120) + 'px';
+      });
+    }
+    
+    async function loadCircleInfo() {
+      try {
+        const res = await fetch(`/api/circle-messages/${circleId}/info`, {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        const data = await res.json();
+        if (data.ok) {
+          document.getElementById('circleName').textContent = data.circle.name;
+          document.getElementById('circleAvatar').textContent = data.circle.name.charAt(0).toUpperCase();
+          document.getElementById('circleStatus').textContent = `${data.memberCount} member${data.memberCount !== 1 ? 's' : ''}`;
+        }
+      } catch (e) {
+        console.error('Failed to load circle info:', e);
+      }
+    }
+    
+    async function joinCircle() {
+      try {
+        await fetch(`/api/circle-messages/${circleId}/join`, {
+          method: 'POST',
+          headers: { 
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
+          }
+        });
+      } catch (e) {
+        console.error('Failed to join circle:', e);
+      }
+    }
+    
+    async function loadMessages() {
+      try {
+        let url = `/api/circle-messages/${circleId}`;
+        if (lastMessageTime) {
+          url += `?since=${encodeURIComponent(lastMessageTime)}`;
+        }
+        
+        const res = await fetch(url, {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        const data = await res.json();
+        
+        if (data.ok && data.messages.length > 0) {
+          document.getElementById('emptyState').style.display = 'none';
+          
+          if (!lastMessageTime) {
+            // Initial load - replace all
+            document.getElementById('messagesContainer').innerHTML = '';
+          }
+          
+          data.messages.forEach(msg => {
+            appendMessage(msg);
+          });
+          
+          lastMessageTime = data.messages[data.messages.length - 1].created_at;
+          scrollToBottom();
+        }
+      } catch (e) {
+        console.error('Failed to load messages:', e);
+      }
+    }
+    
+    function appendMessage(msg) {
+      const container = document.getElementById('messagesContainer');
+      const isOwn = msg.user_id === (user.id || user.userId);
+      
+      const div = document.createElement('div');
+      div.className = `message ${isOwn ? 'outgoing' : 'incoming'}`;
+      
+      const time = new Date(msg.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      
+      div.innerHTML = `
+        ${!isOwn ? `<div class="message-sender">${msg.user_name || 'Anonymous'}</div>` : ''}
+        <div class="message-text">${escapeHtml(msg.message)}</div>
+        <div class="message-time">${time}</div>
+      `;
+      
+      container.appendChild(div);
+    }
+    
+    function escapeHtml(text) {
+      const div = document.createElement('div');
+      div.textContent = text;
+      return div.innerHTML;
+    }
+    
+    async function sendMessage() {
+      const input = document.getElementById('messageInput');
+      const message = input.value.trim();
+      
+      if (!message) return;
+      
+      const btn = document.getElementById('sendBtn');
+      btn.disabled = true;
+      
+      try {
+        const res = await fetch(`/api/circle-messages/${circleId}`, {
+          method: 'POST',
+          headers: {
+            'Authorization': 'Bearer ' + token,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ message })
+        });
+        
+        const data = await res.json();
+        if (data.ok) {
+          input.value = '';
+          input.style.height = 'auto';
+          document.getElementById('emptyState').style.display = 'none';
+          appendMessage(data.message);
+          lastMessageTime = data.message.created_at;
+          scrollToBottom();
+        } else {
+          alert(data.error || 'Failed to send message');
+        }
+      } catch (e) {
+        alert('Failed to send message');
+      }
+      
+      btn.disabled = false;
+      input.focus();
+    }
+    
+    function handleKeyDown(e) {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault();
+        sendMessage();
+      }
+    }
+    
+    function scrollToBottom() {
+      const container = document.getElementById('messagesContainer');
+      container.scrollTop = container.scrollHeight;
+    }
+    
+    async function loadMembers() {
+      try {
+        const res = await fetch(`/api/circle-messages/${circleId}/members`, {
+          headers: { 'Authorization': 'Bearer ' + token }
+        });
+        const data = await res.json();
+        
+        if (data.ok) {
+          const list = document.getElementById('membersList');
+          list.innerHTML = data.members.map(m => `
+            <div class="member-item">
+              <div class="member-avatar">${(m.user_name || 'A').charAt(0).toUpperCase()}</div>
+              <div>
+                <div class="member-name">${m.user_name || 'Anonymous'}</div>
+                <div class="member-role">${m.role === 'admin' ? 'Admin' : 'Member'}</div>
+              </div>
+            </div>
+          `).join('');
+          
+          document.getElementById('circleStatus').textContent = `${data.members.length} member${data.members.length !== 1 ? 's' : ''}`;
+        }
+      } catch (e) {
+        console.error('Failed to load members:', e);
+      }
+    }
+    
+    function toggleMembers() {
+      document.getElementById('membersSidebar').classList.toggle('open');
+      document.getElementById('overlay').classList.toggle('open');
+    }
+    
+    function startPolling() {
+      // Poll for new messages every 3 seconds
+      pollInterval = setInterval(loadMessages, 3000);
+    }
+    
+    function goBack() {
+      window.location.href = '/circles.html';
+    }
+    
+    // Cleanup on page leave
+    window.addEventListener('beforeunload', () => {
+      if (pollInterval) clearInterval(pollInterval);
+    });
+    
+    init();
+  </script>
+</body>
+</html>
