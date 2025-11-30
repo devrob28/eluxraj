@@ -546,7 +546,678 @@
         <h1>Welcome back, <span id="userFirstName">Investor</span> 👋</h1>
         <p>Your AI wealth intelligence is ready</p>
       </div>
+      <div class="portfolio-card">
+        <div class="portfolio-label">Portfolio Value</div>
+        <div class="portfolio-value">$127,482</div>
+        <div class="portfolio-change">↑ +6.9% this month</div>
+      </div>
+    </div>
+    
+    <!-- Upgrade Banner (for free users) -->
+    <div class="upgrade-banner" id="upgradeBanner" style="display:none;">
+      <div class="upgrade-text">
+        <h3>🚀 Unlock All AI Features</h3>
+        <p>Upgrade to Pro for unlimited queries, COUNCIL™, PULSE™, and more</p>
+      </div>
+      <button class="upgrade-btn" onclick="window.location.href='/#pricing'">Upgrade to Pro - $107/mo</button>
+    </div>
+    
+    <!-- Market Data -->
+    <div class="market-grid" id="marketGrid">
+      <div class="market-card">
+        <div class="market-label">₿ Bitcoin</div>
+        <div class="market-value" id="btcPrice">--</div>
+        <div class="market-change up" id="btcChange">--</div>
+      </div>
+      <div class="market-card">
+        <div class="market-label">📈 S&P 500</div>
+        <div class="market-value" id="spyPrice">--</div>
+        <div class="market-change up" id="spyChange">--</div>
+      </div>
+      <div class="market-card">
+        <div class="market-label">🪙 Gold</div>
+        <div class="market-value" id="goldPrice">--</div>
+        <div class="market-change up" id="goldChange">--</div>
+      </div>
+      <div class="market-card">
+        <div class="market-label">😱 Fear & Greed</div>
+        <div class="market-value" id="fgValue">--</div>
+        <div class="market-change" id="fgLabel">--</div>
+      </div>
+    </div>
+    
+    
+    
+    <!-- Upgrade Banner -->
+    <div id="upgradeBanner" class="section" style="margin-bottom:32px;display:none">
+      <div style="background:linear-gradient(135deg,rgba(99,102,241,0.15),rgba(139,92,246,0.15));border:1px solid rgba(99,102,241,0.3);border-radius:20px;padding:32px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:20px">
+        <div>
+          <div style="font-size:24px;font-weight:700;margin-bottom:8px">Unlock Premium Features</div>
+          <div style="color:#a1a1aa">Get unlimited AI queries, ORACLE full suite, real-time alerts & more</div>
+        </div>
+        <a href="/pricing.html" style="padding:14px 32px;background:linear-gradient(135deg,#6366f1,#8b5cf6);border-radius:12px;color:white;font-weight:600;text-decoration:none;white-space:nowrap">Upgrade to Pro →</a>
+      </div>
+    </div>
+
+    <!-- Current Plan Badge -->
+    <script>
+      (function() {
+        const user = JSON.parse(localStorage.getItem('eluxraj_user') || '{}');
+        const banner = document.getElementById('upgradeBanner');
+        if (user.tier === 'free' || !user.tier) {
+          banner.style.display = 'block';
+        }
+      })();
+    </script>
+
+<!-- Premium Features -->
+    <div class="section" style="margin-bottom:32px">
+      <h2 style="margin-bottom:20px">🦄 Premium Suite</h2>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:16px">
+        <a href="/unicorn.html" style="background:linear-gradient(135deg,rgba(236,72,153,0.1),rgba(139,92,246,0.1));border:1px solid rgba(139,92,246,0.3);border-radius:16px;padding:24px;text-decoration:none;color:inherit;transition:all 0.3s;display:block">
+          <div style="font-size:32px;margin-bottom:12px">🦄</div>
+          <div style="font-size:16px;font-weight:700;margin-bottom:4px">UNICORN</div>
+          <div style="font-size:12px;color:#71717a">Intelligence Suite</div>
+        </a>
+        <a href="/aureus.html" style="background:linear-gradient(135deg,rgba(245,158,11,0.1),rgba(251,191,36,0.1));border:1px solid rgba(245,158,11,0.3);border-radius:16px;padding:24px;text-decoration:none;color:inherit;transition:all 0.3s;display:block">
+          <div style="font-size:32px;margin-bottom:12px">💎</div>
+          <div style="font-size:16px;font-weight:700;margin-bottom:4px">AUREUS</div>
+          <div style="font-size:12px;color:#71717a">Private Dealflow</div>
+        </a>
+        <a href="/circles.html" style="background:linear-gradient(135deg,rgba(99,102,241,0.1),rgba(139,92,246,0.1));border:1px solid rgba(99,102,241,0.3);border-radius:16px;padding:24px;text-decoration:none;color:inherit;transition:all 0.3s;display:block">
+          <div style="font-size:32px;margin-bottom:12px">⭕</div>
+          <div style="font-size:16px;font-weight:700;margin-bottom:4px">CIRCLES</div>
+          <div style="font-size:12px;color:#71717a">Investor Communities</div>
+        </a>
+        <a href="/conviction.html" style="background:linear-gradient(135deg,rgba(16,185,129,0.1),rgba(52,211,153,0.1));border:1px solid rgba(16,185,129,0.3);border-radius:16px;padding:24px;text-decoration:none;color:inherit;transition:all 0.3s;display:block">
+          <div style="font-size:32px;margin-bottom:12px">🏆</div>
+          <div style="font-size:16px;font-weight:700;margin-bottom:4px">CONVICTION</div>
+          <div style="font-size:12px;color:#71717a">Leaderboard</div>
+        </a>
+      </div>
+    </div>
+<!-- Quick Actions -->
+    <div class="section-title">⚡ Quick Actions</div>
+    <div class="quick-actions">
+      <button class="quick-btn" onclick="openModal('brokerage')">🔗 Connect Brokerage</button>
+      <button class="quick-btn" onclick="openModal('alert')">🔔 Set Price Alert</button>
+      <button class="quick-btn" onclick="openModal('wizard')">🧙 Portfolio Wizard</button>
+    </div>
+    
+    <!-- AI Features -->
+    <div class="section-title">🤖 AI Intelligence Suite</div>
+    <div class="ai-grid">
+      <div class="ai-btn" onclick="openModal('oracle')">
+        <span class="icon">🔮</span>
+        <span class="label">ORACLE</span>
+      </div>
+      <div class="ai-btn" onclick="openModal('council')">
+        <span class="icon">🏛️</span>
+        <span class="label">COUNCIL</span>
+      </div>
+      <div class="ai-btn" onclick="openModal('pulse')">
+        <span class="icon">💓</span>
+        <span class="label">PULSE</span>
+      </div>
+      <div class="ai-btn" onclick="openModal('archetype')">
+        <span class="icon">🧠</span>
+        <span class="label">ARCHETYPE</span>
+      </div>
+      <div class="ai-btn" onclick="openModal('nexus')">
+        <span class="icon">🌐</span>
+        <span class="label">NEXUS</span>
+      </div>
+      <div class="ai-btn" onclick="openModal('mirror')">
+        <span class="icon">🪞</span>
+        <span class="label">MIRROR</span>
+      </div>
+      <div class="ai-btn" onclick="openModal('phantom')">
+        <span class="icon">👻</span>
+        <span class="label">PHANTOM</span>
+      </div>
+      <div class="ai-btn" onclick="openModal('sovereign')">
+        <span class="icon">👑</span>
+        <span class="label">SOVEREIGN</span>
+      </div>
+      <div class="ai-btn" onclick="openModal('atlas')">
+        <span class="icon">🗺️</span>
+        <span class="label">ATLAS</span>
+      </div>
+      <div class="ai-btn" onclick="openModal('sentinel')">
+        <span class="icon">🛡️</span>
+        <span class="label">SENTINEL</span>
+      </div>
+      <div class="ai-btn" onclick="openModal('comply')">
+        <span class="icon">⚖️</span>
+        <span class="label">COMPLY</span>
+      </div>
+    </div>
+    
+    <!-- Pro Tools -->
+    <div class="section-title">🛠️ Pro Tools</div>
+    <div class="tools-grid">
+      <div class="tool-card" onclick="openModal('wizard')">
+        <div class="icon">🧙</div>
+        <div class="name">Portfolio Wizard</div>
+        <div class="desc">AI-powered allocation</div>
+      </div>
+      <div class="tool-card" onclick="openModal('scanner')">
+        <div class="icon">🔍</div>
+        <div class="name">Market Scanner</div>
+        <div class="desc">Find opportunities</div>
+      </div>
+      <div class="tool-card" onclick="openModal('signals')">
+        <div class="icon">📊</div>
+        <div class="name">Trading Signals</div>
+        <div class="desc">Entry & exit points</div>
+      </div>
+      <div class="tool-card" onclick="openModal('sizer')">
+        <div class="icon">🎯</div>
+        <div class="name">Position Sizer</div>
+        <div class="desc">Risk management</div>
+      </div>
+    </div>
+  </div>
+  
+  <!-- Modal -->
+  <div class="modal-overlay" id="modalOverlay" onclick="if(event.target===this)closeModal()">
+    <div class="modal">
+      <div class="modal-header">
+        <h2 id="modalTitle">Modal Title</h2>
+        <button class="modal-close" onclick="closeModal()">×</button>
+      </div>
+      <div class="modal-body" id="modalBody">Content</div>
+    </div>
+  </div>
+  
+  <script>
+    // User data
+    let user = null;
+    const token = localStorage.getItem('eluxraj_token');
+    
+    // Check auth
+    if (!token) {
+      window.location.href = '/login.html';
+    } else {
+      user = JSON.parse(localStorage.getItem('eluxraj_user') || '{}');
+      document.getElementById('userName').textContent = user.name || 'User';
+      document.getElementById('userFirstName').textContent = (user.name || 'Investor').split(' ')[0];
       
+      const tier = (user.tier || 'free').toUpperCase();
+      const tierEl = document.getElementById('userTier');
+      tierEl.textContent = tier;
+      tierEl.className = 'tier-badge tier-' + (user.tier || 'free');
+      
+      // Show upgrade banner for free users
+      if (user.tier === 'free' || !user.tier) {
+        document.getElementById('upgradeBanner').style.display = 'flex';
+      }
+    }
+    
+    // Logout
+    function logout() {
+      localStorage.removeItem('eluxraj_token');
+      localStorage.removeItem('eluxraj_user');
+      window.location.href = '/login.html';
+    }
+    
+    // Load market data
+    async function loadMarketData() {
+      try {
+        // Simulated data - in production, fetch from real API
+        document.getElementById('btcPrice').textContent = '$96,432';
+        document.getElementById('btcChange').textContent = '+2.4%';
+        document.getElementById('spyPrice').textContent = '$599';
+        document.getElementById('spyChange').textContent = '+0.3%';
+        document.getElementById('goldPrice').textContent = '$2,648';
+        document.getElementById('goldChange').textContent = '+0.1%';
+        document.getElementById('fgValue').textContent = '76';
+        document.getElementById('fgLabel').textContent = 'Extreme Greed';
+      } catch (e) {
+        console.error('Failed to load market data:', e);
+      }
+    }
+    loadMarketData();
+    
+    // Modal functions
+    function openModal(type) {
+      const overlay = document.getElementById('modalOverlay');
+      const title = document.getElementById('modalTitle');
+      const body = document.getElementById('modalBody');
+      
+      const modals = {
+        oracle: { title: '🔮 ORACLE™ Predictive Engine', content: oracleContent() },
+        council: { title: '🏛️ COUNCIL™ AI Advisors', content: councilContent() },
+        pulse: { title: '💓 PULSE™ Real-Time Feed', content: pulseContent() },
+        archetype: { title: '🧠 ARCHETYPE™ Profiling', content: archetypeContent() },
+        nexus: { title: '🌐 NEXUS™ Capital Flows', content: nexusContent() },
+        mirror: { title: '🪞 MIRROR™ Simulator', content: mirrorContent() },
+        phantom: { title: '👻 PHANTOM™ Execution', content: phantomContent() },
+        sovereign: { title: '👑 SOVEREIGN™ Private Deals', content: sovereignContent() },
+        atlas: { title: '🗺️ ATLAS™ Asset Graph', content: atlasContent() },
+        sentinel: { title: '🛡️ SENTINEL™ Risk Engine', content: sentinelContent() },
+        comply: { title: '⚖️ COMPLY™ KYC/AML', content: complyContent() },
+        wizard: { title: '🧙 Portfolio Wizard', content: wizardContent() },
+        scanner: { title: '🔍 Market Scanner', content: scannerContent() },
+        signals: { title: '📊 Trading Signals', content: signalsContent() },
+        sizer: { title: '🎯 Position Sizer', content: sizerContent() },
+        alert: { title: '🔔 Set Price Alert', content: alertContent() },
+        brokerage: { title: '🔗 Connect Brokerage', content: brokerageContent() }
+      };
+      
+      const modal = modals[type];
+      if (modal) {
+        title.innerHTML = modal.title;
+        body.innerHTML = modal.content;
+        overlay.classList.add('active');
+      }
+    }
+    
+    function closeModal() {
+      document.getElementById('modalOverlay').classList.remove('active');
+    }
+    
+    // ORACLE Content
+    function oracleContent() {
+      return `
+        <div class="form-group">
+          <label class="form-label">Asset Symbol</label>
+          <input class="form-input" id="oracleSymbol" value="BTC" placeholder="BTC, ETH, NVDA...">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Capital to Deploy ($)</label>
+          <input class="form-input" id="oracleCapital" type="number" value="50000">
+        </div>
+        <button class="btn" onclick="runOracle()">
+          <span id="oracleBtnText">🔮 Run ORACLE Analysis</span>
+        </button>
+        <div id="oracleResult"></div>
+      `;
+    }
+    
+    async function runOracle() {
+      const btn = document.querySelector('#oracleBtnText').parentElement;
+      const btnText = document.getElementById('oracleBtnText');
+      const result = document.getElementById('oracleResult');
+      const symbol = document.getElementById('oracleSymbol').value;
+      const capital = document.getElementById('oracleCapital').value;
+      
+      btn.disabled = true;
+      btnText.innerHTML = '<div class="spinner"></div> Analyzing...';
+      
+      try {
+        const res = await fetch('/api/oracle-ai/synthesize/' + symbol + '?capital=' + capital);
+        const data = await res.json();
+        
+        if (data.ok) {
+          const o = data.oracle;
+          const color = o.recommendation.includes('ACCUMULATE') ? 'green' : o.recommendation.includes('REDUCE') ? 'red' : 'gold';
+          result.innerHTML = `
+            <div class="result-card">
+              <div class="result-header">
+                <div class="result-title">${symbol}</div>
+                <span class="result-badge badge-${color}">${o.recommendation}</span>
+              </div>
+              <p style="color:var(--muted);margin-bottom:16px;font-size:14px">${o.action}</p>
+              <div class="result-grid">
+                <div class="result-item">
+                  <div class="result-item-label">Confidence</div>
+                  <div class="result-item-value">${o.confidence}%</div>
+                </div>
+                <div class="result-item">
+                  <div class="result-item-label">Position Size</div>
+                  <div class="result-item-value" style="color:var(--green)">$${o.position_size.toLocaleString()}</div>
+                </div>
+                <div class="result-item">
+                  <div class="result-item-label">Risk Level</div>
+                  <div class="result-item-value">${o.risk_level}</div>
+                </div>
+                <div class="result-item">
+                  <div class="result-item-label">Time Horizon</div>
+                  <div class="result-item-value">${o.time_horizon || '1-4 weeks'}</div>
+                </div>
+              </div>
+            </div>
+          `;
+        } else {
+          result.innerHTML = '<div class="result-card" style="border-color:var(--red)">Error: ' + (data.error || 'Analysis failed') + '</div>';
+        }
+      } catch (e) {
+        result.innerHTML = '<div class="result-card" style="border-color:var(--red)">Connection error. Please try again.</div>';
+      }
+      
+      btn.disabled = false;
+      btnText.innerHTML = '🔮 Run ORACLE Analysis';
+    }
+    
+    // COUNCIL Content
+    function councilContent() {
+      return `
+        <div class="form-group">
+          <label class="form-label">Investment Question</label>
+          <textarea class="form-textarea" id="councilQuestion" rows="3" placeholder="Should I buy NVDA at current prices?">Should I accumulate BTC at $96,000?</textarea>
+        </div>
+        <button class="btn" onclick="runCouncil()">
+          <span id="councilBtnText">🏛️ Convene Council</span>
+        </button>
+        <div id="councilResult"></div>
+      `;
+    }
+    
+    async function runCouncil() {
+      const btn = document.querySelector('#councilBtnText').parentElement;
+      const btnText = document.getElementById('councilBtnText');
+      const result = document.getElementById('councilResult');
+      const question = document.getElementById('councilQuestion').value;
+      
+      btn.disabled = true;
+      btnText.innerHTML = '<div class="spinner"></div> Advisors debating...';
+      
+      try {
+        const res = await fetch('/api/council/convene', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ question })
+        });
+        const data = await res.json();
+        
+        if (data.ok) {
+          const c = data.council;
+          let html = '<div style="max-height:350px;overflow-y:auto;margin-top:16px">';
+          
+          c.advisors.forEach(a => {
+            const stance = a.stance.toLowerCase();
+            const stanceClass = stance === 'buy' ? 'buy' : stance === 'sell' ? 'sell' : 'hold';
+            const stanceColor = stance === 'buy' ? 'var(--green)' : stance === 'sell' ? 'var(--red)' : 'var(--gold)';
+            html += `
+              <div class="advisor-card ${stanceClass}">
+                <div class="advisor-header">
+                  <span class="advisor-name">${a.name}</span>
+                  <span class="advisor-stance" style="background:${stanceColor}20;color:${stanceColor}">${a.stance}</span>
+                </div>
+                <div class="advisor-opinion">"${a.opinion}"</div>
+              </div>
+            `;
+          });
+          
+          html += `
+            <div class="result-card" style="background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;margin-top:16px">
+              <strong style="display:block;margin-bottom:8px">📊 Synthesis</strong>
+              <div>${c.synthesis.recommendation}</div>
+            </div>
+          `;
+          html += '</div>';
+          
+          result.innerHTML = html;
+        } else {
+          result.innerHTML = '<div class="result-card" style="border-color:var(--red)">Error: ' + (data.error || 'Failed') + '</div>';
+        }
+      } catch (e) {
+        result.innerHTML = '<div class="result-card" style="border-color:var(--red)">Connection error</div>';
+      }
+      
+      btn.disabled = false;
+      btnText.innerHTML = '🏛️ Convene Council';
+    }
+    
+    // PULSE Content
+    function pulseContent() {
+      return `
+        <button class="btn" onclick="loadPulse()">
+          <span id="pulseBtnText">💓 Load Alpha Signals</span>
+        </button>
+        <div id="pulseResult"></div>
+      `;
+    }
+    
+    async function loadPulse() {
+      const btn = document.querySelector('#pulseBtnText').parentElement;
+      const btnText = document.getElementById('pulseBtnText');
+      const result = document.getElementById('pulseResult');
+      
+      btn.disabled = true;
+      btnText.innerHTML = '<div class="spinner"></div> Loading signals...';
+      
+      try {
+        const res = await fetch('/api/pulse/feed');
+        const data = await res.json();
+        
+        if (data.ok) {
+          let html = '<div style="max-height:400px;overflow-y:auto;margin-top:16px">';
+          
+          data.signals.forEach(s => {
+            const icon = s.type === 'whale' ? '🐋' : s.type === 'insider' ? '👔' : s.type === 'momentum' ? '📈' : '⚡';
+            const sentClass = s.sentiment === 'bullish' ? 'bullish' : s.sentiment === 'bearish' ? 'bearish' : 'neutral';
+            const sentColor = s.sentiment === 'bullish' ? 'var(--green)' : s.sentiment === 'bearish' ? 'var(--red)' : 'var(--gold)';
+            
+            html += `
+              <div class="signal-card ${sentClass}">
+                <div class="signal-header">
+                  <span class="signal-type">${icon}</span>
+                  <span class="signal-time">${s.time || 'Just now'}</span>
+                </div>
+                <div class="signal-message">${s.message}</div>
+                <div class="signal-impact" style="color:${sentColor}">${s.impact}</div>
+              </div>
+            `;
+          });
+          
+          html += '</div>';
+          result.innerHTML = html;
+        } else {
+          result.innerHTML = '<div class="result-card" style="border-color:var(--red)">Error loading signals</div>';
+        }
+      } catch (e) {
+        result.innerHTML = '<div class="result-card" style="border-color:var(--red)">Connection error</div>';
+      }
+      
+      btn.disabled = false;
+      btnText.innerHTML = '💓 Refresh Signals';
+    }
+    
+    // Simple content templates for other modals
+    function archetypeContent() {
+      return `
+        <div class="form-group">
+          <label class="form-label">Risk Tolerance (1-10)</label>
+          <input class="form-input" id="archRisk" type="number" value="7" min="1" max="10">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Investment Time Horizon</label>
+          <select class="form-select" id="archTime">
+            <option value="1-3 years">1-3 years</option>
+            <option value="5-10 years" selected>5-10 years</option>
+            <option value="10+ years">10+ years</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label class="form-label">How do you react to -20% losses?</label>
+          <select class="form-select" id="archLoss">
+            <option value="panic sell">Panic sell everything</option>
+            <option value="hold anxiously">Hold but lose sleep</option>
+            <option value="hold calmly" selected>Hold calmly</option>
+            <option value="buy more">Buy more aggressively</option>
+          </select>
+        </div>
+        <button class="btn" onclick="runArchetype()">
+          <span id="archBtnText">🧠 Generate Profile</span>
+        </button>
+        <div id="archResult"></div>
+      `;
+    }
+    
+    async function runArchetype() {
+      const btn = document.querySelector('#archBtnText').parentElement;
+      const btnText = document.getElementById('archBtnText');
+      const result = document.getElementById('archResult');
+      
+      btn.disabled = true;
+      btnText.innerHTML = '<div class="spinner"></div> Analyzing...';
+      
+      try {
+        const res = await fetch('/api/archetype/profile', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            riskTolerance: document.getElementById('archRisk').value,
+            timeHorizon: document.getElementById('archTime').value,
+            lossReaction: document.getElementById('archLoss').value
+          })
+        });
+        const data = await res.json();
+        
+        if (data.ok) {
+          const p = data.profile;
+          result.innerHTML = `
+            <div class="result-card">
+              <div class="result-header">
+                <div class="result-title">${p.archetype_name || 'Your Profile'}</div>
+                <span class="result-badge badge-purple">${p.investor_match || 'Balanced'}</span>
+              </div>
+              <p style="color:var(--muted);font-size:14px;margin-bottom:16px">${p.description || 'Analysis complete'}</p>
+              <div style="background:var(--bg);border-radius:10px;padding:16px">
+                <div style="font-weight:600;margin-bottom:8px">Key Traits</div>
+                <div style="font-size:13px;color:var(--muted)">${JSON.stringify(p.traits || p, null, 2).substring(0, 500)}</div>
+              </div>
+            </div>
+          `;
+        } else {
+          result.innerHTML = '<div class="result-card" style="border-color:var(--red)">Error: ' + (data.error || 'Failed') + '</div>';
+        }
+      } catch (e) {
+        result.innerHTML = '<div class="result-card" style="border-color:var(--red)">Connection error</div>';
+      }
+      
+      btn.disabled = false;
+      btnText.innerHTML = '🧠 Generate Profile';
+    }
+    
+    function nexusContent() {
+      return `
+        <div class="form-group">
+          <label class="form-label">Sector</label>
+          <select class="form-select" id="nexusSector">
+            <option value="Technology">Technology</option>
+            <option value="Healthcare">Healthcare</option>
+            <option value="Finance">Finance</option>
+            <option value="Energy">Energy</option>
+            <option value="Crypto">Crypto</option>
+          </select>
+        </div>
+        <button class="btn" onclick="runNexus()">
+          <span id="nexusBtnText">🌐 Detect Capital Flows</span>
+        </button>
+        <div id="nexusResult"></div>
+      `;
+    }
+    
+    async function runNexus() {
+      const btn = document.querySelector('#nexusBtnText').parentElement;
+      const btnText = document.getElementById('nexusBtnText');
+      const result = document.getElementById('nexusResult');
+      const sector = document.getElementById('nexusSector').value;
+      
+      btn.disabled = true;
+      btnText.innerHTML = '<div class="spinner"></div> Detecting flows...';
+      
+      try {
+        const res = await fetch('/api/nexus/flows/' + sector);
+        const data = await res.json();
+        
+        if (data.ok) {
+          result.innerHTML = `<div class="result-card"><pre style="font-size:12px;overflow-x:auto">${JSON.stringify(data.flows, null, 2)}</pre></div>`;
+        } else {
+          result.innerHTML = '<div class="result-card" style="border-color:var(--red)">Error</div>';
+        }
+      } catch (e) {
+        result.innerHTML = '<div class="result-card" style="border-color:var(--red)">Connection error</div>';
+      }
+      
+      btn.disabled = false;
+      btnText.innerHTML = '🌐 Detect Capital Flows';
+    }
+    
+    function mirrorContent() {
+      return `
+        <div class="form-group">
+          <label class="form-label">Stress Scenario</label>
+          <select class="form-select" id="mirrorScenario">
+            <option value="2008 Financial Crisis">2008 Financial Crisis</option>
+            <option value="COVID Crash 2020">COVID Crash 2020</option>
+            <option value="Rising Interest Rates">Rising Interest Rates</option>
+            <option value="Crypto Winter">Crypto Winter</option>
+          </select>
+        </div>
+        <button class="btn" onclick="runMirror()">
+          <span id="mirrorBtnText">🪞 Run Stress Test</span>
+        </button>
+        <div id="mirrorResult"></div>
+      `;
+    }
+    
+    async function runMirror() {
+      const btn = document.querySelector('#mirrorBtnText').parentElement;
+      const btnText = document.getElementById('mirrorBtnText');
+      const result = document.getElementById('mirrorResult');
+      const scenario = document.getElementById('mirrorScenario').value;
+      
+      btn.disabled = true;
+      btnText.innerHTML = '<div class="spinner"></div> Simulating...';
+      
+      try {
+        const res = await fetch('/api/mirror/stress-test', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            portfolio: { holdings: ['BTC:40%', 'ETH:30%', 'NVDA:30%'] },
+            scenario
+          })
+        });
+        const data = await res.json();
+        
+        if (data.ok) {
+          result.innerHTML = `<div class="result-card"><pre style="font-size:12px;overflow-x:auto">${JSON.stringify(data.stress, null, 2)}</pre></div>`;
+        } else {
+          result.innerHTML = '<div class="result-card" style="border-color:var(--red)">Error</div>';
+        }
+      } catch (e) {
+        result.innerHTML = '<div class="result-card" style="border-color:var(--red)">Connection error</div>';
+      }
+      
+      btn.disabled = false;
+      btnText.innerHTML = '🪞 Run Stress Test';
+    }
+    
+    // Placeholder content for other modals
+    function phantomContent() { return '<p style="color:var(--muted);text-align:center;padding:40px">Stealth execution intelligence coming soon...</p>'; }
+    function sovereignContent() { return '<p style="color:var(--muted);text-align:center;padding:40px">Private deal matching coming soon...</p>'; }
+    function atlasContent() { return '<p style="color:var(--muted);text-align:center;padding:40px">Asset graph intelligence coming soon...</p>'; }
+    function sentinelContent() { return '<p style="color:var(--muted);text-align:center;padding:40px">Risk guardrails coming soon...</p>'; }
+    function complyContent() { return '<p style="color:var(--muted);text-align:center;padding:40px">KYC/AML compliance coming soon...</p>'; }
+    function scannerContent() { return '<p style="color:var(--muted);text-align:center;padding:40px">Market scanner coming soon...</p>'; }
+    function signalsContent() { return '<p style="color:var(--muted);text-align:center;padding:40px">Trading signals coming soon...</p>'; }
+    function sizerContent() { return '<p style="color:var(--muted);text-align:center;padding:40px">Position sizer coming soon...</p>'; }
+    
+    function wizardContent() {
+      return `
+        <div class="form-group">
+          <label class="form-label">Investment Amount ($)</label>
+          <input class="form-input" id="wizAmount" type="number" value="100000">
+        </div>
+        <div class="form-row">
+          <div class="form-group">
+            <label class="form-label">Time Horizon</label>
+            <select class="form-select" id="wizTime">
+              <option value="1-3 years">1-3 years</option>
+              <option value="5-10 years" selected>5-10 years</option>
+              <option value="10+ years">10+ years</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Risk (1-10)</label>
+            <input class="form-input" id="wizRisk" type="number" value="7" min="1" max="10">
+          </div>
+        </div>
         <button class="btn" onclick="runWizard()">
           <span id="wizBtnText">✨ Build Portfolio</span>
         </button>
@@ -654,158 +1325,5 @@
       `;
     }
   </script>
-
-<script>
-  // Client-side market data fetching (bypasses server restrictions)
-  async function fetchMarketData() {
-    // Fetch Bitcoin from CoinGecko
-    try {
-      const btcRes = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true');
-      const btcData = await btcRes.json();
-      if (btcData.bitcoin) {
-        document.getElementById('btcPrice').textContent = '
-</html>
-
- + Math.round(btcData.bitcoin.usd).toLocaleString();
-        const btcChange = btcData.bitcoin.usd_24h_change.toFixed(1);
-        document.getElementById('btcChange').textContent = (btcChange >= 0 ? '+' : '') + btcChange + '%';
-        document.getElementById('btcChange').className = 'market-change ' + (btcChange >= 0 ? 'up' : 'down');
-      }
-    } catch (e) {
-      console.log('BTC fetch error:', e);
-      document.getElementById('btcPrice').textContent = '$90,900';
-      document.getElementById('btcChange').textContent = '-0.3%';
-    }
-
-    // Fetch Gold (using PAX Gold as proxy)
-    try {
-      const goldRes = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=pax-gold&vs_currencies=usd&include_24hr_change=true');
-      const goldData = await goldRes.json();
-      if (goldData['pax-gold']) {
-        document.getElementById('goldPrice').textContent = '
-</html>
-
- + Math.round(goldData['pax-gold'].usd).toLocaleString();
-        const goldChange = goldData['pax-gold'].usd_24h_change.toFixed(1);
-        document.getElementById('goldChange').textContent = (goldChange >= 0 ? '+' : '') + goldChange + '%';
-        document.getElementById('goldChange').className = 'market-change ' + (goldChange >= 0 ? 'up' : 'down');
-      }
-    } catch (e) {
-      console.log('Gold fetch error:', e);
-      document.getElementById('goldPrice').textContent = '$4,220';
-      document.getElementById('goldChange').textContent = '+1.5%';
-    }
-
-    // Fetch Fear & Greed Index
-    try {
-      const fgRes = await fetch('https://api.alternative.me/fng/?limit=1');
-      const fgData = await fgRes.json();
-      if (fgData.data && fgData.data[0]) {
-        const value = parseInt(fgData.data[0].value);
-        let label = 'Neutral';
-        if (value <= 25) label = 'Extreme Fear';
-        else if (value <= 40) label = 'Fear';
-        else if (value <= 60) label = 'Neutral';
-        else if (value <= 75) label = 'Greed';
-        else label = 'Extreme Greed';
-        document.getElementById('fgValue').textContent = value;
-        document.getElementById('fgLabel').textContent = label;
-      }
-    } catch (e) {
-      console.log('Fear & Greed fetch error:', e);
-      document.getElementById('fgValue').textContent = '28';
-      document.getElementById('fgLabel').textContent = 'Fear';
-    }
-
-    // S&P 500 - static value (stock APIs don't allow browser requests)
-    // Update this manually or upgrade Render for real-time
-    document.getElementById('spyPrice').textContent = '$6,849';
-    document.getElementById('spyChange').textContent = '+0.5%';
-  }
-
-  // Fetch on page load
-  fetchMarketData();
-  
-  // Refresh every 60 seconds
-  setInterval(fetchMarketData, 60000);
-</script>
-
-
-<script>
-  // Client-side market data fetching (bypasses server restrictions)
-  async function fetchMarketData() {
-    // Fetch Bitcoin from CoinGecko
-    try {
-      const btcRes = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true');
-      const btcData = await btcRes.json();
-      if (btcData.bitcoin) {
-        document.getElementById('btcPrice').textContent = '
-</html>
-
- + Math.round(btcData.bitcoin.usd).toLocaleString();
-        const btcChange = btcData.bitcoin.usd_24h_change.toFixed(1);
-        document.getElementById('btcChange').textContent = (btcChange >= 0 ? '+' : '') + btcChange + '%';
-        document.getElementById('btcChange').className = 'market-change ' + (btcChange >= 0 ? 'up' : 'down');
-      }
-    } catch (e) {
-      console.log('BTC fetch error:', e);
-      document.getElementById('btcPrice').textContent = '$90,900';
-      document.getElementById('btcChange').textContent = '-0.3%';
-    }
-
-    // Fetch Gold (using PAX Gold as proxy)
-    try {
-      const goldRes = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=pax-gold&vs_currencies=usd&include_24hr_change=true');
-      const goldData = await goldRes.json();
-      if (goldData['pax-gold']) {
-        document.getElementById('goldPrice').textContent = '
-</html>
-
- + Math.round(goldData['pax-gold'].usd).toLocaleString();
-        const goldChange = goldData['pax-gold'].usd_24h_change.toFixed(1);
-        document.getElementById('goldChange').textContent = (goldChange >= 0 ? '+' : '') + goldChange + '%';
-        document.getElementById('goldChange').className = 'market-change ' + (goldChange >= 0 ? 'up' : 'down');
-      }
-    } catch (e) {
-      console.log('Gold fetch error:', e);
-      document.getElementById('goldPrice').textContent = '$4,220';
-      document.getElementById('goldChange').textContent = '+1.5%';
-    }
-
-    // Fetch Fear & Greed Index
-    try {
-      const fgRes = await fetch('https://api.alternative.me/fng/?limit=1');
-      const fgData = await fgRes.json();
-      if (fgData.data && fgData.data[0]) {
-        const value = parseInt(fgData.data[0].value);
-        let label = 'Neutral';
-        if (value <= 25) label = 'Extreme Fear';
-        else if (value <= 40) label = 'Fear';
-        else if (value <= 60) label = 'Neutral';
-        else if (value <= 75) label = 'Greed';
-        else label = 'Extreme Greed';
-        document.getElementById('fgValue').textContent = value;
-        document.getElementById('fgLabel').textContent = label;
-      }
-    } catch (e) {
-      console.log('Fear & Greed fetch error:', e);
-      document.getElementById('fgValue').textContent = '28';
-      document.getElementById('fgLabel').textContent = 'Fear';
-    }
-
-    // S&P 500 - static value (stock APIs don't allow browser requests)
-    // Update this manually or upgrade Render for real-time
-    document.getElementById('spyPrice').textContent = '$6,849';
-    document.getElementById('spyChange').textContent = '+0.5%';
-  }
-
-  // Fetch on page load
-  fetchMarketData();
-  
-  // Refresh every 60 seconds
-  setInterval(fetchMarketData, 60000);
-</script>
-
 </body>
 </html>
-
