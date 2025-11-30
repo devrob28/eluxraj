@@ -497,21 +497,9 @@
     
     // Select circle
     async function selectCircle(circleId) {
-      try {
-        const res = await fetch('/api/circles/' + circleId, {
-          headers: { 'Authorization': 'Bearer ' + token }
-        });
-        const data = await res.json();
-        
-        if (data.ok) {
-          currentCircle = data.circle;
-          renderChat();
-          renderRightPanel();
-          loadMessages();
-          
-          document.querySelectorAll('.circle-item').forEach(el => el.classList.remove('active'));
-          event.currentTarget.classList.add('active');
-        }
+      // Open the chat page for this circle
+      window.location.href = '/circle-chat.html?id=' + circleId;
+    }
       } catch (e) {
         console.error('Failed to select circle:', e);
       }

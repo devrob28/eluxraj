@@ -60,7 +60,7 @@ router.get('/:circleId/info', authenticateToken, async (req, res) => {
     const { circleId } = req.params;
     
     const circle = await db.query(
-      `SELECT * FROM circles WHERE id = $1 OR invite_code = $1`,
+      `SELECT * FROM circles WHERE circle_id = $1 OR invite_code = $1`,
       [circleId]
     );
     
