@@ -86,12 +86,15 @@ const CIRCLES = {
   // Get user's circles
   async getUserCircles(userId) {
     try {
+      // Get circles user is a member of OR created
       const result = await db.query(`
-        SELECT c.*, cm.role, cm.joined_at
+        SELECT DISTINCT c.*, 
+          COALESCE(cm.role, 'owner') as role, 
+          COALESCE(cm.joined_at, c.created_at) as joined_at
         FROM circles c
-        JOIN circle_members cm ON c.circle_id = cm.circle_id
-        WHERE cm.user_id = $1
-        ORDER BY cm.joined_at DESC
+        LEFT JOIN circle_members cm ON c.circle_id = cm.circle_id AND cm.user_id = $1
+        WHERE cm.user_id = $1 OR c.creator_id = $1
+        ORDER BY c.created_at DESC
       `, [userId]);
       return result.rows;
     } catch (e) {
