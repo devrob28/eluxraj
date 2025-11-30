@@ -1326,55 +1326,79 @@
     }
   </script>
 
-  <script>
-    // Fetch real market data
-    async function loadMarketData() {
-      try {
-        const res = await fetch('/api/market/prices');
-        const data = await res.json();
-        if (data.ok) {
-          // Update Bitcoin
-          const btcEl = document.querySelector('[data-market="bitcoin"]');
-          if (btcEl) {
-            btcEl.querySelector('.price').textContent = '
+  
+
+<script>
+  // Fetch and display real market data
+  async function updateMarketData() {
+    try {
+      const res = await fetch('/api/market/prices');
+      const data = await res.json();
+      if (data.ok) {
+        // Find all market cards and update them
+        const cards = document.querySelectorAll('.stat-card, .market-card, [class*="card"]');
+        cards.forEach(card => {
+          const text = card.textContent;
+          if (text.includes('Bitcoin')) {
+            const priceEl = card.querySelector('div[style*="font-size: 32px"], div[style*="font-size:32px"], .price, h2, [class*="price"]');
+            const changeEl = card.querySelector('div[style*="color: #10b981"], div[style*="color:#10b981"], .change, [class*="change"]');
+            if (priceEl) priceEl.textContent = '
 </html>
  + data.bitcoin.price.toLocaleString();
-            btcEl.querySelector('.change').textContent = (data.bitcoin.change >= 0 ? '+' : '') + data.bitcoin.change + '%';
-            btcEl.querySelector('.change').style.color = data.bitcoin.change >= 0 ? '#10b981' : '#ef4444';
+            if (changeEl) {
+              changeEl.textContent = (parseFloat(data.bitcoin.change) >= 0 ? '+' : '') + data.bitcoin.change + '%';
+              changeEl.style.color = parseFloat(data.bitcoin.change) >= 0 ? '#10b981' : '#ef4444';
+            }
           }
-          // Update S&P 500
-          const spEl = document.querySelector('[data-market="sp500"]');
-          if (spEl) {
-            spEl.querySelector('.price').textContent = '
+          if (text.includes('S&P 500')) {
+            const priceEl = card.querySelector('div[style*="font-size: 32px"], div[style*="font-size:32px"], .price, h2, [class*="price"]');
+            const changeEl = card.querySelector('div[style*="color: #10b981"], div[style*="color:#10b981"], .change, [class*="change"]');
+            if (priceEl) priceEl.textContent = '
 </html>
  + data.sp500.price.toLocaleString();
-            spEl.querySelector('.change').textContent = (data.sp500.change >= 0 ? '+' : '') + data.sp500.change + '%';
-            spEl.querySelector('.change').style.color = data.sp500.change >= 0 ? '#10b981' : '#ef4444';
+            if (changeEl) {
+              changeEl.textContent = (parseFloat(data.sp500.change) >= 0 ? '+' : '') + data.sp500.change + '%';
+              changeEl.style.color = parseFloat(data.sp500.change) >= 0 ? '#10b981' : '#ef4444';
+            }
           }
-          // Update Gold
-          const goldEl = document.querySelector('[data-market="gold"]');
-          if (goldEl) {
-            goldEl.querySelector('.price').textContent = '
+          if (text.includes('Gold') && !text.includes('Greed')) {
+            const priceEl = card.querySelector('div[style*="font-size: 32px"], div[style*="font-size:32px"], .price, h2, [class*="price"]');
+            const changeEl = card.querySelector('div[style*="color: #10b981"], div[style*="color:#10b981"], .change, [class*="change"]');
+            if (priceEl) priceEl.textContent = '
 </html>
  + data.gold.price.toLocaleString();
-            goldEl.querySelector('.change').textContent = (data.gold.change >= 0 ? '+' : '') + data.gold.change + '%';
-            goldEl.querySelector('.change').style.color = data.gold.change >= 0 ? '#10b981' : '#ef4444';
+            if (changeEl) {
+              changeEl.textContent = (parseFloat(data.gold.change) >= 0 ? '+' : '') + data.gold.change + '%';
+              changeEl.style.color = parseFloat(data.gold.change) >= 0 ? '#10b981' : '#ef4444';
+            }
           }
-          // Update Fear & Greed
-          const fgEl = document.querySelector('[data-market="feargreed"]');
-          if (fgEl) {
-            fgEl.querySelector('.price').textContent = data.fearGreed.value;
-            fgEl.querySelector('.change').textContent = data.fearGreed.label;
+          if (text.includes('Fear') && text.includes('Greed')) {
+            const priceEl = card.querySelector('div[style*="font-size: 32px"], div[style*="font-size:32px"], .price, h2, [class*="price"]');
+            const changeEl = card.querySelector('div[style*="color"], .change, [class*="label"]');
+            if (priceEl) priceEl.textContent = data.fearGreed.value;
+            if (changeEl && !changeEl.textContent.includes('Fear') && !changeEl.textContent.includes('Greed')) {
+              // Find the label element
+            }
+            // Update label
+            const labels = card.querySelectorAll('div');
+            labels.forEach(l => {
+              if (l.textContent.includes('Fear') || l.textContent.includes('Greed') || l.textContent.includes('Neutral')) {
+                l.textContent = data.fearGreed.label;
+              }
+            });
           }
-        }
-      } catch (e) {
-        console.log('Market data fetch failed:', e);
+        });
       }
+    } catch (e) {
+      console.log('Market update error:', e);
     }
-    
-    // Load on page load and refresh every 60 seconds
-    loadMarketData();
-    setInterval(loadMarketData, 60000);
-  </script>
+  }
+  
+  // Run on load and every 60 seconds
+  document.addEventListener('DOMContentLoaded', updateMarketData);
+  setTimeout(updateMarketData, 1000);
+  setInterval(updateMarketData, 60000);
+</script>
+
 </body>
 </html>
