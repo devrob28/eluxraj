@@ -4,9 +4,11 @@ const db = require('../database/db');
 
 router.get('/create-tables', async (req, res) => {
   try {
-    // Messages table
+    // Drop and recreate messages table with correct columns
+    await db.query(`DROP TABLE IF EXISTS circle_messages`);
+    
     await db.query(`
-      CREATE TABLE IF NOT EXISTS circle_messages (
+      CREATE TABLE circle_messages (
         id SERIAL PRIMARY KEY,
         circle_id VARCHAR(100) NOT NULL,
         user_id VARCHAR(100) NOT NULL,
@@ -29,7 +31,7 @@ router.get('/create-tables', async (req, res) => {
       )
     `);
     
-    res.json({ ok: true, message: 'Circle tables created' });
+    res.json({ ok: true, message: 'Circle tables recreated' });
   } catch (e) {
     res.json({ ok: false, error: e.message });
   }
