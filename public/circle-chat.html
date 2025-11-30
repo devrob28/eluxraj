@@ -435,6 +435,7 @@
     const circleId = urlParams.get('id');
     
     let lastMessageTime = null;
+    let renderedMessageIds = new Set();
     let pollInterval = null;
     
     if (!token) {
