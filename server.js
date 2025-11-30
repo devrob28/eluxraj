@@ -393,6 +393,7 @@ app.use("/api/circle-messages", require("./routes/circle-messages"));
 app.use("/api/setup-circles", require("./routes/setup-circles"));
 app.use("/api/debug-circles", require("./routes/debug-circles"));
 app.use("/api/my-circles", require("./routes/my-circles"));
+app.use("/api/signal", require("./routes/signal"));
 app.use("/api/stripe", require("./routes/stripe"));
 app.use("/api/setup-stripe", require("./routes/setup-stripe"));
 app.use("/api/seed-deals", require("./routes/seed-deals"));
