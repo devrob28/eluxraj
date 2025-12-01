@@ -47,7 +47,7 @@ const NODE_ENV = process.env.NODE_ENV || 'development';
 app.use(cors());
 
 // Body Parser
-app.use(bodyParser.json());app.use('/api/oracle', oracleRoutes);
+app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 app.use(express.static(path.join(__dirname, 'public')));
