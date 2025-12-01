@@ -529,10 +529,3 @@ router.get('/status', (req, res) => {
 });
 
 module.exports = router;
-```
-
-**Step 18:** Scroll down to **"Commit new file"**
-
-**Step 19:** Type this message:
-```
-Add ORACLE API routes
