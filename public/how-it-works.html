@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How It Works | ELUXRAJ™</title>
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#6366f1">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0a0a0f 100%);
+      color: #fff;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      border-bottom: 1px solid rgba(99,102,241,0.2);
+    }
+    .logo {
+      font-size: 28px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-decoration: none;
+    }
+    .nav-links a {
+      color: #9ca3af;
+      text-decoration: none;
+      margin-left: 32px;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: #fff; }
+    
+    .hero {
+      text-align: center;
+      padding: 80px 20px 40px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .hero h1 {
+      font-size: 48px;
+      font-weight: 900;
+      margin-bottom: 20px;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 20px;
+      color: #9ca3af;
+    }
+    
+    /* Steps */
+    .steps-section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+    .step {
+      display: flex;
+      align-items: flex-start;
+      gap: 40px;
+      margin-bottom: 60px;
+      position: relative;
+    }
+    .step:nth-child(even) {
+      flex-direction: row-reverse;
+    }
+    .step-number {
+      flex-shrink: 0;
+      width: 80px;
+      height: 80px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 32px;
+      font-weight: 900;
+    }
+    .step-content {
+      flex: 1;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(99,102,241,0.2);
+      border-radius: 20px;
+      padding: 40px;
+    }
+    .step-content h3 {
+      font-size: 24px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .step-content p {
+      color: #9ca3af;
+      margin-bottom: 20px;
+    }
+    .step-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+    .step-feature {
+      background: rgba(99,102,241,0.15);
+      color: #8b5cf6;
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 13px;
+      font-weight: 500;
+    }
+    
+    /* Diagram */
+    .diagram-section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+    .diagram-title {
+      text-align: center;
+      font-size: 32px;
+      margin-bottom: 40px;
+    }
+    .diagram-title span {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .diagram {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(99,102,241,0.2);
+      border-radius: 20px;
+      padding: 40px;
+    }
+    .diagram-flow {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 20px;
+    }
+    .diagram-node {
+      flex: 1;
+      min-width: 150px;
+      text-align: center;
+      padding: 20px;
+    }
+    .diagram-node .icon {
+      font-size: 40px;
+      margin-bottom: 12px;
+    }
+    .diagram-node h4 {
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+    .diagram-node p {
+      font-size: 12px;
+      color: #6b7280;
+    }
+    .diagram-arrow {
+      font-size: 24px;
+      color: #6366f1;
+    }
+    
+    /* AI Engine Details */
+    .engine-section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 60px 20px;
+    }
+    .engine-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+    .engine-card {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(99,102,241,0.2);
+      border-radius: 16px;
+      padding: 30px;
+    }
+    .engine-card h4 {
+      font-size: 18px;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .engine-card p {
+      color: #9ca3af;
+      font-size: 14px;
+    }
+    
+    /* CTA */
+    .cta-section {
+      text-align: center;
+      padding: 80px 20px;
+      background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.1));
+      margin-top: 60px;
+    }
+    .cta-section h2 {
+      font-size: 36px;
+      margin-bottom: 16px;
+    }
+    .cta-section p {
+      color: #9ca3af;
+      margin-bottom: 30px;
+    }
+    .cta-btn {
+      display: inline-block;
+      padding: 16px 40px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 18px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .cta-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 40px rgba(99,102,241,0.4);
+    }
+    
+    .footer {
+      text-align: center;
+      padding: 40px 20px;
+      border-top: 1px solid rgba(99,102,241,0.2);
+      color: #6b7280;
+      font-size: 14px;
+    }
+    .footer a { color: #6366f1; text-decoration: none; }
+    
+    @media (max-width: 768px) {
+      .step { flex-direction: column !important; }
+      .diagram-flow { flex-direction: column; }
+      .diagram-arrow { transform: rotate(90deg); }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="/" class="logo">ELUXRAJ™</a>
+    <div class="nav-links">
+      <a href="/about.html">About</a>
+      <a href="/how-it-works.html">How It Works</a>
+      <a href="/pricing.html">Pricing</a>
+      <a href="/dashboard.html">Dashboard</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <h1>How <span>ELUXRAJ</span> Works</h1>
+    <p>From raw market data to actionable intelligence in seconds. Here's the magic behind our AI-powered platform.</p>
+  </section>
+
+  <!-- Steps -->
+  <section class="steps-section">
+    <div class="step">
+      <div class="step-number">1</div>
+      <div class="step-content">
+        <h3>📊 Data Ingestion</h3>
+        <p>Our system continuously ingests real-time data from multiple sources including price feeds, on-chain metrics, social sentiment, and macroeconomic indicators.</p>
+        <div class="step-features">
+          <span class="step-feature">Real-time prices</span>
+          <span class="step-feature">On-chain data</span>
+          <span class="step-feature">Social sentiment</span>
+          <span class="step-feature">News feeds</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number">2</div>
+      <div class="step-content">
+        <h3>🧠 AI Analysis</h3>
+        <p>Our proprietary AI models process data across 8 timeframes, computing technical indicators, detecting patterns, and evaluating market conditions.</p>
+        <div class="step-features">
+          <span class="step-feature">Multi-timeframe analysis</span>
+          <span class="step-feature">Pattern detection</span>
+          <span class="step-feature">Technical indicators</span>
+          <span class="step-feature">Ensemble scoring</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number">3</div>
+      <div class="step-content">
+        <h3>🎯 Signal Generation</h3>
+        <p>The AI synthesizes all inputs into clear BUY/SELL/HOLD recommendations with confidence scores, position sizing, and full explainability.</p>
+        <div class="step-features">
+          <span class="step-feature">Confidence scoring</span>
+          <span class="step-feature">Position sizing</span>
+          <span class="step-feature">Risk flags</span>
+          <span class="step-feature">Explainable AI</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="step">
+      <div class="step-number">4</div>
+      <div class="step-content">
+        <h3>📱 Delivery & Action</h3>
+        <p>Receive signals via dashboard, mobile app, or API. Every recommendation includes the reasoning so you can make informed decisions.</p>
+        <div class="step-features">
+          <span class="step-feature">Real-time alerts</span>
+          <span class="step-feature">Mobile app</span>
+          <span class="step-feature">API access</span>
+          <span class="step-feature">Full audit trail</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Diagram -->
+  <section class="diagram-section">
+    <h2 class="diagram-title">The <span>MAGICIAN™</span> Engine</h2>
+    <div class="diagram">
+      <div class="diagram-flow">
+        <div class="diagram-node">
+          <div class="icon">📈</div>
+          <h4>Market Data</h4>
+          <p>OHLCV, Volume, Order Flow</p>
+        </div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-node">
+          <div class="icon">⚙️</div>
+          <h4>Indicators</h4>
+          <p>RSI, MACD, ATR, OBV</p>
+        </div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-node">
+          <div class="icon">🔍</div>
+          <h4>Patterns</h4>
+          <p>Bull Flag, Double Bottom</p>
+        </div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-node">
+          <div class="icon">🧮</div>
+          <h4>Scoring</h4>
+          <p>Weighted Ensemble</p>
+        </div>
+        <div class="diagram-arrow">→</div>
+        <div class="diagram-node">
+          <div class="icon">🎯</div>
+          <h4>Signal</h4>
+          <p>BUY / SELL / HOLD</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Engine Details -->
+  <section class="engine-section">
+    <div class="engine-grid">
+      <div class="engine-card">
+        <h4>📊 7 Technical Indicators</h4>
+        <p>SMA, EMA, MACD, RSI, ATR, OBV, and Volume Z-Score computed across all timeframes.</p>
+      </div>
+      <div class="engine-card">
+        <h4>🔎 Pattern Detection</h4>
+        <p>Automated detection of Bull Flags, Double Bottoms, and more patterns with confidence scoring.</p>
+      </div>
+      <div class="engine-card">
+        <h4>⏱️ 8 Timeframes</h4>
+        <p>Analysis from 15-minute to monthly charts with weighted scoring based on timeframe importance.</p>
+      </div>
+      <div class="engine-card">
+        <h4>🎛️ Risk Management</h4>
+        <p>Position sizing recommendations based on your risk profile and market volatility.</p>
+      </div>
+      <div class="engine-card">
+        <h4>💡 Full Explainability</h4>
+        <p>Every signal comes with detailed reasoning. No black boxes—understand exactly why.</p>
+      </div>
+      <div class="engine-card">
+        <h4>⚡ Real-Time Processing</h4>
+        <p>Signals generated in milliseconds. Stay ahead of the market with instant analysis.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2>See It In Action</h2>
+    <p>Try MAGICIAN™ and get your first AI-powered trading signal in under 60 seconds.</p>
+    <a href="/register.html" class="cta-btn">Start Free Trial →</a>
+  </section>
+
+  <footer class="footer">
+    <p>© 2025 ELUXRAJ™. All rights reserved. | <a href="/terms.html">Terms</a> | <a href="/privacy.html">Privacy</a> | <a href="/disclaimer.html">Disclaimer</a></p>
+  </footer>
+</body>
+</html>

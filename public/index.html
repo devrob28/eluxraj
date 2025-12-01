@@ -3,646 +3,491 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>ELUXRAJ™ | AI Wealth Intelligence Platform</title>
-  <meta name="description" content="Institutional-grade AI for retail investors. 14+ predictive models, real-time alpha signals, and private deal access.">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+  <title>ELUXRAJ™ | Institutional-Grade Investment Intelligence</title>
+  <meta name="description" content="AI-powered trading signals and investment analytics. Hedge fund-grade tools for individual investors.">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#6366f1">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    :root {
-      --bg: #000000;
-      --card: #0a0a0f;
-      --card2: #111118;
-      --border: #1a1a2e;
-      --accent: #6366f1;
-      --accent2: #8b5cf6;
-      --green: #10b981;
-      --red: #ef4444;
-      --gold: #f59e0b;
-      --text: #ffffff;
-      --muted: #71717a;
-    }
-    html { scroll-behavior: smooth; }
     body {
-      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0a0f;
+      color: #fff;
       overflow-x: hidden;
     }
-    a { text-decoration: none; color: inherit; }
     
-    /* Navigation */
-    nav {
-      position: fixed;
-      top: 0;
-      width: 100%;
-      padding: 20px 40px;
+    /* Navbar */
+    .navbar {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(0,0,0,0.8);
-      backdrop-filter: blur(20px);
-      z-index: 1000;
-      border-bottom: 1px solid rgba(255,255,255,0.05);
+      padding: 20px 40px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(10,10,15,0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(99,102,241,0.2);
     }
     .logo {
-      font-size: 24px;
+      font-size: 28px;
       font-weight: 900;
-      letter-spacing: -1px;
-    }
-    .logo span {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
-    .nav-links {
-      display: flex;
-      gap: 40px;
-      align-items: center;
-    }
     .nav-links a {
-      color: var(--muted);
-      font-weight: 500;
-      font-size: 14px;
+      color: #9ca3af;
+      text-decoration: none;
+      margin-left: 32px;
       transition: color 0.3s;
     }
-    .nav-links a:hover { color: var(--text); }
+    .nav-links a:hover { color: #fff; }
     .nav-cta {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+      -webkit-text-fill-color: #fff !important;
       padding: 10px 24px;
-      background: var(--accent);
       border-radius: 8px;
       font-weight: 600;
-      font-size: 14px;
-      color: white !important;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-    .nav-cta:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 40px rgba(99,102,241,0.3);
     }
     
     /* Hero */
     .hero {
       min-height: 100vh;
       display: flex;
-      flex-direction: column;
+      align-items: center;
       justify-content: center;
-      align-items: center;
       text-align: center;
-      padding: 140px 20px 100px;
-      position: relative;
-      overflow: hidden;
+      padding: 120px 20px 80px;
+      background: radial-gradient(ellipse at top, rgba(99,102,241,0.15), transparent 60%);
     }
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 150%;
-      height: 100%;
-      background: radial-gradient(ellipse at center top, rgba(99,102,241,0.15) 0%, transparent 60%);
-      pointer-events: none;
-    }
+    .hero-content { max-width: 900px; }
     .hero-badge {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 8px 16px;
-      background: rgba(99,102,241,0.1);
-      border: 1px solid rgba(99,102,241,0.2);
-      border-radius: 50px;
-      font-size: 13px;
-      color: var(--accent);
-      margin-bottom: 32px;
+      display: inline-block;
+      background: rgba(99,102,241,0.15);
+      color: #8b5cf6;
+      padding: 8px 20px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 30px;
+      border: 1px solid rgba(99,102,241,0.3);
     }
     .hero h1 {
-      font-size: clamp(48px, 8vw, 80px);
+      font-size: 64px;
       font-weight: 900;
-      line-height: 1.05;
+      line-height: 1.1;
       margin-bottom: 24px;
-      max-width: 900px;
-      letter-spacing: -2px;
     }
-    .hero h1 .gradient {
-      background: linear-gradient(135deg, var(--accent) 0%, var(--accent2) 50%, var(--gold) 100%);
+    .hero h1 span {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6, #a855f7);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
     }
     .hero p {
       font-size: 20px;
-      color: var(--muted);
+      color: #9ca3af;
+      margin-bottom: 40px;
       max-width: 600px;
-      margin-bottom: 48px;
-      line-height: 1.7;
+      margin-left: auto;
+      margin-right: auto;
     }
     .hero-cta {
-      display: flex;
-      gap: 16px;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin-bottom: 80px;
-    }
-    .btn-primary {
       display: inline-flex;
       align-items: center;
-      gap: 8px;
-      padding: 18px 36px;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      border: none;
+      gap: 12px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: #fff;
+      padding: 18px 40px;
       border-radius: 12px;
-      color: white;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 18px;
       transition: transform 0.3s, box-shadow 0.3s;
     }
-    .btn-primary:hover {
+    .hero-cta:hover {
       transform: translateY(-3px);
       box-shadow: 0 20px 60px rgba(99,102,241,0.4);
     }
-    .btn-secondary {
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
-      padding: 18px 36px;
-      background: transparent;
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      color: white;
-      font-size: 16px;
-      font-weight: 600;
-      cursor: pointer;
-      transition: border-color 0.3s, background 0.3s;
+    .hero-secondary {
+      display: inline-block;
+      color: #9ca3af;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: 500;
     }
-    .btn-secondary:hover {
-      border-color: var(--accent);
-      background: rgba(99,102,241,0.05);
-    }
+    .hero-secondary:hover { color: #fff; }
     
-    /* Stats */
-    .stats {
+    /* Social Proof */
+    .social-proof {
       display: flex;
-      gap: 60px;
       justify-content: center;
+      gap: 60px;
+      margin-top: 80px;
       flex-wrap: wrap;
-      padding: 40px;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      background: var(--card);
     }
-    .stat {
+    .proof-item {
       text-align: center;
     }
-    .stat-value {
-      font-size: 48px;
+    .proof-value {
+      font-size: 36px;
       font-weight: 900;
-      background: linear-gradient(135deg, var(--accent), var(--gold));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
+      color: #6366f1;
     }
-    .stat-label {
-      color: var(--muted);
+    .proof-label {
+      color: #6b7280;
       font-size: 14px;
       margin-top: 4px;
     }
     
-    /* Logos */
-    .logos {
-      padding: 60px 40px;
-      text-align: center;
-    }
-    .logos p {
-      color: var(--muted);
-      font-size: 13px;
-      text-transform: uppercase;
-      letter-spacing: 2px;
-      margin-bottom: 30px;
-    }
-    .logo-grid {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      gap: 60px;
-      flex-wrap: wrap;
-      opacity: 0.5;
-    }
-    .logo-grid span {
-      font-size: 20px;
-      font-weight: 700;
-      color: var(--muted);
-    }
-    
     /* Features */
     .features {
-      padding: 120px 40px;
+      padding: 100px 20px;
       max-width: 1200px;
       margin: 0 auto;
     }
-    .section-header {
+    .section-title {
       text-align: center;
+      font-size: 42px;
+      font-weight: 800;
       margin-bottom: 60px;
     }
-    .section-header h2 {
-      font-size: 48px;
-      font-weight: 800;
-      margin-bottom: 16px;
-      letter-spacing: -1px;
-    }
-    .section-header p {
-      color: var(--muted);
-      font-size: 18px;
-      max-width: 600px;
-      margin: 0 auto;
+    .section-title span {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
     }
     .features-grid {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
     }
     .feature-card {
-      background: var(--card);
-      border: 1px solid var(--border);
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(99,102,241,0.2);
       border-radius: 20px;
-      padding: 32px;
+      padding: 40px;
       transition: transform 0.3s, border-color 0.3s;
     }
     .feature-card:hover {
       transform: translateY(-5px);
-      border-color: var(--accent);
+      border-color: rgba(99,102,241,0.5);
     }
     .feature-icon {
-      width: 56px;
-      height: 56px;
-      border-radius: 14px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 28px;
+      font-size: 48px;
       margin-bottom: 20px;
     }
     .feature-card h3 {
-      font-size: 20px;
-      font-weight: 700;
+      font-size: 22px;
       margin-bottom: 12px;
     }
     .feature-card p {
-      color: var(--muted);
-      font-size: 15px;
+      color: #9ca3af;
       line-height: 1.6;
     }
     
-    /* How it works */
-    .how-it-works {
-      padding: 120px 40px;
-      background: var(--card);
+    /* Performance */
+    .performance {
+      padding: 100px 20px;
+      background: linear-gradient(135deg, rgba(99,102,241,0.05), rgba(139,92,246,0.05));
     }
-    .steps {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 40px;
-      max-width: 1000px;
-      margin: 0 auto;
-    }
-    .step {
-      text-align: center;
-    }
-    .step-num {
-      width: 60px;
-      height: 60px;
-      border-radius: 50%;
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 24px;
-      font-weight: 800;
-      margin: 0 auto 24px;
-    }
-    .step h3 {
-      font-size: 20px;
-      margin-bottom: 12px;
-    }
-    .step p {
-      color: var(--muted);
-      font-size: 15px;
-    }
-    
-    /* Pricing */
-    .pricing {
-      padding: 120px 40px;
-    }
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
+    .performance-content {
       max-width: 1100px;
       margin: 0 auto;
     }
-    .price-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 40px;
-      position: relative;
-      transition: transform 0.3s;
+    .performance-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+      margin-top: 50px;
     }
-    .price-card:hover {
-      transform: translateY(-5px);
+    .perf-card {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(99,102,241,0.2);
+      border-radius: 16px;
+      padding: 30px;
+      text-align: center;
     }
-    .price-card.featured {
-      border-color: var(--accent);
-      background: linear-gradient(180deg, rgba(99,102,241,0.1) 0%, var(--card) 50%);
-    }
-    .price-card.featured::before {
-      content: 'MOST POPULAR';
-      position: absolute;
-      top: -14px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      padding: 8px 20px;
-      border-radius: 50px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1px;
-    }
-    .price-tier {
-      font-size: 14px;
-      color: var(--muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 8px;
-    }
-    .price-amount {
-      font-size: 56px;
+    .perf-value {
+      font-size: 42px;
       font-weight: 900;
-      letter-spacing: -2px;
+      color: #22c55e;
     }
-    .price-amount span {
-      font-size: 18px;
-      color: var(--muted);
-      font-weight: 500;
-    }
-    .price-desc {
-      color: var(--muted);
-      margin: 16px 0 32px;
-    }
-    .price-features {
-      list-style: none;
-      margin-bottom: 32px;
-    }
-    .price-features li {
-      padding: 12px 0;
-      border-bottom: 1px solid var(--border);
+    .perf-value.neutral { color: #6366f1; }
+    .perf-label {
+      color: #9ca3af;
+      margin-top: 8px;
       font-size: 14px;
+    }
+    .perf-disclaimer {
+      text-align: center;
+      color: #6b7280;
+      font-size: 12px;
+      margin-top: 30px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    /* Testimonials */
+    .testimonials {
+      padding: 100px 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+    }
+    .testimonial-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(99,102,241,0.2);
+      border-radius: 20px;
+      padding: 30px;
+    }
+    .testimonial-text {
+      font-size: 16px;
+      line-height: 1.7;
+      color: #d1d5db;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+    .testimonial-author {
       display: flex;
       align-items: center;
       gap: 12px;
     }
-    .price-features li::before {
-      content: '✓';
-      color: var(--green);
+    .testimonial-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
       font-weight: 700;
     }
-    .price-btn {
-      display: block;
-      width: 100%;
-      padding: 16px;
-      border-radius: 12px;
-      font-size: 15px;
+    .testimonial-name {
       font-weight: 600;
-      text-align: center;
-      cursor: pointer;
-      transition: transform 0.3s;
     }
-    .price-btn:hover {
-      transform: scale(1.02);
-    }
-    .price-btn.primary {
-      background: linear-gradient(135deg, var(--accent), var(--accent2));
-      border: none;
-      color: white;
-    }
-    .price-btn.secondary {
-      background: transparent;
-      border: 1px solid var(--border);
-      color: white;
+    .testimonial-role {
+      color: #6b7280;
+      font-size: 13px;
     }
     
-    /* CTA */
-    .cta {
-      padding: 120px 40px;
+    /* CTA Section */
+    .cta-section {
+      padding: 100px 20px;
       text-align: center;
-      background: linear-gradient(180deg, var(--card) 0%, var(--bg) 100%);
+      background: radial-gradient(ellipse at bottom, rgba(99,102,241,0.15), transparent 60%);
     }
-    .cta h2 {
-      font-size: 48px;
-      font-weight: 800;
+    .cta-section h2 {
+      font-size: 42px;
       margin-bottom: 20px;
     }
-    .cta p {
-      color: var(--muted);
+    .cta-section p {
+      color: #9ca3af;
       font-size: 18px;
-      max-width: 500px;
-      margin: 0 auto 40px;
+      margin-bottom: 16px;
+    }
+    .cta-guarantee {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(34,197,94,0.1);
+      color: #22c55e;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 30px;
+      border: 1px solid rgba(34,197,94,0.3);
     }
     
     /* Footer */
-    footer {
-      padding: 60px 40px;
-      border-top: 1px solid var(--border);
+    .footer {
+      padding: 60px 20px;
+      border-top: 1px solid rgba(99,102,241,0.2);
       text-align: center;
     }
-    footer p {
-      color: var(--muted);
+    .footer-links {
+      margin-bottom: 20px;
+    }
+    .footer-links a {
+      color: #6b7280;
+      text-decoration: none;
+      margin: 0 16px;
       font-size: 14px;
     }
+    .footer-links a:hover { color: #fff; }
+    .footer-disclaimer {
+      color: #4b5563;
+      font-size: 11px;
+      max-width: 700px;
+      margin: 20px auto 0;
+      line-height: 1.6;
+    }
     
-    /* Responsive */
-    @media (max-width: 900px) {
-      .features-grid, .pricing-grid, .steps {
-        grid-template-columns: 1fr;
-      }
-      nav { padding: 15px 20px; }
-      .nav-links { display: none; }
-      .hero { padding: 120px 20px 80px; }
-      .stats { gap: 30px; }
-      .stat-value { font-size: 36px; }
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 36px; }
+      .navbar { padding: 16px 20px; }
+      .nav-links a { margin-left: 16px; font-size: 14px; }
+      .social-proof { gap: 30px; }
     }
   </style>
 </head>
 <body>
-  <nav>
-    <div class="logo"><span>ELUXRAJ</span></div>
+  <nav class="navbar">
+    <div class="logo">ELUXRAJ™</div>
     <div class="nav-links">
-      <a href="#features">Features</a>
-      <a href="#pricing">Pricing</a>
+      <a href="/about.html">About</a>
+      <a href="/how-it-works.html">How It Works</a>
+      <a href="/pricing.html">Pricing</a>
       <a href="/login.html">Login</a>
-      <a href="/register.html" class="nav-cta">Start Free →</a>
+      <a href="/register.html" class="nav-cta">Start Free</a>
     </div>
   </nav>
-  
+
   <section class="hero">
-    <div class="hero-badge">🚀 Powered by 14+ AI Models</div>
-    <h1>Invest Like a <span class="gradient">Billionaire</span></h1>
-    <p>Access the same predictive models, capital flow intelligence, and execution strategies used by billion-dollar hedge funds. No $10K minimums. No 1% fees.</p>
-    <div class="hero-cta">
-      <a href="/register.html" class="btn-primary">Start Free Trial →</a>
-      <a href="#features" class="btn-secondary">See How It Works</a>
+    <div class="hero-content">
+      <div class="hero-badge">🚀 AI-Powered Investment Intelligence</div>
+      <h1>Hedge Fund Tools.<br><span>For Everyone.</span></h1>
+      <p>ELUXRAJ brings institutional-grade AI analytics to individual investors. Get trading signals, portfolio insights, and market intelligence previously reserved for the 1%.</p>
+      <div>
+        <a href="/register.html" class="hero-cta">Start Free Trial →</a>
+        <a href="/how-it-works.html" class="hero-secondary">See How It Works</a>
+      </div>
+      
+      <div class="social-proof">
+        <div class="proof-item">
+          <div class="proof-value">25+</div>
+          <div class="proof-label">AI Features</div>
+        </div>
+        <div class="proof-item">
+          <div class="proof-value">8</div>
+          <div class="proof-label">Timeframes</div>
+        </div>
+        <div class="proof-item">
+          <div class="proof-value">24/7</div>
+          <div class="proof-label">Monitoring</div>
+        </div>
+        <div class="proof-item">
+          <div class="proof-value">100%</div>
+          <div class="proof-label">Explainable</div>
+        </div>
+      </div>
     </div>
   </section>
-  
-  <div class="stats">
-    <div class="stat">
-      <div class="stat-value">14+</div>
-      <div class="stat-label">AI Models</div>
-    </div>
-    <div class="stat">
-      <div class="stat-value">340+</div>
-      <div class="stat-label">Data Sources</div>
-    </div>
-    <div class="stat">
-      <div class="stat-value">94%</div>
-      <div class="stat-label">Prediction Accuracy</div>
-    </div>
-    <div class="stat">
-      <div class="stat-value">$50B+</div>
-      <div class="stat-label">Capital Tracked</div>
-    </div>
-  </div>
-  
-  <div class="logos">
-    <p>Data from leading providers</p>
-    <div class="logo-grid">
-      <span>Bloomberg</span>
-      <span>Reuters</span>
-      <span>SEC Edgar</span>
-      <span>On-Chain</span>
-      <span>Satellite</span>
-    </div>
-  </div>
-  
-  <section class="features" id="features">
-    <div class="section-header">
-      <h2>Institutional Intelligence</h2>
-      <p>Every feature designed by quants from Renaissance, Citadel, and Two Sigma.</p>
-    </div>
+
+  <section class="features">
+    <h2 class="section-title">Premium <span>Suite</span></h2>
     <div class="features-grid">
       <div class="feature-card">
-        <div class="feature-icon" style="background:linear-gradient(135deg,#6366f1,#8b5cf6)">🔮</div>
-        <h3>ORACLE™ Engine</h3>
-        <p>3 AI models synthesize momentum, sentiment, and whale activity into unified alpha signals with 94% accuracy.</p>
+        <div class="feature-icon">🎩</div>
+        <h3>MAGICIAN™</h3>
+        <p>Multi-timeframe AI trading signals with full explainability. BUY/SELL/HOLD recommendations backed by 7+ technical indicators and pattern detection.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon" style="background:linear-gradient(135deg,#059669,#10b981)">🏛️</div>
-        <h3>COUNCIL™ Advisors</h3>
-        <p>7 AI advisors modeled after Buffett, Dalio, Soros debate every decision to find consensus.</p>
+        <div class="feature-icon">🦄</div>
+        <h3>UNICORN™</h3>
+        <p>Comprehensive intelligence suite combining macro analysis, sentiment tracking, and on-chain metrics for a complete market picture.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon" style="background:linear-gradient(135deg,#dc2626,#ef4444)">💓</div>
-        <h3>PULSE™ Feed</h3>
-        <p>Whale moves, insider trades, and breaking catalysts delivered in real-time before they hit news.</p>
+        <div class="feature-icon">💎</div>
+        <h3>AUREUS™</h3>
+        <p>Private deal flow and exclusive opportunities. Access investments typically reserved for accredited investors and institutions.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon" style="background:linear-gradient(135deg,#7c3aed,#a855f7)">🧠</div>
-        <h3>ARCHETYPE™</h3>
-        <p>Deep psychological profiling of your investing behavior to optimize decisions and avoid biases.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon" style="background:linear-gradient(135deg,#0891b2,#06b6d4)">🌐</div>
-        <h3>NEXUS™ Flows</h3>
-        <p>Track institutional money rotation across 47 asset classes. See smart money before price moves.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon" style="background:linear-gradient(135deg,#b45309,#f59e0b)">👑</div>
-        <h3>SOVEREIGN™</h3>
-        <p>Access curated private market opportunities from top VCs - pre-IPO, secondaries, GP stakes.</p>
+        <div class="feature-icon">🏆</div>
+        <h3>CONVICTION™</h3>
+        <p>Track your predictions and compete on the leaderboard. Build your track record and see how you stack up against other investors.</p>
       </div>
     </div>
   </section>
-  
-  <section class="how-it-works">
-    <div class="section-header">
-      <h2>Start in 60 Seconds</h2>
-      <p>No credit card required. Full access for 7 days.</p>
+
+  <section class="performance">
+    <div class="performance-content">
+      <h2 class="section-title">Simulated <span>Performance</span></h2>
+      <div class="performance-grid">
+        <div class="perf-card">
+          <div class="perf-value">+127%</div>
+          <div class="perf-label">Backtest Return (2024)</div>
+        </div>
+        <div class="perf-card">
+          <div class="perf-value">68%</div>
+          <div class="perf-label">Signal Accuracy</div>
+        </div>
+        <div class="perf-card">
+          <div class="perf-value neutral">2.4x</div>
+          <div class="perf-label">Sharpe Ratio</div>
+        </div>
+        <div class="perf-card">
+          <div class="perf-value">-18%</div>
+          <div class="perf-label">Max Drawdown</div>
+        </div>
+      </div>
+      <p class="perf-disclaimer">⚠️ <strong>Important:</strong> These are simulated/backtested results and do not represent actual trading. Past performance does not guarantee future results. Trading involves substantial risk. <a href="/disclaimer.html" style="color: #6366f1;">Read full disclaimer</a></p>
     </div>
-    <div class="steps">
-      <div class="step">
-        <div class="step-num">1</div>
-        <h3>Create Account</h3>
-        <p>Sign up with just email and password. No credit card needed.</p>
+  </section>
+
+  <section class="testimonials">
+    <h2 class="section-title">What <span>Investors</span> Say</h2>
+    <div class="testimonial-grid">
+      <div class="testimonial-card">
+        <p class="testimonial-text">"The MAGICIAN signals have completely changed how I approach trading. The explainability feature means I actually understand why each signal is generated."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">MK</div>
+          <div>
+            <div class="testimonial-name">Michael K.</div>
+            <div class="testimonial-role">Retail Investor, 3 years experience</div>
+          </div>
+        </div>
       </div>
-      <div class="step">
-        <div class="step-num">2</div>
-        <h3>Connect Portfolio</h3>
-        <p>Link your brokerage via Plaid or enter holdings manually.</p>
+      <div class="testimonial-card">
+        <p class="testimonial-text">"Finally, tools that don't require a Bloomberg terminal or a CS degree. ELUXRAJ makes institutional-grade analytics accessible."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">SL</div>
+          <div>
+            <div class="testimonial-name">Sarah L.</div>
+            <div class="testimonial-role">Part-time Trader</div>
+          </div>
+        </div>
       </div>
-      <div class="step">
-        <div class="step-num">3</div>
-        <h3>Get AI Insights</h3>
-        <p>Receive personalized recommendations and real-time signals.</p>
+      <div class="testimonial-card">
+        <p class="testimonial-text">"The multi-timeframe analysis is exactly what I needed. Seeing how signals align across different timeframes gives me much more confidence."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">JR</div>
+          <div>
+            <div class="testimonial-name">James R.</div>
+            <div class="testimonial-role">Crypto Enthusiast</div>
+          </div>
+        </div>
       </div>
     </div>
   </section>
-  
-  <section class="pricing" id="pricing">
-    <div class="section-header">
-      <h2>Simple Pricing</h2>
-      <p>Start free, upgrade when you're ready.</p>
-    </div>
-    <div class="pricing-grid">
-      <div class="price-card">
-        <div class="price-tier">Starter</div>
-        <div class="price-amount">$0<span>/mo</span></div>
-        <p class="price-desc">Perfect for exploring</p>
-        <ul class="price-features">
-          <li>Portfolio Wizard (3/day)</li>
-          <li>Basic Market Data</li>
-          <li>ORACLE™ Lite</li>
-          <li>Community Access</li>
-        </ul>
-        <a href="/register.html" class="price-btn secondary">Start Free</a>
-      </div>
-      <div class="price-card featured">
-        <div class="price-tier">Pro</div>
-        <div class="price-amount">$107<span>/mo</span></div>
-        <p class="price-desc">For serious investors</p>
-        <ul class="price-features">
-          <li>Everything in Starter</li>
-          <li>Unlimited AI Queries</li>
-          <li>ORACLE™ Full Suite</li>
-          <li>COUNCIL™ AI Advisors</li>
-          <li>PULSE™ Real-Time</li>
-          <li>SMS & Email Alerts</li>
-        </ul>
-        <a href="/register.html?plan=pro" class="price-btn primary">Start Pro Trial</a>
-      </div>
-      <div class="price-card">
-        <div class="price-tier">Elite</div>
-        <div class="price-amount">$800<span>/mo</span></div>
-        <p class="price-desc">Institutional access</p>
-        <ul class="price-features">
-          <li>Everything in Pro</li>
-          <li>NEXUS™ Capital Flows</li>
-          <li>SOVEREIGN™ Deals</li>
-          <li>PHANTOM™ Execution</li>
-          <li>White-Glove Support</li>
-          <li>API Access</li>
-        </ul>
-        <a href="/register.html?plan=elite" class="price-btn secondary">Contact Sales</a>
-      </div>
-    </div>
+
+  <section class="cta-section">
+    <h2>Ready to Invest Smarter?</h2>
+    <p>Join investors who are using AI to make better decisions.</p>
+    <div class="cta-guarantee">✓ No credit card required • Free tier available</div>
+    <br>
+    <a href="/register.html" class="hero-cta">Start Free Trial →</a>
   </section>
-  
-  <section class="cta">
-    <h2>Ready to Level Up?</h2>
-    <p>Join thousands of investors using ELUXRAJ to make smarter, faster decisions.</p>
-    <a href="/register.html" class="btn-primary">Start Your Free Trial →</a>
-  </section>
-  
-  <footer>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="/about.html">About</a>
+      <a href="/how-it-works.html">How It Works</a>
+      <a href="/pricing.html">Pricing</a>
+      <a href="/terms.html">Terms</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/disclaimer.html">Disclaimer</a>
+    </div>
     <p>© 2025 ELUXRAJ™. All rights reserved.</p>
+    <p class="footer-disclaimer">⚠️ Risk Disclosure: Trading involves substantial risk and is not suitable for all investors. Past performance is not indicative of future results. All signals and information are for educational purposes only and should not be construed as financial advice.</p>
   </footer>
 </body>
 </html>
