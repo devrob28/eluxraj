@@ -28,7 +28,7 @@ const aiRoutes = require("./routes/ai");
 const { authenticateToken, optionalAuth, requireTier } = require('./middleware/auth');
 
 const app = express();
-
+const deviceTokenRoutes = require('./routes/device-token');
 // Disable all CSP - allow everything
 app.use((req, res, next) => {
   res.removeHeader("Content-Security-Policy");
@@ -53,6 +53,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
+app.use('/api/user', deviceTokenRoutes);
   console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
   next();
 });
