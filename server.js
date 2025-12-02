@@ -25,10 +25,10 @@ const oracleRoutes = require('./routes/oracle');
 const fidelityRoutes = require('./routes/fidelity');
 const attestRoutes = require('./routes/attest');
 const aiRoutes = require("./routes/ai");
-const { authenticateToken, optionalAuth, requireTier } = require('./middleware/auth');
-
-const app = express();
 const deviceTokenRoutes = require('./routes/device-token');
+const app = express();
+
+
 // Disable all CSP - allow everything
 app.use((req, res, next) => {
   res.removeHeader("Content-Security-Policy");
