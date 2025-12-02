@@ -26,8 +26,9 @@ const fidelityRoutes = require('./routes/fidelity');
 const attestRoutes = require('./routes/attest');
 const aiRoutes = require("./routes/ai");
 const deviceTokenRoutes = require('./routes/device-token');
-const app = express();
+const { authenticateToken, optionalAuth, requireTier } = require('./middleware/auth');
 
+const app = express();
 
 // Disable all CSP - allow everything
 app.use((req, res, next) => {
@@ -53,7 +54,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
-app.use('/api/user', deviceTokenRoutes);
   console.log(`${new Date().toISOString()} - ${req.method} ${req.path}`);
   next();
 });
@@ -91,6 +91,7 @@ app.use('/api/sovereign', sovereignRoutes);
 app.use("/api/oracle", oracleRoutes);
 app.use('/api/fidelity', fidelityRoutes);
 app.use('/api/attest', attestRoutes);
+app.use('/api/user', deviceTokenRoutes);
 app.use("/api/auth", require("./routes/password-reset"));
 app.use("/api/setup-email", require("./routes/setup-email"));
 app.use("/api/unicorn", require("./routes/unicorn"));
@@ -101,7 +102,6 @@ app.use("/api/setup-marketplace", require("./routes/setup-marketplace"));
 app.use("/api/setup", require("./routes/setup-social"));
 app.use("/api/circles", require("./routes/circles"));
 app.use("/api/conviction", require("./routes/conviction"));
-app.use("/api/admin", require("./routes/admin"));
 app.use("/api/admin", require("./routes/admin"));
 
 // ============================================================================
@@ -428,7 +428,6 @@ app.use((err, req, res, next) => {
 // START SERVER
 // ============================================================================
 
-
 const server = app.listen(PORT, () => {
   console.log(`
 ╔═══════════════════════════════════════════════════════════╗
@@ -455,7 +454,4 @@ process.on('SIGTERM', () => {
   });
 });
 
-
 module.exports = app;
-
-
