@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Why ELUXRAJ™ | Our Edge</title>
+  <meta name="description" content="What makes ELUXRAJ different from generic robo-advisors. Our unique data moat, institutional-grade AI, and transparent methodology.">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#6366f1">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0a0f;
+      color: #fff;
+      line-height: 1.7;
+    }
+    
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(10,10,15,0.95);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(99,102,241,0.2);
+    }
+    .logo {
+      font-size: 28px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-decoration: none;
+    }
+    .nav-links a {
+      color: #9ca3af;
+      text-decoration: none;
+      margin-left: 32px;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: #fff; }
+    
+    .hero {
+      padding: 140px 20px 80px;
+      text-align: center;
+      background: radial-gradient(ellipse at top, rgba(99,102,241,0.1), transparent 60%);
+    }
+    .hero h1 {
+      font-size: 52px;
+      font-weight: 900;
+      margin-bottom: 20px;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 20px;
+      color: #9ca3af;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    
+    .section {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 80px 20px;
+    }
+    .section-title {
+      font-size: 36px;
+      font-weight: 800;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+    .section-title span {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .section-subtitle {
+      text-align: center;
+      color: #9ca3af;
+      margin-bottom: 50px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    /* Comparison Table */
+    .comparison-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 40px;
+    }
+    .comparison-table th, .comparison-table td {
+      padding: 20px;
+      text-align: left;
+      border-bottom: 1px solid rgba(99,102,241,0.2);
+    }
+    .comparison-table th {
+      background: rgba(99,102,241,0.1);
+      font-weight: 700;
+    }
+    .comparison-table th:first-child {
+      border-radius: 12px 0 0 0;
+    }
+    .comparison-table th:last-child {
+      border-radius: 0 12px 0 0;
+      background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(139,92,246,0.2));
+    }
+    .comparison-table td:last-child {
+      background: rgba(99,102,241,0.05);
+    }
+    .check { color: #22c55e; font-size: 20px; }
+    .x { color: #6b7280; font-size: 20px; }
+    
+    /* Edge Cards */
+    .edge-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+      margin-top: 50px;
+    }
+    .edge-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(99,102,241,0.2);
+      border-radius: 20px;
+      padding: 40px;
+      position: relative;
+      overflow: hidden;
+    }
+    .edge-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: linear-gradient(90deg, #6366f1, #8b5cf6);
+    }
+    .edge-number {
+      font-size: 64px;
+      font-weight: 900;
+      color: rgba(99,102,241,0.15);
+      position: absolute;
+      top: 10px;
+      right: 20px;
+    }
+    .edge-card h3 {
+      font-size: 22px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .edge-card p {
+      color: #9ca3af;
+    }
+    
+    /* Methodology */
+    .methodology {
+      background: linear-gradient(135deg, rgba(99,102,241,0.05), rgba(139,92,246,0.05));
+      border-radius: 24px;
+      padding: 60px;
+      margin-top: 60px;
+    }
+    .methodology h2 {
+      font-size: 32px;
+      margin-bottom: 30px;
+      text-align: center;
+    }
+    .method-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    .method-step {
+      text-align: center;
+    }
+    .method-step .number {
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 20px;
+      margin: 0 auto 16px;
+    }
+    .method-step h4 {
+      margin-bottom: 8px;
+    }
+    .method-step p {
+      color: #9ca3af;
+      font-size: 14px;
+    }
+    
+    /* Trust Badges */
+    .trust-section {
+      text-align: center;
+      padding: 60px 20px;
+      border-top: 1px solid rgba(99,102,241,0.2);
+      border-bottom: 1px solid rgba(99,102,241,0.2);
+    }
+    .trust-badges {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 40px;
+      margin-top: 30px;
+    }
+    .trust-badge {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      color: #9ca3af;
+    }
+    .trust-badge .icon {
+      font-size: 28px;
+    }
+    .trust-badge span {
+      font-size: 14px;
+    }
+    
+    /* CTA */
+    .cta-section {
+      text-align: center;
+      padding: 100px 20px;
+    }
+    .cta-section h2 {
+      font-size: 42px;
+      margin-bottom: 20px;
+    }
+    .cta-section p {
+      color: #9ca3af;
+      margin-bottom: 30px;
+    }
+    .cta-btn {
+      display: inline-block;
+      padding: 18px 48px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: #fff;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: 700;
+      font-size: 18px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .cta-btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 60px rgba(99,102,241,0.4);
+    }
+    
+    .footer {
+      text-align: center;
+      padding: 40px 20px;
+      border-top: 1px solid rgba(99,102,241,0.2);
+      color: #6b7280;
+      font-size: 14px;
+    }
+    .footer a { color: #6366f1; text-decoration: none; }
+    
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 32px; }
+      .comparison-table { font-size: 14px; }
+      .comparison-table th, .comparison-table td { padding: 12px 8px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="/" class="logo">ELUXRAJ™</a>
+    <div class="nav-links">
+      <a href="/about.html">About</a>
+      <a href="/why-eluxraj.html">Why Us</a>
+      <a href="/how-it-works.html">How It Works</a>
+      <a href="/pricing.html">Pricing</a>
+      <a href="/login.html">Login</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <h1>Why Choose <span>ELUXRAJ</span>?</h1>
+    <p>We're not another robo-advisor or generic AI tool. Here's what makes us fundamentally different.</p>
+  </section>
+
+  <!-- Comparison -->
+  <section class="section">
+    <h2 class="section-title">ELUXRAJ vs. <span>The Rest</span></h2>
+    <p class="section-subtitle">A transparent look at how we stack up against traditional tools and competitors.</p>
+    
+    <table class="comparison-table">
+      <thead>
+        <tr>
+          <th>Feature</th>
+          <th>Traditional Tools</th>
+          <th>Generic AI Apps</th>
+          <th>ELUXRAJ™</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Multi-timeframe Analysis</td>
+          <td><span class="x">✗</span> Single view</td>
+          <td><span class="x">✗</span> Limited</td>
+          <td><span class="check">✓</span> 8 timeframes</td>
+        </tr>
+        <tr>
+          <td>Explainable AI</td>
+          <td><span class="x">✗</span> N/A</td>
+          <td><span class="x">✗</span> Black box</td>
+          <td><span class="check">✓</span> Full transparency</td>
+        </tr>
+        <tr>
+          <td>Position Sizing</td>
+          <td><span class="x">✗</span> None</td>
+          <td><span class="x">✗</span> Generic %</td>
+          <td><span class="check">✓</span> Risk-adjusted</td>
+        </tr>
+        <tr>
+          <td>Pattern Detection</td>
+          <td><span class="x">✗</span> Manual</td>
+          <td><span class="check">✓</span> Basic</td>
+          <td><span class="check">✓</span> Advanced + confidence</td>
+        </tr>
+        <tr>
+          <td>Real-time Processing</td>
+          <td><span class="x">✗</span> Delayed</td>
+          <td><span class="check">✓</span> Yes</td>
+          <td><span class="check">✓</span> Milliseconds</td>
+        </tr>
+        <tr>
+          <td>Risk Disclaimers</td>
+          <td><span class="x">✗</span> Hidden</td>
+          <td><span class="x">✗</span> Minimal</td>
+          <td><span class="check">✓</span> Prominent</td>
+        </tr>
+        <tr>
+          <td>Methodology Transparency</td>
+          <td><span class="x">✗</span> None</td>
+          <td><span class="x">✗</span> Proprietary</td>
+          <td><span class="check">✓</span> Documented</td>
+        </tr>
+      </tbody>
+    </table>
+  </section>
+
+  <!-- Our Edge -->
+  <section class="section">
+    <h2 class="section-title">Our Unique <span>Edge</span></h2>
+    <p class="section-subtitle">These are the specific advantages that set ELUXRAJ apart from every other tool.</p>
+    
+    <div class="edge-grid">
+      <div class="edge-card">
+        <div class="edge-number">01</div>
+        <h3>🧠 Explainable AI, Not Black Boxes</h3>
+        <p>Every signal comes with detailed reasoning. You'll know exactly which indicators triggered, which patterns were detected, and why the AI reached its conclusion. No mystery, no blind trust required.</p>
+      </div>
+      <div class="edge-card">
+        <div class="edge-number">02</div>
+        <h3>📊 Multi-Timeframe Ensemble</h3>
+        <p>We analyze 8 timeframes simultaneously (15m to 1M) and weight them intelligently. A signal that aligns across multiple timeframes is fundamentally stronger than a single-view analysis.</p>
+      </div>
+      <div class="edge-card">
+        <div class="edge-number">03</div>
+        <h3>🎯 Risk-Adjusted Sizing</h3>
+        <p>We don't just say "buy" — we tell you how much based on your risk profile, current volatility, and signal confidence. Position sizing is where most investors fail.</p>
+      </div>
+      <div class="edge-card">
+        <div class="edge-number">04</div>
+        <h3>⚠️ Honest About Limitations</h3>
+        <p>We're transparent about what AI can and cannot do. We provide clear risk disclaimers, show our methodology, and never promise guaranteed returns. Trust is built on honesty.</p>
+      </div>
+      <div class="edge-card">
+        <div class="edge-number">05</div>
+        <h3>🔬 Documented Methodology</h3>
+        <p>Our "How It Works" page details exactly how signals are generated. We use standard technical indicators (RSI, MACD, ATR, OBV) combined with pattern detection — no proprietary magic claims.</p>
+      </div>
+      <div class="edge-card">
+        <div class="edge-number">06</div>
+        <h3>🏛️ Institutional-Grade, Retail Price</h3>
+        <p>The same analytical frameworks used by hedge funds, made accessible. You don't need a $100K minimum or a Bloomberg terminal to access sophisticated analysis.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Methodology -->
+  <section class="section">
+    <div class="methodology">
+      <h2>Our <span style="background: linear-gradient(135deg, #6366f1, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Methodology</span> — Transparent & Reproducible</h2>
+      <p style="text-align: center; color: #9ca3af; max-width: 700px; margin: 0 auto;">We don't hide behind "proprietary algorithms." Here's exactly how MAGICIAN™ generates signals:</p>
+      
+      <div class="method-steps">
+        <div class="method-step">
+          <div class="number">1</div>
+          <h4>Data Collection</h4>
+          <p>OHLCV price data across 8 timeframes from reliable market feeds</p>
+        </div>
+        <div class="method-step">
+          <div class="number">2</div>
+          <h4>Indicator Calculation</h4>
+          <p>SMA, EMA, MACD, RSI, ATR, OBV, Volume Z-Score — standard, proven indicators</p>
+        </div>
+        <div class="method-step">
+          <div class="number">3</div>
+          <h4>Pattern Detection</h4>
+          <p>Algorithmic detection of Bull Flags, Double Bottoms with confidence scoring</p>
+        </div>
+        <div class="method-step">
+          <div class="number">4</div>
+          <h4>Weighted Scoring</h4>
+          <p>Each timeframe scored independently, then combined with weights (higher TFs = more weight)</p>
+        </div>
+        <div class="method-step">
+          <div class="number">5</div>
+          <h4>Signal Generation</h4>
+          <p>Normalized score → Confidence % → BUY/SELL/HOLD with full reasoning</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Indicators -->
+  <section class="trust-section">
+    <h2 class="section-title">Trust & <span>Security</span></h2>
+    <div class="trust-badges">
+      <div class="trust-badge">
+        <span class="icon">🔒</span>
+        <span>256-bit SSL Encryption</span>
+      </div>
+      <div class="trust-badge">
+        <span class="icon">🛡️</span>
+        <span>No Custody of Funds</span>
+      </div>
+      <div class="trust-badge">
+        <span class="icon">📋</span>
+        <span>Clear Risk Disclaimers</span>
+      </div>
+      <div class="trust-badge">
+        <span class="icon">🔍</span>
+        <span>Transparent Methodology</span>
+      </div>
+      <div class="trust-badge">
+        <span class="icon">💳</span>
+        <span>Stripe Secure Payments</span>
+      </div>
+      <div class="trust-badge">
+        <span class="icon">📧</span>
+        <span>Real Support Team</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-section">
+    <h2>See the Difference Yourself</h2>
+    <p>Try ELUXRAJ free and experience what transparent, explainable AI looks like.</p>
+    <a href="/register.html" class="cta-btn">Start Free Trial →</a>
+  </section>
+
+  <footer class="footer">
+    <p>© 2025 ELUXRAJ™. All rights reserved. | <a href="/terms.html">Terms</a> | <a href="/privacy.html">Privacy</a> | <a href="/disclaimer.html">Disclaimer</a></p>
+  </footer>
+</body>
+</html>

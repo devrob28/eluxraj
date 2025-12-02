@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Insights & Analysis | ELUXRAJ™</title>
+  <meta name="description" content="Market insights, trading education, and investment analysis from the ELUXRAJ team.">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0a0f;
+      color: #fff;
+      line-height: 1.7;
+    }
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      border-bottom: 1px solid rgba(99,102,241,0.2);
+    }
+    .logo {
+      font-size: 28px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-decoration: none;
+    }
+    .nav-links a {
+      color: #9ca3af;
+      text-decoration: none;
+      margin-left: 32px;
+    }
+    
+    .hero {
+      text-align: center;
+      padding: 80px 20px 60px;
+    }
+    .hero h1 {
+      font-size: 48px;
+      margin-bottom: 16px;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      color: #9ca3af;
+      font-size: 18px;
+    }
+    
+    .content {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+    }
+    .article-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(99,102,241,0.2);
+      border-radius: 16px;
+      overflow: hidden;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .article-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(99,102,241,0.5);
+    }
+    .article-image {
+      height: 180px;
+      background: linear-gradient(135deg, rgba(99,102,241,0.2), rgba(139,92,246,0.2));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 60px;
+    }
+    .article-content {
+      padding: 24px;
+    }
+    .article-category {
+      display: inline-block;
+      background: rgba(99,102,241,0.15);
+      color: #8b5cf6;
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 12px;
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+    .article-card h3 {
+      font-size: 20px;
+      margin-bottom: 12px;
+      line-height: 1.4;
+    }
+    .article-card p {
+      color: #9ca3af;
+      font-size: 14px;
+      margin-bottom: 16px;
+    }
+    .article-meta {
+      display: flex;
+      justify-content: space-between;
+      color: #6b7280;
+      font-size: 13px;
+    }
+    
+    .newsletter {
+      background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.1));
+      border-radius: 20px;
+      padding: 60px;
+      text-align: center;
+      margin: 60px 0;
+    }
+    .newsletter h2 {
+      font-size: 32px;
+      margin-bottom: 16px;
+    }
+    .newsletter p {
+      color: #9ca3af;
+      margin-bottom: 24px;
+    }
+    .newsletter-form {
+      display: flex;
+      max-width: 500px;
+      margin: 0 auto;
+      gap: 12px;
+    }
+    .newsletter-form input {
+      flex: 1;
+      padding: 14px 20px;
+      border: 1px solid rgba(99,102,241,0.3);
+      border-radius: 10px;
+      background: rgba(0,0,0,0.3);
+      color: #fff;
+      font-size: 16px;
+    }
+    .newsletter-form button {
+      padding: 14px 28px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      border: none;
+      border-radius: 10px;
+      color: #fff;
+      font-weight: 600;
+      cursor: pointer;
+    }
+    
+    .footer {
+      text-align: center;
+      padding: 40px 20px;
+      border-top: 1px solid rgba(99,102,241,0.2);
+      color: #6b7280;
+      font-size: 14px;
+    }
+    .footer a { color: #6366f1; text-decoration: none; }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="/" class="logo">ELUXRAJ™</a>
+    <div class="nav-links">
+      <a href="/about.html">About</a>
+      <a href="/how-it-works.html">How It Works</a>
+      <a href="/pricing.html">Pricing</a>
+      <a href="/dashboard.html">Dashboard</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <h1>Market <span>Insights</span></h1>
+    <p>Education, analysis, and thought leadership from the ELUXRAJ team</p>
+  </section>
+
+  <div class="content">
+    <div class="articles-grid">
+      <article class="article-card">
+        <div class="article-image">📊</div>
+        <div class="article-content">
+          <span class="article-category">Education</span>
+          <h3>Understanding Multi-Timeframe Analysis</h3>
+          <p>Why analyzing multiple timeframes simultaneously leads to higher-confidence trading decisions.</p>
+          <div class="article-meta">
+            <span>5 min read</span>
+            <span>Nov 28, 2025</span>
+          </div>
+        </div>
+      </article>
+      
+      <article class="article-card">
+        <div class="article-image">🧠</div>
+        <div class="article-content">
+          <span class="article-category">AI & Technology</span>
+          <h3>Why Explainable AI Matters in Trading</h3>
+          <p>Black-box algorithms are risky. Here's why transparency in AI decisions is crucial for investors.</p>
+          <div class="article-meta">
+            <span>7 min read</span>
+            <span>Nov 25, 2025</span>
+          </div>
+        </div>
+      </article>
+      
+      <article class="article-card">
+        <div class="article-image">⚖️</div>
+        <div class="article-content">
+          <span class="article-category">Risk Management</span>
+          <h3>Position Sizing: The Most Overlooked Skill</h3>
+          <p>Most traders focus on entry signals. The pros know that position sizing determines long-term success.</p>
+          <div class="article-meta">
+            <span>6 min read</span>
+            <span>Nov 22, 2025</span>
+          </div>
+        </div>
+      </article>
+      
+      <article class="article-card">
+        <div class="article-image">📈</div>
+        <div class="article-content">
+          <span class="article-category">Technical Analysis</span>
+          <h3>RSI: Beyond Overbought and Oversold</h3>
+          <p>The Relative Strength Index is more nuanced than simple threshold signals. Advanced applications explained.</p>
+          <div class="article-meta">
+            <span>8 min read</span>
+            <span>Nov 18, 2025</span>
+          </div>
+        </div>
+      </article>
+      
+      <article class="article-card">
+        <div class="article-image">🎯</div>
+        <div class="article-content">
+          <span class="article-category">Strategy</span>
+          <h3>Building a Trading Edge in 2025</h3>
+          <p>Markets are more competitive than ever. How retail traders can still find an edge with the right tools.</p>
+          <div class="article-meta">
+            <span>10 min read</span>
+            <span>Nov 15, 2025</span>
+          </div>
+        </div>
+      </article>
+      
+      <article class="article-card">
+        <div class="article-image">⚠️</div>
+        <div class="article-content">
+          <span class="article-category">Risk Awareness</span>
+          <h3>The Truth About AI Trading Predictions</h3>
+          <p>What AI can and cannot do. Setting realistic expectations and understanding limitations.</p>
+          <div class="article-meta">
+            <span>6 min read</span>
+            <span>Nov 12, 2025</span>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div class="newsletter">
+      <h2>Stay Informed</h2>
+      <p>Get weekly market insights and platform updates delivered to your inbox.</p>
+      <div class="newsletter-form">
+        <input type="email" placeholder="Enter your email">
+        <button>Subscribe</button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="footer">
+    <p>© 2025 ELUXRAJ™. All rights reserved. | <a href="/terms.html">Terms</a> | <a href="/privacy.html">Privacy</a> | <a href="/disclaimer.html">Disclaimer</a></p>
+  </footer>
+</body>
+</html>
