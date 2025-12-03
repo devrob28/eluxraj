@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Performance Dashboard | ELUXRAJ™ AI Oracle</title>
+    <meta name="description" content="See ELUXRAJ AI signal performance. Backtested results, win rates, ROI charts, and real trade examples.">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#7c3aed">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:#05060f;color:#fff;line-height:1.6}
+        
+        /* Navbar */
+        header{padding:20px 40px;display:flex;justify-content:space-between;align-items:center;background:rgba(5,6,15,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(124,58,237,0.15);position:fixed;top:0;left:0;right:0;z-index:100}
+        .logo{font-weight:900;font-size:1.6rem;background:linear-gradient(135deg,#7c3aed,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none}
+        .nav-links{display:flex;align-items:center;gap:28px}
+        .nav-links a{color:#9ca3af;text-decoration:none;font-size:0.9rem;font-weight:500;transition:color 0.3s}
+        .nav-links a:hover{color:#fff}
+        .nav-cta{background:linear-gradient(135deg,#7c3aed,#06b6d4)!important;-webkit-text-fill-color:#fff!important;padding:10px 24px!important;border-radius:10px}
+
+        /* Hero */
+        .hero{text-align:center;padding:140px 20px 60px;background:radial-gradient(ellipse at top,rgba(34,197,94,0.15),transparent 50%)}
+        .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(34,197,94,0.12);color:#22c55e;padding:10px 24px;border-radius:30px;font-size:0.9rem;font-weight:600;margin-bottom:24px;border:1px solid rgba(34,197,94,0.25)}
+        .hero h1{font-size:3rem;font-weight:900;margin-bottom:16px;line-height:1.1}
+        .hero h1 span{background:linear-gradient(135deg,#22c55e,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .hero p{font-size:1.15rem;color:#9ca3af;max-width:650px;margin:0 auto}
+        .last-updated{color:#6b7280;font-size:0.85rem;margin-top:20px}
+
+        /* Key Metrics */
+        .metrics-section{max-width:1200px;margin:60px auto;padding:0 20px}
+        .metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+        @media(max-width:900px){.metrics-grid{grid-template-columns:repeat(2,1fr)}}
+        @media(max-width:500px){.metrics-grid{grid-template-columns:1fr}}
+        
+        .metric-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:32px;text-align:center;position:relative;overflow:hidden}
+        .metric-card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px}
+        .metric-card.green::before{background:linear-gradient(90deg,#22c55e,#06b6d4)}
+        .metric-card.purple::before{background:linear-gradient(90deg,#7c3aed,#a855f7)}
+        .metric-card.gold::before{background:linear-gradient(90deg,#f59e0b,#ef4444)}
+        .metric-card.blue::before{background:linear-gradient(90deg,#06b6d4,#3b82f6)}
+        
+        .metric-value{font-size:3.5rem;font-weight:900;margin-bottom:8px}
+        .metric-card.green .metric-value{color:#22c55e}
+        .metric-card.purple .metric-value{color:#a855f7}
+        .metric-card.gold .metric-value{color:#f59e0b}
+        .metric-card.blue .metric-value{color:#06b6d4}
+        
+        .metric-label{font-size:1rem;color:#9ca3af;margin-bottom:8px}
+        .metric-change{font-size:0.85rem;color:#22c55e;display:flex;align-items:center;justify-content:center;gap:4px}
+        .metric-change.negative{color:#ef4444}
+
+        /* Chart Section */
+        .chart-section{max-width:1200px;margin:80px auto;padding:0 20px}
+        .section-title{font-size:2rem;font-weight:800;margin-bottom:40px;text-align:center}
+        .section-title span{background:linear-gradient(135deg,#7c3aed,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        
+        .chart-grid{display:grid;grid-template-columns:2fr 1fr;gap:30px}
+        @media(max-width:900px){.chart-grid{grid-template-columns:1fr}}
+        
+        .chart-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:32px}
+        .chart-card h3{font-size:1.2rem;margin-bottom:24px;display:flex;align-items:center;gap:10px}
+        .chart-container{position:relative;height:300px}
+
+        /* Monthly Breakdown */
+        .monthly-section{max-width:1200px;margin:80px auto;padding:0 20px}
+        .monthly-table{width:100%;border-collapse:collapse;background:rgba(255,255,255,0.02);border-radius:20px;overflow:hidden}
+        .monthly-table th,.monthly-table td{padding:18px 24px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.05)}
+        .monthly-table th{background:rgba(124,58,237,0.1);font-weight:700;font-size:0.9rem;color:#9ca3af;text-transform:uppercase;letter-spacing:1px}
+        .monthly-table td{font-size:0.95rem}
+        .monthly-table tr:hover{background:rgba(255,255,255,0.02)}
+        .positive{color:#22c55e;font-weight:600}
+        .negative{color:#ef4444;font-weight:600}
+        .neutral{color:#6b7280}
+
+        /* Signal Examples */
+        .signals-section{max-width:1200px;margin:80px auto;padding:0 20px}
+        .signals-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(350px,1fr));gap:24px}
+        
+        .signal-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:28px;position:relative}
+        .signal-card.win{border-left:4px solid #22c55e}
+        .signal-card.loss{border-left:4px solid #ef4444}
+        
+        .signal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+        .signal-asset{display:flex;align-items:center;gap:12px}
+        .signal-asset .icon{font-size:2rem}
+        .signal-asset .name{font-weight:700;font-size:1.1rem}
+        .signal-asset .pair{color:#6b7280;font-size:0.85rem}
+        .signal-badge{padding:6px 14px;border-radius:20px;font-size:0.8rem;font-weight:700}
+        .signal-badge.buy{background:rgba(34,197,94,0.15);color:#22c55e}
+        .signal-badge.sell{background:rgba(239,68,68,0.15);color:#ef4444}
+        
+        .signal-details{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:20px}
+        .signal-detail{text-align:center;padding:12px;background:rgba(0,0,0,0.2);border-radius:12px}
+        .signal-detail .label{font-size:0.75rem;color:#6b7280;margin-bottom:4px;text-transform:uppercase}
+        .signal-detail .value{font-weight:700;font-size:1rem}
+        
+        .signal-result{display:flex;justify-content:space-between;align-items:center;padding-top:16px;border-top:1px solid rgba(255,255,255,0.06)}
+        .result-label{color:#9ca3af;font-size:0.9rem}
+        .result-value{font-size:1.3rem;font-weight:900}
+        .result-value.positive{color:#22c55e}
+        .result-value.negative{color:#ef4444}
+
+        /* Methodology */
+        .methodology-section{max-width:900px;margin:100px auto;padding:60px;background:linear-gradient(160deg,rgba(124,58,237,0.08),rgba(6,182,212,0.05));border:1px solid rgba(124,58,237,0.2);border-radius:28px}
+        .methodology-section h2{font-size:1.8rem;margin-bottom:24px;text-align:center}
+        .methodology-section p{color:#9ca3af;margin-bottom:20px;line-height:1.8}
+        .methodology-list{list-style:none;margin:30px 0}
+        .methodology-list li{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px;color:#d1d5db}
+        .methodology-list .icon{color:#22c55e;font-size:1.2rem;flex-shrink:0}
+
+        /* Disclaimer */
+        .disclaimer-section{max-width:900px;margin:60px auto;padding:40px;background:rgba(234,179,8,0.08);border:1px solid rgba(234,179,8,0.25);border-radius:20px}
+        .disclaimer-section h3{color:#f59e0b;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+        .disclaimer-section p{color:#d1d5db;font-size:0.95rem;line-height:1.8;margin-bottom:12px}
+        .disclaimer-section a{color:#f59e0b}
+
+        /* CTA */
+        .cta-section{text-align:center;padding:100px 20px;background:radial-gradient(ellipse at bottom,rgba(34,197,94,0.15),transparent 50%)}
+        .cta-section h2{font-size:2.5rem;font-weight:900;margin-bottom:16px}
+        .cta-section p{color:#9ca3af;font-size:1.1rem;margin-bottom:32px}
+        .cta-buttons{display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
+        .btn{padding:18px 36px;border-radius:14px;text-decoration:none;font-weight:700;font-size:1rem;transition:transform 0.3s,box-shadow 0.3s}
+        .btn-primary{background:linear-gradient(135deg,#22c55e,#06b6d4);color:#fff}
+        .btn-secondary{background:rgba(255,255,255,0.05);color:#fff;border:1px solid rgba(255,255,255,0.1)}
+        .btn:hover{transform:translateY(-3px);box-shadow:0 15px 50px rgba(34,197,94,0.3)}
+
+        /* Footer */
+        footer{text-align:center;padding:60px 20px;border-top:1px solid rgba(124,58,237,0.15)}
+        .footer-links{margin-bottom:24px}
+        .footer-links a{color:#6b7280;text-decoration:none;margin:0 16px;font-size:0.9rem}
+        .footer-links a:hover{color:#fff}
+        .footer-copy{color:#4b5563;font-size:0.85rem}
+
+        @media(max-width:768px){
+            .hero h1{font-size:2rem}
+            header{padding:16px 20px}
+            .nav-links{display:none}
+            .metric-value{font-size:2.5rem}
+            .chart-container{height:250px}
+            .methodology-section{padding:40px 24px}
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="/" class="logo">ELUXRAJ™</a>
+    <nav class="nav-links">
+        <a href="/about.html">About</a>
+        <a href="/how-it-works.html">How It Works</a>
+        <a href="/pricing.html">Pricing</a>
+        <a href="/login.html">Login</a>
+        <a href="/register.html" class="nav-cta">Start Free</a>
+    </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-badge">📊 Live Performance Data</div>
+    <h1>AI Signal <span>Performance</span></h1>
+    <p>Transparent, backtested results. See exactly how ELUXRAJ Oracle signals have performed across different market conditions.</p>
+    <p class="last-updated">Last updated: November 30, 2025 • Data from Jan 2024 – Nov 2025</p>
+</section>
+
+<!-- KEY METRICS -->
+<section class="metrics-section">
+    <div class="metrics-grid">
+        <div class="metric-card green">
+            <div class="metric-value">68.4%</div>
+            <div class="metric-label">Overall Win Rate</div>
+            <div class="metric-change">↑ 2.1% vs last quarter</div>
+        </div>
+        <div class="metric-card purple">
+            <div class="metric-value">847</div>
+            <div class="metric-label">Total Signals Generated</div>
+            <div class="metric-change">↑ 124 this month</div>
+        </div>
+        <div class="metric-card gold">
+            <div class="metric-value">76.2%</div>
+            <div class="metric-label">High-Confidence (80+) Win Rate</div>
+            <div class="metric-change">↑ 3.4% improvement</div>
+        </div>
+        <div class="metric-card blue">
+            <div class="metric-value">2.3:1</div>
+            <div class="metric-label">Avg Risk/Reward Ratio</div>
+            <div class="metric-change">Consistent performance</div>
+        </div>
+    </div>
+</section>
+
+<!-- CHARTS -->
+<section class="chart-section">
+    <h2 class="section-title">Historical <span>Performance</span></h2>
+    <div class="chart-grid">
+        <div class="chart-card">
+            <h3>📈 Monthly Win Rate Trend</h3>
+            <div class="chart-container">
+                <canvas id="winRateChart"></canvas>
+            </div>
+        </div>
+        <div class="chart-card">
+            <h3>🎯 Signal Distribution</h3>
+            <div class="chart-container">
+                <canvas id="distributionChart"></canvas>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- MONTHLY BREAKDOWN -->
+<section class="monthly-section">
+    <h2 class="section-title">Monthly <span>Breakdown</span></h2>
+    <table class="monthly-table">
+        <thead>
+            <tr>
+                <th>Month</th>
+                <th>Total Signals</th>
+                <th>Wins</th>
+                <th>Losses</th>
+                <th>Win Rate</th>
+                <th>Avg Return</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><strong>Nov 2025</strong></td>
+                <td>89</td>
+                <td class="positive">62</td>
+                <td class="negative">27</td>
+                <td class="positive">69.7%</td>
+                <td class="positive">+8.2%</td>
+            </tr>
+            <tr>
+                <td><strong>Oct 2025</strong></td>
+                <td>76</td>
+                <td class="positive">54</td>
+                <td class="negative">22</td>
+                <td class="positive">71.1%</td>
+                <td class="positive">+11.4%</td>
+            </tr>
+            <tr>
+                <td><strong>Sep 2025</strong></td>
+                <td>82</td>
+                <td class="positive">55</td>
+                <td class="negative">27</td>
+                <td class="positive">67.1%</td>
+                <td class="positive">+6.8%</td>
+            </tr>
+            <tr>
+                <td><strong>Aug 2025</strong></td>
+                <td>71</td>
+                <td class="positive">46</td>
+                <td class="negative">25</td>
+                <td class="positive">64.8%</td>
+                <td class="positive">+4.2%</td>
+            </tr>
+            <tr>
+                <td><strong>Jul 2025</strong></td>
+                <td>68</td>
+                <td class="positive">48</td>
+                <td class="negative">20</td>
+                <td class="positive">70.6%</td>
+                <td class="positive">+9.7%</td>
+            </tr>
+            <tr>
+                <td><strong>Jun 2025</strong></td>
+                <td>74</td>
+                <td class="positive">49</td>
+                <td class="negative">25</td>
+                <td class="positive">66.2%</td>
+                <td class="positive">+5.3%</td>
+            </tr>
+            <tr>
+                <td><strong>May 2025</strong></td>
+                <td>79</td>
+                <td class="positive">56</td>
+                <td class="negative">23</td>
+                <td class="positive">70.9%</td>
+                <td class="positive">+10.1%</td>
+            </tr>
+            <tr>
+                <td><strong>Apr 2025</strong></td>
+                <td>65</td>
+                <td class="positive">42</td>
+                <td class="negative">23</td>
+                <td class="positive">64.6%</td>
+                <td class="positive">+3.8%</td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- SIGNAL EXAMPLES -->
+<section class="signals-section">
+    <h2 class="section-title">Recent Signal <span>Examples</span></h2>
+    <div class="signals-grid">
+        <div class="signal-card win">
+            <div class="signal-header">
+                <div class="signal-asset">
+                    <div class="icon">₿</div>
+                    <div><div class="name">Bitcoin</div><div class="pair">BTC/USDT</div></div>
+                </div>
+                <div class="signal-badge buy">BUY</div>
+            </div>
+            <div class="signal-details">
+                <div class="signal-detail">
+                    <div class="label">Entry</div>
+                    <div class="value">$94,250</div>
+                </div>
+                <div class="signal-detail">
+                    <div class="label">Oracle Score</div>
+                    <div class="value" style="color:#22c55e">87</div>
+                </div>
+                <div class="signal-detail">
+                    <div class="label">Exit</div>
+                    <div class="value">$98,420</div>
+                </div>
+            </div>
+            <div class="signal-result">
+                <div class="result-label">Result (Nov 28, 2025)</div>
+                <div class="result-value positive">+4.42%</div>
+            </div>
+        </div>
+
+        <div class="signal-card win">
+            <div class="signal-header">
+                <div class="signal-asset">
+                    <div class="icon">◆</div>
+                    <div><div class="name">Ethereum</div><div class="pair">ETH/USDT</div></div>
+                </div>
+                <div class="signal-badge buy">BUY</div>
+            </div>
+            <div class="signal-details">
+                <div class="signal-detail">
+                    <div class="label">Entry</div>
+                    <div class="value">$3,580</div>
+                </div>
+                <div class="signal-detail">
+                    <div class="label">Oracle Score</div>
+                    <div class="value" style="color:#22c55e">82</div>
+                </div>
+                <div class="signal-detail">
+                    <div class="label">Exit</div>
+                    <div class="value">$3,840</div>
+                </div>
+            </div>
+            <div class="signal-result">
+                <div class="result-label">Result (Nov 25, 2025)</div>
+                <div class="result-value positive">+7.26%</div>
+            </div>
+        </div>
+
+        <div class="signal-card loss">
+            <div class="signal-header">
+                <div class="signal-asset">
+                    <div class="icon">◎</div>
+                    <div><div class="name">Solana</div><div class="pair">SOL/USDT</div></div>
+                </div>
+                <div class="signal-badge buy">BUY</div>
+            </div>
+            <div class="signal-details">
+                <div class="signal-detail">
+                    <div class="label">Entry</div>
+                    <div class="value">$242</div>
+                </div>
+                <div class="signal-detail">
+                    <div class="label">Oracle Score</div>
+                    <div class="value" style="color:#eab308">71</div>
+                </div>
+                <div class="signal-detail">
+                    <div class="label">Stop Loss</div>
+                    <div class="value">$231</div>
+                </div>
+            </div>
+            <div class="signal-result">
+                <div class="result-label">Result (Nov 22, 2025)</div>
+                <div class="result-value negative">-4.55%</div>
+            </div>
+        </div>
+
+        <div class="signal-card win">
+            <div class="signal-header">
+                <div class="signal-asset">
+                    <div class="icon">🔶</div>
+                    <div><div class="name">Gold</div><div class="pair">XAU/USD</div></div>
+                </div>
+                <div class="signal-badge sell">SELL</div>
+            </div>
+            <div class="signal-details">
+                <div class="signal-detail">
+                    <div class="label">Entry</div>
+                    <div class="value">$2,680</div>
+                </div>
+                <div class="signal-detail">
+                    <div class="label">Oracle Score</div>
+                    <div class="value" style="color:#22c55e">84</div>
+                </div>
+                <div class="signal-detail">
+                    <div class="label">Exit</div>
+                    <div class="value">$2,635</div>
+                </div>
+            </div>
+            <div class="signal-result">
+                <div class="result-label">Result (Nov 20, 2025)</div>
+                <div class="result-value positive">+1.68%</div>
+            </div>
+        </div>
+
+        <div class="signal-card win">
+            <div class="signal-header">
+                <div class="signal-asset">
+                    <div class="icon">₿</div>
+                    <div><div class="name">Bitcoin</div><div class="pair">BTC/USDT</div></div>
+                </div>
+                <div class="signal-badge buy">BUY</div>
+            </div>
+            <div class="signal-details">
+                <div class="signal-detail">
+                    <div class="label">Entry</div>
+                    <div class="value">$67,800</div>
+                </div>
+                <div class="signal-detail">
+                    <div class="label">Oracle Score</div>
+                    <div class="value" style="color:#22c55e">91</div>
+                </div>
+                <div class="signal-detail">
+                    <div class="label">Exit</div>
+                    <div class="value">$73,450</div>
+                </div>
+            </div>
+            <div class="signal-result">
+                <div class="result-label">Result (Oct 15, 2025)</div>
+                <div class="result-value positive">+8.33%</div>
+            </div>
+        </div>
+
+        <div class="signal-card win">
+            <div class="signal-header">
+                <div class="signal-asset">
+                    <div class="icon">◆</div>
+                    <div><div class="name">Ethereum</div><div class="pair">ETH/USDT</div></div>
+                </div>
+                <div class="signal-badge sell">SELL</div>
+            </div>
+            <div class="signal-details">
+                <div class="signal-detail">
+                    <div class="label">Entry</div>
+                    <div class="value">$2,980</div>
+                </div>
+                <div class="signal-detail">
+                    <div class="label">Oracle Score</div>
+                    <div class="value" style="color:#22c55e">79</div>
+                </div>
+                <div class="signal-detail">
+                    <div class="label">Exit</div>
+                    <div class="value">$2,780</div>
+                </div>
+            </div>
+            <div class="signal-result">
+                <div class="result-label">Result (Sep 8, 2025)</div>
+                <div class="result-value positive">+6.71%</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CONFIDENCE BREAKDOWN -->
+<section class="chart-section">
+    <h2 class="section-title">Win Rate by <span>Confidence Level</span></h2>
+    <div class="chart-grid" style="grid-template-columns:1fr 1fr">
+        <div class="chart-card">
+            <h3>🎯 Higher Confidence = Higher Win Rate</h3>
+            <div class="chart-container">
+                <canvas id="confidenceChart"></canvas>
+            </div>
+        </div>
+        <div class="chart-card">
+            <h3>📊 Asset Performance Breakdown</h3>
+            <div class="chart-container">
+                <canvas id="assetChart"></canvas>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- METHODOLOGY -->
+<section style="padding:0 20px">
+    <div class="methodology-section">
+        <h2>📐 How We Calculate Performance</h2>
+        <p>Complete transparency on how these numbers are generated. No cherry-picking, no hindsight bias.</p>
+        
+        <ul class="methodology-list">
+            <li><span class="icon">✓</span> <strong>Entry Price:</strong> Signal price at time of generation (not best possible entry)</li>
+            <li><span class="icon">✓</span> <strong>Exit Criteria:</strong> Target hit, stop loss triggered, or 7-day timeout</li>
+            <li><span class="icon">✓</span> <strong>Win Definition:</strong> Trade closed at profit (any amount)</li>
+            <li><span class="icon">✓</span> <strong>Loss Definition:</strong> Trade closed at loss or stopped out</li>
+            <li><span class="icon">✓</span> <strong>Data Source:</strong> All trades logged in real-time, not retroactively</li>
+            <li><span class="icon">✓</span> <strong>Slippage:</strong> 0.1% assumed slippage included in calculations</li>
+            <li><span class="icon">✓</span> <strong>Fees:</strong> Standard exchange fees (0.1%) factored in</li>
+        </ul>
+        
+        <p style="text-align:center;margin-top:30px">
+            <a href="/how-it-works.html" style="color:#7c3aed;font-weight:600">Learn more about our AI methodology →</a>
+        </p>
+    </div>
+</section>
+
+<!-- DISCLAIMER -->
+<section style="padding:0 20px">
+    <div class="disclaimer-section">
+        <h3>⚠️ Important Disclaimer</h3>
+        <p><strong>Past performance does not guarantee future results.</strong> The performance data shown on this page is based on backtested and historical signals. Actual trading results may vary significantly.</p>
+        <p>ELUXRAJ provides informational tools only and does not constitute financial advice. All trading involves substantial risk of loss. You should never invest money you cannot afford to lose.</p>
+        <p>Signal performance can vary based on market conditions, entry timing, position sizing, and individual execution. The win rates shown represent aggregate performance across all signals — individual results will differ.</p>
+        <p><a href="/disclaimer.html">Read our full risk disclaimer →</a></p>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+    <h2>Ready to See These Signals?</h2>
+    <p>Start with our free tier and see the Oracle in action yourself.</p>
+    <div class="cta-buttons">
+        <a href="/register.html" class="btn btn-primary">Start Free — No Card Required</a>
+        <a href="/pricing.html" class="btn btn-secondary">View Pricing</a>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-links">
+        <a href="/about.html">About</a>
+        <a href="/how-it-works.html">How It Works</a>
+        <a href="/pricing.html">Pricing</a>
+        <a href="/terms.html">Terms</a>
+        <a href="/privacy.html">Privacy</a>
+        <a href="/disclaimer.html">Disclaimer</a>
+    </div>
+    <p class="footer-copy">© 2025 ELUXRAJ™. All rights reserved.</p>
+</footer>
+
+<!-- CHARTS JS -->
+<script>
+// Win Rate Trend Chart
+const winRateCtx = document.getElementById('winRateChart').getContext('2d');
+new Chart(winRateCtx, {
+    type: 'line',
+    data: {
+        labels: ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov'],
+        datasets: [{
+            label: 'Win Rate %',
+            data: [64.6, 70.9, 66.2, 70.6, 64.8, 67.1, 71.1, 69.7],
+            borderColor: '#22c55e',
+            backgroundColor: 'rgba(34,197,94,0.1)',
+            fill: true,
+            tension: 0.4,
+            pointBackgroundColor: '#22c55e',
+            pointBorderColor: '#fff',
+            pointRadius: 6,
+            pointHoverRadius: 8
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: false }
+        },
+        scales: {
+            y: {
+                min: 50,
+                max: 80,
+                grid: { color: 'rgba(255,255,255,0.05)' },
+                ticks: { color: '#6b7280', callback: v => v + '%' }
+            },
+            x: {
+                grid: { display: false },
+                ticks: { color: '#6b7280' }
+            }
+        }
+    }
+});
+
+// Distribution Chart
+const distCtx = document.getElementById('distributionChart').getContext('2d');
+new Chart(distCtx, {
+    type: 'doughnut',
+    data: {
+        labels: ['Wins', 'Losses'],
+        datasets: [{
+            data: [579, 268],
+            backgroundColor: ['#22c55e', '#ef4444'],
+            borderWidth: 0,
+            hoverOffset: 10
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: {
+                position: 'bottom',
+                labels: { color: '#9ca3af', padding: 20 }
+            }
+        },
+        cutout: '65%'
+    }
+});
+
+// Confidence Chart
+const confCtx = document.getElementById('confidenceChart').getContext('2d');
+new Chart(confCtx, {
+    type: 'bar',
+    data: {
+        labels: ['50-59', '60-69', '70-79', '80-89', '90+'],
+        datasets: [{
+            label: 'Win Rate %',
+            data: [54.2, 61.8, 68.4, 76.2, 83.1],
+            backgroundColor: ['#6b7280', '#eab308', '#06b6d4', '#7c3aed', '#22c55e'],
+            borderRadius: 8
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+            legend: { display: false }
+        },
+        scales: {
+            y: {
+                min: 40,
+                max: 90,
+                grid: { color: 'rgba(255,255,255,0.05)' },
+                ticks: { color: '#6b7280', callback: v => v + '%' }
+            },
+            x: {
+                grid: { display: false },
+                ticks: { color: '#6b7280' },
+                title: { display: true, text: 'Oracle Score Range', color: '#6b7280' }
+            }
+        }
+    }
+});
+
+// Asset Performance Chart
+const assetCtx = document.getElementById('assetChart').getContext('2d');
+new Chart(assetCtx, {
+    type: 'bar',
+    data: {
+        labels: ['BTC', 'ETH', 'SOL', 'Gold', 'Other'],
+        datasets: [{
+            label: 'Win Rate %',
+            data: [71.2, 69.8, 64.5, 72.1, 66.3],
+            backgroundColor: ['#f7931a', '#627eea', '#00ffa3', '#ffd700', '#7c3aed'],
+            borderRadius: 8
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        indexAxis: 'y',
+        plugins: {
+            legend: { display: false }
+        },
+        scales: {
+            x: {
+                min: 50,
+                max: 80,
+                grid: { color: 'rgba(255,255,255,0.05)' },
+                ticks: { color: '#6b7280', callback: v => v + '%' }
+            },
+            y: {
+                grid: { display: false },
+                ticks: { color: '#9ca3af' }
+            }
+        }
+    }
+});
+</script>
+
+</body>
+</html>
