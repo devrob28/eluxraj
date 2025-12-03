@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ELUXRAJ™ | Institutional-Grade Investment Intelligence</title>
+  <meta name="description" content="AI-powered trading signals and investment analytics. Hedge fund-grade tools for individual investors.">
+  <link rel="manifest" href="/manifest.json">
+  <meta name="theme-color" content="#6366f1">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0a0f;
+      color: #fff;
+      overflow-x: hidden;
+    }
+    
+    /* Navbar */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 40px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      background: rgba(10,10,15,0.9);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(99,102,241,0.2);
+    }
+    .logo {
+      font-size: 28px;
+      font-weight: 900;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .nav-links a {
+      color: #9ca3af;
+      text-decoration: none;
+      margin-left: 32px;
+      transition: color 0.3s;
+    }
+    .nav-links a:hover { color: #fff; }
+    .nav-cta {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
+      -webkit-text-fill-color: #fff !important;
+      padding: 10px 24px;
+      border-radius: 8px;
+      font-weight: 600;
+    }
+    
+    /* Hero */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 120px 20px 80px;
+      background: radial-gradient(ellipse at top, rgba(99,102,241,0.15), transparent 60%);
+    }
+    .hero-content { max-width: 900px; }
+    .hero-badge {
+      display: inline-block;
+      background: rgba(99,102,241,0.15);
+      color: #8b5cf6;
+      padding: 8px 20px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 30px;
+      border: 1px solid rgba(99,102,241,0.3);
+    }
+    .hero h1 {
+      font-size: 64px;
+      font-weight: 900;
+      line-height: 1.1;
+      margin-bottom: 24px;
+    }
+    .hero h1 span {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6, #a855f7);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 20px;
+      color: #9ca3af;
+      margin-bottom: 40px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .hero-cta {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      color: #fff;
+      padding: 18px 40px;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 18px;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .hero-cta:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 60px rgba(99,102,241,0.4);
+    }
+    .hero-secondary {
+      display: inline-block;
+      color: #9ca3af;
+      margin-left: 20px;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    .hero-secondary:hover { color: #fff; }
+    
+    /* Social Proof */
+    .social-proof {
+      display: flex;
+      justify-content: center;
+      gap: 60px;
+      margin-top: 80px;
+      flex-wrap: wrap;
+    }
+    .proof-item {
+      text-align: center;
+    }
+    .proof-value {
+      font-size: 36px;
+      font-weight: 900;
+      color: #6366f1;
+    }
+    .proof-label {
+      color: #6b7280;
+      font-size: 14px;
+      margin-top: 4px;
+    }
+    
+    /* Features */
+    .features {
+      padding: 100px 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+    .section-title {
+      text-align: center;
+      font-size: 42px;
+      font-weight: 800;
+      margin-bottom: 60px;
+    }
+    .section-title span {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 30px;
+    }
+    .feature-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(99,102,241,0.2);
+      border-radius: 20px;
+      padding: 40px;
+      transition: transform 0.3s, border-color 0.3s;
+    }
+    .feature-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(99,102,241,0.5);
+    }
+    .feature-icon {
+      font-size: 48px;
+      margin-bottom: 20px;
+    }
+    .feature-card h3 {
+      font-size: 22px;
+      margin-bottom: 12px;
+    }
+    .feature-card p {
+      color: #9ca3af;
+      line-height: 1.6;
+    }
+    
+    /* Performance */
+    .performance {
+      padding: 100px 20px;
+      background: linear-gradient(135deg, rgba(99,102,241,0.05), rgba(139,92,246,0.05));
+    }
+    .performance-content {
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .performance-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 24px;
+      margin-top: 50px;
+    }
+    .perf-card {
+      background: rgba(0,0,0,0.3);
+      border: 1px solid rgba(99,102,241,0.2);
+      border-radius: 16px;
+      padding: 30px;
+      text-align: center;
+    }
+    .perf-value {
+      font-size: 42px;
+      font-weight: 900;
+      color: #22c55e;
+    }
+    .perf-value.neutral { color: #6366f1; }
+    .perf-label {
+      color: #9ca3af;
+      margin-top: 8px;
+      font-size: 14px;
+    }
+    .perf-disclaimer {
+      text-align: center;
+      color: #6b7280;
+      font-size: 12px;
+      margin-top: 30px;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    
+    /* Testimonials */
+    .testimonials {
+      padding: 100px 20px;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .testimonial-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
+    }
+    .testimonial-card {
+      background: rgba(255,255,255,0.02);
+      border: 1px solid rgba(99,102,241,0.2);
+      border-radius: 20px;
+      padding: 30px;
+    }
+    .testimonial-text {
+      font-size: 16px;
+      line-height: 1.7;
+      color: #d1d5db;
+      margin-bottom: 20px;
+      font-style: italic;
+    }
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .testimonial-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+    }
+    .testimonial-name {
+      font-weight: 600;
+    }
+    .testimonial-role {
+      color: #6b7280;
+      font-size: 13px;
+    }
+    
+    /* CTA Section */
+    .cta-section {
+      padding: 100px 20px;
+      text-align: center;
+      background: radial-gradient(ellipse at bottom, rgba(99,102,241,0.15), transparent 60%);
+    }
+    .cta-section h2 {
+      font-size: 42px;
+      margin-bottom: 20px;
+    }
+    .cta-section p {
+      color: #9ca3af;
+      font-size: 18px;
+      margin-bottom: 16px;
+    }
+    .cta-guarantee {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(34,197,94,0.1);
+      color: #22c55e;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 500;
+      margin-bottom: 30px;
+      border: 1px solid rgba(34,197,94,0.3);
+    }
+    
+    /* Footer */
+    .footer {
+      padding: 60px 20px;
+      border-top: 1px solid rgba(99,102,241,0.2);
+      text-align: center;
+    }
+    .footer-links {
+      margin-bottom: 20px;
+    }
+    .footer-links a {
+      color: #6b7280;
+      text-decoration: none;
+      margin: 0 16px;
+      font-size: 14px;
+    }
+    .footer-links a:hover { color: #fff; }
+    .footer-disclaimer {
+      color: #4b5563;
+      font-size: 11px;
+      max-width: 700px;
+      margin: 20px auto 0;
+      line-height: 1.6;
+    }
+    
+    @media (max-width: 768px) {
+      .hero h1 { font-size: 36px; }
+      .navbar { padding: 16px 20px; }
+      .nav-links a { margin-left: 16px; font-size: 14px; }
+      .social-proof { gap: 30px; }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <a href="/" class="logo">ELUXRAJ™</a>
+    <div class="nav-links">
+      <a href="/about.html">About</a>
+      <a href="/why-eluxraj.html">Why Us</a>
+      <a href="/how-it-works.html">How It Works</a>
+      <a href="/insights.html">Insights</a>
+      <a href="/pricing.html">Pricing</a>
+      <a href="/login.html">Login</a>
+      <a href="/register.html" class="nav-cta">Start Free</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">🚀 AI-Powered Investment Intelligence</div>
+      <h1>Hedge Fund Tools.<br><span>For Everyone.</span></h1>
+      <p>ELUXRAJ brings institutional-grade AI analytics to individual investors. Get trading signals, portfolio insights, and market intelligence previously reserved for the 1%.</p>
+      <div>
+        <a href="/register.html" class="hero-cta">Start Free Trial →</a>
+        <a href="/how-it-works.html" class="hero-secondary">See How It Works</a>
+      </div>
+      
+      <div class="social-proof">
+        <div class="proof-item">
+          <div class="proof-value">25+</div>
+          <div class="proof-label">AI Features</div>
+        </div>
+        <div class="proof-item">
+          <div class="proof-value">8</div>
+          <div class="proof-label">Timeframes</div>
+        </div>
+        <div class="proof-item">
+          <div class="proof-value">24/7</div>
+          <div class="proof-label">Monitoring</div>
+        </div>
+        <div class="proof-item">
+          <div class="proof-value">100%</div>
+          <div class="proof-label">Explainable</div>
+        </div>
+      </div>
+    <div class="trust-indicator-row" style="display: flex; justify-content: center; gap: 30px; margin-top: 30px; flex-wrap: wrap;">
+      <div style="display: flex; align-items: center; gap: 8px; color: #9ca3af; font-size: 14px;">
+        <span style="color: #22c55e;">✓</span> No credit card required
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px; color: #9ca3af; font-size: 14px;">
+        <span style="color: #22c55e;">✓</span> Cancel anytime
+      </div>
+      <div style="display: flex; align-items: center; gap: 8px; color: #9ca3af; font-size: 14px;">
+        <span style="color: #22c55e;">✓</span> Full risk disclosure
+      </div>
+    </div>
+    </div>
+  </section>
+
+  <section class="features">
+    <h2 class="section-title">Premium <span>Suite</span></h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon">🎩</div>
+        <h3>MAGICIAN™</h3>
+        <p>Multi-timeframe AI trading signals with full explainability. BUY/SELL/HOLD recommendations backed by 7+ technical indicators and pattern detection.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🦄</div>
+        <h3>UNICORN™</h3>
+        <p>Comprehensive intelligence suite combining macro analysis, sentiment tracking, and on-chain metrics for a complete market picture.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💎</div>
+        <h3>AUREUS™</h3>
+        <p>Private deal flow and exclusive opportunities. Access investments typically reserved for accredited investors and institutions.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🏆</div>
+        <h3>CONVICTION™</h3>
+        <p>Track your predictions and compete on the leaderboard. Build your track record and see how you stack up against other investors.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="performance">
+    <div class="performance-content">
+      <h2 class="section-title">Simulated <span>Performance</span></h2>
+      <div class="performance-grid">
+        <div class="perf-card">
+          <div class="perf-value">+127%</div>
+          <div class="perf-label">Backtest Return (2024)</div>
+        </div>
+        <div class="perf-card">
+          <div class="perf-value">68%</div>
+          <div class="perf-label">Signal Accuracy</div>
+        </div>
+        <div class="perf-card">
+          <div class="perf-value neutral">2.4x</div>
+          <div class="perf-label">Sharpe Ratio</div>
+        </div>
+        <div class="perf-card">
+          <div class="perf-value">-18%</div>
+          <div class="perf-label">Max Drawdown</div>
+        </div>
+      </div>
+      <p class="perf-disclaimer">⚠️ <strong>Important:</strong> These are simulated/backtested results and do not represent actual trading. Past performance does not guarantee future results. Trading involves substantial risk. <a href="/disclaimer.html" style="color: #6366f1;">Read full disclaimer</a></p>
+    </div>
+  </section>
+
+  <section class="testimonials">
+    <h2 class="section-title">What <span>Investors</span> Say</h2>
+    <div class="testimonial-grid">
+      <div class="testimonial-card">
+        <p class="testimonial-text">"The MAGICIAN signals have completely changed how I approach trading. The explainability feature means I actually understand why each signal is generated."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">MK</div>
+          <div>
+            <div class="testimonial-name">Michael K.</div>
+            <div class="testimonial-role">Retail Investor, 3 years experience</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <p class="testimonial-text">"Finally, tools that don't require a Bloomberg terminal or a CS degree. ELUXRAJ makes institutional-grade analytics accessible."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">SL</div>
+          <div>
+            <div class="testimonial-name">Sarah L.</div>
+            <div class="testimonial-role">Part-time Trader</div>
+          </div>
+        </div>
+      </div>
+      <div class="testimonial-card">
+        <p class="testimonial-text">"The multi-timeframe analysis is exactly what I needed. Seeing how signals align across different timeframes gives me much more confidence."</p>
+        <div class="testimonial-author">
+          <div class="testimonial-avatar">JR</div>
+          <div>
+            <div class="testimonial-name">James R.</div>
+            <div class="testimonial-role">Crypto Enthusiast</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-section">
+    <h2>Ready to Invest Smarter?</h2>
+    <p>Join investors who are using AI to make better decisions.</p>
+    <div class="cta-guarantee">✓ No credit card required • Free tier available</div>
+    <br>
+    <a href="/register.html" class="hero-cta">Start Free Trial →</a>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-links">
+      <a href="/about.html">About</a>
+      <a href="/how-it-works.html">How It Works</a>
+      <a href="/pricing.html">Pricing</a>
+      <a href="/terms.html">Terms</a>
+      <a href="/privacy.html">Privacy</a>
+      <a href="/disclaimer.html">Disclaimer</a>
+    </div>
+    <p>© 2025 ELUXRAJ™. All rights reserved.</p>
+    <p class="footer-disclaimer">⚠️ Risk Disclosure: Trading involves substantial risk and is not suitable for all investors. Past performance is not indicative of future results. All signals and information are for educational purposes only and should not be construed as financial advice.</p>
+  </footer>
+</body>
+</html>
