@@ -1,281 +1,1589 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Pricing | ELUXRAJ</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #000;
-      color: #fff;
-      min-height: 100vh;
-      padding: 40px 20px;
-    }
-    .container { max-width: 1100px; margin: 0 auto; }
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 60px;
-    }
-    .logo {
-      font-size: 24px;
-      font-weight: 800;
-      background: linear-gradient(135deg, #6366f1, #8b5cf6);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .back-link {
-      color: #71717a;
-      text-decoration: none;
-      font-size: 14px;
-    }
-    .back-link:hover { color: #fff; }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing | ELUXRAJ™ AI Oracle</title>
+    <meta name="description" content="Choose your ELUXRAJ plan. Free, Pro ($107/mo), or Elite ($800/mo). AI-powered trading signals, whale alerts, and predictive intelligence.">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#6366f1">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     
-    h1 {
-      text-align: center;
-      font-size: 48px;
-      font-weight: 800;
-      margin-bottom: 16px;
-    }
-    .subtitle {
-      text-align: center;
-      color: #71717a;
-      font-size: 18px;
-      margin-bottom: 60px;
-    }
-    
-    .pricing-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-    }
-    .price-card {
-      background: #0a0a0f;
-      border: 1px solid #1e1e2e;
-      border-radius: 24px;
-      padding: 40px;
-      position: relative;
-      transition: transform 0.3s, border-color 0.3s;
-    }
-    .price-card:hover {
-      transform: translateY(-5px);
-    }
-    .price-card.featured {
-      border-color: #6366f1;
-      background: linear-gradient(180deg, rgba(99,102,241,0.1) 0%, #0a0a0f 50%);
-    }
-    .popular-badge {
-      position: absolute;
-      top: -14px;
-      left: 50%;
-      transform: translateX(-50%);
-      background: linear-gradient(135deg, #6366f1, #8b5cf6);
-      padding: 8px 20px;
-      border-radius: 50px;
-      font-size: 11px;
-      font-weight: 700;
-      letter-spacing: 1px;
-    }
-    .tier-name {
-      font-size: 14px;
-      color: #71717a;
-      text-transform: uppercase;
-      letter-spacing: 1px;
-      margin-bottom: 8px;
-    }
-    .price {
-      font-size: 56px;
-      font-weight: 900;
-      letter-spacing: -2px;
-      margin-bottom: 8px;
-    }
-    .price span {
-      font-size: 18px;
-      color: #71717a;
-      font-weight: 500;
-    }
-    .price-desc {
-      color: #71717a;
-      margin-bottom: 32px;
-    }
-    .features {
-      list-style: none;
-      margin-bottom: 32px;
-    }
-    .features li {
-      padding: 12px 0;
-      border-bottom: 1px solid #1e1e2e;
-      font-size: 14px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .features li::before {
-      content: '✓';
-      color: #10b981;
-      font-weight: 700;
-    }
-    .btn {
-      display: block;
-      width: 100%;
-      padding: 16px;
-      border-radius: 12px;
-      font-size: 15px;
-      font-weight: 600;
-      text-align: center;
-      cursor: pointer;
-      border: none;
-      transition: transform 0.3s, opacity 0.3s;
-    }
-    .btn:hover { transform: scale(1.02); }
-    .btn:disabled { opacity: 0.7; cursor: not-allowed; }
-    .btn-primary {
-      background: linear-gradient(135deg, #6366f1, #8b5cf6);
-      color: white;
-    }
-    .btn-secondary {
-      background: transparent;
-      border: 1px solid #1e1e2e;
-      color: white;
-    }
-    .btn-current {
-      background: #1e1e2e;
-      color: #71717a;
-      cursor: default;
-    }
-    
-    .guarantee {
-      text-align: center;
-      margin-top: 40px;
-      color: #71717a;
-      font-size: 14px;
-    }
-    
-    @media (max-width: 900px) {
-      .pricing-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
-      h1 { font-size: 32px; }
-    }
-  </style>
-</head>
-<body>
-  <div class="container">
-    <header>
-      <div class="logo">ELUXRAJ</div>
-      <a href="/dashboard.html" class="back-link">← Back to Dashboard</a>
-    </header>
-    
-    <h1>Choose Your Plan</h1>
-    <p class="subtitle">Unlock institutional-grade investment intelligence</p>
-    
-    <div class="pricing-grid">
-      <div class="price-card">
-        <div class="tier-name">Starter</div>
-        <div class="price">$0<span>/mo</span></div>
-        <p class="price-desc">Perfect for exploring</p>
-        <ul class="features">
-          <li>Portfolio Wizard (3/day)</li>
-          <li>Basic Market Data</li>
-          <li>ORACLE Lite</li>
-          <li>Community Access</li>
-        </ul>
-        <button class="btn btn-current" id="freeBtn">Current Plan</button>
-      </div>
-      
-      <div class="price-card featured">
-        <div class="popular-badge">MOST POPULAR</div>
-        <div class="tier-name">Pro</div>
-        <div class="price">$107<span>/mo</span></div>
-        <p class="price-desc">For serious investors</p>
-        <ul class="features">
-          <li>Everything in Starter</li>
-          <li>Unlimited AI Queries</li>
-          <li>ORACLE Full Suite</li>
-          <li>COUNCIL AI Advisors</li>
-          <li>PULSE Real-Time</li>
-          <li>SMS & Email Alerts</li>
-        </ul>
-        <button class="btn btn-primary" id="proBtn" onclick="subscribe('pro')">Upgrade to Pro</button>
-      </div>
-      
-      <div class="price-card">
-        <div class="tier-name">Elite</div>
-        <div class="price">$800<span>/mo</span></div>
-        <p class="price-desc">Institutional access</p>
-        <ul class="features">
-          <li>Everything in Pro</li>
-          <li>NEXUS Capital Flows</li>
-          <li>SOVEREIGN Deals</li>
-          <li>PHANTOM Execution</li>
-          <li>White-Glove Support</li>
-          <li>API Access</li>
-        </ul>
-        <button class="btn btn-secondary" id="eliteBtn" onclick="subscribe('elite')">Upgrade to Elite</button>
-      </div>
-    </div>
-    
-    <p class="guarantee">🔒 Cancel anytime. 7-day money-back guarantee.</p>
-  </div>
-  
-  <script>
-    const token = localStorage.getItem('eluxraj_token');
-    const user = JSON.parse(localStorage.getItem('eluxraj_user') || '{}');
-    
-    // Update buttons based on current tier
-    if (user.tier === 'pro') {
-      document.getElementById('freeBtn').textContent = 'Downgrade';
-      document.getElementById('freeBtn').className = 'btn btn-secondary';
-      document.getElementById('proBtn').textContent = 'Current Plan';
-      document.getElementById('proBtn').className = 'btn btn-current';
-      document.getElementById('proBtn').onclick = null;
-    } else if (user.tier === 'elite') {
-      document.getElementById('freeBtn').textContent = 'Downgrade';
-      document.getElementById('freeBtn').className = 'btn btn-secondary';
-      document.getElementById('proBtn').textContent = 'Downgrade';
-      document.getElementById('proBtn').className = 'btn btn-secondary';
-      document.getElementById('eliteBtn').textContent = 'Current Plan';
-      document.getElementById('eliteBtn').className = 'btn btn-current';
-      document.getElementById('eliteBtn').onclick = null;
-    }
-    
-    async function subscribe(tier) {
-      if (!token) {
-        window.location.href = '/login.html?redirect=pricing';
-        return;
-      }
-      
-      const btn = document.getElementById(tier + 'Btn');
-      btn.disabled = true;
-      btn.textContent = 'Loading...';
-      
-      try {
-        const res = await fetch('/api/stripe/checkout', {
-          method: 'POST',
-          headers: {
-            'Authorization': 'Bearer ' + token,
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ tier })
-        });
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
-        const data = await res.json();
-        
-        if (data.ok && data.url) {
-          window.location.href = data.url;
-        } else {
-          alert(data.error || 'Failed to start checkout');
-          btn.disabled = false;
-          btn.textContent = 'Upgrade to ' + tier.charAt(0).toUpperCase() + tier.slice(1);
+        body {
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #05060f;
+            color: #fff;
+            line-height: 1.6;
+            min-height: 100vh;
         }
-      } catch (e) {
-        alert('Connection error');
-        btn.disabled = false;
-        btn.textContent = 'Upgrade to ' + tier.charAt(0).toUpperCase() + tier.slice(1);
-      }
-    }
-  </script>
+
+        /* Navbar */
+        header {
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(5,6,15,0.95);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(124,58,237,0.2);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+        .logo {
+            font-weight: 900;
+            font-size: 1.5rem;
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+        .nav-links a {
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: #fff; }
+        .nav-cta {
+            background: linear-gradient(135deg, #7c3aed, #06b6d4) !important;
+            -webkit-text-fill-color: #fff !important;
+            padding: 10px 22px !important;
+            border-radius: 8px;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 140px 20px 60px;
+            background: radial-gradient(ellipse at top, rgba(124,58,237,0.15), transparent 60%);
+        }
+        .hero-badge {
+            display: inline-block;
+            background: rgba(6,182,212,0.15);
+            color: #06b6d4;
+            padding: 8px 20px;
+            border-radius: 30px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            border: 1px solid rgba(6,182,212,0.3);
+        }
+        .hero h1 {
+            font-size: 3rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            line-height: 1.15;
+        }
+        .hero h1 span {
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 1.15rem;
+            color: #9ca3af;
+            max-width: 650px;
+            margin: 0 auto 30px;
+        }
+
+        /* Pricing Grid */
+        .pricing-section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px 80px;
+        }
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+        @media (max-width: 900px) {
+            .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+        }
+
+        .plan {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(124,58,237,0.15);
+            border-radius: 20px;
+            padding: 36px;
+            position: relative;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .plan:hover {
+            transform: translateY(-5px);
+        }
+        .plan.featured {
+            border: 2px solid #7c3aed;
+            background: rgba(124,58,237,0.08);
+            box-shadow: 0 0 60px rgba(124,58,237,0.2);
+            transform: scale(1.02);
+        }
+        .plan.featured:hover {
+            transform: scale(1.02) translateY(-5px);
+        }
+        .plan.elite {
+            border: 2px solid #f59e0b;
+            background: linear-gradient(135deg, rgba(245,158,11,0.08), rgba(124,58,237,0.05));
+        }
+        .plan-badge {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            color: #fff;
+            padding: 6px 20px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .plan.elite .plan-badge {
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+        }
+
+        .plan-header {
+            text-align: center;
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.08);
+        }
+        .plan-icon {
+            font-size: 2.5rem;
+            margin-bottom: 12px;
+        }
+        .plan h3 {
+            font-size: 1.4rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+        .plan-desc {
+            color: #6b7280;
+            font-size: 0.85rem;
+        }
+        .plan-price {
+            margin-top: 16px;
+        }
+        .price {
+            font-size: 3rem;
+            font-weight: 900;
+        }
+        .price-period {
+            font-size: 1rem;
+            color: #6b7280;
+            font-weight: 400;
+        }
+
+        .plan-features {
+            margin-bottom: 28px;
+        }
+        .plan-features h4 {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #6b7280;
+            margin-bottom: 16px;
+        }
+        .feature-list {
+            list-style: none;
+        }
+        .feature-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 12px;
+            font-size: 0.9rem;
+        }
+        .feature-list .check {
+            color: #22c55e;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+        .feature-list .x {
+            color: #6b7280;
+            flex-shrink: 0;
+        }
+        .feature-list .limited {
+            color: #eab308;
+        }
+
+        .plan-cta {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .plan-cta.primary {
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            color: #fff;
+        }
+        .plan-cta.primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(124,58,237,0.4);
+        }
+        .plan-cta.secondary {
+            background: rgba(255,255,255,0.05);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .plan-cta.elite-btn {
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            color: #fff;
+        }
+        .plan-cta.elite-btn:hover {
+            box-shadow: 0 10px 40px rgba(245,158,11,0.4);
+        }
+
+        .plan-footer {
+            text-align: center;
+            margin-top: 16px;
+            font-size: 0.75rem;
+            color: #6b7280;
+        }
+
+        /* Comparison Table */
+        .comparison-section {
+            max-width: 1000px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+        .comparison-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 40px;
+        }
+        .comparison-title span {
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255,255,255,0.02);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .comparison-table th,
+        .comparison-table td {
+            padding: 18px 20px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .comparison-table th {
+            background: rgba(124,58,237,0.1);
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+        .comparison-table th:nth-child(3) {
+            background: rgba(124,58,237,0.2);
+        }
+        .comparison-table th:nth-child(4) {
+            background: rgba(245,158,11,0.15);
+        }
+        .comparison-table td {
+            font-size: 0.9rem;
+        }
+        .comparison-table td:first-child {
+            color: #d1d5db;
+        }
+        .comparison-table .yes { color: #22c55e; font-weight: 600; }
+        .comparison-table .no { color: #6b7280; }
+        .comparison-table .limited { color: #eab308; }
+
+        /* Value Stack */
+        .value-stack {
+            max-width: 800px;
+            margin: 80px auto;
+            padding: 0 20px;
+            text-align: center;
+        }
+        .value-stack h2 {
+            font-size: 2rem;
+            margin-bottom: 40px;
+        }
+        .value-stack h2 span {
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .value-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(245,158,11,0.2);
+            border-radius: 12px;
+            padding: 20px;
+        }
+        .value-item .icon {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+        .value-item .name {
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .value-item .worth {
+            color: #22c55e;
+            font-size: 0.9rem;
+        }
+        .value-total {
+            background: linear-gradient(135deg, rgba(245,158,11,0.1), rgba(239,68,68,0.1));
+            border: 1px solid rgba(245,158,11,0.3);
+            border-radius: 16px;
+            padding: 30px;
+        }
+        .value-total .label {
+            color: #9ca3af;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        .value-total .strike {
+            font-size: 1.5rem;
+            color: #6b7280;
+            text-decoration: line-through;
+        }
+        .value-total .actual {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #f59e0b;
+        }
+
+        /* FAQ */
+        .faq-section {
+            max-width: 800px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+        .faq-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 40px;
+        }
+        .faq-item {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 16px;
+        }
+        .faq-item h4 {
+            font-size: 1rem;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+        .faq-item p {
+            color: #9ca3af;
+            font-size: 0.9rem;
+        }
+
+        /* Final CTA */
+        .final-cta {
+            text-align: center;
+            padding: 100px 20px;
+            background: radial-gradient(ellipse at bottom, rgba(124,58,237,0.15), transparent 60%);
+        }
+        .final-cta h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 20px;
+        }
+        .final-cta p {
+            color: #9ca3af;
+            font-size: 1.1rem;
+            margin-bottom: 30px;
+        }
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 16px 32px;
+            border-radius: 12px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            color: #fff;
+        }
+        .btn-elite {
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            color: #fff;
+        }
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 40px rgba(124,58,237,0.4);
+        }
+
+        /* Risk Disclaimer */
+        .risk-disclaimer {
+            max-width: 800px;
+            margin: 0 auto 60px;
+            padding: 24px;
+            background: rgba(234,179,8,0.1);
+            border: 1px solid rgba(234,179,8,0.3);
+            border-radius: 12px;
+            text-align: center;
+        }
+        .risk-disclaimer p {
+            color: #eab308;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+        .risk-disclaimer a {
+            color: #eab308;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 60px 20px;
+            border-top: 1px solid rgba(124,58,237,0.2);
+        }
+        .footer-links {
+            margin-bottom: 20px;
+        }
+        .footer-links a {
+            color: #6b7280;
+            text-decoration: none;
+            margin: 0 14px;
+            font-size: 0.85rem;
+        }
+        .footer-links a:hover { color: #fff; }
+        .footer-copy {
+            color: #4b5563;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2rem; }
+            header { padding: 16px 20px; }
+            .nav-links { display: none; }
+            .comparison-table { font-size: 0.8rem; }
+            .comparison-table th, .comparison-table td { padding: 12px 10px; }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <a href="/" class="logo">ELUXRAJ™</a>
+    <nav class="nav-links">
+        <a href="/about.html">About</a>
+        <a href="/why-eluxraj.html">Why Us</a>
+        <a href="/how-it-works.html">How It Works</a>
+        <a href="/insights.html">Insights</a>
+        <a href="/login.html">Login</a>
+        <a href="/register.html" class="nav-cta">Start Free</a>
+    </nav>
+</header>
+
+<section class="hero">
+    <div class="hero-badge">💎 Choose Your Oracle Level</div>
+    <h1>Unlock <span>AI Investing Power</span><br>That Was Never Meant for Retail</h1>
+    <p>Real-time predictions. Whale tracking. Deep market intelligence. For investors ready to multiply their edge.</p>
+</section>
+
+<section class="pricing-section">
+    <div class="pricing-grid">
+        <!-- FREE -->
+        <div class="plan">
+            <div class="plan-header">
+                <div class="plan-icon">🔵</div>
+                <h3>FREE</h3>
+                <p class="plan-desc">Starter — Test the Oracle</p>
+                <div class="plan-price">
+                    <span class="price">$0</span>
+                    <span class="price-period">/forever</span>
+                </div>
+            </div>
+            
+            <div class="plan-features">
+                <h4>What You Get</h4>
+                <ul class="feature-list">
+                    <li><span class="limited">⏳</span> Delayed signals (2-6 hours)</li>
+                    <li><span class="x">❌</span> No real-time Oracle Score</li>
+                    <li><span class="x">❌</span> No Next Move Forecasts</li>
+                    <li><span class="limited">⚠️</span> Limited to BTC + 2 altcoins</li>
+                    <li><span class="x">❌</span> No whale alerts</li>
+                    <li><span class="x">❌</span> No push notifications</li>
+                    <li><span class="check">✓</span> Basic AI sentiment view</li>
+                    <li><span class="check">✓</span> Weekly digest email</li>
+                </ul>
+            </div>
+            
+            <a href="/register.html" class="plan-cta secondary">Start Free — No Card Required</a>
+            <p class="plan-footer">Perfect for testing the AI</p>
+        </div>
+
+        <!-- PRO -->
+        <div class="plan featured">
+            <div class="plan-badge">Most Popular</div>
+            <div class="plan-header">
+                <div class="plan-icon">🟣</div>
+                <h3>PRO</h3>
+                <p class="plan-desc">Real-Time Oracle — For Active Traders</p>
+                <div class="plan-price">
+                    <span class="price">$107</span>
+                    <span class="price-period">/month</span>
+                </div>
+            </div>
+            
+            <div class="plan-features">
+                <h4>Everything in Free, Plus</h4>
+                <ul class="feature-list">
+                    <li><span class="check">⚡</span> Real-Time Oracle Score</li>
+                    <li><span class="check">📈</span> Real-Time Confidence Score</li>
+                    <li><span class="check">🧠</span> AI Trend Detection</li>
+                    <li><span class="check">🔍</span> Pattern Recognition Engine</li>
+                    <li><span class="check">🟢</span> All supported assets unlocked</li>
+                    <li><span class="check">📊</span> Smart & Momentum Signals</li>
+                    <li><span class="check">🔔</span> Push Notifications</li>
+                    <li><span class="check">⚠️</span> Medium-tier Whale Alerts</li>
+                </ul>
+            </div>
+            
+            <a href="/register.html?plan=pro" class="plan-cta primary">Upgrade to Pro — $107/mo</a>
+            <p class="plan-footer">Cancel anytime • Secure payments via Stripe</p>
+        </div>
+
+        <!-- ELITE -->
+        <div class="plan elite">
+            <div class="plan-badge">🔥 Maximum Power</div>
+            <div class="plan-header">
+                <div class="plan-icon">🟠</div>
+                <h3>ELITE</h3>
+                <p class="plan-desc">Full Oracle Protocol — Institutional Grade</p>
+                <div class="plan-price">
+                    <span class="price">$800</span>
+                    <span class="price-period">/month</span>
+                </div>
+            </div>
+            
+            <div class="plan-features">
+                <h4>Everything in Pro, Plus</h4>
+                <ul class="feature-list">
+                    <li><span class="check">🔮</span> Next Move Estimate (AI direction)</li>
+                    <li><span class="check">🧭</span> Prediction Timeline (2-48 hrs)</li>
+                    <li><span class="check">🐳</span> Full Whale Intelligence Suite</li>
+                    <li><span class="check">🧲</span> Smart Money Inflow Detection</li>
+                    <li><span class="check">⚡</span> Ultra High-Confidence Signals (80+)</li>
+                    <li><span class="check">🔔</span> Priority Lightning Alerts</li>
+                    <li><span class="check">🪙</span> Elite-only Assets</li>
+                    <li><span class="check">🥇</span> Priority Support + VIP Discord</li>
+                </ul>
+            </div>
+            
+            <a href="/register.html?plan=elite" class="plan-cta elite-btn">Become Elite — $800/mo</a>
+            <p class="plan-footer">The same AI tools hedge funds use</p>
+        </div>
+    </div>
+</section>
+
+<!-- Comparison Table -->
+<section class="comparison-section">
+    <h2 class="comparison-title">Feature <span>Comparison</span></h2>
+    <table class="comparison-table">
+        <thead>
+            <tr>
+                <th>Feature</th>
+                <th>Free</th>
+                <th>Pro ($107)</th>
+                <th>Elite ($800)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Real-Time Oracle Score</td>
+                <td class="no">❌</td>
+                <td class="yes">✓</td>
+                <td class="yes">✓</td>
+            </tr>
+            <tr>
+                <td>Confidence Score</td>
+                <td class="limited">Delayed</td>
+                <td class="yes">✓ Real-time</td>
+                <td class="yes">✓ Real-time</td>
+            </tr>
+            <tr>
+                <td>Next Move Estimate</td>
+                <td class="no">❌</td>
+                <td class="no">❌</td>
+                <td class="yes">✓</td>
+            </tr>
+            <tr>
+                <td>Prediction Timeline</td>
+                <td class="no">❌</td>
+                <td class="no">❌</td>
+                <td class="yes">✓ 2-48 hrs</td>
+            </tr>
+            <tr>
+                <td>Whale Alerts</td>
+                <td class="no">❌</td>
+                <td class="limited">Limited</td>
+                <td class="yes">✓ Full Suite</td>
+            </tr>
+            <tr>
+                <td>All Supported Assets</td>
+                <td class="limited">3 only</td>
+                <td class="yes">✓ All</td>
+                <td class="yes">✓ + Exclusive</td>
+            </tr>
+            <tr>
+                <td>Push Notifications</td>
+                <td class="no">❌</td>
+                <td class="yes">✓</td>
+                <td class="yes">✓ Priority</td>
+            </tr>
+            <tr>
+                <td>Ultra Signals (80+)</td>
+                <td class="no">❌</td>
+                <td class="no">❌</td>
+                <td class="yes">✓</td>
+            </tr>
+            <tr>
+                <td>Priority Support</td>
+                <td class="no">❌</td>
+                <td class="limited">Standard</td>
+                <td class="yes">✓ VIP</td>
+            </tr>
+            <tr>
+cd ~/Desktop/eluxraj-site
+
+# Create the complete premium pricing page
+cat > public/pricing.html << 'ENDOFFILE'
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing | ELUXRAJ™ AI Oracle</title>
+    <meta name="description" content="Choose your ELUXRAJ plan. Free, Pro ($98/mo), or Elite ($197/mo). AI-powered trading signals, whale alerts, and predictive intelligence.">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#7c3aed">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
+            background: #05060f;
+            color: #fff;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* Navbar */
+        header {
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(5,6,15,0.95);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(124,58,237,0.15);
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+        .logo {
+            font-weight: 900;
+            font-size: 1.6rem;
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 28px;
+        }
+        .nav-links a {
+            color: #9ca3af;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover { color: #fff; }
+        .nav-cta {
+            background: linear-gradient(135deg, #7c3aed, #06b6d4) !important;
+            -webkit-text-fill-color: #fff !important;
+            padding: 10px 24px !important;
+            border-radius: 10px;
+        }
+
+        /* Hero */
+        .hero {
+            text-align: center;
+            padding: 160px 20px 80px;
+            background: radial-gradient(ellipse at top, rgba(124,58,237,0.2), transparent 50%);
+        }
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(6,182,212,0.12);
+            color: #06b6d4;
+            padding: 10px 24px;
+            border-radius: 30px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 28px;
+            border: 1px solid rgba(6,182,212,0.25);
+        }
+        .hero h1 {
+            font-size: 3.2rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+            line-height: 1.1;
+            letter-spacing: -0.02em;
+        }
+        .hero h1 span {
+            background: linear-gradient(135deg, #7c3aed, #06b6d4, #a855f7);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .hero p {
+            font-size: 1.2rem;
+            color: #9ca3af;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Pricing Grid */
+        .pricing-section {
+            max-width: 1150px;
+            margin: 0 auto;
+            padding: 60px 20px 100px;
+        }
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 28px;
+            align-items: start;
+        }
+        @media (max-width: 950px) {
+            .pricing-grid { grid-template-columns: 1fr; max-width: 420px; margin: 0 auto; }
+        }
+
+        .plan {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 24px;
+            padding: 40px 32px;
+            position: relative;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 30px rgba(0,0,0,0.3);
+        }
+        .plan:hover {
+            transform: translateY(-8px);
+        }
+        .plan.featured {
+            border: 2px solid #7c3aed;
+            background: rgba(124,58,237,0.06);
+            box-shadow: 0 0 80px rgba(124,58,237,0.25), 0 4px 30px rgba(0,0,0,0.3);
+            transform: scale(1.03);
+            z-index: 10;
+        }
+        .plan.featured:hover {
+            transform: scale(1.03) translateY(-8px);
+        }
+        .plan.elite {
+            border: 2px solid #f59e0b;
+            background: linear-gradient(160deg, rgba(245,158,11,0.08), rgba(239,68,68,0.05));
+        }
+        .plan-badge {
+            position: absolute;
+            top: -14px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            color: #fff;
+            padding: 8px 24px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+        .plan.elite .plan-badge {
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+        }
+
+        .plan-header {
+            text-align: center;
+            margin-bottom: 28px;
+            padding-bottom: 28px;
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .plan-icon {
+            font-size: 2.8rem;
+            margin-bottom: 16px;
+        }
+        .plan h3 {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 6px;
+        }
+        .plan-desc {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+        .plan-price {
+            margin-top: 20px;
+        }
+        .price {
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: -0.02em;
+        }
+        .price-period {
+            font-size: 1rem;
+            color: #6b7280;
+            font-weight: 400;
+        }
+
+        .plan-features {
+            margin-bottom: 32px;
+        }
+        .plan-features h4 {
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            color: #6b7280;
+            margin-bottom: 20px;
+        }
+        .feature-list {
+            list-style: none;
+        }
+        .feature-list li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 14px;
+            font-size: 0.95rem;
+            color: #d1d5db;
+        }
+        .feature-list .icon {
+            flex-shrink: 0;
+            font-size: 1.1rem;
+        }
+        .feature-list .check { color: #22c55e; }
+        .feature-list .x { color: #4b5563; }
+        .feature-list .warn { color: #eab308; }
+
+        .plan-cta {
+            display: block;
+            width: 100%;
+            padding: 18px;
+            border-radius: 14px;
+            text-align: center;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+        .plan-cta.primary {
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            color: #fff;
+        }
+        .plan-cta.primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(124,58,237,0.4);
+        }
+        .plan-cta.secondary {
+            background: rgba(255,255,255,0.04);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .plan-cta.secondary:hover {
+            background: rgba(255,255,255,0.08);
+        }
+        .plan-cta.elite-btn {
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            color: #fff;
+        }
+        .plan-cta.elite-btn:hover {
+            box-shadow: 0 15px 50px rgba(245,158,11,0.4);
+        }
+
+        .plan-footer {
+            text-align: center;
+            margin-top: 18px;
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        /* Comparison Table */
+        .comparison-section {
+            max-width: 950px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+        .comparison-title {
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 50px;
+        }
+        .comparison-title span {
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: rgba(255,255,255,0.02);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 40px rgba(0,0,0,0.3);
+        }
+        .comparison-table th,
+        .comparison-table td {
+            padding: 20px 24px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        .comparison-table th {
+            background: rgba(124,58,237,0.08);
+            font-weight: 700;
+            font-size: 0.95rem;
+        }
+        .comparison-table th:nth-child(3) {
+            background: rgba(124,58,237,0.15);
+        }
+        .comparison-table th:nth-child(4) {
+            background: rgba(245,158,11,0.12);
+        }
+        .comparison-table td {
+            font-size: 0.95rem;
+        }
+        .comparison-table td:first-child {
+            color: #d1d5db;
+        }
+        .comparison-table .yes { color: #22c55e; font-weight: 600; }
+        .comparison-table .no { color: #4b5563; }
+        .comparison-table .limited { color: #eab308; }
+
+        /* Value Stack */
+        .value-stack {
+            max-width: 900px;
+            margin: 100px auto;
+            padding: 60px;
+            background: linear-gradient(160deg, rgba(245,158,11,0.08), rgba(239,68,68,0.05));
+            border: 1px solid rgba(245,158,11,0.2);
+            border-radius: 28px;
+            text-align: center;
+        }
+        .value-stack h2 {
+            font-size: 2rem;
+            margin-bottom: 16px;
+        }
+        .value-stack h2 span {
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .value-stack .subtitle {
+            color: #9ca3af;
+            margin-bottom: 40px;
+        }
+        .value-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+        .value-item {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(245,158,11,0.15);
+            border-radius: 16px;
+            padding: 24px 16px;
+        }
+        .value-item .icon {
+            font-size: 1.8rem;
+            margin-bottom: 12px;
+        }
+        .value-item .name {
+            font-weight: 600;
+            font-size: 0.95rem;
+            margin-bottom: 6px;
+        }
+        .value-item .worth {
+            color: #22c55e;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .value-total {
+            display: inline-block;
+            background: rgba(0,0,0,0.4);
+            border: 2px solid rgba(245,158,11,0.3);
+            border-radius: 20px;
+            padding: 30px 50px;
+        }
+        .value-total .label {
+            color: #9ca3af;
+            font-size: 0.9rem;
+            margin-bottom: 8px;
+        }
+        .value-total .strike {
+            font-size: 1.8rem;
+            color: #6b7280;
+            text-decoration: line-through;
+        }
+        .value-total .actual {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #f59e0b;
+        }
+        .value-total .period {
+            font-size: 1rem;
+            color: #9ca3af;
+        }
+
+        /* Testimonials */
+        .testimonials-section {
+            max-width: 1000px;
+            margin: 80px auto;
+            padding: 0 20px;
+        }
+        .testimonials-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 50px;
+        }
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+        .testimonial-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 20px;
+            padding: 32px;
+        }
+        .testimonial-text {
+            font-size: 1rem;
+            line-height: 1.7;
+            color: #d1d5db;
+            margin-bottom: 24px;
+            font-style: italic;
+        }
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+        .testimonial-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+        }
+        .testimonial-name {
+            font-weight: 600;
+        }
+        .testimonial-role {
+            color: #6b7280;
+            font-size: 0.85rem;
+        }
+        .testimonial-stars {
+            color: #f59e0b;
+            margin-top: 3px;
+            font-size: 0.85rem;
+        }
+
+        /* FAQ */
+        .faq-section {
+            max-width: 800px;
+            margin: 100px auto;
+            padding: 0 20px;
+        }
+        .faq-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 50px;
+        }
+        .faq-item {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 16px;
+        }
+        .faq-item h4 {
+            font-size: 1.05rem;
+            margin-bottom: 14px;
+            color: #fff;
+        }
+        .faq-item p {
+            color: #9ca3af;
+            font-size: 0.95rem;
+            line-height: 1.7;
+        }
+
+        /* Final CTA */
+        .final-cta {
+            text-align: center;
+            padding: 120px 20px;
+            background: radial-gradient(ellipse at bottom, rgba(124,58,237,0.2), transparent 50%);
+        }
+        .guarantee-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(34,197,94,0.1);
+            color: #22c55e;
+            padding: 14px 28px;
+            border-radius: 30px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            margin-bottom: 28px;
+            border: 1px solid rgba(34,197,94,0.25);
+        }
+        .final-cta h2 {
+            font-size: 2.8rem;
+            font-weight: 900;
+            margin-bottom: 20px;
+        }
+        .final-cta p {
+            color: #9ca3af;
+            font-size: 1.2rem;
+            margin-bottom: 36px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .cta-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .btn {
+            padding: 18px 36px;
+            border-radius: 14px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.05rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            color: #fff;
+        }
+        .btn-elite {
+            background: linear-gradient(135deg, #f59e0b, #ef4444);
+            color: #fff;
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 50px rgba(124,58,237,0.4);
+        }
+        .btn-elite:hover {
+            box-shadow: 0 15px 50px rgba(245,158,11,0.4);
+        }
+
+        /* Risk Disclaimer */
+        .risk-disclaimer {
+            max-width: 800px;
+            margin: 0 auto 80px;
+            padding: 28px 32px;
+            background: rgba(234,179,8,0.08);
+            border: 1px solid rgba(234,179,8,0.25);
+            border-radius: 16px;
+            text-align: center;
+        }
+        .risk-disclaimer p {
+            color: #eab308;
+            font-size: 0.9rem;
+            line-height: 1.7;
+        }
+        .risk-disclaimer a {
+            color: #eab308;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 60px 20px;
+            border-top: 1px solid rgba(124,58,237,0.15);
+        }
+        .footer-links {
+            margin-bottom: 24px;
+        }
+        .footer-links a {
+            color: #6b7280;
+            text-decoration: none;
+            margin: 0 16px;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+        .footer-links a:hover { color: #fff; }
+        .footer-copy {
+            color: #4b5563;
+            font-size: 0.85rem;
+            margin-bottom: 16px;
+        }
+        .footer-disclaimer {
+            color: #4b5563;
+            font-size: 0.75rem;
+            max-width: 650px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.2rem; }
+            header { padding: 16px 20px; }
+            .nav-links { display: none; }
+            .comparison-table { font-size: 0.85rem; }
+            .comparison-table th, .comparison-table td { padding: 14px 12px; }
+            .value-stack { padding: 40px 24px; }
+            .final-cta h2 { font-size: 2rem; }
+        }
+    </style>
+</head>
+
+<body>
+
+<header>
+    <a href="/" class="logo">ELUXRAJ™</a>
+    <nav class="nav-links">
+        <a href="/about.html">About</a>
+        <a href="/why-eluxraj.html">Why Us</a>
+        <a href="/how-it-works.html">How It Works</a>
+        <a href="/insights.html">Insights</a>
+        <a href="/login.html">Login</a>
+        <a href="/register.html" class="nav-cta">Start Free</a>
+    </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-badge">💎 Choose Your Oracle Level</div>
+    <h1>Unlock <span>AI Investing Power</span><br>That Was Never Meant for Retail</h1>
+    <p>Real-time predictions. Whale tracking. Deep market intelligence. For investors ready to multiply their edge.</p>
+</section>
+
+<!-- PRICING GRID -->
+<section class="pricing-section">
+    <div class="pricing-grid">
+        <!-- FREE -->
+        <div class="plan">
+            <div class="plan-header">
+                <div class="plan-icon">🔵</div>
+                <h3>FREE</h3>
+                <p class="plan-desc">Starter — Test the Oracle</p>
+                <div class="plan-price">
+                    <span class="price">$0</span>
+                    <span class="price-period">/forever</span>
+                </div>
+            </div>
+            
+            <div class="plan-features">
+                <h4>What You Get</h4>
+                <ul class="feature-list">
+                    <li><span class="icon warn">⏳</span> Delayed signals (2-6 hours)</li>
+                    <li><span class="icon x">❌</span> No real-time Oracle Score</li>
+                    <li><span class="icon x">❌</span> No Next Move Forecasts</li>
+                    <li><span class="icon warn">⚠️</span> Limited to BTC + 2 altcoins</li>
+                    <li><span class="icon x">❌</span> No whale alerts</li>
+                    <li><span class="icon x">❌</span> No push notifications</li>
+                    <li><span class="icon check">✓</span> Basic AI sentiment view</li>
+                    <li><span class="icon check">✓</span> Weekly digest email</li>
+                </ul>
+            </div>
+            
+            <a href="/register.html" class="plan-cta secondary">Start Free — No Card</a>
+            <p class="plan-footer">Perfect for testing the AI</p>
+        </div>
+
+        <!-- PRO -->
+        <div class="plan featured">
+            <div class="plan-badge">⭐ Most Popular</div>
+            <div class="plan-header">
+                <div class="plan-icon">🟣</div>
+                <h3>PRO</h3>
+                <p class="plan-desc">Real-Time Oracle — Active Traders</p>
+                <div class="plan-price">
+                    <span class="price">$98</span>
+                    <span class="price-period">/month</span>
+                </div>
+            </div>
+            
+            <div class="plan-features">
+                <h4>Everything in Free, Plus</h4>
+                <ul class="feature-list">
+                    <li><span class="icon check">⚡</span> Real-Time Oracle Score</li>
+                    <li><span class="icon check">📈</span> Real-Time Confidence Score</li>
+                    <li><span class="icon check">🧠</span> AI Trend Detection</li>
+                    <li><span class="icon check">🔍</span> Pattern Recognition Engine</li>
+                    <li><span class="icon check">🟢</span> All supported assets</li>
+                    <li><span class="icon check">📊</span> Smart & Momentum Signals</li>
+                    <li><span class="icon check">🔔</span> Push Notifications</li>
+                    <li><span class="icon warn">⚠️</span> Medium-tier Whale Alerts</li>
+                </ul>
+            </div>
+            
+            <a href="/register.html?plan=pro" class="plan-cta primary">Upgrade to Pro — $98/mo</a>
+            <p class="plan-footer">Cancel anytime • Secure via Stripe</p>
+        </div>
+
+        <!-- ELITE -->
+        <div class="plan elite">
+            <div class="plan-badge">🔥 Maximum Power</div>
+            <div class="plan-header">
+                <div class="plan-icon">🟠</div>
+                <h3>ELITE</h3>
+                <p class="plan-desc">Full Oracle — Institutional Grade</p>
+                <div class="plan-price">
+                    <span class="price">$197</span>
+                    <span class="price-period">/month</span>
+                </div>
+            </div>
+            
+            <div class="plan-features">
+                <h4>Everything in Pro, Plus</h4>
+                <ul class="feature-list">
+                    <li><span class="icon check">🔮</span> Next Move Estimate</li>
+                    <li><span class="icon check">🧭</span> Prediction Timeline (2-48h)</li>
+                    <li><span class="icon check">🐳</span> Full Whale Intelligence Suite</li>
+                    <li><span class="icon check">🧲</span> Smart Money Detection</li>
+                    <li><span class="icon check">⚡</span> Ultra High-Confidence (80+)</li>
+                    <li><span class="icon check">🔔</span> Priority Lightning Alerts</li>
+                    <li><span class="icon check">🪙</span> Elite-only Assets</li>
+                    <li><span class="icon check">🥇</span> VIP Support + Discord</li>
+                </ul>
+            </div>
+            
+            <a href="/register.html?plan=elite" class="plan-cta elite-btn">Become Elite — $197/mo</a>
+            <p class="plan-footer">The same tools hedge funds use</p>
+        </div>
+    </div>
+</section>
+
+<!-- COMPARISON TABLE -->
+<section class="comparison-section">
+    <h2 class="comparison-title">Feature <span>Comparison</span></h2>
+    <table class="comparison-table">
+        <thead>
+            <tr>
+                <th>Feature</th>
+                <th>Free</th>
+                <th>Pro ($98)</th>
+                <th>Elite ($197)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr><td>Real-Time Oracle Score</td><td class="no">❌</td><td class="yes">✓</td><td class="yes">✓</td></tr>
+            <tr><td>Confidence Score</td><td class="limited">Delayed</td><td class="yes">✓ Real-time</td><td class="yes">✓ Real-time</td></tr>
+            <tr><td>Next Move Estimate</td><td class="no">❌</td><td class="no">❌</td><td class="yes">✓</td></tr>
+            <tr><td>Prediction Timeline (2-48h)</td><td class="no">❌</td><td class="no">❌</td><td class="yes">✓</td></tr>
+            <tr><td>Whale Alerts</td><td class="no">❌</td><td class="limited">Limited</td><td class="yes">✓ Full Suite</td></tr>
+            <tr><td>All Supported Assets</td><td class="limited">3 only</td><td class="yes">✓ All</td><td class="yes">✓ + Exclusive</td></tr>
+            <tr><td>Push Notifications</td><td class="no">❌</td><td class="yes">✓</td><td class="yes">✓ Priority</td></tr>
+            <tr><td>Ultra Signals (80+)</td><td class="no">❌</td><td class="no">❌</td><td class="yes">✓</td></tr>
+            <tr><td>Fusion Signals</td><td class="no">❌</td><td class="no">❌</td><td class="yes">✓</td></tr>
+            <tr><td>Priority Support</td><td class="no">❌</td><td class="limited">Standard</td><td class="yes">✓ VIP</td></tr>
+            <tr><td>VIP Research + Discord</td><td class="no">❌</td><td class="no">❌</td><td class="yes">✓</td></tr>
+        </tbody>
+    </table>
+</section>
+
+<!-- VALUE STACK -->
+<section style="padding: 0 20px;">
+    <div class="value-stack">
+        <h2>What <span>Elite Members</span> Get</h2>
+        <p class="subtitle">The complete AI investing arsenal — everything you need for an unfair advantage</p>
+        
+        <div class="value-grid">
+            <div class="value-item">
+                <div class="icon">🔮</div>
+                <div class="name">AI Prediction Engine</div>
+                <div class="worth">$149/mo value</div>
+            </div>
+            <div class="value-item">
+                <div class="icon">🐳</div>
+                <div class="name">Whale Intelligence</div>
+                <div class="worth">$199/mo value</div>
+            </div>
+            <div class="value-item">
+                <div class="icon">🧩</div>
+                <div class="name">Fusion Signals</div>
+                <div class="worth">$99/mo value</div>
+            </div>
+            <div class="value-item">
+                <div class="icon">⚡</div>
+                <div class="name">Priority Alerts</div>
+                <div class="worth">$79/mo value</div>
+            </div>
+            <div class="value-item">
+                <div class="icon">🎖️</div>
+                <div class="name">VIP Discord</div>
+                <div class="worth">$49/mo value</div>
+            </div>
+            <div class="value-item">
+                <div class="icon">📊</div>
+                <div class="name">Private Research</div>
+                <div class="worth">$99/mo value</div>
+            </div>
+        </div>
+        
+        <div class="value-total">
+            <div class="label">Total value if purchased separately:</div>
+            <div class="strike">$674/month</div>
+            <div class="actual">$197</div>
+            <div class="period">/month — save 71%</div>
+        </div>
+    </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+    <h2 class="testimonials-title">What Investors <span style="background: linear-gradient(135deg, #7c3aed, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Say</span></h2>
+    
+    <div class="testimonials-grid">
+        <div class="testimonial-card">
+            <p class="testimonial-text">"The Oracle score became my entire strategy. I can't imagine trading without it. Made back my Pro subscription in the first week."</p>
+            <div class="testimonial-author">
+                <div class="testimonial-avatar">JP</div>
+                <div>
+                    <div class="testimonial-name">Jacob P.</div>
+                    <div class="testimonial-role">Pro Member</div>
+                    <div class="testimonial-stars">★★★★★</div>
+                </div>
+            </div>
+        </div>
+        <div class="testimonial-card">
+            <p class="testimonial-text">"The whale suite is an unfair advantage. Seeing smart money flow before it hits the charts feels almost illegal."</p>
+            <div class="testimonial-author">
+                <div class="testimonial-avatar">TS</div>
+                <div>
+                    <div class="testimonial-name">T.S.</div>
+                    <div class="testimonial-role">Elite Member</div>
+                    <div class="testimonial-stars">★★★★★</div>
+                </div>
+            </div>
+        </div>
+        <div class="testimonial-card">
+            <p class="testimonial-text">"Finally tools that don't require a Bloomberg terminal. The explainability is what sold me — I actually understand WHY each signal fires."</p>
+            <div class="testimonial-author">
+                <div class="testimonial-avatar">AM</div>
+                <div>
+                    <div class="testimonial-name">A.M.</div>
+                    <div class="testimonial-role">Pro Member</div>
+                    <div class="testimonial-stars">★★★★★</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+    <h2 class="faq-title">Frequently Asked Questions</h2>
+    
+    <div class="faq-item">
+        <h4>Can I cancel anytime?</h4>
+        <p>Yes. All subscriptions are month-to-month with no long-term commitment. Cancel with one click from your dashboard — no questions asked.</p>
+    </div>
+    <div class="faq-item">
+        <h4>Is there a free trial?</h4>
+        <p>Our Free tier IS the trial. Test the AI, see delayed signals, and upgrade when you're ready for real-time intelligence.</p>
+    </div>
+    <div class="faq-item">
+        <h4>What payment methods do you accept?</h4>
+        <p>We accept all major credit cards, debit cards, and Apple Pay through Stripe's secure payment system.</p>
+    </div>
+    <div class="faq-item">
+        <h4>How accurate are the signals?</h4>
+        <p>Our backtested signal accuracy is approximately 68%. However, past performance does not guarantee future results. We provide full explainability so you understand why each signal fires. <a href="/disclaimer.html" style="color: #7c3aed;">Read our full disclaimer</a>.</p>
+    </div>
+    <div class="faq-item">
+        <h4>Is ELUXRAJ financial advice?</h4>
+        <p>No. ELUXRAJ provides informational tools only. We are not registered financial advisors. All signals are for educational purposes — always do your own research.</p>
+    </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="final-cta">
+    <div class="guarantee-badge">🛡️ No credit card required for Free • Cancel anytime</div>
+    <h2>Pick Your Path</h2>
+    <p>This is where average traders break through. Choose your level of intelligence.</p>
+    <div class="cta-buttons">
+        <a href="/register.html" class="btn btn-primary">Start Free</a>
+        <a href="/register.html?plan=pro" class="btn btn-primary">Get Pro — $98/mo</a>
+        <a href="/register.html?plan=elite" class="btn btn-elite">Become Elite — $197/mo</a>
+    </div>
+</section>
+
+<!-- RISK DISCLAIMER -->
+<div class="risk-disclaimer">
+    <p>⚠️ <strong>Risk Disclosure:</strong> Trading and investing involves substantial risk. Past performance and backtested results do not guarantee future results. Signal accuracy is based on historical data — actual results may vary. ELUXRAJ provides informational tools only and does not constitute financial advice. <a href="/disclaimer.html">Read full disclaimer</a></p>
+</div>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-links">
+        <a href="/about.html">About</a>
+        <a href="/why-eluxraj.html">Why Us</a>
+        <a href="/how-it-works.html">How It Works</a>
+        <a href="/insights.html">Insights</a>
+        <a href="/security.html">Security</a>
+    </div>
+    <div class="footer-links">
+        <a href="/terms.html">Terms</a>
+        <a href="/privacy.html">Privacy</a>
+        <a href="/disclaimer.html">Disclaimer</a>
+    </div>
+    <p class="footer-copy">© 2025 ELUXRAJ™. All rights reserved.</p>
+    <p class="footer-disclaimer">⚠️ Trading involves substantial risk and is not suitable for all investors. Past performance is not indicative of future results. Always do your own research.</p>
+</footer>
+
 </body>
 </html>
