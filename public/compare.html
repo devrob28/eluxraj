@@ -1,0 +1,591 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELUXRAJ vs The Competition | Why We're Different</title>
+    <meta name="description" content="Compare ELUXRAJ to TradingView, TokenMetrics, TrendSpider and others. See why investors are switching to AI-powered signals.">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#7c3aed">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:#05060f;color:#fff;line-height:1.7}
+        
+        /* Navbar */
+        header{padding:20px 40px;display:flex;justify-content:space-between;align-items:center;background:rgba(5,6,15,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(124,58,237,0.15);position:fixed;top:0;left:0;right:0;z-index:100}
+        .logo{font-weight:900;font-size:1.6rem;background:linear-gradient(135deg,#7c3aed,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none}
+        .nav-links{display:flex;align-items:center;gap:28px}
+        .nav-links a{color:#9ca3af;text-decoration:none;font-size:0.9rem;font-weight:500;transition:color 0.3s}
+        .nav-links a:hover{color:#fff}
+        .nav-cta{background:linear-gradient(135deg,#7c3aed,#06b6d4)!important;-webkit-text-fill-color:#fff!important;padding:10px 24px!important;border-radius:10px}
+
+        /* Hero */
+        .hero{text-align:center;padding:160px 20px 80px;background:radial-gradient(ellipse at top,rgba(124,58,237,0.2),transparent 50%)}
+        .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(239,68,68,0.12);color:#ef4444;padding:10px 24px;border-radius:30px;font-size:0.9rem;font-weight:600;margin-bottom:24px;border:1px solid rgba(239,68,68,0.25)}
+        .hero h1{font-size:3.2rem;font-weight:900;margin-bottom:24px;line-height:1.15}
+        .hero h1 span{background:linear-gradient(135deg,#7c3aed,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .hero p{font-size:1.25rem;color:#9ca3af;max-width:700px;margin:0 auto 16px}
+        .hero .subtext{font-size:1rem;color:#6b7280;max-width:600px;margin:0 auto}
+
+        /* Pain Section */
+        .pain-section{padding:80px 20px;background:linear-gradient(180deg,rgba(239,68,68,0.05),transparent)}
+        .pain-content{max-width:900px;margin:0 auto;text-align:center}
+        .pain-content h2{font-size:2.2rem;font-weight:800;margin-bottom:20px}
+        .pain-content .lead{font-size:1.15rem;color:#d1d5db;margin-bottom:40px}
+        
+        .pain-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px;text-align:left}
+        .pain-card{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:16px;padding:28px}
+        .pain-card .icon{font-size:2rem;margin-bottom:12px}
+        .pain-card h3{font-size:1.1rem;margin-bottom:10px;color:#fff}
+        .pain-card p{color:#9ca3af;font-size:0.95rem}
+
+        /* Main Comparison */
+        .compare-section{padding:100px 20px}
+        .compare-content{max-width:1200px;margin:0 auto}
+        .section-title{text-align:center;font-size:2.5rem;font-weight:900;margin-bottom:20px}
+        .section-title span{background:linear-gradient(135deg,#7c3aed,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .section-subtitle{text-align:center;color:#9ca3af;font-size:1.1rem;margin-bottom:60px;max-width:600px;margin-left:auto;margin-right:auto}
+
+        /* Comparison Table */
+        .compare-table-wrapper{overflow-x:auto;margin-bottom:60px}
+        .compare-table{width:100%;min-width:900px;border-collapse:collapse;background:rgba(255,255,255,0.02);border-radius:20px;overflow:hidden}
+        .compare-table th,.compare-table td{padding:20px 16px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.05)}
+        .compare-table th{background:rgba(124,58,237,0.08);font-weight:700;font-size:0.85rem;color:#9ca3af;text-transform:uppercase;letter-spacing:1px}
+        .compare-table th:first-child{text-align:left;padding-left:24px}
+        .compare-table th.eluxraj{background:linear-gradient(135deg,rgba(124,58,237,0.2),rgba(6,182,212,0.15));color:#fff}
+        .compare-table td{font-size:0.95rem}
+        .compare-table td:first-child{text-align:left;padding-left:24px;font-weight:500;color:#d1d5db}
+        .compare-table td.eluxraj{background:rgba(124,58,237,0.05)}
+        .compare-table tr:hover{background:rgba(255,255,255,0.02)}
+        
+        .yes{color:#22c55e;font-weight:700}
+        .no{color:#ef4444}
+        .partial{color:#eab308}
+        .price{font-weight:700;color:#fff}
+        .eluxraj-price{color:#22c55e;font-weight:800}
+
+        /* Individual Comparisons */
+        .versus-section{padding:60px 20px}
+        .versus-content{max-width:1000px;margin:0 auto}
+        .versus-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:24px;padding:50px;margin-bottom:40px;position:relative;overflow:hidden}
+        .versus-card::before{content:'VS';position:absolute;top:20px;right:30px;font-size:80px;font-weight:900;color:rgba(124,58,237,0.08)}
+        
+        .versus-header{display:flex;align-items:center;gap:20px;margin-bottom:30px}
+        .versus-logo{width:60px;height:60px;border-radius:12px;background:rgba(255,255,255,0.1);display:flex;align-items:center;justify-content:center;font-size:28px}
+        .versus-title h3{font-size:1.5rem;margin-bottom:4px}
+        .versus-title span{color:#6b7280;font-size:0.9rem}
+        
+        .versus-grid{display:grid;grid-template-columns:1fr 1fr;gap:30px}
+        @media(max-width:700px){.versus-grid{grid-template-columns:1fr}}
+        
+        .versus-col h4{font-size:1rem;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+        .versus-col.them h4{color:#ef4444}
+        .versus-col.us h4{color:#22c55e}
+        .versus-col ul{list-style:none}
+        .versus-col li{margin-bottom:12px;padding-left:24px;position:relative;color:#d1d5db;font-size:0.95rem}
+        .versus-col.them li::before{content:'✗';position:absolute;left:0;color:#ef4444}
+        .versus-col.us li::before{content:'✓';position:absolute;left:0;color:#22c55e}
+        
+        .versus-verdict{margin-top:30px;padding-top:24px;border-top:1px solid rgba(255,255,255,0.06)}
+        .versus-verdict p{font-size:1rem;color:#9ca3af}
+        .versus-verdict strong{color:#22c55e}
+
+        /* The Truth Section */
+        .truth-section{padding:80px 20px;background:linear-gradient(180deg,transparent,rgba(124,58,237,0.08))}
+        .truth-content{max-width:800px;margin:0 auto;text-align:center}
+        .truth-content h2{font-size:2.2rem;font-weight:800;margin-bottom:24px}
+        .truth-content p{font-size:1.1rem;color:#d1d5db;margin-bottom:20px}
+        .truth-highlight{background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.25);border-radius:16px;padding:30px;margin:40px 0}
+        .truth-highlight p{font-size:1.2rem;color:#22c55e;margin:0;font-weight:600}
+
+        /* Why Switch */
+        .switch-section{padding:80px 20px}
+        .switch-content{max-width:1000px;margin:0 auto}
+        .switch-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+        .switch-card{background:linear-gradient(135deg,rgba(124,58,237,0.1),rgba(6,182,212,0.05));border:1px solid rgba(124,58,237,0.2);border-radius:20px;padding:36px}
+        .switch-card .number{font-size:3rem;font-weight:900;color:rgba(124,58,237,0.3);margin-bottom:12px}
+        .switch-card h3{font-size:1.2rem;margin-bottom:12px}
+        .switch-card p{color:#9ca3af;font-size:0.95rem}
+
+        /* Testimonials */
+        .testimonials-section{padding:80px 20px}
+        .testimonials-content{max-width:1000px;margin:0 auto}
+        .testimonial-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:24px}
+        .testimonial-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:32px}
+        .testimonial-badge{display:inline-block;background:rgba(34,197,94,0.15);color:#22c55e;padding:4px 12px;border-radius:20px;font-size:0.75rem;font-weight:600;margin-bottom:16px}
+        .testimonial-text{font-size:1rem;color:#d1d5db;margin-bottom:20px;font-style:italic;line-height:1.7}
+        .testimonial-author{display:flex;align-items:center;gap:12px}
+        .testimonial-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.9rem}
+        .testimonial-name{font-weight:600;font-size:0.95rem}
+        .testimonial-prev{color:#6b7280;font-size:0.8rem}
+
+        /* CTA */
+        .cta-section{text-align:center;padding:120px 20px;background:radial-gradient(ellipse at bottom,rgba(124,58,237,0.2),transparent 50%)}
+        .cta-section h2{font-size:2.8rem;font-weight:900;margin-bottom:20px}
+        .cta-section p{color:#9ca3af;font-size:1.2rem;margin-bottom:36px;max-width:550px;margin-left:auto;margin-right:auto}
+        .cta-buttons{display:flex;justify-content:center;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+        .btn{padding:18px 40px;border-radius:14px;text-decoration:none;font-weight:700;font-size:1.05rem;transition:transform 0.3s,box-shadow 0.3s}
+        .btn-primary{background:linear-gradient(135deg,#7c3aed,#06b6d4);color:#fff}
+        .btn-secondary{background:rgba(255,255,255,0.05);color:#fff;border:1px solid rgba(255,255,255,0.15)}
+        .btn:hover{transform:translateY(-3px);box-shadow:0 15px 50px rgba(124,58,237,0.4)}
+        .cta-note{color:#6b7280;font-size:0.9rem}
+
+        /* Footer */
+        footer{text-align:center;padding:60px 20px;border-top:1px solid rgba(124,58,237,0.15)}
+        .footer-links{margin-bottom:24px}
+        .footer-links a{color:#6b7280;text-decoration:none;margin:0 16px;font-size:0.9rem}
+        .footer-links a:hover{color:#fff}
+        .footer-copy{color:#4b5563;font-size:0.85rem}
+
+        @media(max-width:768px){
+            .hero h1{font-size:2.2rem}
+            header{padding:16px 20px}
+            .nav-links{display:none}
+            .section-title{font-size:1.8rem}
+            .versus-card{padding:30px 20px}
+            .versus-card::before{display:none}
+            .cta-section h2{font-size:2rem}
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="/" class="logo">ELUXRAJ™</a>
+    <nav class="nav-links">
+        <a href="/about.html">About</a>
+        <a href="/performance.html">Performance</a>
+        <a href="/pricing.html">Pricing</a>
+        <a href="/login.html">Login</a>
+        <a href="/register.html" class="nav-cta">Start Free</a>
+    </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-badge">⚔️ The Honest Comparison</div>
+    <h1>You've Tried Everything.<br><span>Nothing Worked.</span></h1>
+    <p>TradingView. TokenMetrics. Telegram groups. Discord alphas. YouTube gurus. You've spent money, wasted time, and still lost trades.</p>
+    <p class="subtext">Here's why — and what's actually different about ELUXRAJ.</p>
+</section>
+
+<!-- PAIN SECTION -->
+<section class="pain-section">
+    <div class="pain-content">
+        <h2>Sound Familiar?</h2>
+        <p class="lead">Every retail investor has been here. The frustration is real.</p>
+        
+        <div class="pain-grid">
+            <div class="pain-card">
+                <div class="icon">📉</div>
+                <h3>"I paid $99/mo for signals that were always late"</h3>
+                <p>By the time the alert hit your phone, the move already happened. You bought the top. Again.</p>
+            </div>
+            <div class="pain-card">
+                <div class="icon">🤯</div>
+                <h3>"I have 47 indicators and still don't know what to do"</h3>
+                <p>RSI says oversold. MACD says bearish. Bollinger bands are squeezing. Which one do I trust?</p>
+            </div>
+            <div class="pain-card">
+                <div class="icon">🎭</div>
+                <h3>"The 'AI' was just a fancy name for basic alerts"</h3>
+                <p>You paid premium prices for what turned out to be simple moving average crossovers with a shiny UI.</p>
+            </div>
+            <div class="pain-card">
+                <div class="icon">🤷</div>
+                <h3>"They never explain WHY — just 'buy now'"</h3>
+                <p>No reasoning. No confidence level. No context. Just blind signals that expect blind faith.</p>
+            </div>
+            <div class="pain-card">
+                <div class="icon">💸</div>
+                <h3>"I'm paying for features I don't even understand"</h3>
+                <p>Complex dashboards designed for quants. You're paying $200/mo to feel stupid.</p>
+            </div>
+            <div class="pain-card">
+                <div class="icon">🐋</div>
+                <h3>"I always find out about whale moves too late"</h3>
+                <p>The smart money already accumulated. The pump happened. You're exit liquidity. Every. Single. Time.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- MAIN COMPARISON TABLE -->
+<section class="compare-section">
+    <div class="compare-content">
+        <h2 class="section-title">The <span>Real</span> Comparison</h2>
+        <p class="section-subtitle">No marketing fluff. Just facts about what each platform actually offers.</p>
+        
+        <div class="compare-table-wrapper">
+            <table class="compare-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th>TradingView</th>
+                        <th>TokenMetrics</th>
+                        <th>TrendSpider</th>
+                        <th>Telegram Groups</th>
+                        <th class="eluxraj">ELUXRAJ™</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Explainable AI (tells you WHY)</td>
+                        <td class="no">❌ No AI</td>
+                        <td class="partial">⚠️ Limited</td>
+                        <td class="no">❌ No</td>
+                        <td class="no">❌ Never</td>
+                        <td class="eluxraj yes">✓ Full Reasoning</td>
+                    </tr>
+                    <tr>
+                        <td>Multi-Timeframe Analysis</td>
+                        <td class="partial">⚠️ Manual</td>
+                        <td class="no">❌ Single</td>
+                        <td class="partial">⚠️ Basic</td>
+                        <td class="no">❌ No</td>
+                        <td class="eluxraj yes">✓ 8 Timeframes</td>
+                    </tr>
+                    <tr>
+                        <td>Real-Time Whale Tracking</td>
+                        <td class="no">❌ No</td>
+                        <td class="partial">⚠️ Delayed</td>
+                        <td class="no">❌ No</td>
+                        <td class="partial">⚠️ Sometimes</td>
+                        <td class="eluxraj yes">✓ Live Feed</td>
+                    </tr>
+                    <tr>
+                        <td>Confidence Scoring</td>
+                        <td class="no">❌ No</td>
+                        <td class="partial">⚠️ Basic</td>
+                        <td class="no">❌ No</td>
+                        <td class="no">❌ No</td>
+                        <td class="eluxraj yes">✓ 0-100 Score</td>
+                    </tr>
+                    <tr>
+                        <td>Position Sizing Recommendations</td>
+                        <td class="no">❌ No</td>
+                        <td class="no">❌ No</td>
+                        <td class="no">❌ No</td>
+                        <td class="no">❌ No</td>
+                        <td class="eluxraj yes">✓ Risk-Adjusted</td>
+                    </tr>
+                    <tr>
+                        <td>Stocks + Crypto + Commodities</td>
+                        <td class="yes">✓ Yes</td>
+                        <td class="no">❌ Crypto Only</td>
+                        <td class="yes">✓ Yes</td>
+                        <td class="partial">⚠️ Varies</td>
+                        <td class="eluxraj yes">✓ All Markets</td>
+                    </tr>
+                    <tr>
+                        <td>Designed for Retail (Not Quants)</td>
+                        <td class="partial">⚠️ Complex</td>
+                        <td class="partial">⚠️ Moderate</td>
+                        <td class="no">❌ Advanced</td>
+                        <td class="yes">✓ Simple</td>
+                        <td class="eluxraj yes">✓ Beginner-Friendly</td>
+                    </tr>
+                    <tr>
+                        <td>Transparent Methodology</td>
+                        <td class="partial">⚠️ It's Charts</td>
+                        <td class="no">❌ Black Box</td>
+                        <td class="partial">⚠️ Some</td>
+                        <td class="no">❌ Never</td>
+                        <td class="eluxraj yes">✓ Fully Documented</td>
+                    </tr>
+                    <tr>
+                        <td>Free Tier Available</td>
+                        <td class="yes">✓ Limited</td>
+                        <td class="no">❌ No</td>
+                        <td class="no">❌ No</td>
+                        <td class="partial">⚠️ Varies</td>
+                        <td class="eluxraj yes">✓ Yes</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Pro Pricing</strong></td>
+                        <td class="price">$14.95/mo</td>
+                        <td class="price">$99/mo</td>
+                        <td class="price">$77/mo</td>
+                        <td class="price">$50-500/mo</td>
+                        <td class="eluxraj eluxraj-price">$98/mo</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+<!-- INDIVIDUAL COMPARISONS -->
+<section class="versus-section">
+    <div class="versus-content">
+        <h2 class="section-title" style="margin-bottom:50px">Deep <span>Dive</span></h2>
+
+        <!-- vs TradingView -->
+        <div class="versus-card">
+            <div class="versus-header">
+                <div class="versus-logo">📊</div>
+                <div class="versus-title">
+                    <h3>ELUXRAJ vs TradingView</h3>
+                    <span>The charting giant everyone uses</span>
+                </div>
+            </div>
+            <div class="versus-grid">
+                <div class="versus-col them">
+                    <h4>❌ TradingView Limitations</h4>
+                    <ul>
+                        <li>It's a charting tool, not a trading AI</li>
+                        <li>You still have to interpret everything yourself</li>
+                        <li>Indicators often contradict each other</li>
+                        <li>No confidence scoring or position sizing</li>
+                        <li>No whale tracking or smart money data</li>
+                        <li>Overwhelming for beginners</li>
+                    </ul>
+                </div>
+                <div class="versus-col us">
+                    <h4>✓ ELUXRAJ Advantage</h4>
+                    <ul>
+                        <li>AI synthesizes multiple indicators FOR you</li>
+                        <li>Clear BUY/SELL/HOLD with reasoning</li>
+                        <li>Confidence score tells you how strong the signal is</li>
+                        <li>Position sizing based on your risk tolerance</li>
+                        <li>Real-time whale and smart money tracking</li>
+                        <li>Built for normal investors, not quants</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="versus-verdict">
+                <p><strong>The verdict:</strong> TradingView is a great tool — we actually recommend using it for charts. But it doesn't tell you WHAT to do or WHY. ELUXRAJ gives you the decision, not just the data.</p>
+            </div>
+        </div>
+
+        <!-- vs TokenMetrics -->
+        <div class="versus-card">
+            <div class="versus-header">
+                <div class="versus-logo">🪙</div>
+                <div class="versus-title">
+                    <h3>ELUXRAJ vs TokenMetrics</h3>
+                    <span>The crypto AI rating platform</span>
+                </div>
+            </div>
+            <div class="versus-grid">
+                <div class="versus-col them">
+                    <h4>❌ TokenMetrics Limitations</h4>
+                    <ul>
+                        <li>Crypto-only — no stocks, gold, or forex</li>
+                        <li>Ratings feel arbitrary and unexplained</li>
+                        <li>"AI" is mostly sentiment + on-chain basics</li>
+                        <li>No real-time trading signals</li>
+                        <li>Complex UI with too many metrics</li>
+                        <li>$99/mo for features you won't use</li>
+                    </ul>
+                </div>
+                <div class="versus-col us">
+                    <h4>✓ ELUXRAJ Advantage</h4>
+                    <ul>
+                        <li>Crypto + Stocks + Gold + More</li>
+                        <li>Every signal explains exactly WHY</li>
+                        <li>Real AI analyzing 8 timeframes simultaneously</li>
+                        <li>Actionable signals with entry/exit points</li>
+                        <li>Clean, focused UI you can actually use</li>
+                        <li>$98/mo with transparent methodology</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="versus-verdict">
+                <p><strong>The verdict:</strong> TokenMetrics gives you data. ELUXRAJ gives you decisions. If you want to spend hours analyzing ratings, use TokenMetrics. If you want clear signals with reasoning, use us.</p>
+            </div>
+        </div>
+
+        <!-- vs TrendSpider -->
+        <div class="versus-card">
+            <div class="versus-header">
+                <div class="versus-logo">🕷️</div>
+                <div class="versus-title">
+                    <h3>ELUXRAJ vs TrendSpider</h3>
+                    <span>The automated technical analysis platform</span>
+                </div>
+            </div>
+            <div class="versus-grid">
+                <div class="versus-col them">
+                    <h4>❌ TrendSpider Limitations</h4>
+                    <ul>
+                        <li>Steep learning curve — built for advanced traders</li>
+                        <li>Automates pattern detection, not decisions</li>
+                        <li>Still requires you to interpret and act</li>
+                        <li>No whale tracking or on-chain data</li>
+                        <li>Expensive: $77-$237/mo</li>
+                        <li>Overkill for most retail investors</li>
+                    </ul>
+                </div>
+                <div class="versus-col us">
+                    <h4>✓ ELUXRAJ Advantage</h4>
+                    <ul>
+                        <li>Beginner-friendly — no technical expertise needed</li>
+                        <li>AI makes the decision and explains it</li>
+                        <li>Clear action: BUY, SELL, or HOLD</li>
+                        <li>Whale tracking + smart money detection</li>
+                        <li>Competitive pricing with transparent value</li>
+                        <li>Built for everyday investors</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="versus-verdict">
+                <p><strong>The verdict:</strong> TrendSpider is powerful but complex. If you're a professional technical analyst, it's great. If you're a normal investor who wants clear guidance, ELUXRAJ is built for you.</p>
+            </div>
+        </div>
+
+        <!-- vs Telegram/Discord -->
+        <div class="versus-card">
+            <div class="versus-header">
+                <div class="versus-logo">📱</div>
+                <div class="versus-title">
+                    <h3>ELUXRAJ vs Telegram/Discord Groups</h3>
+                    <span>The "alpha" channels and signal groups</span>
+                </div>
+            </div>
+            <div class="versus-grid">
+                <div class="versus-col them">
+                    <h4>❌ Signal Groups Limitations</h4>
+                    <ul>
+                        <li>No accountability — anyone can claim anything</li>
+                        <li>Cherry-picked wins, hidden losses</li>
+                        <li>Often pump-and-dump schemes in disguise</li>
+                        <li>Signals come with zero explanation</li>
+                        <li>You're exit liquidity for "insiders"</li>
+                        <li>No consistent methodology or backtesting</li>
+                    </ul>
+                </div>
+                <div class="versus-col us">
+                    <h4>✓ ELUXRAJ Advantage</h4>
+                    <ul>
+                        <li>Transparent track record — every signal logged</li>
+                        <li>We show WINS and LOSSES publicly</li>
+                        <li>AI-based, not human bias or hidden agendas</li>
+                        <li>Full reasoning for every signal</li>
+                        <li>You're the investor, not the exit liquidity</li>
+                        <li>Documented methodology you can verify</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="versus-verdict">
+                <p><strong>The verdict:</strong> 90% of Telegram signal groups are scams designed to make THEM money, not you. ELUXRAJ is transparent, accountable, and has no hidden agendas.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- THE TRUTH -->
+<section class="truth-section">
+    <div class="truth-content">
+        <h2>Here's The <span style="background:linear-gradient(135deg,#7c3aed,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Truth</span></h2>
+        <p>Most "AI trading tools" aren't really AI. They're basic indicators with fancy marketing. They don't explain their reasoning because <strong>there is no reasoning</strong> — just pattern matching that any trader could do manually.</p>
+        <p>ELUXRAJ is different because we built it to solve a real problem: <strong>retail investors trading blind while institutions have all the edge.</strong></p>
+        
+        <div class="truth-highlight">
+            <p>"We don't hide behind 'proprietary algorithms.' Every signal comes with full reasoning. If we can't explain it, we don't ship it."</p>
+        </div>
+        
+        <p>We're not the cheapest option. We're not trying to be. We're building the tool that actually helps you make better decisions — and that's worth more than another dashboard full of confusion.</p>
+    </div>
+</section>
+
+<!-- WHY SWITCH -->
+<section class="switch-section">
+    <div class="switch-content">
+        <h2 class="section-title" style="margin-bottom:50px">Why Investors <span>Switch</span></h2>
+        
+        <div class="switch-grid">
+            <div class="switch-card">
+                <div class="number">01</div>
+                <h3>Finally Understand WHY</h3>
+                <p>No more blind faith in signals you don't understand. Every ELUXRAJ signal explains the reasoning — so you learn while you trade.</p>
+            </div>
+            <div class="switch-card">
+                <div class="number">02</div>
+                <h3>One Tool, Not Ten</h3>
+                <p>Stop paying for TradingView + TokenMetrics + Whale Alert + Discord. ELUXRAJ combines signals, whale tracking, and AI analysis in one place.</p>
+            </div>
+            <div class="switch-card">
+                <div class="number">03</div>
+                <h3>Confidence To Act</h3>
+                <p>The Oracle Score tells you how strong each signal is. High confidence? Size up. Lower confidence? Stay small. No more guessing.</p>
+            </div>
+            <div class="switch-card">
+                <div class="number">04</div>
+                <h3>Transparent Track Record</h3>
+                <p>We publish our performance — wins AND losses. Check our Performance page. No cherry-picking. No hiding.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-section">
+    <div class="testimonials-content">
+        <h2 class="section-title" style="margin-bottom:50px">From <span>Switchers</span></h2>
+        
+        <div class="testimonial-grid">
+            <div class="testimonial-card">
+                <div class="testimonial-badge">Switched from TokenMetrics</div>
+                <p class="testimonial-text">"I was paying $99/mo for ratings I didn't understand. ELUXRAJ actually tells me WHY a signal fires. First tool that made me feel smarter, not dumber."</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">MK</div>
+                    <div>
+                        <div class="testimonial-name">Marcus K.</div>
+                        <div class="testimonial-prev">Former TokenMetrics user</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-badge">Switched from Discord Groups</div>
+                <p class="testimonial-text">"Got burned by 3 different 'alpha' groups. ELUXRAJ is the first service that shows real performance data — wins AND losses. That's how I knew it was legit."</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">JT</div>
+                    <div>
+                        <div class="testimonial-name">James T.</div>
+                        <div class="testimonial-prev">Former Discord group member</div>
+                    </div>
+                </div>
+            </div>
+            <div class="testimonial-card">
+                <div class="testimonial-badge">Switched from TradingView Premium</div>
+                <p class="testimonial-text">"TradingView is great for charts but I still couldn't make decisions. ELUXRAJ synthesizes everything into a clear signal. Now I use both — charts on TV, decisions on ELUXRAJ."</p>
+                <div class="testimonial-author">
+                    <div class="testimonial-avatar">SL</div>
+                    <div>
+                        <div class="testimonial-name">Sarah L.</div>
+                        <div class="testimonial-prev">Still uses TradingView for charts</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+    <h2>Ready to Switch?</h2>
+    <p>Stop paying for tools that don't work. See what AI-powered signals with full explainability actually look like.</p>
+    <div class="cta-buttons">
+        <a href="/register.html" class="btn btn-primary">Start Free — No Card Required</a>
+        <a href="/performance.html" class="btn btn-secondary">See Our Track Record</a>
+    </div>
+    <p class="cta-note">Free tier available. No credit card. Cancel anytime.</p>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-links">
+        <a href="/about.html">About</a>
+        <a href="/founder.html">Our Story</a>
+        <a href="/performance.html">Performance</a>
+        <a href="/pricing.html">Pricing</a>
+        <a href="/terms.html">Terms</a>
+        <a href="/disclaimer.html">Disclaimer</a>
+    </div>
+    <p class="footer-copy">© 2025 ELUXRAJ™. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
