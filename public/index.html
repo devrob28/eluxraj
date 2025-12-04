@@ -3,655 +3,452 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ELUXRAJ™ | AI Signals That Make You a Smarter Investor</title>
-    <meta name="description" content="Hedge-fund level AI intelligence for retail investors. Real-time signals, whale alerts, predictive price ranges, and full market analysis.">
+    <title>ELUXRAJ™ | AI-Powered Trading Intelligence</title>
+    <meta name="description" content="Institutional-grade AI signals for retail investors. Real-time Oracle scores, whale tracking, and predictive intelligence.">
     <link rel="manifest" href="/manifest.json">
-    <meta name="theme-color" content="#6366f1">
+    <meta name="theme-color" content="#7c3aed">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-    
     <style>
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:#000;color:#fff;line-height:1.6;overflow-x:hidden}
         
-        body {
-            font-family: "Inter", -apple-system, BlinkMacSystemFont, sans-serif;
-            background: #0a0a0f;
-            color: #fff;
-            line-height: 1.6;
-        }
+        header{padding:20px 50px;display:flex;justify-content:space-between;align-items:center;background:rgba(0,0,0,0.5);backdrop-filter:blur(20px);position:fixed;top:0;left:0;right:0;z-index:100}
+        .logo{font-weight:900;font-size:1.7rem;background:linear-gradient(135deg,#7c3aed,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none;letter-spacing:-0.5px}
+        .nav-links{display:flex;align-items:center;gap:36px}
+        .nav-links a{color:rgba(255,255,255,0.7);text-decoration:none;font-size:0.95rem;font-weight:500;transition:color 0.3s}
+        .nav-links a:hover{color:#fff}
+        .nav-cta{background:#fff!important;color:#000!important;-webkit-text-fill-color:#000!important;padding:12px 28px!important;border-radius:100px;font-weight:600!important;transition:all 0.3s}
+        .nav-cta:hover{transform:scale(1.05);box-shadow:0 0 40px rgba(255,255,255,0.25)}
 
-        /* Navbar */
-        header {
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background: rgba(10,10,15,0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(99,102,241,0.2);
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-        }
-        .logo {
-            font-weight: 900;
-            font-size: 1.5rem;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 32px;
-        }
-        .nav-links a {
-            color: #9ca3af;
-            text-decoration: none;
-            font-size: 0.95rem;
-            font-weight: 500;
-            transition: color 0.3s;
-        }
-        .nav-links a:hover { color: #fff; }
-        .nav-cta {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6) !important;
-            -webkit-text-fill-color: #fff !important;
-            padding: 10px 24px !important;
-            border-radius: 8px;
-        }
+        .hero{min-height:100vh;position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;overflow:hidden;padding:120px 20px 60px}
+        
+        .hero-bg{position:absolute;inset:0;z-index:0}
+        .gradient-orb{position:absolute;border-radius:50%;filter:blur(80px);opacity:0.5;animation:float 8s ease-in-out infinite}
+        .orb-1{width:600px;height:600px;background:radial-gradient(circle,#7c3aed,transparent 70%);top:-200px;left:-100px;animation-delay:0s}
+        .orb-2{width:500px;height:500px;background:radial-gradient(circle,#06b6d4,transparent 70%);bottom:-150px;right:-100px;animation-delay:2s}
+        .orb-3{width:400px;height:400px;background:radial-gradient(circle,#8b5cf6,transparent 70%);top:50%;left:50%;transform:translate(-50%,-50%);animation-delay:4s}
+        @keyframes float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-30px) scale(1.05)}}
 
-        /* Hero */
-        .hero {
-            text-align: center;
-            padding: 160px 20px 100px;
-            max-width: 950px;
-            margin: auto;
-            background: radial-gradient(ellipse at top, rgba(99,102,241,0.15), transparent 60%);
-        }
-        .hero-badge {
-            display: inline-block;
-            background: rgba(34,197,94,0.15);
-            color: #22c55e;
-            padding: 8px 20px;
-            border-radius: 30px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 30px;
-            border: 1px solid rgba(34,197,94,0.3);
-        }
-        .hero h1 {
-            font-size: 3.5rem;
-            font-weight: 900;
-            margin-bottom: 24px;
-            line-height: 1.15;
-        }
-        .hero h1 span {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6, #a855f7);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .hero p {
-            font-size: 1.25rem;
-            color: #9ca3af;
-            margin-bottom: 40px;
-            max-width: 700px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .hero p strong {
-            color: #fff;
-        }
+        .hero-content{position:relative;z-index:10;text-align:center;max-width:900px}
+        .hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.1);padding:10px 20px;border-radius:100px;font-size:0.9rem;margin-bottom:32px;animation:fadeInUp 1s ease}
+        .hero-badge .dot{width:8px;height:8px;background:#22c55e;border-radius:50%;animation:pulse 2s infinite}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+        
+        .hero h1{font-size:4.5rem;font-weight:900;line-height:1.05;letter-spacing:-2px;margin-bottom:28px;animation:fadeInUp 1s ease 0.1s both}
+        .hero h1 .gradient{background:linear-gradient(135deg,#7c3aed,#06b6d4,#22c55e);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-size:200% auto;animation:shimmer 3s linear infinite}
+        @keyframes shimmer{to{background-position:200% center}}
+        
+        .hero p{font-size:1.35rem;color:rgba(255,255,255,0.7);max-width:650px;margin:0 auto 40px;animation:fadeInUp 1s ease 0.2s both}
+        
+        .hero-cta{display:flex;gap:16px;justify-content:center;flex-wrap:wrap;animation:fadeInUp 1s ease 0.3s both}
+        .btn{padding:18px 40px;border-radius:100px;text-decoration:none;font-weight:700;font-size:1.05rem;transition:all 0.3s}
+        .btn-primary{background:#fff;color:#000}
+        .btn-primary:hover{transform:translateY(-3px);box-shadow:0 20px 50px rgba(255,255,255,0.2)}
+        .btn-secondary{background:rgba(255,255,255,0.08);color:#fff;border:1px solid rgba(255,255,255,0.15)}
+        .btn-secondary:hover{background:rgba(255,255,255,0.12)}
+        
+        @keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
 
-        .cta-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-        .btn {
-            padding: 18px 36px;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            border-radius: 12px;
-            color: white;
-            font-size: 1.1rem;
-            text-decoration: none;
-            font-weight: 700;
-            transition: transform 0.3s, box-shadow 0.3s;
-        }
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 20px 60px rgba(99,102,241,0.4);
-        }
-        .btn-secondary {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-        .btn-secondary:hover {
-            background: rgba(255,255,255,0.1);
-            box-shadow: none;
-        }
+        /* ANIMATED DEMO */
+        .demo-container{position:relative;z-index:10;width:100%;max-width:1100px;margin-top:80px;animation:fadeInUp 1s ease 0.5s both}
+        .demo-window{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.08);border-radius:24px;overflow:hidden;box-shadow:0 50px 100px rgba(0,0,0,0.5)}
+        .demo-header{display:flex;align-items:center;gap:8px;padding:16px 20px;background:rgba(255,255,255,0.03);border-bottom:1px solid rgba(255,255,255,0.06)}
+        .demo-dot{width:12px;height:12px;border-radius:50%}
+        .demo-dot.red{background:#ff5f57}
+        .demo-dot.yellow{background:#ffbd2e}
+        .demo-dot.green{background:#28ca42}
+        .demo-title{margin-left:auto;margin-right:auto;color:rgba(255,255,255,0.5);font-size:0.85rem}
+        
+        .demo-body{padding:30px;min-height:400px;display:grid;grid-template-columns:1fr 1.2fr;gap:24px}
+        @media(max-width:800px){.demo-body{grid-template-columns:1fr;min-height:auto}}
 
-        /* Trust Row */
-        .trust-row {
-            display: flex;
-            justify-content: center;
-            gap: 40px;
-            margin-top: 50px;
-            flex-wrap: wrap;
-        }
-        .trust-item {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            color: #6b7280;
-            font-size: 0.9rem;
-        }
-        .trust-item .check {
-            color: #22c55e;
-            font-weight: bold;
-        }
+        /* Left Panel - Coins */
+        .coins-panel{display:flex;flex-direction:column;gap:12px}
+        .coin-row{display:flex;align-items:center;gap:14px;padding:16px 18px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:16px;transition:all 0.3s;cursor:pointer;opacity:0;animation:slideIn 0.5s ease forwards}
+        .coin-row:nth-child(1){animation-delay:0.8s}
+        .coin-row:nth-child(2){animation-delay:1s}
+        .coin-row:nth-child(3){animation-delay:1.2s}
+        .coin-row:nth-child(4){animation-delay:1.4s}
+        .coin-row:hover{background:rgba(255,255,255,0.06);transform:translateX(5px)}
+        .coin-row.active{background:rgba(124,58,237,0.15);border-color:rgba(124,58,237,0.3)}
+        @keyframes slideIn{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:translateX(0)}}
+        
+        .coin-icon{width:44px;height:44px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px}
+        .coin-icon.btc{background:linear-gradient(135deg,#f7931a,#ffab40)}
+        .coin-icon.eth{background:linear-gradient(135deg,#627eea,#8c9eff)}
+        .coin-icon.sol{background:linear-gradient(135deg,#00ffa3,#00d9ff)}
+        .coin-icon.xrp{background:linear-gradient(135deg,#00aae4,#0088cc)}
+        
+        .coin-info{flex:1}
+        .coin-name{font-weight:700;font-size:1rem}
+        .coin-pair{color:rgba(255,255,255,0.5);font-size:0.8rem}
+        .coin-price{text-align:right}
+        .coin-value{font-weight:700;font-size:1rem}
+        .coin-change{font-size:0.85rem}
+        .coin-change.up{color:#22c55e}
+        .coin-change.down{color:#ef4444}
 
-        /* Social Proof Stats */
-        .stats-row {
-            display: flex;
-            justify-content: center;
-            gap: 60px;
-            margin-top: 80px;
-            padding: 40px 20px;
-            border-top: 1px solid rgba(99,102,241,0.1);
-            border-bottom: 1px solid rgba(99,102,241,0.1);
-            background: rgba(99,102,241,0.02);
-            flex-wrap: wrap;
-        }
-        .stat {
-            text-align: center;
-        }
-        .stat-value {
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: #6366f1;
-        }
-        .stat-label {
-            color: #6b7280;
-            font-size: 0.9rem;
-            margin-top: 4px;
-        }
+        /* Right Panel - AI Signal */
+        .signal-panel{background:linear-gradient(160deg,rgba(124,58,237,0.1),rgba(6,182,212,0.05));border:1px solid rgba(124,58,237,0.2);border-radius:20px;padding:28px;opacity:0;animation:fadeIn 0.8s ease 1.6s forwards}
+        @keyframes fadeIn{to{opacity:1}}
+        
+        .signal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+        .signal-title{font-size:0.85rem;color:rgba(255,255,255,0.6);text-transform:uppercase;letter-spacing:1px}
+        .signal-badge{background:rgba(34,197,94,0.2);color:#22c55e;padding:6px 14px;border-radius:20px;font-size:0.8rem;font-weight:700}
+        
+        .oracle-score{text-align:center;margin-bottom:28px}
+        .score-ring{width:140px;height:140px;margin:0 auto 16px;position:relative}
+        .score-ring svg{transform:rotate(-90deg)}
+        .score-ring circle{fill:none;stroke-width:10}
+        .score-ring .bg{stroke:rgba(255,255,255,0.1)}
+        .score-ring .progress{stroke:url(#scoreGradient);stroke-linecap:round;stroke-dasharray:408;stroke-dashoffset:408;animation:fillScore 2s ease 2s forwards}
+        @keyframes fillScore{to{stroke-dashoffset:82}}
+        .score-value{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+        .score-number{font-size:3rem;font-weight:900;background:linear-gradient(135deg,#7c3aed,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .score-label{color:rgba(255,255,255,0.5);font-size:0.85rem}
+        
+        .signal-action{background:linear-gradient(135deg,#22c55e,#16a34a);padding:16px;border-radius:14px;text-align:center;margin-bottom:20px;opacity:0;animation:popIn 0.5s ease 2.5s forwards}
+        @keyframes popIn{from{opacity:0;transform:scale(0.8)}to{opacity:1;transform:scale(1)}}
+        .signal-action .label{font-size:0.75rem;opacity:0.8;margin-bottom:4px}
+        .signal-action .action{font-size:1.5rem;font-weight:900;letter-spacing:2px}
+        
+        .signal-details{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+        .detail-box{background:rgba(0,0,0,0.2);border-radius:12px;padding:14px;text-align:center;opacity:0;animation:fadeIn 0.5s ease forwards}
+        .detail-box:nth-child(1){animation-delay:2.7s}
+        .detail-box:nth-child(2){animation-delay:2.9s}
+        .detail-box:nth-child(3){animation-delay:3.1s}
+        .detail-box:nth-child(4){animation-delay:3.3s}
+        .detail-label{font-size:0.7rem;color:rgba(255,255,255,0.5);text-transform:uppercase;margin-bottom:4px}
+        .detail-value{font-weight:700;font-size:0.95rem}
+        .detail-value.green{color:#22c55e}
+        .detail-value.purple{color:#a855f7}
 
-        /* Features */
-        .section {
-            padding: 100px 20px;
-            max-width: 1200px;
-            margin: auto;
-        }
-        .section-header {
-            text-align: center;
-            margin-bottom: 60px;
-        }
-        .section h2 {
-            font-size: 2.8rem;
-            font-weight: 800;
-            margin-bottom: 16px;
-        }
-        .section h2 span {
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .section-subtitle {
-            color: #9ca3af;
-            font-size: 1.1rem;
-            max-width: 600px;
-            margin: 0 auto;
-        }
+        /* Floating Live Alerts */
+        .live-alerts{position:absolute;bottom:20px;left:20px;right:20px;z-index:20}
+        .alert-toast{background:rgba(0,0,0,0.9);border:1px solid rgba(124,58,237,0.3);border-radius:14px;padding:16px 20px;display:flex;align-items:center;gap:14px;opacity:0;transform:translateY(20px);animation:toastIn 0.5s ease 3.5s forwards}
+        @keyframes toastIn{to{opacity:1;transform:translateY(0)}}
+        .alert-icon{width:44px;height:44px;background:linear-gradient(135deg,#7c3aed,#06b6d4);border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px}
+        .alert-content{flex:1}
+        .alert-title{font-weight:700;font-size:0.95rem;margin-bottom:2px}
+        .alert-desc{color:rgba(255,255,255,0.6);font-size:0.85rem}
+        .alert-time{color:rgba(255,255,255,0.4);font-size:0.8rem}
 
-        .features-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 30px;
-        }
-        .feature-card {
-            background: rgba(255,255,255,0.02);
-            border-radius: 16px;
-            padding: 35px;
-            border: 1px solid rgba(99,102,241,0.15);
-            transition: transform 0.3s, border-color 0.3s;
-        }
-        .feature-card:hover {
-            transform: translateY(-5px);
-            border-color: rgba(99,102,241,0.4);
-        }
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 20px;
-        }
-        .feature-card h3 {
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 12px;
-        }
-        .feature-card p {
-            color: #9ca3af;
-            font-size: 0.95rem;
-        }
+        /* Trust Bar */
+        .trust-bar{display:flex;justify-content:center;gap:50px;padding:80px 20px 60px;flex-wrap:wrap;opacity:0;animation:fadeInUp 1s ease 0.6s forwards}
+        .trust-item{text-align:center}
+        .trust-value{font-size:2.5rem;font-weight:900;background:linear-gradient(135deg,#7c3aed,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .trust-label{color:rgba(255,255,255,0.5);font-size:0.9rem;margin-top:4px}
 
-        /* How It Works */
-        .how-it-works {
-            background: linear-gradient(135deg, rgba(99,102,241,0.05), rgba(139,92,246,0.05));
-            border-radius: 24px;
-            padding: 80px 40px;
-            margin: 60px auto;
-            max-width: 1100px;
-        }
-        .steps {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 40px;
-            margin-top: 50px;
-        }
-        .step {
-            text-align: center;
-        }
-        .step-number {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin: 0 auto 20px;
-        }
-        .step h4 {
-            font-size: 1.2rem;
-            margin-bottom: 10px;
-        }
-        .step p {
-            color: #9ca3af;
-            font-size: 0.9rem;
-        }
+        /* Features Section */
+        .features{padding:120px 20px;background:linear-gradient(180deg,#000,#050510)}
+        .features-content{max-width:1200px;margin:0 auto}
+        .features-header{text-align:center;margin-bottom:80px}
+        .features-header h2{font-size:3rem;font-weight:900;margin-bottom:20px}
+        .features-header h2 span{background:linear-gradient(135deg,#7c3aed,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .features-header p{color:rgba(255,255,255,0.6);font-size:1.2rem;max-width:600px;margin:0 auto}
+        
+        .features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+        @media(max-width:900px){.features-grid{grid-template-columns:1fr}}
+        .feature-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:24px;padding:40px;transition:all 0.3s}
+        .feature-card:hover{background:rgba(255,255,255,0.04);transform:translateY(-5px);border-color:rgba(124,58,237,0.3)}
+        .feature-icon{width:64px;height:64px;background:linear-gradient(135deg,rgba(124,58,237,0.2),rgba(6,182,212,0.1));border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:28px;margin-bottom:24px}
+        .feature-card h3{font-size:1.3rem;margin-bottom:12px}
+        .feature-card p{color:rgba(255,255,255,0.6);font-size:0.95rem}
 
-        /* Testimonials */
-        .testimonials-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-            gap: 30px;
-        }
-        .testimonial-card {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(99,102,241,0.15);
-            border-radius: 16px;
-            padding: 30px;
-        }
-        .testimonial-text {
-            font-size: 1rem;
-            line-height: 1.7;
-            color: #d1d5db;
-            margin-bottom: 24px;
-            font-style: italic;
-        }
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
-        .testimonial-avatar {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 1.1rem;
-        }
-        .testimonial-name {
-            font-weight: 600;
-        }
-        .testimonial-role {
-            color: #6b7280;
-            font-size: 0.85rem;
-        }
-        .testimonial-stars {
-            color: #eab308;
-            font-size: 0.9rem;
-            margin-top: 2px;
-        }
-
-        /* Pricing */
-        .pricing-section {
-            padding: 100px 20px;
-            background: radial-gradient(ellipse at bottom, rgba(99,102,241,0.1), transparent 60%);
-        }
-        .pricing-table {
-            display: flex;
-            gap: 30px;
-            flex-wrap: wrap;
-            justify-content: center;
-            margin-top: 60px;
-            max-width: 1100px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-        .plan {
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(99,102,241,0.2);
-            border-radius: 20px;
-            padding: 40px;
-            width: 340px;
-            position: relative;
-            transition: transform 0.3s;
-        }
-        .plan:hover {
-            transform: translateY(-5px);
-        }
-        .plan.featured {
-            border: 2px solid #6366f1;
-            background: rgba(99,102,241,0.05);
-        }
-        .plan-badge {
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(135deg, #6366f1, #8b5cf6);
-            color: #fff;
-            padding: 6px 20px;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            font-weight: 700;
-        }
-        .plan h3 {
-            font-size: 1.5rem;
-            margin-bottom: 8px;
-            font-weight: 700;
-        }
-        .plan-desc {
-            color: #6b7280;
-            font-size: 0.9rem;
-            margin-bottom: 20px;
-        }
-        .price {
-            font-size: 3rem;
-            font-weight: 900;
-            margin-bottom: 8px;
-        }
-        .price span {
-            font-size: 1rem;
-            font-weight: 400;
-            color: #6b7280;
-        }
-        .plan ul {
-            list-style: none;
-            margin: 30px 0;
-        }
-        .plan ul li {
-            margin: 14px 0;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            font-size: 0.95rem;
-        }
-        .plan ul li::before {
-            content: "✓";
-            color: #22c55e;
-            font-weight: bold;
-        }
-        .plan .btn {
-            display: block;
-            text-align: center;
-            width: 100%;
-        }
+        /* Social Proof */
+        .social-proof{padding:100px 20px;text-align:center}
+        .social-proof h2{font-size:2.5rem;font-weight:900;margin-bottom:60px}
+        .testimonials-row{display:flex;gap:24px;max-width:1200px;margin:0 auto;overflow-x:auto;padding-bottom:20px}
+        .testimonial{min-width:380px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:32px;text-align:left}
+        .testimonial-text{font-size:1.05rem;color:rgba(255,255,255,0.8);margin-bottom:24px;line-height:1.7}
+        .testimonial-author{display:flex;align-items:center;gap:14px}
+        .testimonial-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:700}
+        .testimonial-name{font-weight:700}
+        .testimonial-role{color:rgba(255,255,255,0.5);font-size:0.85rem}
+        .testimonial-stars{color:#f59e0b;margin-top:4px}
 
         /* Final CTA */
-        .final-cta {
-            text-align: center;
-            padding: 120px 20px;
-            background: linear-gradient(180deg, transparent, rgba(99,102,241,0.1));
-        }
-        .final-cta h2 {
-            font-size: 2.8rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-        }
-        .final-cta p {
-            color: #9ca3af;
-            font-size: 1.2rem;
-            margin-bottom: 40px;
-        }
-        .guarantee-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            background: rgba(34,197,94,0.1);
-            color: #22c55e;
-            padding: 14px 28px;
-            border-radius: 30px;
-            font-size: 0.95rem;
-            font-weight: 600;
-            margin-bottom: 30px;
-            border: 1px solid rgba(34,197,94,0.3);
-        }
-
-        /* Risk Disclaimer */
-        .risk-banner {
-            background: rgba(234,179,8,0.1);
-            border: 1px solid rgba(234,179,8,0.3);
-            border-radius: 12px;
-            padding: 20px 30px;
-            max-width: 900px;
-            margin: 60px auto;
-            text-align: center;
-        }
-        .risk-banner p {
-            color: #eab308;
-            font-size: 0.85rem;
-            line-height: 1.6;
-        }
-        .risk-banner a {
-            color: #eab308;
-            text-decoration: underline;
-        }
+        .final-cta{padding:150px 20px;text-align:center;background:radial-gradient(ellipse at center,rgba(124,58,237,0.15),transparent 60%)}
+        .final-cta h2{font-size:3.5rem;font-weight:900;margin-bottom:24px}
+        .final-cta h2 span{background:linear-gradient(135deg,#7c3aed,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .final-cta p{color:rgba(255,255,255,0.6);font-size:1.3rem;margin-bottom:40px;max-width:600px;margin-left:auto;margin-right:auto}
+        .final-cta .btn-primary{font-size:1.15rem;padding:22px 50px}
+        .final-cta-note{color:rgba(255,255,255,0.4);font-size:0.9rem;margin-top:20px}
 
         /* Footer */
-        footer {
-            text-align: center;
-            padding: 60px 20px;
-            border-top: 1px solid rgba(99,102,241,0.2);
-        }
-        .footer-links {
-            margin-bottom: 24px;
-        }
-        .footer-links a {
-            color: #6b7280;
-            text-decoration: none;
-            margin: 0 16px;
-            font-size: 0.9rem;
-            transition: color 0.3s;
-        }
-        .footer-links a:hover { color: #fff; }
-        .footer-copy {
-            color: #4b5563;
-            font-size: 0.85rem;
-            margin-bottom: 20px;
-        }
-        .footer-disclaimer {
-            color: #4b5563;
-            font-size: 0.75rem;
-            max-width: 700px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
+        footer{padding:60px 20px;border-top:1px solid rgba(255,255,255,0.06);text-align:center}
+        .footer-links{display:flex;justify-content:center;gap:32px;flex-wrap:wrap;margin-bottom:30px}
+        .footer-links a{color:rgba(255,255,255,0.5);text-decoration:none;font-size:0.9rem;transition:color 0.3s}
+        .footer-links a:hover{color:#fff}
+        .footer-copy{color:rgba(255,255,255,0.3);font-size:0.85rem;margin-bottom:16px}
+        .footer-disclaimer{color:rgba(255,255,255,0.3);font-size:0.75rem;max-width:600px;margin:0 auto}
 
-        @media (max-width: 768px) {
-            .hero h1 { font-size: 2.2rem; }
-            header { padding: 16px 20px; }
-            .nav-links { gap: 16px; }
-            .nav-links a { font-size: 0.85rem; }
-            .stats-row { gap: 30px; }
-            .stat-value { font-size: 2rem; }
+        @media(max-width:768px){
+            header{padding:16px 20px}
+            .nav-links{display:none}
+            .hero h1{font-size:2.5rem}
+            .demo-body{padding:20px}
+            .features-header h2{font-size:2rem}
+            .final-cta h2{font-size:2.2rem}
+            .trust-bar{gap:30px}
+            .trust-value{font-size:2rem}
         }
     </style>
 </head>
-
 <body>
 
 <header>
-    <div class="logo">ELUXRAJ™</div>
+    <a href="/" class="logo">ELUXRAJ™</a>
     <nav class="nav-links">
         <a href="/about.html">About</a>
-        <a href="/why-eluxraj.html">Why Us</a>
-        <a href="/how-it-works.html">How It Works</a>
-        <a href="#pricing">Pricing</a>
+        <a href="/performance.html">Performance</a>
+        <a href="/compare.html">Compare</a>
+        <a href="/pricing.html">Pricing</a>
         <a href="/login.html">Login</a>
-        <a href="/register.html" class="nav-cta">Start Free</a>
+        <a href="/register.html" class="nav-cta">Get Started</a>
     </nav>
 </header>
 
 <section class="hero">
-    <div class="hero-badge">🚀 Trusted by 500+ investors</div>
-    <h1>AI Signals That Make You a <span>Smarter Investor</span> in 30 Seconds</h1>
-    <p>The only AI system that gives retail investors <strong>hedge-fund level intelligence</strong>: real-time whale alerts, oracle-grade signals, predictive price ranges, and full market analysis.</p>
-
-    <div class="cta-buttons">
-        <a href="/register.html" class="btn">Start Free Trial →</a>
-        <a href="#pricing" class="btn btn-secondary">View Pricing</a>
+    <div class="hero-bg">
+        <div class="gradient-orb orb-1"></div>
+        <div class="gradient-orb orb-2"></div>
+        <div class="gradient-orb orb-3"></div>
     </div>
 
-    <div class="trust-row">
-        <div class="trust-item"><span class="check">✓</span> No credit card required</div>
-        <div class="trust-item"><span class="check">✓</span> Cancel anytime</div>
-        <div class="trust-item"><span class="check">✓</span> Full risk disclosure</div>
+    <div class="hero-content">
+        <div class="hero-badge">
+            <span class="dot"></span>
+            Live AI Signals Active
+        </div>
+        <h1>Trade Like The <span class="gradient">Institutions</span></h1>
+        <p>AI-powered signals that tell you what to buy, when to buy, and exactly why. The same intelligence hedge funds use — now in your pocket.</p>
+        <div class="hero-cta">
+            <a href="/register.html" class="btn btn-primary">Start Free Trial</a>
+            <a href="/performance.html" class="btn btn-secondary">See Results</a>
+        </div>
+    </div>
+
+    <!-- ANIMATED DEMO -->
+    <div class="demo-container">
+        <div class="demo-window">
+            <div class="demo-header">
+                <div class="demo-dot red"></div>
+                <div class="demo-dot yellow"></div>
+                <div class="demo-dot green"></div>
+                <span class="demo-title">ELUXRAJ Oracle — Live</span>
+            </div>
+            <div class="demo-body">
+                <!-- Coins Panel -->
+                <div class="coins-panel">
+                    <div class="coin-row active">
+                        <div class="coin-icon btc">₿</div>
+                        <div class="coin-info">
+                            <div class="coin-name">Bitcoin</div>
+                            <div class="coin-pair">BTC/USDT</div>
+                        </div>
+                        <div class="coin-price">
+                            <div class="coin-value">$97,842</div>
+                            <div class="coin-change up">+4.2%</div>
+                        </div>
+                    </div>
+                    <div class="coin-row">
+                        <div class="coin-icon eth">◆</div>
+                        <div class="coin-info">
+                            <div class="coin-name">Ethereum</div>
+                            <div class="coin-pair">ETH/USDT</div>
+                        </div>
+                        <div class="coin-price">
+                            <div class="coin-value">$3,891</div>
+                            <div class="coin-change up">+2.8%</div>
+                        </div>
+                    </div>
+                    <div class="coin-row">
+                        <div class="coin-icon sol">◎</div>
+                        <div class="coin-info">
+                            <div class="coin-name">Solana</div>
+                            <div class="coin-pair">SOL/USDT</div>
+                        </div>
+                        <div class="coin-price">
+                            <div class="coin-value">$242.18</div>
+                            <div class="coin-change down">-1.3%</div>
+                        </div>
+                    </div>
+                    <div class="coin-row">
+                        <div class="coin-icon xrp">✕</div>
+                        <div class="coin-info">
+                            <div class="coin-name">XRP</div>
+                            <div class="coin-pair">XRP/USDT</div>
+                        </div>
+                        <div class="coin-price">
+                            <div class="coin-value">$2.41</div>
+                            <div class="coin-change up">+8.7%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Signal Panel -->
+                <div class="signal-panel">
+                    <div class="signal-header">
+                        <span class="signal-title">AI Oracle Signal</span>
+                        <span class="signal-badge">HIGH CONFIDENCE</span>
+                    </div>
+                    
+                    <div class="oracle-score">
+                        <div class="score-ring">
+                            <svg width="140" height="140" viewBox="0 0 140 140">
+                                <defs>
+                                    <linearGradient id="scoreGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+                                        <stop offset="0%" stop-color="#7c3aed"/>
+                                        <stop offset="100%" stop-color="#22c55e"/>
+                                    </linearGradient>
+                                </defs>
+                                <circle class="bg" cx="70" cy="70" r="65"/>
+                                <circle class="progress" cx="70" cy="70" r="65"/>
+                            </svg>
+                            <div class="score-value">
+                                <span class="score-number">87</span>
+                                <span class="score-label">Oracle Score</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="signal-action">
+                        <div class="label">Recommended Action</div>
+                        <div class="action">BUY BTC</div>
+                    </div>
+
+                    <div class="signal-details">
+                        <div class="detail-box">
+                            <div class="detail-label">Entry</div>
+                            <div class="detail-value">$97,842</div>
+                        </div>
+                        <div class="detail-box">
+                            <div class="detail-label">Target</div>
+                            <div class="detail-value green">$103,200</div>
+                        </div>
+                        <div class="detail-box">
+                            <div class="detail-label">Stop Loss</div>
+                            <div class="detail-value">$94,500</div>
+                        </div>
+                        <div class="detail-box">
+                            <div class="detail-label">Timeframe</div>
+                            <div class="detail-value purple">24-48h</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Alert Toast -->
+            <div class="live-alerts">
+                <div class="alert-toast">
+                    <div class="alert-icon">🐳</div>
+                    <div class="alert-content">
+                        <div class="alert-title">Whale Alert: 847 BTC Accumulated</div>
+                        <div class="alert-desc">Smart money inflow detected on Binance</div>
+                    </div>
+                    <div class="alert-time">Just now</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Trust Stats -->
+    <div class="trust-bar">
+        <div class="trust-item">
+            <div class="trust-value">68.4%</div>
+            <div class="trust-label">Win Rate</div>
+        </div>
+        <div class="trust-item">
+            <div class="trust-value">847</div>
+            <div class="trust-label">Signals Generated</div>
+        </div>
+        <div class="trust-item">
+            <div class="trust-value">500+</div>
+            <div class="trust-label">Active Traders</div>
+        </div>
+        <div class="trust-item">
+            <div class="trust-value">24/7</div>
+            <div class="trust-label">AI Monitoring</div>
+        </div>
     </div>
 </section>
 
-<div class="stats-row">
-    <div class="stat">
-        <div class="stat-value">25+</div>
-        <div class="stat-label">AI Features</div>
-    </div>
-    <div class="stat">
-        <div class="stat-value">8</div>
-        <div class="stat-label">Timeframes</div>
-    </div>
-    <div class="stat">
-        <div class="stat-value">68%</div>
-        <div class="stat-label">Signal Accuracy*</div>
-    </div>
-    <div class="stat">
-        <div class="stat-value">24/7</div>
-        <div class="stat-label">Market Monitoring</div>
-    </div>
-</div>
-
-<section class="section">
-    <div class="section-header">
-        <h2>Why Investors Choose <span>ELUXRAJ</span></h2>
-        <p class="section-subtitle">Institutional-grade tools that were previously only available to hedge funds</p>
-    </div>
-
-    <div class="features-grid">
-        <div class="feature-card">
-            <div class="feature-icon">🎩</div>
-            <h3>MAGICIAN™ AI Signals</h3>
-            <p>Our proprietary engine analyzes 8 timeframes simultaneously to detect high-confidence buy/sell signals before the market reacts.</p>
+<!-- Features -->
+<section class="features">
+    <div class="features-content">
+        <div class="features-header">
+            <h2>Why Traders <span>Choose Us</span></h2>
+            <p>Everything you need to trade with confidence, nothing you don't.</p>
         </div>
-        <div class="feature-card">
-            <div class="feature-icon">🐳</div>
-            <h3>Whale Watch Alerts</h3>
-            <p>Instant alerts when deep-pocket players move millions — accumulation, distribution, and wallet flow patterns.</p>
-        </div>
-        <div class="feature-card">
-            <div class="feature-icon">🔮</div>
-            <h3>Predictive Price Ranges</h3>
-            <p>24-hour AI price projections with confidence scoring so you never enter a trade blind again.</p>
-        </div>
-        <div class="feature-card">
-            <div class="feature-icon">📊</div>
-            <h3>Multi-Timeframe Analysis</h3>
-            <p>See signals aligned across 15m to monthly charts. Higher timeframe confluence = stronger signals.</p>
-        </div>
-        <div class="feature-card">
-            <div class="feature-icon">🧠</div>
-            <h3>Explainable AI</h3>
-            <p>Every signal comes with full reasoning. Know exactly which indicators triggered and why.</p>
-        </div>
-        <div class="feature-card">
-            <div class="feature-icon">⚖️</div>
-            <h3>Risk-Adjusted Sizing</h3>
-            <p>Not just "buy" — we tell you how much based on volatility, confidence, and your risk profile.</p>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Explainable AI</h3>
+                <p>Every signal comes with full reasoning. Know exactly why the AI recommends each trade — no black boxes.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Multi-Timeframe</h3>
+                <p>Analyzes 8 timeframes simultaneously. Signals that align across multiple timeframes are fundamentally stronger.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🐳</div>
+                <h3>Whale Tracking</h3>
+                <p>See what smart money is doing before it hits the charts. Real-time accumulation and distribution alerts.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Instant Alerts</h3>
+                <p>Push notifications the moment a high-confidence signal fires. Never miss an opportunity again.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🛡️</div>
+                <h3>Risk Management</h3>
+                <p>Position sizing recommendations based on signal confidence and your risk tolerance. Protect your capital.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📱</div>
+                <h3>Mobile Ready</h3>
+                <p>Full-featured mobile experience. Trade from anywhere with the same powerful AI at your fingertips.</p>
+            </div>
         </div>
     </div>
 </section>
 
-<div class="how-it-works">
-    <div class="section-header">
-        <h2 style="margin-bottom: 16px;">How It <span style="background: linear-gradient(135deg, #6366f1, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">Works</span></h2>
-        <p class="section-subtitle">From raw data to actionable signals in 4 simple steps</p>
-    </div>
-    <div class="steps">
-        <div class="step">
-            <div class="step-number">1</div>
-            <h4>Sign Up Free</h4>
-            <p>Create your account in 30 seconds. No credit card required.</p>
-        </div>
-        <div class="step">
-            <div class="step-number">2</div>
-            <h4>Select Assets</h4>
-            <p>Choose from BTC, ETH, stocks, gold, and more.</p>
-        </div>
-        <div class="step">
-            <div class="step-number">3</div>
-            <h4>Get AI Signals</h4>
-            <p>Receive BUY/SELL/HOLD with confidence scores and reasoning.</p>
-        </div>
-        <div class="step">
-            <div class="step-number">4</div>
-            <h4>Execute Smarter</h4>
-            <p>Make informed decisions with position sizing recommendations.</p>
-        </div>
-    </div>
-</div>
-
-<section class="section">
-    <div class="section-header">
-        <h2>What Investors <span>Say</span></h2>
-        <p class="section-subtitle">Join hundreds of investors using AI to make better decisions</p>
-    </div>
-
-    <div class="testimonials-grid">
-        <div class="testimonial-card">
-            <p class="testimonial-text">"The MAGICIAN signals have completely changed how I approach trading. The explainability feature means I actually understand why each signal is generated — no more black boxes."</p>
+<!-- Social Proof -->
+<section class="social-proof">
+    <h2>Loved by Traders</h2>
+    <div class="testimonials-row">
+        <div class="testimonial">
+            <p class="testimonial-text">"The Oracle score changed everything for me. I finally understand WHY I'm making each trade instead of just following blind signals."</p>
             <div class="testimonial-author">
                 <div class="testimonial-avatar">MK</div>
                 <div>
-                    <div class="testimonial-name">Michael K.</div>
-                    <div class="testimonial-role">Crypto Investor, 3 years</div>
+                    <div class="testimonial-name">Marcus K.</div>
+                    <div class="testimonial-role">Crypto Trader</div>
                     <div class="testimonial-stars">★★★★★</div>
                 </div>
             </div>
         </div>
-        <div class="testimonial-card">
-            <p class="testimonial-text">"Finally, tools that don't require a Bloomberg terminal or a CS degree. ELUXRAJ makes institutional-grade analytics accessible to regular people like me."</p>
+        <div class="testimonial">
+            <p class="testimonial-text">"I've tried TokenMetrics, TradingView alerts, Discord groups — nothing comes close. ELUXRAJ actually explains the reasoning."</p>
             <div class="testimonial-author">
                 <div class="testimonial-avatar">SL</div>
                 <div>
                     <div class="testimonial-name">Sarah L.</div>
-                    <div class="testimonial-role">Part-time Trader</div>
+                    <div class="testimonial-role">Part-time Investor</div>
                     <div class="testimonial-stars">★★★★★</div>
                 </div>
             </div>
         </div>
-        <div class="testimonial-card">
-            <p class="testimonial-text">"The multi-timeframe analysis is exactly what I needed. Seeing how signals align across different timeframes gives me much more confidence in my entries."</p>
+        <div class="testimonial">
+            <p class="testimonial-text">"The whale alerts alone are worth the subscription. Seeing smart money move before the pump is a game changer."</p>
             <div class="testimonial-author">
                 <div class="testimonial-avatar">JR</div>
                 <div>
                     <div class="testimonial-name">James R.</div>
-                    <div class="testimonial-role">Swing Trader</div>
+                    <div class="testimonial-role">Day Trader</div>
                     <div class="testimonial-stars">★★★★★</div>
                 </div>
             </div>
@@ -659,87 +456,29 @@
     </div>
 </section>
 
-<section class="pricing-section" id="pricing">
-    <div class="section-header">
-        <h2>Simple, Transparent <span>Pricing</span></h2>
-        <p class="section-subtitle">Choose the plan that fits your trading style</p>
-    </div>
-
-    <div class="pricing-table">
-        <div class="plan">
-            <h3>FREE</h3>
-            <p class="plan-desc">Get started with basic tools</p>
-            <div class="price">$0<span>/mo</span></div>
-            <ul>
-                <li>Basic market data</li>
-                <li>Fear & Greed Index</li>
-                <li>3 signals per day</li>
-                <li>Dashboard access</li>
-            </ul>
-            <a href="/register.html" class="btn btn-secondary">Get Started</a>
-        </div>
-
-        <div class="plan featured">
-            <div class="plan-badge">MOST POPULAR</div>
-            <h3>PRO</h3>
-            <p class="plan-desc">For active traders</p>
-            <div class="price">$107<span>/mo</span></div>
-            <ul>
-                <li>Everything in Free</li>
-                <li>Unlimited AI signals</li>
-                <li>Whale alerts</li>
-                <li>Multi-timeframe analysis</li>
-                <li>Predictive price ranges</li>
-                <li>Portfolio risk scan</li>
-            </ul>
-            <a href="/register.html?plan=pro" class="btn">Start Free Trial</a>
-        </div>
-
-        <div class="plan">
-            <h3>ELITE</h3>
-            <p class="plan-desc">Maximum intelligence</p>
-            <div class="price">$800<span>/mo</span></div>
-            <ul>
-                <li>Everything in PRO</li>
-                <li>MAGICIAN™ priority compute</li>
-                <li>Ultra-fast alerts</li>
-                <li>UNICORN™ suite access</li>
-                <li>AUREUS™ private deals</li>
-                <li>Backtesting & signal history</li>
-                <li>Dedicated support</li>
-            </ul>
-            <a href="/register.html?plan=elite" class="btn">Go Elite</a>
-        </div>
-    </div>
-
-    <div class="risk-banner">
-        <p>⚠️ <strong>Risk Disclosure:</strong> Trading involves substantial risk. Past performance does not guarantee future results. *Signal accuracy based on backtested data — actual results may vary. ELUXRAJ provides informational tools only. <a href="/disclaimer.html">Read full disclaimer</a></p>
-    </div>
-</section>
-
+<!-- Final CTA -->
 <section class="final-cta">
-    <div class="guarantee-badge">🛡️ No credit card required • Cancel anytime</div>
-    <h2>Ready to Trade Smarter?</h2>
-    <p>Join 500+ investors using AI to make better decisions every day.</p>
-    <a href="/register.html" class="btn">Start Your Free Trial →</a>
+    <h2>Ready to Trade <span>Smarter</span>?</h2>
+    <p>Join hundreds of investors using AI to make better decisions. Start free, upgrade when you're ready.</p>
+    <a href="/register.html" class="btn btn-primary">Start Your Free Trial</a>
+    <p class="final-cta-note">No credit card required • Cancel anytime</p>
 </section>
 
+<!-- Footer -->
 <footer>
     <div class="footer-links">
         <a href="/about.html">About</a>
-        <a href="/why-eluxraj.html">Why Us</a>
-        <a href="/how-it-works.html">How It Works</a>
-        <a href="/insights.html">Insights</a>
-        <a href="/security.html">Security</a>
+        <a href="/founder.html">Our Story</a>
+        <a href="/performance.html">Performance</a>
+        <a href="/compare.html">Compare</a>
         <a href="/pricing.html">Pricing</a>
-    </div>
-    <div class="footer-links">
+        <a href="/how-it-works.html">How It Works</a>
         <a href="/terms.html">Terms</a>
         <a href="/privacy.html">Privacy</a>
         <a href="/disclaimer.html">Disclaimer</a>
     </div>
     <p class="footer-copy">© 2025 ELUXRAJ™. All rights reserved.</p>
-    <p class="footer-disclaimer">⚠️ Risk Disclosure: Trading and investing involves substantial risk and is not suitable for all investors. Past performance is not indicative of future results. The information provided is for educational purposes only and should not be construed as financial advice. Always do your own research.</p>
+    <p class="footer-disclaimer">⚠️ Trading involves substantial risk. Past performance does not guarantee future results. ELUXRAJ provides informational tools only.</p>
 </footer>
 
 </body>
