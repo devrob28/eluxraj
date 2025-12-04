@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Story | ELUXRAJ™ - Built by an Investor, for Investors</title>
+    <meta name="description" content="The story behind ELUXRAJ. Why I built an AI trading tool after losing money following the wrong signals.">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#7c3aed">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:"Inter",-apple-system,BlinkMacSystemFont,sans-serif;background:#05060f;color:#fff;line-height:1.8}
+        
+        /* Navbar */
+        header{padding:20px 40px;display:flex;justify-content:space-between;align-items:center;background:rgba(5,6,15,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(124,58,237,0.15);position:fixed;top:0;left:0;right:0;z-index:100}
+        .logo{font-weight:900;font-size:1.6rem;background:linear-gradient(135deg,#7c3aed,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none}
+        .nav-links{display:flex;align-items:center;gap:28px}
+        .nav-links a{color:#9ca3af;text-decoration:none;font-size:0.9rem;font-weight:500;transition:color 0.3s}
+        .nav-links a:hover{color:#fff}
+        .nav-cta{background:linear-gradient(135deg,#7c3aed,#06b6d4)!important;-webkit-text-fill-color:#fff!important;padding:10px 24px!important;border-radius:10px}
+
+        /* Hero */
+        .hero{padding:160px 20px 80px;background:radial-gradient(ellipse at top,rgba(124,58,237,0.15),transparent 50%)}
+        .hero-content{max-width:900px;margin:0 auto;display:grid;grid-template-columns:1fr 1.5fr;gap:60px;align-items:center}
+        @media(max-width:800px){.hero-content{grid-template-columns:1fr;text-align:center}}
+        
+        .founder-image{position:relative}
+        .founder-avatar{width:280px;height:280px;border-radius:24px;background:linear-gradient(135deg,rgba(124,58,237,0.3),rgba(6,182,212,0.3));display:flex;align-items:center;justify-content:center;font-size:120px;border:2px solid rgba(124,58,237,0.3);margin:0 auto}
+        .founder-badge{position:absolute;bottom:-10px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#7c3aed,#06b6d4);color:#fff;padding:8px 20px;border-radius:20px;font-size:0.85rem;font-weight:600;white-space:nowrap}
+        
+        .hero-text h1{font-size:2.8rem;font-weight:900;margin-bottom:20px;line-height:1.2}
+        .hero-text h1 span{background:linear-gradient(135deg,#7c3aed,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .hero-text .subtitle{font-size:1.2rem;color:#9ca3af;margin-bottom:24px}
+        .hero-text .quote{font-size:1.1rem;color:#d1d5db;font-style:italic;padding-left:20px;border-left:3px solid #7c3aed}
+
+        /* Story Sections */
+        .story-section{max-width:800px;margin:0 auto;padding:80px 20px}
+        .story-section h2{font-size:2rem;font-weight:800;margin-bottom:24px}
+        .story-section h2 span{background:linear-gradient(135deg,#7c3aed,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .story-section p{color:#d1d5db;font-size:1.1rem;margin-bottom:24px}
+        .story-section .highlight{color:#fff;font-weight:600}
+
+        /* The Problem */
+        .problem-section{background:linear-gradient(180deg,rgba(239,68,68,0.08),transparent);padding:80px 20px}
+        .problem-content{max-width:800px;margin:0 auto}
+        .problem-box{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.25);border-radius:20px;padding:40px;margin:30px 0}
+        .problem-box h3{color:#ef4444;font-size:1.3rem;margin-bottom:16px;display:flex;align-items:center;gap:12px}
+        .problem-box ul{list-style:none}
+        .problem-box li{color:#d1d5db;margin-bottom:12px;padding-left:28px;position:relative}
+        .problem-box li::before{content:'✗';position:absolute;left:0;color:#ef4444;font-weight:bold}
+
+        /* The Journey */
+        .journey-section{padding:80px 20px}
+        .journey-content{max-width:900px;margin:0 auto}
+        .timeline{position:relative;padding-left:40px}
+        .timeline::before{content:'';position:absolute;left:15px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,#7c3aed,#06b6d4)}
+        .timeline-item{position:relative;margin-bottom:50px}
+        .timeline-item::before{content:'';position:absolute;left:-33px;top:8px;width:16px;height:16px;border-radius:50%;background:#7c3aed;border:3px solid #05060f}
+        .timeline-year{color:#7c3aed;font-weight:700;font-size:0.9rem;margin-bottom:8px}
+        .timeline-title{font-size:1.3rem;font-weight:700;margin-bottom:8px}
+        .timeline-desc{color:#9ca3af}
+
+        /* The Solution */
+        .solution-section{background:linear-gradient(180deg,rgba(34,197,94,0.08),transparent);padding:80px 20px}
+        .solution-content{max-width:800px;margin:0 auto}
+        .solution-box{background:rgba(34,197,94,0.1);border:1px solid rgba(34,197,94,0.25);border-radius:20px;padding:40px;margin:30px 0}
+        .solution-box h3{color:#22c55e;font-size:1.3rem;margin-bottom:16px;display:flex;align-items:center;gap:12px}
+        .solution-box ul{list-style:none}
+        .solution-box li{color:#d1d5db;margin-bottom:12px;padding-left:28px;position:relative}
+        .solution-box li::before{content:'✓';position:absolute;left:0;color:#22c55e;font-weight:bold}
+
+        /* Mission */
+        .mission-section{padding:80px 20px;text-align:center}
+        .mission-content{max-width:800px;margin:0 auto}
+        .mission-box{background:linear-gradient(135deg,rgba(124,58,237,0.15),rgba(6,182,212,0.1));border:1px solid rgba(124,58,237,0.25);border-radius:28px;padding:60px 40px}
+        .mission-box h2{font-size:2.2rem;margin-bottom:24px}
+        .mission-box p{font-size:1.2rem;color:#d1d5db;margin-bottom:0}
+        .mission-quote{font-size:1.5rem;font-weight:600;color:#fff;margin:30px 0;line-height:1.5}
+
+        /* Values */
+        .values-section{padding:80px 20px}
+        .values-content{max-width:1000px;margin:0 auto}
+        .values-title{text-align:center;font-size:2rem;font-weight:800;margin-bottom:50px}
+        .values-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:24px}
+        .value-card{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:20px;padding:32px}
+        .value-card .icon{font-size:2.5rem;margin-bottom:16px}
+        .value-card h3{font-size:1.2rem;margin-bottom:12px}
+        .value-card p{color:#9ca3af;font-size:0.95rem}
+
+        /* Personal Note */
+        .personal-section{padding:80px 20px}
+        .personal-content{max-width:800px;margin:0 auto}
+        .personal-box{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:24px;padding:50px;position:relative}
+        .personal-box::before{content:'"';position:absolute;top:20px;left:30px;font-size:80px;color:rgba(124,58,237,0.2);font-family:Georgia,serif;line-height:1}
+        .personal-box p{font-size:1.1rem;color:#d1d5db;margin-bottom:20px;position:relative;z-index:1}
+        .personal-signature{display:flex;align-items:center;gap:16px;margin-top:30px;padding-top:30px;border-top:1px solid rgba(255,255,255,0.06)}
+        .signature-avatar{width:60px;height:60px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#06b6d4);display:flex;align-items:center;justify-content:center;font-size:24px}
+        .signature-name{font-weight:700;font-size:1.1rem}
+        .signature-title{color:#9ca3af;font-size:0.9rem}
+
+        /* CTA */
+        .cta-section{text-align:center;padding:100px 20px;background:radial-gradient(ellipse at bottom,rgba(124,58,237,0.15),transparent 50%)}
+        .cta-section h2{font-size:2.5rem;font-weight:900;margin-bottom:16px}
+        .cta-section p{color:#9ca3af;font-size:1.1rem;margin-bottom:32px;max-width:500px;margin-left:auto;margin-right:auto}
+        .cta-buttons{display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
+        .btn{padding:18px 36px;border-radius:14px;text-decoration:none;font-weight:700;font-size:1rem;transition:transform 0.3s,box-shadow 0.3s}
+        .btn-primary{background:linear-gradient(135deg,#7c3aed,#06b6d4);color:#fff}
+        .btn-secondary{background:rgba(255,255,255,0.05);color:#fff;border:1px solid rgba(255,255,255,0.1)}
+        .btn:hover{transform:translateY(-3px);box-shadow:0 15px 50px rgba(124,58,237,0.3)}
+
+        /* Footer */
+        footer{text-align:center;padding:60px 20px;border-top:1px solid rgba(124,58,237,0.15)}
+        .footer-links{margin-bottom:24px}
+        .footer-links a{color:#6b7280;text-decoration:none;margin:0 16px;font-size:0.9rem}
+        .footer-links a:hover{color:#fff}
+        .footer-copy{color:#4b5563;font-size:0.85rem}
+
+        @media(max-width:768px){
+            .hero-text h1{font-size:2rem}
+            header{padding:16px 20px}
+            .nav-links{display:none}
+            .founder-avatar{width:200px;height:200px;font-size:80px}
+            .timeline{padding-left:30px}
+            .timeline::before{left:10px}
+            .timeline-item::before{left:-28px}
+            .mission-box{padding:40px 24px}
+            .personal-box{padding:40px 24px}
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <a href="/" class="logo">ELUXRAJ™</a>
+    <nav class="nav-links">
+        <a href="/about.html">About</a>
+        <a href="/performance.html">Performance</a>
+        <a href="/pricing.html">Pricing</a>
+        <a href="/login.html">Login</a>
+        <a href="/register.html" class="nav-cta">Start Free</a>
+    </nav>
+</header>
+
+<!-- HERO -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="founder-image">
+            <div class="founder-avatar">👨‍💻</div>
+            <div class="founder-badge">Founder & CEO</div>
+        </div>
+        <div class="hero-text">
+            <h1>I Built ELUXRAJ Because I Was <span>Tired of Losing Money</span></h1>
+            <p class="subtitle">This isn't just a business. It's personal.</p>
+            <p class="quote">"I spent years watching hedge funds and institutions win while retail investors like me got crushed. I decided to do something about it."</p>
+        </div>
+    </div>
+</section>
+
+<!-- THE PROBLEM -->
+<section class="problem-section">
+    <div class="problem-content">
+        <h2>The Problem I <span style="color:#ef4444">Faced</span></h2>
+        <p>In 2021, I was like most retail investors. I had some savings, wanted to grow my wealth, and thought I was smart enough to figure out the market. <span class="highlight">I was wrong.</span></p>
+        
+        <p>I lost money following "influencers" on Twitter. I lost money chasing pumps. I lost money panic selling during crashes. I lost money trusting indicators I didn't understand.</p>
+        
+        <div class="problem-box">
+            <h3>❌ What I Discovered Was Broken</h3>
+            <ul>
+                <li>Most "trading signals" are scams or useless noise</li>
+                <li>Technical analysis alone misses 80% of what moves markets</li>
+                <li>Retail investors are always 2 steps behind institutions</li>
+                <li>By the time you see a pattern, it's already too late</li>
+                <li>Emotions destroy even the best trading plans</li>
+                <li>Hedge funds have AI tools we don't have access to</li>
+            </ul>
+        </div>
+        
+        <p>One night, after watching my portfolio drop 40% in a single week, I asked myself: <span class="highlight">"Why do institutions always seem to know what's coming? What do they have that I don't?"</span></p>
+        
+        <p>The answer was simple: <strong>Better data. Better tools. Better AI.</strong></p>
+    </div>
+</section>
+
+<!-- THE JOURNEY -->
+<section class="journey-section">
+    <div class="journey-content">
+        <h2 style="text-align:center;margin-bottom:50px">The <span style="background:linear-gradient(135deg,#7c3aed,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Journey</span></h2>
+        
+        <div class="timeline">
+            <div class="timeline-item">
+                <div class="timeline-year">2021</div>
+                <div class="timeline-title">The Wake-Up Call</div>
+                <div class="timeline-desc">Lost significant money during the crypto crash. Realized I was trading blind while institutions had sophisticated AI tools. Started researching what they actually use.</div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-year">2022</div>
+                <div class="timeline-title">Deep Dive into AI & Trading</div>
+                <div class="timeline-desc">Spent 6+ months studying machine learning, technical analysis, on-chain data, and sentiment analysis. Built early prototypes. Started seeing patterns I never noticed before.</div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-year">2023</div>
+                <div class="timeline-title">First Working Model</div>
+                <div class="timeline-desc">Created an AI that analyzed multiple timeframes simultaneously — something I couldn't do manually. Backtested it obsessively. The results were promising.</div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-year">2024</div>
+                <div class="timeline-title">ELUXRAJ is Born</div>
+                <div class="timeline-desc">Launched the first version of ELUXRAJ Oracle. Added whale tracking, explainable AI, and confidence scoring. Started sharing with other retail investors.</div>
+            </div>
+            
+            <div class="timeline-item">
+                <div class="timeline-year">2025</div>
+                <div class="timeline-title">Scaling the Mission</div>
+                <div class="timeline-desc">Now serving hundreds of investors with institutional-grade AI tools. Building the future where retail has the same edge as Wall Street.</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- THE SOLUTION -->
+<section class="solution-section">
+    <div class="solution-content">
+        <h2>What I <span style="color:#22c55e">Built</span></h2>
+        <p>ELUXRAJ isn't another signal service or indicator. It's the tool I wish existed when I started trading — <span class="highlight">an AI system that explains its reasoning</span>, so you're never trading blind.</p>
+        
+        <div class="solution-box">
+            <h3>✓ What Makes ELUXRAJ Different</h3>
+            <ul>
+                <li><strong>Explainable AI:</strong> Every signal tells you WHY — not just buy or sell</li>
+                <li><strong>Multi-Timeframe Analysis:</strong> Sees patterns across 8 timeframes simultaneously</li>
+                <li><strong>Whale Tracking:</strong> Know what smart money is doing before it hits the charts</li>
+                <li><strong>Confidence Scoring:</strong> Higher score = higher probability — so you can size accordingly</li>
+                <li><strong>No Black Boxes:</strong> You see exactly how every signal is generated</li>
+                <li><strong>Built for Retail:</strong> Designed for normal people, not quants with PhDs</li>
+            </ul>
+        </div>
+        
+        <p>I built ELUXRAJ to give myself an edge. Then I realized: <span class="highlight">if this helps me, it can help thousands of other retail investors who are tired of getting crushed.</span></p>
+    </div>
+</section>
+
+<!-- MISSION -->
+<section class="mission-section">
+    <div class="mission-content">
+        <div class="mission-box">
+            <h2>Our <span style="background:linear-gradient(135deg,#7c3aed,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Mission</span></h2>
+            <p class="mission-quote">"To democratize AI-powered investing so everyday people have the same tools as hedge funds."</p>
+            <p>The game has been rigged for too long. Institutions have armies of quants, proprietary data, and AI systems that retail investors could never afford. Until now.</p>
+            <p>ELUXRAJ exists to level the playing field. Not with hype or promises — but with <strong>real AI tools that actually work</strong>.</p>
+        </div>
+    </div>
+</section>
+
+<!-- VALUES -->
+<section class="values-section">
+    <div class="values-content">
+        <h2 class="values-title">What I <span style="background:linear-gradient(135deg,#7c3aed,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent">Believe In</span></h2>
+        
+        <div class="values-grid">
+            <div class="value-card">
+                <div class="icon">🔍</div>
+                <h3>Radical Transparency</h3>
+                <p>No black boxes. No mystery algorithms. You see exactly how every signal is generated and why. If I can't explain it, I won't ship it.</p>
+            </div>
+            <div class="value-card">
+                <div class="icon">🎯</div>
+                <h3>Honesty Over Hype</h3>
+                <p>I'll never promise "guaranteed returns" or "100% accuracy." Trading is hard. Our job is to give you an edge — not sell you fantasies.</p>
+            </div>
+            <div class="value-card">
+                <div class="icon">🛡️</div>
+                <h3>Risk Management First</h3>
+                <p>Position sizing, stop losses, confidence scoring — protecting your capital is more important than chasing gains. I learned this the hard way.</p>
+            </div>
+            <div class="value-card">
+                <div class="icon">🤝</div>
+                <h3>Built With Users</h3>
+                <p>Every feature in ELUXRAJ comes from real feedback. I use this tool myself every day. If it doesn't help me, it doesn't ship.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- PERSONAL NOTE -->
+<section class="personal-section">
+    <div class="personal-content">
+        <div class="personal-box">
+            <p>If you're reading this, you're probably where I was a few years ago. You've lost money. You've been burned by fake gurus. You're skeptical of anything that sounds too good to be true.</p>
+            
+            <p><strong>Good. You should be skeptical.</strong></p>
+            
+            <p>I'm not here to sell you dreams. I'm here to give you tools — the same tools I use to make better decisions in my own portfolio.</p>
+            
+            <p>ELUXRAJ won't make you rich overnight. It won't guarantee profits. What it will do is <strong>help you see the market more clearly</strong> and make decisions based on data instead of emotion.</p>
+            
+            <p>That's the edge. That's what changed everything for me. And I hope it can help you too.</p>
+            
+            <div class="personal-signature">
+                <div class="signature-avatar">👨‍💻</div>
+                <div>
+                    <div class="signature-name">Rob</div>
+                    <div class="signature-title">Founder & CEO, ELUXRAJ</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+    <h2>Ready to Trade Smarter?</h2>
+    <p>Join hundreds of investors who are already using AI to make better decisions.</p>
+    <div class="cta-buttons">
+        <a href="/register.html" class="btn btn-primary">Start Free — No Card Required</a>
+        <a href="/performance.html" class="btn btn-secondary">See Our Results</a>
+    </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+    <div class="footer-links">
+        <a href="/about.html">About</a>
+        <a href="/how-it-works.html">How It Works</a>
+        <a href="/performance.html">Performance</a>
+        <a href="/pricing.html">Pricing</a>
+        <a href="/terms.html">Terms</a>
+        <a href="/disclaimer.html">Disclaimer</a>
+    </div>
+    <p class="footer-copy">© 2025 ELUXRAJ™. All rights reserved.</p>
+</footer>
+
+</body>
+</html>
