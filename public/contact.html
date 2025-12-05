@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact & Support | ELUXRAJ™</title>
+    <meta name="description" content="Get in touch with the ELUXRAJ team. We're here to help with any questions about our AI-powered trading signals.">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root{--purple:#7c3aed;--cyan:#06b6d4;--green:#22c55e;--red:#ef4444;--black:#0a0a0f;--dark:#12121a;--gray-900:#1a1a2e;--gray-800:#252538;--gray-700:#35354a;--gray-600:#4a4a5e;--gray-500:#6b6b80;--gray-400:#9090a0;--white:#fff}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:"Inter",sans-serif;background:var(--black);color:var(--white);line-height:1.6;-webkit-font-smoothing:antialiased}
+        .container{max-width:1200px;margin:0 auto;padding:0 24px}
+
+        /* Background */
+        .bg-animation{position:fixed;inset:0;z-index:0;overflow:hidden;pointer-events:none}
+        .bg-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(124,58,237,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(124,58,237,0.03) 1px,transparent 1px);background-size:60px 60px}
+        .bg-orb{position:absolute;border-radius:50%;filter:blur(120px);opacity:0.4}
+        .orb-1{width:500px;height:500px;background:var(--purple);top:-150px;right:-100px}
+        .orb-2{width:400px;height:400px;background:var(--cyan);bottom:-100px;left:-100px}
+
+        /* Header */
+        header{background:rgba(10,10,15,0.8);backdrop-filter:blur(20px);border-bottom:1px solid rgba(124,58,237,0.2);position:fixed;top:0;left:0;right:0;z-index:1000}
+        .header-inner{display:flex;justify-content:space-between;align-items:center;height:72px;max-width:1400px;margin:0 auto;padding:0 32px}
+        .logo{font-weight:900;font-size:1.5rem;background:linear-gradient(135deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none}
+        .nav{display:flex;align-items:center;gap:32px}
+        .nav a{color:rgba(255,255,255,0.7);text-decoration:none;font-size:0.9rem;font-weight:500;transition:color 0.3s}
+        .nav a:hover{color:var(--white)}
+        .nav-cta{background:linear-gradient(135deg,var(--purple),var(--cyan));color:var(--white);padding:12px 24px;border-radius:12px;font-weight:600}
+        @media(max-width:768px){.nav{display:none}}
+
+        /* Hero */
+        .hero{position:relative;z-index:10;padding:140px 0 60px;text-align:center}
+        .hero h1{font-size:3rem;font-weight:900;letter-spacing:-1.5px;margin-bottom:16px}
+        .hero h1 span{background:linear-gradient(135deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .hero p{font-size:1.2rem;color:rgba(255,255,255,0.6);max-width:600px;margin:0 auto}
+
+        /* Main Grid */
+        .contact-grid{position:relative;z-index:10;display:grid;grid-template-columns:1fr 1fr;gap:40px;padding-bottom:100px}
+        @media(max-width:900px){.contact-grid{grid-template-columns:1fr}}
+
+        /* Contact Form */
+        .contact-form-card{background:rgba(26,26,46,0.6);backdrop-filter:blur(20px);border:1px solid rgba(124,58,237,0.2);border-radius:24px;padding:40px}
+        .form-title{font-size:1.5rem;font-weight:800;margin-bottom:8px}
+        .form-subtitle{color:rgba(255,255,255,0.5);margin-bottom:32px}
+        .form-group{margin-bottom:24px}
+        .form-label{display:block;font-size:0.85rem;font-weight:600;color:rgba(255,255,255,0.7);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.5px}
+        .form-input,.form-select,.form-textarea{width:100%;padding:16px 20px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:12px;color:var(--white);font-size:1rem;font-family:inherit;outline:none;transition:all 0.3s}
+        .form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--purple);background:rgba(124,58,237,0.08);box-shadow:0 0 0 4px rgba(124,58,237,0.15)}
+        .form-input::placeholder,.form-textarea::placeholder{color:rgba(255,255,255,0.3)}
+        .form-select{cursor:pointer;appearance:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%239090a0' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 16px center}
+        .form-select option{background:var(--gray-900);color:var(--white)}
+        .form-textarea{min-height:140px;resize:vertical}
+        .form-row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+        @media(max-width:500px){.form-row{grid-template-columns:1fr}}
+        .btn-submit{width:100%;padding:18px;background:linear-gradient(135deg,var(--purple),var(--cyan));border:none;border-radius:14px;color:var(--white);font-size:1.05rem;font-weight:700;cursor:pointer;transition:all 0.3s;display:flex;align-items:center;justify-content:center;gap:10px}
+        .btn-submit:hover{transform:translateY(-2px);box-shadow:0 20px 40px rgba(124,58,237,0.3)}
+        .form-note{text-align:center;margin-top:20px;font-size:0.85rem;color:rgba(255,255,255,0.4)}
+
+        /* Right Column */
+        .contact-info{display:flex;flex-direction:column;gap:24px}
+
+        /* Contact Methods */
+        .contact-methods{background:rgba(26,26,46,0.6);backdrop-filter:blur(20px);border:1px solid rgba(124,58,237,0.2);border-radius:24px;padding:32px}
+        .methods-title{font-size:1.3rem;font-weight:700;margin-bottom:24px}
+        .method{display:flex;align-items:flex-start;gap:16px;padding:20px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.05);border-radius:16px;margin-bottom:16px;transition:all 0.3s}
+        .method:last-child{margin-bottom:0}
+        .method:hover{border-color:rgba(124,58,237,0.3);background:rgba(124,58,237,0.05)}
+        .method-icon{width:52px;height:52px;background:linear-gradient(135deg,rgba(124,58,237,0.2),rgba(6,182,212,0.2));border:1px solid rgba(124,58,237,0.3);border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0}
+        .method-content h3{font-size:1.05rem;font-weight:700;margin-bottom:4px}
+        .method-content p{font-size:0.9rem;color:rgba(255,255,255,0.5);margin-bottom:6px}
+        .method-content a{color:var(--cyan);text-decoration:none;font-weight:500;font-size:0.95rem}
+        .method-content a:hover{text-decoration:underline}
+
+        /* Response Time */
+        .response-card{background:linear-gradient(135deg,rgba(124,58,237,0.15),rgba(6,182,212,0.1));border:1px solid rgba(124,58,237,0.25);border-radius:20px;padding:28px;text-align:center}
+        .response-icon{font-size:2.5rem;margin-bottom:16px}
+        .response-title{font-size:1.2rem;font-weight:700;margin-bottom:8px}
+        .response-time{font-size:2rem;font-weight:900;background:linear-gradient(135deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:8px}
+        .response-note{font-size:0.9rem;color:rgba(255,255,255,0.5)}
+
+        /* FAQ Preview */
+        .faq-preview{background:rgba(26,26,46,0.6);backdrop-filter:blur(20px);border:1px solid rgba(124,58,237,0.2);border-radius:24px;padding:32px}
+        .faq-title{font-size:1.3rem;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px}
+        .faq-item{padding:18px 0;border-bottom:1px solid rgba(255,255,255,0.06)}
+        .faq-item:last-child{border-bottom:none;padding-bottom:0}
+        .faq-question{font-weight:600;font-size:0.95rem;margin-bottom:8px;display:flex;align-items:flex-start;gap:10px}
+        .faq-question::before{content:'Q';background:linear-gradient(135deg,var(--purple),var(--cyan));color:var(--white);font-size:0.7rem;font-weight:800;padding:4px 8px;border-radius:6px;flex-shrink:0}
+        .faq-answer{font-size:0.9rem;color:rgba(255,255,255,0.6);padding-left:32px;line-height:1.6}
+        .faq-link{display:inline-flex;align-items:center;gap:8px;margin-top:20px;color:var(--cyan);text-decoration:none;font-weight:600;font-size:0.95rem}
+        .faq-link:hover{text-decoration:underline}
+
+        /* Trust Badges */
+        .trust-section{position:relative;z-index:10;padding:60px 0;border-top:1px solid rgba(124,58,237,0.1)}
+        .trust-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px}
+        @media(max-width:800px){.trust-grid{grid-template-columns:repeat(2,1fr)}}
+        @media(max-width:500px){.trust-grid{grid-template-columns:1fr}}
+        .trust-item{text-align:center;padding:28px 20px;background:rgba(26,26,46,0.4);border:1px solid rgba(124,58,237,0.1);border-radius:16px}
+        .trust-icon{font-size:2rem;margin-bottom:12px}
+        .trust-title{font-weight:700;font-size:1rem;margin-bottom:6px}
+        .trust-desc{font-size:0.85rem;color:rgba(255,255,255,0.5)}
+
+        /* Footer */
+        footer{position:relative;z-index:10;padding:60px 0 40px;border-top:1px solid rgba(124,58,237,0.15)}
+        .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:48px;margin-bottom:48px}
+        @media(max-width:800px){.footer-grid{grid-template-columns:1fr 1fr}}
+        .footer-brand .logo{font-size:1.5rem;margin-bottom:16px;display:inline-block}
+        .footer-brand p{font-size:0.9rem;color:rgba(255,255,255,0.5);line-height:1.6}
+        .footer-col h4{font-size:0.8rem;color:rgba(255,255,255,0.4);text-transform:uppercase;letter-spacing:1px;margin-bottom:20px}
+        .footer-col a{display:block;color:rgba(255,255,255,0.6);text-decoration:none;font-size:0.9rem;margin-bottom:12px;transition:color 0.3s}
+        .footer-col a:hover{color:var(--white)}
+        .footer-bottom{display:flex;justify-content:space-between;align-items:center;padding-top:32px;border-top:1px solid rgba(124,58,237,0.1);font-size:0.85rem;color:rgba(255,255,255,0.4)}
+        @media(max-width:600px){.footer-bottom{flex-direction:column;gap:16px;text-align:center}}
+
+        /* Success State */
+        .form-success{display:none;text-align:center;padding:60px 20px}
+        .form-success.show{display:block}
+        .form-success .icon{font-size:4rem;margin-bottom:20px}
+        .form-success h3{font-size:1.5rem;font-weight:800;margin-bottom:12px}
+        .form-success p{color:rgba(255,255,255,0.6);margin-bottom:24px}
+        .form-container.hidden{display:none}
+    </style>
+</head>
+<body>
+
+<div class="bg-animation">
+    <div class="bg-grid"></div>
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+</div>
+
+<header>
+    <div class="header-inner">
+        <a href="/" class="logo">ELUXRAJ™</a>
+        <nav class="nav">
+            <a href="/performance.html">Performance</a>
+            <a href="/pricing.html">Pricing</a>
+            <a href="/compare.html">Compare</a>
+            <a href="/about.html">About</a>
+            <a href="/login.html">Login</a>
+            <a href="/register.html" class="nav-cta">Get Started Free</a>
+        </nav>
+    </div>
+</header>
+
+<section class="hero">
+    <div class="container">
+        <h1>Get In <span>Touch</span></h1>
+        <p>Have a question? We're here to help. Our team typically responds within a few hours.</p>
+    </div>
+</section>
+
+<div class="container">
+    <div class="contact-grid">
+        <!-- Contact Form -->
+        <div class="contact-form-card">
+            <div class="form-container" id="formContainer">
+                <h2 class="form-title">Send Us a Message</h2>
+                <p class="form-subtitle">Fill out the form and we'll get back to you shortly.</p>
+                
+                <form id="contactForm" onsubmit="handleSubmit(event)">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label">First Name</label>
+                            <input type="text" class="form-input" placeholder="John" required>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Last Name</label>
+                            <input type="text" class="form-input" placeholder="Doe" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" class="form-input" placeholder="you@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Topic</label>
+                        <select class="form-select" required>
+                            <option value="" disabled selected>Select a topic...</option>
+                            <option value="general">General Inquiry</option>
+                            <option value="billing">Billing & Subscriptions</option>
+                            <option value="technical">Technical Support</option>
+                            <option value="signals">Signal Questions</option>
+                            <option value="enterprise">Enterprise / API Access</option>
+                            <option value="feedback">Feedback & Suggestions</option>
+                            <option value="press">Press & Media</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Message</label>
+                        <textarea class="form-textarea" placeholder="How can we help you?" required></textarea>
+                    </div>
+                    <button type="submit" class="btn-submit">
+                        <span>Send Message</span>
+                        <span>→</span>
+                    </button>
+                    <p class="form-note">🔒 Your information is secure and will never be shared.</p>
+                </form>
+            </div>
+
+            <div class="form-success" id="formSuccess">
+                <div class="icon">✅</div>
+                <h3>Message Sent!</h3>
+                <p>Thank you for reaching out. We'll get back to you within 24 hours.</p>
+                <button class="btn-submit" onclick="resetForm()" style="max-width:200px;margin:0 auto">Send Another</button>
+            </div>
+        </div>
+
+        <!-- Right Column -->
+        <div class="contact-info">
+            <!-- Response Time -->
+            <div class="response-card">
+                <div class="response-icon">⚡</div>
+                <div class="response-title">Average Response Time</div>
+                <div class="response-time">&lt; 4 Hours</div>
+                <div class="response-note">During business hours (9am-6pm EST)</div>
+            </div>
+
+            <!-- Contact Methods -->
+            <div class="contact-methods">
+                <h3 class="methods-title">Other Ways to Reach Us</h3>
+                
+                <div class="method">
+                    <div class="method-icon">📧</div>
+                    <div class="method-content">
+                        <h3>Email Support</h3>
+                        <p>For general inquiries</p>
+                        <a href="mailto:support@eluxraj.ai">support@eluxraj.ai</a>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <div class="method-icon">💬</div>
+                    <div class="method-content">
+                        <h3>Discord Community</h3>
+                        <p>Join 2,000+ traders</p>
+                        <a href="#">Join Discord →</a>
+                    </div>
+                </div>
+
+                <div class="method">
+                    <div class="method-icon">🐦</div>
+                    <div class="method-content">
+                        <h3>Twitter / X</h3>
+                        <p>Latest updates & signals</p>
+                        <a href="#">@ELUXRAJ</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- FAQ Preview -->
+            <div class="faq-preview">
+                <h3 class="faq-title">💡 Quick Answers</h3>
+                
+                <div class="faq-item">
+                    <div class="faq-question">How do I cancel my subscription?</div>
+                    <div class="faq-answer">Go to Settings → Billing → Cancel. You'll retain access until your billing period ends.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Are signals sent in real-time?</div>
+                    <div class="faq-answer">Pro and Elite plans receive instant push notifications. Free users get delayed signals.</div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Do you offer refunds?</div>
+                    <div class="faq-answer">Yes, we offer a 7-day money-back guarantee on all paid plans.</div>
+                </div>
+
+                <a href="/faq.html" class="faq-link">View all FAQs <span>→</span></a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Trust Section -->
+<section class="trust-section">
+    <div class="container">
+        <div class="trust-grid">
+            <div class="trust-item">
+                <div class="trust-icon">🔒</div>
+                <div class="trust-title">Secure & Private</div>
+                <div class="trust-desc">256-bit SSL encryption on all data</div>
+            </div>
+            <div class="trust-item">
+                <div class="trust-icon">🌍</div>
+                <div class="trust-title">Global Support</div>
+                <div class="trust-desc">Users in 180+ countries</div>
+            </div>
+            <div class="trust-item">
+                <div class="trust-icon">⚡</div>
+                <div class="trust-title">Fast Response</div>
+                <div class="trust-desc">Average reply in under 4 hours</div>
+            </div>
+            <div class="trust-item">
+                <div class="trust-icon">💯</div>
+                <div class="trust-title">Satisfaction</div>
+                <div class="trust-desc">98% positive feedback score</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer>
+    <div class="container">
+        <div class="footer-grid">
+            <div class="footer-brand">
+                <a href="/" class="logo">ELUXRAJ™</a>
+                <p>AI-powered trade signals with institutional-grade insights.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Product</h4>
+                <a href="/performance.html">Performance</a>
+                <a href="/pricing.html">Pricing</a>
+                <a href="/compare.html">Compare</a>
+            </div>
+            <div class="footer-col">
+                <h4>Company</h4>
+                <a href="/about.html">About</a>
+                <a href="/founder.html">Our Story</a>
+                <a href="/contact.html">Contact</a>
+            </div>
+            <div class="footer-col">
+                <h4>Legal</h4>
+                <a href="/terms.html">Terms</a>
+                <a href="/privacy.html">Privacy</a>
+                <a href="/disclaimer.html">Disclaimer</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div>© 2025 ELUXRAJ™. All rights reserved.</div>
+            <div>Trading involves risk. Not financial advice.</div>
+        </div>
+    </div>
+</footer>
+
+<script>
+function handleSubmit(e) {
+    e.preventDefault();
+    const btn = e.target.querySelector('.btn-submit');
+    btn.innerHTML = '<span>Sending...</span>';
+    
+    setTimeout(() => {
+        document.getElementById('formContainer').classList.add('hidden');
+        document.getElementById('formSuccess').classList.add('show');
+    }, 1500);
+}
+
+function resetForm() {
+    document.getElementById('formContainer').classList.remove('hidden');
+    document.getElementById('formSuccess').classList.remove('show');
+    document.getElementById('contactForm').reset();
+    document.querySelector('.btn-submit').innerHTML = '<span>Send Message</span><span>→</span>';
+}
+</script>
+
+</body>
+</html>
