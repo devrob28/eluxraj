@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://eluxraj.ai/sitemap.xml
+
+# Disallow admin/private areas
+Disallow: /api/
+Disallow: /admin/
