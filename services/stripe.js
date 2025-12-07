@@ -8,12 +8,12 @@ if (STRIPE_SECRET_KEY) {
 
 const PRICES = {
   pro: {
-    monthly: 10700,
+    monthly: 5300,
     name: 'Pro',
     features: ['Unlimited AI Queries', 'ORACLE Full Suite', 'COUNCIL AI Advisors', 'PULSE Real-Time', 'SMS & Email Alerts']
   },
   elite: {
-    monthly: 80000,
+    monthly: 9800,
     name: 'Elite',
     features: ['Everything in Pro', 'NEXUS Capital Flows', 'SOVEREIGN Deals', 'PHANTOM Execution', 'White-Glove Support', 'API Access']
   }
