@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chart Analysis - ELUXRAJ</title>
+  <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0a0a;
+      color: #fff;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 24px;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 32px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid #222;
+    }
+    .header h1 {
+      font-size: 24px;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .back-btn {
+      color: #888;
+      text-decoration: none;
+      font-size: 14px;
+      transition: color 0.2s;
+    }
+    .back-btn:hover { color: #fff; }
+    
+    .upload-section {
+      background: linear-gradient(135deg, rgba(99,102,241,0.1), rgba(139,92,246,0.1));
+      border: 1px solid rgba(99,102,241,0.3);
+      border-radius: 16px;
+      padding: 32px;
+      margin-bottom: 24px;
+    }
+    .upload-title {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .upload-desc {
+      color: #888;
+      font-size: 14px;
+      margin-bottom: 24px;
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+    .form-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .form-group label {
+      font-size: 12px;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .form-group input, .form-group select {
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .form-group input:focus, .form-group select:focus {
+      border-color: #6366f1;
+    }
+    .form-group select option {
+      background: #1a1a1a;
+    }
+    
+    .dropzone {
+      border: 2px dashed rgba(99,102,241,0.4);
+      border-radius: 12px;
+      padding: 48px 24px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      margin-bottom: 16px;
+    }
+    .dropzone:hover, .dropzone.dragover {
+      border-color: #6366f1;
+      background: rgba(99,102,241,0.05);
+    }
+    .dropzone-icon {
+      font-size: 48px;
+      margin-bottom: 12px;
+    }
+    .dropzone-text {
+      color: #888;
+      font-size: 14px;
+    }
+    .dropzone-text span {
+      color: #6366f1;
+      text-decoration: underline;
+    }
+    
+    .preview-container {
+      display: none;
+      margin-bottom: 16px;
+    }
+    .preview-container.active {
+      display: block;
+    }
+    .preview-img {
+      max-width: 100%;
+      max-height: 300px;
+      border-radius: 8px;
+      border: 1px solid #333;
+    }
+    .preview-info {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 8px;
+      font-size: 12px;
+      color: #888;
+    }
+    .remove-btn {
+      color: #ef4444;
+      cursor: pointer;
+      background: none;
+      border: none;
+      font-size: 12px;
+    }
+    
+    .analyze-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      border: none;
+      border-radius: 12px;
+      padding: 16px;
+      color: #fff;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .analyze-btn:hover:not(:disabled) {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 24px rgba(99,102,241,0.3);
+    }
+    .analyze-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 48px;
+    }
+    .loading.active {
+      display: block;
+    }
+    .spinner {
+      width: 48px;
+      height: 48px;
+      border: 3px solid rgba(99,102,241,0.2);
+      border-top-color: #6366f1;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      margin: 0 auto 16px;
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+    .loading-text {
+      color: #888;
+      font-size: 14px;
+    }
+    
+    .results {
+      display: none;
+    }
+    .results.active {
+      display: block;
+    }
+    
+    .recommendation-card {
+      background: linear-gradient(135deg, rgba(16,185,129,0.15), rgba(52,211,153,0.1));
+      border: 1px solid rgba(16,185,129,0.3);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    .recommendation-card.sell {
+      background: linear-gradient(135deg, rgba(239,68,68,0.15), rgba(248,113,113,0.1));
+      border-color: rgba(239,68,68,0.3);
+    }
+    .recommendation-card.wait {
+      background: linear-gradient(135deg, rgba(245,158,11,0.15), rgba(251,191,36,0.1));
+      border-color: rgba(245,158,11,0.3);
+    }
+    .rec-label {
+      font-size: 12px;
+      color: #888;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .rec-side {
+      font-size: 36px;
+      font-weight: 700;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+    }
+    .rec-side.buy { color: #10b981; }
+    .rec-side.sell { color: #ef4444; }
+    .rec-side.wait { color: #f59e0b; }
+    .rec-prob {
+      font-size: 24px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .rec-rationale {
+      color: #aaa;
+      font-size: 14px;
+    }
+    
+    .outcomes-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .outcomes-section {
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 20px;
+    }
+    .outcomes-title {
+      font-size: 14px;
+      font-weight: 600;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .outcomes-title.bullish { color: #10b981; }
+    .outcomes-title.bearish { color: #ef4444; }
+    
+    .outcome-item {
+      padding: 12px 0;
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .outcome-item:last-child {
+      border-bottom: none;
+    }
+    .outcome-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+    .outcome-name {
+      font-size: 13px;
+      font-weight: 500;
+    }
+    .outcome-prob {
+      font-size: 14px;
+      font-weight: 600;
+    }
+    .outcome-prob.high { color: #10b981; }
+    .outcome-prob.medium { color: #f59e0b; }
+    .outcome-prob.low { color: #888; }
+    .outcome-explanation {
+      font-size: 12px;
+      color: #666;
+    }
+    
+    .meta-info {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: #555;
+      margin-bottom: 16px;
+    }
+    
+    .disclaimer {
+      background: rgba(239,68,68,0.1);
+      border: 1px solid rgba(239,68,68,0.2);
+      border-radius: 8px;
+      padding: 12px 16px;
+      font-size: 12px;
+      color: #f87171;
+      margin-bottom: 16px;
+    }
+    
+    .new-analysis-btn {
+      width: 100%;
+      background: transparent;
+      border: 1px solid #333;
+      border-radius: 12px;
+      padding: 14px;
+      color: #888;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .new-analysis-btn:hover {
+      border-color: #6366f1;
+      color: #fff;
+    }
+
+    @media (max-width: 600px) {
+      .form-row, .outcomes-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>📊 Chart Analysis</h1>
+      <a href="/dashboard.html" class="back-btn">← Back to Dashboard</a>
+    </div>
+    
+    <!-- Upload Section -->
+    <div class="upload-section" id="uploadSection">
+      <div class="upload-title">🔮 AI-Powered Chart Analysis</div>
+      <div class="upload-desc">Upload a chart screenshot and get instant bullish/bearish probability analysis</div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label>Asset / Ticker</label>
+          <input type="text" id="assetInput" placeholder="e.g. BTC-USD, AAPL, ETH" value="BTC-USD">
+        </div>
+        <div class="form-group">
+          <label>Timeframe</label>
+          <select id="timeframeSelect">
+            <option value="5m">5 Minutes</option>
+            <option value="15m">15 Minutes</option>
+            <option value="30m">30 Minutes</option>
+            <option value="1h" selected>1 Hour</option>
+            <option value="2h">2 Hours</option>
+            <option value="4h">4 Hours</option>
+            <option value="8h">8 Hours</option>
+            <option value="12h">12 Hours</option>
+            <option value="24h">Daily</option>
+            <option value="3d">3 Days</option>
+            <option value="1M">Monthly</option>
+          </select>
+        </div>
+      </div>
+      
+      <input type="file" id="fileInput" accept="image/*" style="display:none">
+      
+      <div class="dropzone" id="dropzone">
+        <div class="dropzone-icon">📈</div>
+        <div class="dropzone-text">Drag & drop chart image or <span>browse</span></div>
+      </div>
+      
+      <div class="preview-container" id="previewContainer">
+        <img id="previewImg" class="preview-img" src="" alt="Chart preview">
+        <div class="preview-info">
+          <span id="fileName">chart.png</span>
+          <button class="remove-btn" id="removeBtn">✕ Remove</button>
+        </div>
+      </div>
+      
+      <button class="analyze-btn" id="analyzeBtn" disabled>🔮 Analyze Chart</button>
+    </div>
+    
+    <!-- Loading -->
+    <div class="loading" id="loading">
+      <div class="spinner"></div>
+      <div class="loading-text">Analyzing chart patterns...</div>
+    </div>
+    
+    <!-- Results -->
+    <div class="results" id="results">
+      <div class="recommendation-card" id="recCard">
+        <div class="rec-label">Recommended Action</div>
+        <div class="rec-side" id="recSide">BUY</div>
+        <div class="rec-prob" id="recProb">42%</div>
+        <div class="rec-rationale" id="recRationale">Bullish signals dominate with favorable risk/reward.</div>
+      </div>
+      
+      <div class="outcomes-grid">
+        <div class="outcomes-section">
+          <div class="outcomes-title bullish">📈 Bullish Outcomes</div>
+          <div id="bullishOutcomes"></div>
+        </div>
+        <div class="outcomes-section">
+          <div class="outcomes-title bearish">📉 Bearish Outcomes</div>
+          <div id="bearishOutcomes"></div>
+        </div>
+      </div>
+      
+      <div class="meta-info">
+        <span id="metaAsset">BTC-USD • 1h</span>
+        <span id="metaModel">Model: simulation-v1.0</span>
+        <span id="metaTime">Generated: --</span>
+      </div>
+      
+      <div class="disclaimer" id="disclaimer"></div>
+      
+      <button class="new-analysis-btn" id="newAnalysisBtn">📊 Analyze Another Chart</button>
+    </div>
+  </div>
+  
+  <script>
+    const API_URL = 'https://eluxraj-api-production.up.railway.app';
+    
+    // Elements
+    const dropzone = document.getElementById('dropzone');
+    const fileInput = document.getElementById('fileInput');
+    const previewContainer = document.getElementById('previewContainer');
+    const previewImg = document.getElementById('previewImg');
+    const fileName = document.getElementById('fileName');
+    const removeBtn = document.getElementById('removeBtn');
+    const analyzeBtn = document.getElementById('analyzeBtn');
+    const uploadSection = document.getElementById('uploadSection');
+    const loading = document.getElementById('loading');
+    const results = document.getElementById('results');
+    
+    let selectedFile = null;
+    
+    // Dropzone events
+    dropzone.addEventListener('click', () => fileInput.click());
+    
+    dropzone.addEventListener('dragover', (e) => {
+      e.preventDefault();
+      dropzone.classList.add('dragover');
+    });
+    
+    dropzone.addEventListener('dragleave', () => {
+      dropzone.classList.remove('dragover');
+    });
+    
+    dropzone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropzone.classList.remove('dragover');
+      const files = e.dataTransfer.files;
+      if (files.length > 0) handleFile(files[0]);
+    });
+    
+    fileInput.addEventListener('change', () => {
+      if (fileInput.files.length > 0) handleFile(fileInput.files[0]);
+    });
+    
+    removeBtn.addEventListener('click', () => {
+      selectedFile = null;
+      fileInput.value = '';
+      previewContainer.classList.remove('active');
+      dropzone.style.display = 'block';
+      analyzeBtn.disabled = true;
+    });
+    
+    function handleFile(file) {
+      if (!file.type.startsWith('image/')) {
+        alert('Please upload an image file');
+        return;
+      }
+      
+      selectedFile = file;
+      fileName.textContent = file.name;
+      
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        previewImg.src = e.target.result;
+        previewContainer.classList.add('active');
+        dropzone.style.display = 'none';
+        analyzeBtn.disabled = false;
+      };
+      reader.readAsDataURL(file);
+    }
+    
+    // Analyze
+    analyzeBtn.addEventListener('click', async () => {
+      if (!selectedFile) return;
+      
+      const asset = document.getElementById('assetInput').value.trim();
+      const timeframe = document.getElementById('timeframeSelect').value;
+      
+      if (!asset) {
+        alert('Please enter an asset/ticker');
+        return;
+      }
+      
+      uploadSection.style.display = 'none';
+      loading.classList.add('active');
+      results.classList.remove('active');
+      
+      try {
+        const formData = new FormData();
+        formData.append('asset', asset);
+        formData.append('timeframe', timeframe);
+        formData.append('file', selectedFile);
+        
+        const response = await fetch(`${API_URL}/api/v1/chart/analyze`, {
+          method: 'POST',
+          body: formData
+        });
+        
+        if (!response.ok) {
+          const err = await response.json();
+          throw new Error(err.detail || 'Analysis failed');
+        }
+        
+        const data = await response.json();
+        displayResults(data);
+        
+      } catch (error) {
+        alert('Error: ' + error.message);
+        uploadSection.style.display = 'block';
+      } finally {
+        loading.classList.remove('active');
+      }
+    });
+    
+    function displayResults(data) {
+      // Recommendation
+      const recCard = document.getElementById('recCard');
+      const recSide = document.getElementById('recSide');
+      const side = data.recommended_trade.side.toLowerCase();
+      
+      recCard.className = 'recommendation-card ' + side;
+      recSide.className = 'rec-side ' + side;
+      recSide.textContent = data.recommended_trade.side.toUpperCase();
+      document.getElementById('recProb').textContent = Math.round(data.recommended_trade.probability * 100) + '%';
+      document.getElementById('recRationale').textContent = data.recommended_trade.rationale;
+      
+      // Bullish outcomes
+      const bullishContainer = document.getElementById('bullishOutcomes');
+      bullishContainer.innerHTML = data.bullish.map(o => `
+        <div class="outcome-item">
+          <div class="outcome-header">
+            <span class="outcome-name">${o.name}</span>
+            <span class="outcome-prob ${getProbClass(o.probability)}">${Math.round(o.probability * 100)}%</span>
+          </div>
+          <div class="outcome-explanation">${o.explanation}</div>
+        </div>
+      `).join('');
+      
+      // Bearish outcomes
+      const bearishContainer = document.getElementById('bearishOutcomes');
+      bearishContainer.innerHTML = data.bearish.map(o => `
+        <div class="outcome-item">
+          <div class="outcome-header">
+            <span class="outcome-name">${o.name}</span>
+            <span class="outcome-prob ${getProbClass(o.probability)}">${Math.round(o.probability * 100)}%</span>
+          </div>
+          <div class="outcome-explanation">${o.explanation}</div>
+        </div>
+      `).join('');
+      
+      // Meta
+      document.getElementById('metaAsset').textContent = `${data.asset} • ${data.timeframe}`;
+      document.getElementById('metaModel').textContent = `Model: ${data.model_version}`;
+      document.getElementById('metaTime').textContent = `Generated: ${new Date(data.generated_at).toLocaleString()}`;
+      document.getElementById('disclaimer').textContent = data.disclaimer;
+      
+      results.classList.add('active');
+    }
+    
+    function getProbClass(prob) {
+      if (prob >= 0.3) return 'high';
+      if (prob >= 0.15) return 'medium';
+      return 'low';
+    }
+    
+    // New analysis
+    document.getElementById('newAnalysisBtn').addEventListener('click', () => {
+      results.classList.remove('active');
+      uploadSection.style.display = 'block';
+      selectedFile = null;
+      fileInput.value = '';
+      previewContainer.classList.remove('active');
+      dropzone.style.display = 'block';
+      analyzeBtn.disabled = true;
+    });
+  </script>
+</body>
+</html>
