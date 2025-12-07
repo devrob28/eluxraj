@@ -69,6 +69,9 @@
       flex-direction: column;
       gap: 8px;
     }
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
     .form-group label {
       font-size: 12px;
       color: #888;
@@ -90,6 +93,121 @@
     }
     .form-group select option {
       background: #1a1a1a;
+    }
+    
+    .asset-tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+      flex-wrap: wrap;
+    }
+    .asset-tab {
+      padding: 8px 16px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 20px;
+      font-size: 12px;
+      color: #888;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .asset-tab:hover {
+      border-color: #6366f1;
+      color: #fff;
+    }
+    .asset-tab.active {
+      background: linear-gradient(135deg, #6366f1, #8b5cf6);
+      border-color: transparent;
+      color: #fff;
+    }
+    
+    .asset-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+      gap: 8px;
+      max-height: 200px;
+      overflow-y: auto;
+      padding: 12px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+    .asset-chip {
+      padding: 8px 12px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 6px;
+      font-size: 12px;
+      color: #aaa;
+      cursor: pointer;
+      text-align: center;
+      transition: all 0.2s;
+    }
+    .asset-chip:hover {
+      border-color: #6366f1;
+      color: #fff;
+    }
+    .asset-chip.selected {
+      background: rgba(99,102,241,0.2);
+      border-color: #6366f1;
+      color: #fff;
+    }
+    
+    .selected-asset {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      background: rgba(99,102,241,0.1);
+      border: 1px solid rgba(99,102,241,0.3);
+      border-radius: 8px;
+      margin-bottom: 16px;
+    }
+    .selected-asset-label {
+      font-size: 12px;
+      color: #888;
+    }
+    .selected-asset-value {
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+    }
+    .clear-asset {
+      margin-left: auto;
+      color: #888;
+      cursor: pointer;
+      font-size: 18px;
+    }
+    .clear-asset:hover {
+      color: #ef4444;
+    }
+    
+    .custom-input-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .custom-input-row input {
+      flex: 1;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 8px;
+      padding: 12px 16px;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+    }
+    .custom-input-row button {
+      padding: 12px 20px;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.2);
+      border-radius: 8px;
+      color: #fff;
+      font-size: 14px;
+      cursor: pointer;
+    }
+    .custom-input-row button:hover {
+      background: rgba(99,102,241,0.3);
     }
     
     .dropzone {
@@ -333,6 +451,9 @@
       .form-row, .outcomes-grid {
         grid-template-columns: 1fr;
       }
+      .asset-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
     }
   </style>
 </head>
@@ -348,27 +469,53 @@
       <div class="upload-title">🔮 AI-Powered Chart Analysis</div>
       <div class="upload-desc">Upload a chart screenshot and get instant bullish/bearish probability analysis</div>
       
-      <div class="form-row">
-        <div class="form-group">
-          <label>Asset / Ticker</label>
-          <input type="text" id="assetInput" placeholder="e.g. BTC-USD, AAPL, ETH" value="BTC-USD">
+      <!-- Asset Selection -->
+      <div class="form-group full-width">
+        <label>Select Asset Category</label>
+        <div class="asset-tabs">
+          <div class="asset-tab active" data-category="indices">📈 Indices</div>
+          <div class="asset-tab" data-category="stocks">🏢 S&P 500</div>
+          <div class="asset-tab" data-category="nasdaq">💻 NASDAQ</div>
+          <div class="asset-tab" data-category="dow">🏭 Dow Jones</div>
+          <div class="asset-tab" data-category="commodities">🥇 Commodities</div>
+          <div class="asset-tab" data-category="crypto">₿ Crypto</div>
         </div>
-        <div class="form-group">
-          <label>Timeframe</label>
-          <select id="timeframeSelect">
-            <option value="5m">5 Minutes</option>
-            <option value="15m">15 Minutes</option>
-            <option value="30m">30 Minutes</option>
-            <option value="1h" selected>1 Hour</option>
-            <option value="2h">2 Hours</option>
-            <option value="4h">4 Hours</option>
-            <option value="8h">8 Hours</option>
-            <option value="12h">12 Hours</option>
-            <option value="24h">Daily</option>
-            <option value="3d">3 Days</option>
-            <option value="1M">Monthly</option>
-          </select>
+      </div>
+      
+      <!-- Selected Asset Display -->
+      <div class="selected-asset" id="selectedAssetDisplay" style="display:none">
+        <div>
+          <div class="selected-asset-label">Selected Asset</div>
+          <div class="selected-asset-value" id="selectedAssetValue">BTC-USD</div>
         </div>
+        <span class="clear-asset" id="clearAsset">✕</span>
+      </div>
+      
+      <!-- Asset Grid -->
+      <div class="asset-grid" id="assetGrid"></div>
+      
+      <!-- Custom Input -->
+      <div class="custom-input-row">
+        <input type="text" id="customAsset" placeholder="Or type custom ticker (e.g., TSLA, DOGE)">
+        <button id="useCustomBtn">Use</button>
+      </div>
+      
+      <!-- Timeframe -->
+      <div class="form-group" style="margin-bottom:16px">
+        <label>Timeframe</label>
+        <select id="timeframeSelect">
+          <option value="5m">5 Minutes</option>
+          <option value="15m">15 Minutes</option>
+          <option value="30m">30 Minutes</option>
+          <option value="1h" selected>1 Hour</option>
+          <option value="2h">2 Hours</option>
+          <option value="4h">4 Hours</option>
+          <option value="8h">8 Hours</option>
+          <option value="12h">12 Hours</option>
+          <option value="24h">Daily</option>
+          <option value="3d">3 Days</option>
+          <option value="1M">Monthly</option>
+        </select>
       </div>
       
       <input type="file" id="fileInput" accept="image/*" style="display:none">
@@ -430,7 +577,73 @@
   <script>
     const API_URL = 'https://eluxraj-api-production.up.railway.app';
     
+    // Asset data
+    const ASSETS = {
+      indices: [
+        'SPY', 'QQQ', 'DIA', 'IWM', 'VTI', 'VOO', 'SPX', 'NDX', 'DJI', 'RUT'
+      ],
+      stocks: [
+        'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'NVDA', 'META', 'TSLA', 'BRK.B', 'UNH', 'JNJ',
+        'V', 'XOM', 'JPM', 'PG', 'MA', 'HD', 'CVX', 'MRK', 'ABBV', 'PFE',
+        'KO', 'PEP', 'COST', 'TMO', 'BAC', 'AVGO', 'WMT', 'MCD', 'CSCO', 'ACN',
+        'ABT', 'DHR', 'LLY', 'ADBE', 'CRM', 'NKE', 'CMCSA', 'VZ', 'NEE', 'TXN',
+        'PM', 'INTC', 'RTX', 'HON', 'UPS', 'QCOM', 'BMY', 'T', 'LOW', 'SPGI',
+        'AMGN', 'CAT', 'MS', 'GS', 'BLK', 'DE', 'AXP', 'SBUX', 'GILD', 'MDLZ',
+        'AMD', 'ISRG', 'ADI', 'BKNG', 'TMUS', 'SYK', 'LMT', 'CB', 'AMAT', 'MMC',
+        'PYPL', 'ZTS', 'CI', 'SCHW', 'TJX', 'NOW', 'MO', 'DUK', 'SO', 'PLD',
+        'CL', 'ICE', 'CME', 'ITW', 'BDX', 'FIS', 'REGN', 'EQIX', 'NSC', 'CSX',
+        'AON', 'SHW', 'MMM', 'HUM', 'FCX', 'ETN', 'PNC', 'ATVI', 'USB', 'WM'
+      ],
+      nasdaq: [
+        'AAPL', 'MSFT', 'GOOGL', 'GOOG', 'AMZN', 'NVDA', 'META', 'TSLA', 'AVGO', 'PEP',
+        'COST', 'CSCO', 'ADBE', 'CMCSA', 'TXN', 'NFLX', 'INTC', 'QCOM', 'AMD', 'AMGN',
+        'INTU', 'HON', 'SBUX', 'ISRG', 'ADI', 'BKNG', 'TMUS', 'AMAT', 'PYPL', 'MDLZ',
+        'GILD', 'ADP', 'REGN', 'VRTX', 'LRCX', 'MU', 'CSX', 'FISV', 'KLAC', 'SNPS',
+        'ORLY', 'MNST', 'CDNS', 'MELI', 'FTNT', 'MAR', 'NXPI', 'ADSK', 'WDAY', 'MRVL',
+        'PANW', 'KDP', 'PAYX', 'AEP', 'CTAS', 'KHC', 'EXC', 'CHTR', 'BIIB', 'DXCM',
+        'LULU', 'PCAR', 'ROST', 'AZN', 'ODFL', 'XEL', 'SGEN', 'VRSK', 'IDXX', 'CPRT',
+        'FAST', 'WBD', 'EA', 'DLTR', 'EBAY', 'ZS', 'CRWD', 'TEAM', 'DDOG', 'ANSS'
+      ],
+      dow: [
+        'AAPL', 'AMGN', 'AXP', 'BA', 'CAT', 'CRM', 'CSCO', 'CVX', 'DIS', 'DOW',
+        'GS', 'HD', 'HON', 'IBM', 'INTC', 'JNJ', 'JPM', 'KO', 'MCD', 'MMM',
+        'MRK', 'MSFT', 'NKE', 'PG', 'TRV', 'UNH', 'V', 'VZ', 'WBA', 'WMT'
+      ],
+      commodities: [
+        'GC=F', 'SI=F', 'GLD', 'SLV', 'GOLD', 'SILVER', 
+        'CL=F', 'NG=F', 'USO', 'UNG',
+        'COPPER', 'PLATINUM', 'PALLADIUM',
+        'CORN', 'WHEAT', 'SOYBEAN'
+      ],
+      crypto: [
+        'BTC-USD', 'ETH-USD', 'BNB-USD', 'XRP-USD', 'ADA-USD', 'DOGE-USD', 'SOL-USD', 'DOT-USD',
+        'MATIC-USD', 'LTC-USD', 'SHIB-USD', 'TRX-USD', 'AVAX-USD', 'LINK-USD', 'ATOM-USD',
+        'UNI-USD', 'XMR-USD', 'ETC-USD', 'XLM-USD', 'BCH-USD', 'ALGO-USD', 'VET-USD',
+        'FIL-USD', 'ICP-USD', 'NEAR-USD', 'APE-USD', 'AAVE-USD', 'GRT-USD', 'FTM-USD',
+        'SAND-USD', 'MANA-USD', 'AXS-USD', 'THETA-USD', 'XTZ-USD', 'EOS-USD', 'FLOW-USD',
+        'CHZ-USD', 'CAKE-USD', 'NEO-USD', 'KCS-USD', 'HT-USD', 'CRO-USD', 'KLAY-USD',
+        'ZEC-USD', 'DASH-USD', 'WAVES-USD', 'BAT-USD', 'ENJ-USD', 'COMP-USD', 'YFI-USD',
+        'SUSHI-USD', 'SNX-USD', 'CRV-USD', '1INCH-USD', 'LRC-USD', 'CELO-USD', 'ANKR-USD',
+        'SKL-USD', 'STORJ-USD', 'IOTX-USD', 'OMG-USD', 'ZRX-USD', 'REN-USD', 'BNT-USD',
+        'QTUM-USD', 'ZIL-USD', 'ONT-USD', 'ICX-USD', 'SC-USD', 'DGB-USD', 'HBAR-USD',
+        'EGLD-USD', 'ONE-USD', 'HOT-USD', 'BTT-USD', 'WIN-USD', 'LUNA-USD', 'RUNE-USD',
+        'AR-USD', 'ROSE-USD', 'KSM-USD', 'PERP-USD', 'DYDX-USD', 'IMX-USD', 'GMX-USD',
+        'OP-USD', 'ARB-USD', 'APT-USD', 'SUI-USD', 'SEI-USD', 'TIA-USD', 'INJ-USD',
+        'FET-USD', 'RNDR-USD', 'WLD-USD', 'PEPE-USD', 'FLOKI-USD', 'BONK-USD', 'WIF-USD'
+      ]
+    };
+    
+    let selectedAsset = null;
+    let selectedFile = null;
+    let currentCategory = 'indices';
+    
     // Elements
+    const assetGrid = document.getElementById('assetGrid');
+    const selectedAssetDisplay = document.getElementById('selectedAssetDisplay');
+    const selectedAssetValue = document.getElementById('selectedAssetValue');
+    const clearAsset = document.getElementById('clearAsset');
+    const customAsset = document.getElementById('customAsset');
+    const useCustomBtn = document.getElementById('useCustomBtn');
     const dropzone = document.getElementById('dropzone');
     const fileInput = document.getElementById('fileInput');
     const previewContainer = document.getElementById('previewContainer');
@@ -442,7 +655,61 @@
     const loading = document.getElementById('loading');
     const results = document.getElementById('results');
     
-    let selectedFile = null;
+    // Render asset grid
+    function renderAssetGrid(category) {
+      const assets = ASSETS[category] || [];
+      assetGrid.innerHTML = assets.map(asset => `
+        <div class="asset-chip ${selectedAsset === asset ? 'selected' : ''}" data-asset="${asset}">${asset}</div>
+      `).join('');
+    }
+    
+    // Tab switching
+    document.querySelectorAll('.asset-tab').forEach(tab => {
+      tab.addEventListener('click', () => {
+        document.querySelectorAll('.asset-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+        currentCategory = tab.dataset.category;
+        renderAssetGrid(currentCategory);
+      });
+    });
+    
+    // Asset selection
+    assetGrid.addEventListener('click', (e) => {
+      if (e.target.classList.contains('asset-chip')) {
+        selectAsset(e.target.dataset.asset);
+      }
+    });
+    
+    function selectAsset(asset) {
+      selectedAsset = asset;
+      selectedAssetValue.textContent = asset;
+      selectedAssetDisplay.style.display = 'flex';
+      renderAssetGrid(currentCategory);
+      updateAnalyzeButton();
+    }
+    
+    clearAsset.addEventListener('click', () => {
+      selectedAsset = null;
+      selectedAssetDisplay.style.display = 'none';
+      renderAssetGrid(currentCategory);
+      updateAnalyzeButton();
+    });
+    
+    // Custom asset
+    useCustomBtn.addEventListener('click', () => {
+      const custom = customAsset.value.trim().toUpperCase();
+      if (custom) {
+        selectAsset(custom);
+        customAsset.value = '';
+      }
+    });
+    
+    customAsset.addEventListener('keypress', (e) => {
+      if (e.key === 'Enter') useCustomBtn.click();
+    });
+    
+    // Initialize
+    renderAssetGrid('indices');
     
     // Dropzone events
     dropzone.addEventListener('click', () => fileInput.click());
@@ -472,7 +739,7 @@
       fileInput.value = '';
       previewContainer.classList.remove('active');
       dropzone.style.display = 'block';
-      analyzeBtn.disabled = true;
+      updateAnalyzeButton();
     });
     
     function handleFile(file) {
@@ -489,22 +756,20 @@
         previewImg.src = e.target.result;
         previewContainer.classList.add('active');
         dropzone.style.display = 'none';
-        analyzeBtn.disabled = false;
+        updateAnalyzeButton();
       };
       reader.readAsDataURL(file);
     }
     
+    function updateAnalyzeButton() {
+      analyzeBtn.disabled = !(selectedAsset && selectedFile);
+    }
+    
     // Analyze
     analyzeBtn.addEventListener('click', async () => {
-      if (!selectedFile) return;
+      if (!selectedFile || !selectedAsset) return;
       
-      const asset = document.getElementById('assetInput').value.trim();
       const timeframe = document.getElementById('timeframeSelect').value;
-      
-      if (!asset) {
-        alert('Please enter an asset/ticker');
-        return;
-      }
       
       uploadSection.style.display = 'none';
       loading.classList.add('active');
@@ -512,7 +777,7 @@
       
       try {
         const formData = new FormData();
-        formData.append('asset', asset);
+        formData.append('asset', selectedAsset);
         formData.append('timeframe', timeframe);
         formData.append('file', selectedFile);
         
@@ -596,7 +861,7 @@
       fileInput.value = '';
       previewContainer.classList.remove('active');
       dropzone.style.display = 'block';
-      analyzeBtn.disabled = true;
+      updateAnalyzeButton();
     });
   </script>
 </body>
