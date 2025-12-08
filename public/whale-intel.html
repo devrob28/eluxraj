@@ -11,65 +11,32 @@
             --bg: #000000;
             --bg2: #050508;
             --bg3: #0a0a10;
-            --card: linear-gradient(145deg, rgba(20,20,35,0.9) 0%, rgba(10,10,18,0.95) 100%);
-            --card-solid: #0d0d15;
-            --glass: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.02) 100%);
-            --glass-border: rgba(255,255,255,0.15);
-            --glass-shine: linear-gradient(135deg, rgba(255,255,255,0.25) 0%, transparent 50%);
+            --card: #0d0d15;
+            --glass-border: rgba(255,255,255,0.12);
             --border: rgba(255,255,255,0.08);
-            --border-glow: rgba(100,200,255,0.3);
             --purple: #a855f7;
             --purple-bright: #c084fc;
-            --purple-glow: rgba(168,85,247,0.5);
             --cyan: #22d3ee;
             --cyan-bright: #67e8f9;
-            --cyan-glow: rgba(34,211,238,0.5);
             --green: #10b981;
             --green-bright: #34d399;
-            --green-glow: rgba(16,185,129,0.6);
             --red: #ef4444;
             --red-bright: #f87171;
-            --red-glow: rgba(239,68,68,0.6);
             --yellow: #fbbf24;
             --orange: #fb923c;
             --blue: #3b82f6;
-            --blue-bright: #60a5fa;
-            --pink: #ec4899;
             --white: #ffffff;
-            --gray100: #f3f4f6;
             --gray300: #d1d5db;
             --gray400: #9ca3af;
             --gray500: #6b7280;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
+            font-family: 'Inter', -apple-system, sans-serif; 
             background: var(--bg); 
             color: var(--white); 
             min-height: 100vh;
             overflow-x: hidden;
-        }
-        
-        /* Glossy Card Mixin */
-        .glossy {
-            background: var(--card);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-        }
-        .glossy::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 50%;
-            background: var(--glass-shine);
-            pointer-events: none;
-            border-radius: 20px 20px 0 0;
         }
         
         /* Header */
@@ -78,12 +45,11 @@
             justify-content: space-between;
             align-items: center;
             padding: 14px 28px;
-            background: linear-gradient(180deg, rgba(10,10,20,0.98) 0%, rgba(5,5,10,0.95) 100%);
+            background: rgba(5,5,10,0.95);
             border-bottom: 1px solid var(--glass-border);
             position: sticky;
             top: 0;
             z-index: 100;
-            backdrop-filter: blur(20px);
         }
         .logo {
             display: flex;
@@ -93,35 +59,22 @@
         .logo-icon {
             width: 42px;
             height: 42px;
-            background: linear-gradient(135deg, var(--purple) 0%, var(--cyan) 50%, var(--green) 100%);
+            background: linear-gradient(135deg, var(--purple), var(--cyan));
             border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 22px;
-            box-shadow: 0 0 30px var(--purple-glow), 0 0 60px rgba(34,211,238,0.3);
-            position: relative;
-        }
-        .logo-icon::after {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 50%);
-            border-radius: 12px;
         }
         .logo-text {
             font-size: 1.3rem;
             font-weight: 900;
             letter-spacing: 3px;
-            background: linear-gradient(135deg, var(--white) 0%, var(--cyan-bright) 50%, var(--purple-bright) 100%);
+            background: linear-gradient(135deg, var(--white), var(--cyan-bright));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 40px var(--cyan-glow);
         }
-        .nav {
-            display: flex;
-            gap: 6px;
-        }
+        .nav { display: flex; gap: 6px; }
         .nav-item {
             padding: 10px 20px;
             color: var(--gray400);
@@ -129,23 +82,14 @@
             font-size: 0.9rem;
             font-weight: 600;
             border-radius: 12px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
+            transition: all 0.2s;
         }
-        .nav-item:hover { 
-            color: var(--white); 
-            background: rgba(255,255,255,0.05);
-        }
+        .nav-item:hover { color: var(--white); background: rgba(255,255,255,0.05); }
         .nav-item.active { 
             color: var(--white);
-            background: linear-gradient(135deg, rgba(168,85,247,0.3) 0%, rgba(34,211,238,0.2) 100%);
-            box-shadow: 0 0 20px var(--purple-glow), inset 0 1px 0 rgba(255,255,255,0.1);
+            background: linear-gradient(135deg, rgba(168,85,247,0.3), rgba(34,211,238,0.2));
         }
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
+        .header-right { display: flex; align-items: center; gap: 16px; }
         .search-box {
             display: flex;
             align-items: center;
@@ -155,21 +99,8 @@
             padding: 12px 20px;
             gap: 12px;
             min-width: 340px;
-            transition: all 0.3s;
-            position: relative;
         }
-        .search-box::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%);
-            border-radius: 14px;
-            pointer-events: none;
-        }
-        .search-box:focus-within {
-            border-color: var(--cyan);
-            box-shadow: 0 0 30px var(--cyan-glow);
-        }
+        .search-box:focus-within { border-color: var(--cyan); }
         .search-box input {
             background: none;
             border: none;
@@ -177,222 +108,115 @@
             font-size: 0.9rem;
             outline: none;
             width: 100%;
-            position: relative;
-            z-index: 1;
         }
         .search-box input::placeholder { color: var(--gray500); }
         .profile-btn {
             padding: 12px 24px;
-            background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 100%);
+            background: linear-gradient(135deg, var(--purple), var(--blue));
             border: none;
             border-radius: 12px;
             color: var(--white);
             font-size: 0.85rem;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 0 20px var(--purple-glow), inset 0 1px 0 rgba(255,255,255,0.2);
-            position: relative;
-            overflow: hidden;
-        }
-        .profile-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 50%;
-            background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 100%);
-        }
-        .profile-btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 0 40px var(--purple-glow);
         }
         
-        /* Smooth Scrolling Ticker */
+        /* Simple CSS Ticker */
         .ticker-wrapper {
-            background: linear-gradient(90deg, var(--bg2) 0%, var(--bg3) 50%, var(--bg2) 100%);
+            background: var(--bg2);
             border-bottom: 1px solid var(--glass-border);
             overflow: hidden;
             position: relative;
-            height: 56px;
-        }
-        .ticker-wrapper::before,
-        .ticker-wrapper::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            bottom: 0;
-            width: 100px;
-            z-index: 10;
-            pointer-events: none;
-        }
-        .ticker-wrapper::before {
-            left: 0;
-            background: linear-gradient(90deg, var(--bg2) 0%, transparent 100%);
-        }
-        .ticker-wrapper::after {
-            right: 0;
-            background: linear-gradient(-90deg, var(--bg2) 0%, transparent 100%);
         }
         .ticker-track {
             display: flex;
-            position: absolute;
-            left: 0;
-            top: 0;
-            height: 100%;
-            will-change: transform;
+            width: max-content;
+            animation: ticker 60s linear infinite;
+        }
+        .ticker-track:hover { animation-play-state: paused; }
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
         .ticker-item {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 0 32px;
-            height: 100%;
+            padding: 14px 32px;
             white-space: nowrap;
             border-right: 1px solid rgba(255,255,255,0.05);
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        .ticker-item:hover {
-            background: rgba(168,85,247,0.1);
         }
         .ticker-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 10px;
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
-            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.02) 100%);
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+            font-size: 14px;
+            background: rgba(255,255,255,0.1);
         }
-        .ticker-entity { 
-            color: var(--gray300); 
-            font-weight: 600; 
-            font-size: 0.9rem;
-        }
-        .ticker-value { 
-            font-family: 'JetBrains Mono', monospace; 
-            font-weight: 700; 
-            font-size: 0.9rem;
-            color: var(--white);
-            text-shadow: 0 0 10px rgba(255,255,255,0.3);
-        }
-        .ticker-change { 
-            font-size: 0.85rem; 
-            font-weight: 700;
-            padding: 4px 10px;
-            border-radius: 8px;
-        }
-        .ticker-change.up { 
-            color: var(--green-bright); 
-            background: rgba(16,185,129,0.15);
-            box-shadow: 0 0 15px rgba(16,185,129,0.2);
-        }
-        .ticker-change.down { 
-            color: var(--red-bright); 
-            background: rgba(239,68,68,0.15);
-            box-shadow: 0 0 15px rgba(239,68,68,0.2);
-        }
+        .ticker-entity { color: var(--gray300); font-weight: 600; font-size: 0.85rem; }
+        .ticker-value { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.85rem; }
+        .ticker-change { font-size: 0.8rem; font-weight: 700; padding: 3px 8px; border-radius: 6px; }
+        .ticker-change.up { color: var(--green-bright); background: rgba(16,185,129,0.15); }
+        .ticker-change.down { color: var(--red-bright); background: rgba(239,68,68,0.15); }
         
-        /* Title Section */
+        /* Title */
         .title-section {
             padding: 40px 24px 32px;
             text-align: center;
-            position: relative;
-        }
-        .title-section::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 600px;
-            height: 300px;
-            background: radial-gradient(ellipse, var(--purple-glow) 0%, transparent 70%);
-            opacity: 0.3;
-            pointer-events: none;
         }
         .page-title {
-            font-size: 4rem;
+            font-size: 3.5rem;
             font-weight: 900;
-            letter-spacing: 8px;
-            background: linear-gradient(135deg, var(--white) 0%, var(--cyan-bright) 30%, var(--purple-bright) 60%, var(--pink) 100%);
+            letter-spacing: 6px;
+            background: linear-gradient(135deg, var(--white), var(--cyan-bright), var(--purple-bright));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            margin-bottom: 12px;
-            position: relative;
-            text-shadow: 0 0 80px var(--cyan-glow);
+            margin-bottom: 8px;
         }
-        .page-subtitle {
-            color: var(--gray400);
-            font-size: 1.1rem;
-            font-weight: 500;
-            letter-spacing: 2px;
-        }
+        .page-subtitle { color: var(--gray400); font-size: 1rem; letter-spacing: 2px; }
         
-        /* Main Content */
+        /* Main */
         .main {
             display: grid;
-            grid-template-columns: 1fr 440px;
-            gap: 28px;
-            padding: 0 28px 40px;
-            max-width: 1800px;
+            grid-template-columns: 1fr 420px;
+            gap: 24px;
+            padding: 0 24px 40px;
+            max-width: 1700px;
             margin: 0 auto;
         }
-        @media (max-width: 1300px) {
-            .main { grid-template-columns: 1fr; }
-        }
+        @media (max-width: 1200px) { .main { grid-template-columns: 1fr; } }
         
         /* Cards */
         .card {
             background: var(--card);
             border: 1px solid var(--glass-border);
-            border-radius: 24px;
+            border-radius: 20px;
             overflow: hidden;
-            position: relative;
-            backdrop-filter: blur(20px);
-        }
-        .card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 100px;
-            background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%);
-            pointer-events: none;
-            border-radius: 24px 24px 0 0;
         }
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px 28px;
+            padding: 18px 24px;
             border-bottom: 1px solid var(--border);
-            position: relative;
-            z-index: 1;
         }
         .card-title {
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             font-weight: 800;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            background: linear-gradient(135deg, var(--white) 0%, var(--cyan-bright) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            color: var(--cyan-bright);
         }
         .card-badge {
             font-size: 0.7rem;
             font-weight: 700;
-            padding: 6px 14px;
+            padding: 5px 12px;
             border-radius: 20px;
-            background: linear-gradient(135deg, var(--green) 0%, var(--cyan) 100%);
+            background: linear-gradient(135deg, var(--green), var(--cyan));
             color: var(--white);
-            box-shadow: 0 0 20px var(--green-glow);
             display: flex;
             align-items: center;
             gap: 6px;
@@ -402,541 +226,201 @@
             height: 6px;
             background: var(--white);
             border-radius: 50%;
-            animation: blink 1s ease-in-out infinite;
-        }
-        @keyframes blink {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
         }
         
-        /* Trending Insights */
+        /* Insights */
         .insights-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-            padding: 24px;
-            position: relative;
-            z-index: 1;
-        }
-        @media (max-width: 1100px) {
-            .insights-grid { grid-template-columns: repeat(2, 1fr); }
-        }
-        @media (max-width: 700px) {
-            .insights-grid { grid-template-columns: 1fr; }
-        }
-        .insight-card {
-            background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 18px;
+            gap: 16px;
             padding: 20px;
+        }
+        @media (max-width: 1000px) { .insights-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 600px) { .insights-grid { grid-template-columns: 1fr; } }
+        .insight-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 18px;
             cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
-        }
-        .insight-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 60%;
-            background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%);
-            pointer-events: none;
-            border-radius: 18px 18px 0 0;
-            transition: opacity 0.3s;
-        }
-        .insight-card::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--purple), var(--cyan), var(--green));
-            opacity: 0;
-            transition: opacity 0.3s;
+            transition: border-color 0.2s, transform 0.2s;
         }
         .insight-card:hover {
             border-color: var(--cyan);
-            transform: translateY(-6px) scale(1.02);
-            box-shadow: 0 20px 60px rgba(34,211,238,0.2), 0 0 40px rgba(168,85,247,0.1);
+            transform: translateY(-4px);
         }
-        .insight-card:hover::after {
-            opacity: 1;
-        }
-        .insight-tags {
-            display: flex;
-            gap: 8px;
-            margin-bottom: 16px;
-            flex-wrap: wrap;
-            position: relative;
-            z-index: 1;
-        }
+        .insight-tags { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
         .tag {
             font-size: 0.65rem;
             font-weight: 800;
-            padding: 6px 12px;
-            border-radius: 8px;
+            padding: 5px 10px;
+            border-radius: 6px;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
-            position: relative;
-            overflow: hidden;
         }
-        .tag::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 50%;
-            background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 100%);
-        }
-        .tag.important { 
-            background: linear-gradient(135deg, rgba(239,68,68,0.4) 0%, rgba(249,115,22,0.3) 100%); 
-            color: var(--red-bright);
-            box-shadow: 0 0 15px rgba(239,68,68,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
-        }
-        .tag.bullish { 
-            background: linear-gradient(135deg, rgba(16,185,129,0.4) 0%, rgba(34,211,238,0.3) 100%); 
-            color: var(--green-bright);
-            box-shadow: 0 0 15px rgba(16,185,129,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
-        }
-        .tag.bearish { 
-            background: linear-gradient(135deg, rgba(239,68,68,0.4) 0%, rgba(236,72,153,0.3) 100%); 
-            color: var(--red-bright);
-            box-shadow: 0 0 15px rgba(239,68,68,0.3);
-        }
-        .tag.whale { 
-            background: linear-gradient(135deg, rgba(59,130,246,0.4) 0%, rgba(139,92,246,0.3) 100%); 
-            color: var(--blue-bright);
-            box-shadow: 0 0 15px rgba(59,130,246,0.3);
-        }
-        .tag.exchange { 
-            background: linear-gradient(135deg, rgba(249,115,22,0.4) 0%, rgba(251,191,36,0.3) 100%); 
-            color: var(--orange);
-        }
-        .tag.institution { 
-            background: linear-gradient(135deg, rgba(168,85,247,0.4) 0%, rgba(236,72,153,0.3) 100%); 
-            color: var(--purple-bright);
-        }
-        .tag.on-chain {
-            background: linear-gradient(135deg, rgba(34,211,238,0.4) 0%, rgba(16,185,129,0.3) 100%);
-            color: var(--cyan-bright);
-        }
-        .insight-title {
-            font-size: 1.05rem;
-            font-weight: 700;
-            line-height: 1.5;
-            margin-bottom: 16px;
-            color: var(--white);
-            position: relative;
-            z-index: 1;
-        }
-        .insight-meta {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-size: 0.75rem;
-            color: var(--gray500);
-            position: relative;
-            z-index: 1;
-        }
-        .insight-tokens {
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
+        .tag.important { background: rgba(239,68,68,0.25); color: var(--red-bright); }
+        .tag.bullish { background: rgba(16,185,129,0.25); color: var(--green-bright); }
+        .tag.bearish { background: rgba(239,68,68,0.25); color: var(--red-bright); }
+        .tag.whale { background: rgba(59,130,246,0.25); color: var(--blue); }
+        .tag.exchange { background: rgba(249,115,22,0.25); color: var(--orange); }
+        .tag.institution { background: rgba(168,85,247,0.25); color: var(--purple-bright); }
+        .tag.on-chain { background: rgba(34,211,238,0.25); color: var(--cyan-bright); }
+        .insight-title { font-size: 0.95rem; font-weight: 700; line-height: 1.5; margin-bottom: 14px; }
+        .insight-meta { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--gray500); }
+        .insight-tokens { display: flex; align-items: center; gap: 6px; }
         .token-icon {
-            width: 22px;
-            height: 22px;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 11px;
+            font-size: 10px;
             font-weight: 700;
-            position: relative;
         }
-        .token-icon::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 50%);
-            border-radius: 50%;
-        }
-        .token-icon.btc { background: linear-gradient(135deg, #f7931a, #ffab40); box-shadow: 0 0 10px rgba(247,147,26,0.5); }
-        .token-icon.eth { background: linear-gradient(135deg, #627eea, #8fa8ff); box-shadow: 0 0 10px rgba(98,126,234,0.5); }
-        .token-icon.sol { background: linear-gradient(135deg, #9945ff, #14f195); box-shadow: 0 0 10px rgba(153,69,255,0.5); }
+        .token-icon.btc { background: linear-gradient(135deg, #f7931a, #ffab40); }
+        .token-icon.eth { background: linear-gradient(135deg, #627eea, #8fa8ff); }
+        .token-icon.sol { background: linear-gradient(135deg, #9945ff, #14f195); }
         
         /* Exchange Flows */
-        .flows-section { padding: 24px; position: relative; z-index: 1; }
-        .flow-filters {
-            display: flex;
-            gap: 10px;
-            margin-bottom: 24px;
-            flex-wrap: wrap;
-        }
+        .flows-section { padding: 20px; }
+        .flow-filters { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
         .filter-btn {
-            padding: 10px 18px;
-            background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+            padding: 8px 16px;
+            background: rgba(255,255,255,0.05);
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 10px;
+            border-radius: 8px;
             color: var(--gray400);
             font-size: 0.75rem;
             font-weight: 700;
             cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
+            transition: all 0.2s;
         }
-        .filter-btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 50%;
-            background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%);
-        }
-        .filter-btn:hover {
-            border-color: var(--cyan);
-            color: var(--cyan);
-        }
+        .filter-btn:hover { border-color: var(--cyan); color: var(--cyan); }
         .filter-btn.active {
-            background: linear-gradient(135deg, var(--purple) 0%, var(--cyan) 100%);
+            background: linear-gradient(135deg, var(--purple), var(--cyan));
             border-color: transparent;
             color: var(--white);
-            box-shadow: 0 0 25px var(--purple-glow);
         }
         .flow-item {
             display: flex;
             align-items: center;
-            gap: 18px;
-            padding: 18px;
-            margin-bottom: 14px;
-            background: linear-gradient(145deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+            gap: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            background: rgba(255,255,255,0.02);
             border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 16px;
-            transition: all 0.3s;
-            position: relative;
-            overflow: hidden;
-        }
-        .flow-item::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 50%;
-            background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, transparent 100%);
-            pointer-events: none;
-        }
-        .flow-item:hover {
-            border-color: var(--purple);
-            transform: translateX(6px);
-            box-shadow: 0 10px 40px rgba(168,85,247,0.15);
-        }
-        .flow-icon {
-            width: 50px;
-            height: 50px;
             border-radius: 14px;
+            transition: border-color 0.2s;
+        }
+        .flow-item:hover { border-color: var(--purple); }
+        .flow-icon {
+            width: 46px;
+            height: 46px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 24px;
-            background: linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
-            border: 1px solid rgba(255,255,255,0.1);
-            box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
-            position: relative;
+            font-size: 22px;
+            background: rgba(255,255,255,0.05);
         }
         .flow-info { flex: 1; }
-        .flow-name {
-            font-size: 1.05rem;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-        .flow-type {
-            font-size: 0.75rem;
-            color: var(--gray500);
-            font-weight: 600;
-        }
-        .flow-bars {
-            width: 160px;
-        }
-        .flow-bar-row {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-bottom: 8px;
-        }
-        .flow-bar-label {
-            font-size: 0.7rem;
-            color: var(--gray500);
-            width: 28px;
-            font-weight: 600;
-        }
+        .flow-name { font-size: 1rem; font-weight: 700; margin-bottom: 2px; }
+        .flow-type { font-size: 0.75rem; color: var(--gray500); }
+        .flow-bars { width: 150px; }
+        .flow-bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+        .flow-bar-label { font-size: 0.65rem; color: var(--gray500); width: 26px; }
         .flow-bar {
             flex: 1;
-            height: 10px;
-            border-radius: 5px;
+            height: 8px;
+            border-radius: 4px;
             background: rgba(255,255,255,0.05);
             overflow: hidden;
-            box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
         }
-        .flow-bar-fill {
-            height: 100%;
-            border-radius: 5px;
-            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-        }
-        .flow-bar-fill::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 50%;
-            background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 100%);
-            border-radius: 5px 5px 0 0;
-        }
-        .flow-bar-fill.inflow { 
-            background: linear-gradient(90deg, var(--red) 0%, var(--orange) 100%); 
-            box-shadow: 0 0 15px var(--red-glow);
-        }
-        .flow-bar-fill.outflow { 
-            background: linear-gradient(90deg, var(--green) 0%, var(--cyan) 100%); 
-            box-shadow: 0 0 15px var(--green-glow);
-        }
+        .flow-bar-fill { height: 100%; border-radius: 4px; }
+        .flow-bar-fill.inflow { background: linear-gradient(90deg, var(--red), var(--orange)); }
+        .flow-bar-fill.outflow { background: linear-gradient(90deg, var(--green), var(--cyan)); }
         .flow-bar-value {
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.7rem;
-            font-weight: 600;
             color: var(--gray400);
-            width: 55px;
+            width: 50px;
             text-align: right;
         }
-        .flow-net {
-            text-align: right;
-            min-width: 100px;
-        }
-        .flow-net-value {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 1.1rem;
-            font-weight: 900;
-        }
-        .flow-net-value.positive { 
-            color: var(--green-bright); 
-            text-shadow: 0 0 20px var(--green-glow);
-        }
-        .flow-net-value.negative { 
-            color: var(--red-bright); 
-            text-shadow: 0 0 20px var(--red-glow);
-        }
-        .flow-net-label {
-            font-size: 0.65rem;
-            color: var(--gray500);
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+        .flow-net { text-align: right; min-width: 90px; }
+        .flow-net-value { font-family: 'JetBrains Mono', monospace; font-size: 1rem; font-weight: 800; }
+        .flow-net-value.positive { color: var(--green-bright); }
+        .flow-net-value.negative { color: var(--red-bright); }
+        .flow-net-label { font-size: 0.65rem; color: var(--gray500); text-transform: uppercase; }
         
-        /* Transfer Feed */
-        .transfer-feed { max-height: 680px; overflow-y: auto; position: relative; z-index: 1; }
+        /* Transfers */
+        .transfer-feed { max-height: 650px; overflow-y: auto; }
         .transfer-header {
             display: grid;
-            grid-template-columns: 100px 1fr 1fr 50px;
+            grid-template-columns: 90px 1fr 1fr 40px;
             gap: 12px;
-            padding: 16px 24px;
+            padding: 14px 20px;
             font-size: 0.7rem;
             font-weight: 700;
             color: var(--gray500);
             text-transform: uppercase;
-            letter-spacing: 1px;
             border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
-            background: var(--card-solid);
-            z-index: 2;
+            background: var(--card);
         }
         .transfer-row {
             display: grid;
-            grid-template-columns: 100px 1fr 1fr 50px;
+            grid-template-columns: 90px 1fr 1fr 40px;
             gap: 12px;
-            padding: 18px 24px;
+            padding: 14px 20px;
             border-bottom: 1px solid rgba(255,255,255,0.04);
             align-items: center;
-            transition: all 0.3s;
         }
-        .transfer-row:hover { 
-            background: linear-gradient(90deg, rgba(168,85,247,0.1) 0%, rgba(34,211,238,0.05) 100%);
-        }
-        .transfer-row.new {
-            animation: flashNew 1s ease-out;
-        }
-        @keyframes flashNew {
-            0% { background: rgba(34,211,238,0.3); }
-            100% { background: transparent; }
-        }
-        .transfer-time {
-            font-size: 0.8rem;
-            color: var(--cyan-bright);
-            font-weight: 600;
-        }
-        .transfer-entity {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
+        .transfer-row:hover { background: rgba(168,85,247,0.05); }
+        .transfer-time { font-size: 0.8rem; color: var(--cyan-bright); font-weight: 600; }
+        .transfer-entity { display: flex; align-items: center; gap: 10px; }
         .entity-icon {
-            width: 36px;
-            height: 36px;
-            border-radius: 10px;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 16px;
-            position: relative;
+            font-size: 14px;
         }
-        .entity-icon::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 50%);
-            border-radius: 10px;
-        }
-        .entity-icon.exchange { 
-            background: linear-gradient(135deg, rgba(249,115,22,0.4) 0%, rgba(251,191,36,0.3) 100%);
-            box-shadow: 0 0 15px rgba(249,115,22,0.3);
-        }
-        .entity-icon.whale { 
-            background: linear-gradient(135deg, rgba(59,130,246,0.4) 0%, rgba(139,92,246,0.3) 100%);
-            box-shadow: 0 0 15px rgba(59,130,246,0.3);
-        }
-        .entity-name {
-            font-size: 0.9rem;
-            font-weight: 600;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-        .entity-address {
-            font-size: 0.7rem;
-            color: var(--gray500);
-            font-family: 'JetBrains Mono', monospace;
-        }
-        .transfer-impact {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-        .impact-dot {
-            width: 14px;
-            height: 14px;
-            border-radius: 50%;
-            position: relative;
-        }
-        .impact-dot::before {
-            content: '';
-            position: absolute;
-            inset: 2px;
-            background: inherit;
-            border-radius: 50%;
-            filter: blur(4px);
-        }
-        .impact-dot.bullish { 
-            background: var(--green-bright); 
-            box-shadow: 0 0 20px var(--green-glow), 0 0 40px var(--green-glow);
-            animation: pulse-green 2s ease-in-out infinite;
-        }
-        @keyframes pulse-green {
-            0%, 100% { box-shadow: 0 0 20px var(--green-glow); }
-            50% { box-shadow: 0 0 30px var(--green-glow), 0 0 50px var(--green-glow); }
-        }
-        .impact-dot.bearish { 
-            background: var(--red-bright); 
-            box-shadow: 0 0 20px var(--red-glow);
-            animation: pulse-red 2s ease-in-out infinite;
-        }
-        @keyframes pulse-red {
-            0%, 100% { box-shadow: 0 0 20px var(--red-glow); }
-            50% { box-shadow: 0 0 30px var(--red-glow), 0 0 50px var(--red-glow); }
-        }
-        .impact-dot.neutral { 
-            background: var(--gray500);
-        }
+        .entity-icon.exchange { background: rgba(249,115,22,0.2); }
+        .entity-icon.whale { background: rgba(59,130,246,0.2); }
+        .entity-name { font-size: 0.85rem; font-weight: 600; }
+        .transfer-impact { display: flex; justify-content: center; }
+        .impact-dot { width: 12px; height: 12px; border-radius: 50%; }
+        .impact-dot.bullish { background: var(--green-bright); box-shadow: 0 0 8px var(--green); }
+        .impact-dot.bearish { background: var(--red-bright); box-shadow: 0 0 8px var(--red); }
         
-        /* Smart Money Section */
-        .smart-money { margin-top: 28px; }
-        .sm-stats {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 18px;
-            padding: 24px;
-            position: relative;
-            z-index: 1;
-        }
+        /* Smart Money */
+        .sm-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 20px; }
         .sm-stat {
             text-align: center;
-            padding: 28px 20px;
-            background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+            padding: 24px 16px;
+            background: rgba(255,255,255,0.03);
             border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 18px;
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            position: relative;
-            overflow: hidden;
+            border-radius: 16px;
+            transition: border-color 0.2s, transform 0.2s;
         }
-        .sm-stat::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 50%;
-            background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%);
-            pointer-events: none;
-        }
-        .sm-stat:hover {
-            border-color: var(--purple);
-            transform: translateY(-8px) scale(1.02);
-            box-shadow: 0 20px 60px rgba(168,85,247,0.2);
-        }
+        .sm-stat:hover { border-color: var(--purple); transform: translateY(-4px); }
         .sm-stat-value {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: 900;
-            margin-bottom: 10px;
-            position: relative;
-            z-index: 1;
+            margin-bottom: 8px;
         }
-        .sm-stat-value.bullish { 
-            color: var(--green-bright);
-            text-shadow: 0 0 30px var(--green-glow);
-        }
-        .sm-stat-value.bearish { 
-            color: var(--red-bright);
-            text-shadow: 0 0 30px var(--red-glow);
-        }
-        .sm-stat-label {
-            font-size: 0.75rem;
-            color: var(--gray400);
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-            font-weight: 700;
-            position: relative;
-            z-index: 1;
-        }
+        .sm-stat-value.bullish { color: var(--green-bright); }
+        .sm-stat-value.bearish { color: var(--red-bright); }
+        .sm-stat-label { font-size: 0.75rem; color: var(--gray400); text-transform: uppercase; letter-spacing: 1px; }
         
         /* Scrollbar */
-        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: var(--bg2); }
-        ::-webkit-scrollbar-thumb { 
-            background: linear-gradient(180deg, var(--purple) 0%, var(--cyan) 100%);
-            border-radius: 4px;
-        }
-        ::-webkit-scrollbar-thumb:hover { 
-            background: linear-gradient(180deg, var(--purple-bright) 0%, var(--cyan-bright) 100%);
-        }
+        ::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 3px; }
     </style>
 </head>
 <body>
@@ -954,25 +438,23 @@
         <div class="header-right">
             <div class="search-box">
                 <span>🔍</span>
-                <input type="text" placeholder="Search tokens, addresses, entities..." id="searchInput">
+                <input type="text" placeholder="Search tokens, addresses, entities...">
             </div>
             <button class="profile-btn">Profile</button>
         </div>
     </header>
     
-    <!-- Smooth Scrolling Ticker -->
     <div class="ticker-wrapper">
         <div class="ticker-track" id="tickerTrack"></div>
     </div>
     
     <section class="title-section">
         <h1 class="page-title">GOTHAM INTEL</h1>
-        <p class="page-subtitle">Real-time blockchain intelligence • Track smart money movements</p>
+        <p class="page-subtitle">Real-time blockchain intelligence • Track smart money</p>
     </section>
     
     <main class="main">
         <div class="left-column">
-            <!-- Trending Insights -->
             <div class="card">
                 <div class="card-header">
                     <span class="card-title">🔥 Trending Insights</span>
@@ -981,8 +463,7 @@
                 <div class="insights-grid" id="insightsGrid"></div>
             </div>
             
-            <!-- Exchange Flows -->
-            <div class="card" style="margin-top: 28px;">
+            <div class="card" style="margin-top: 24px;">
                 <div class="card-header">
                     <span class="card-title">💹 Exchange Flows</span>
                     <span class="card-badge">24H</span>
@@ -991,18 +472,17 @@
                     <div class="flow-filters">
                         <button class="filter-btn active">All Exchanges</button>
                         <button class="filter-btn">CEX+DEX</button>
-                        <button class="filter-btn">Market Cap ≥ $100M</button>
+                        <button class="filter-btn">Volume ≥ $100M</button>
                         <button class="filter-btn">Sort by Netflow</button>
                     </div>
                     <div id="flowsList"></div>
                 </div>
             </div>
             
-            <!-- Smart Money Stats -->
-            <div class="card smart-money" style="margin-top: 28px;">
+            <div class="card" style="margin-top: 24px;">
                 <div class="card-header">
                     <span class="card-title">🧠 Smart Money Sentiment</span>
-                    <span class="card-badge" id="sentimentBadge">Analyzing...</span>
+                    <span class="card-badge" id="sentimentBadge">Analyzing</span>
                 </div>
                 <div class="sm-stats">
                     <div class="sm-stat">
@@ -1022,16 +502,15 @@
         </div>
         
         <div class="right-column">
-            <!-- Live Transfer Feed -->
             <div class="card">
                 <div class="card-header">
                     <span class="card-title">⚡ Live Transfers</span>
-                    <span class="card-badge" id="transferCount">0 / 62</span>
+                    <span class="card-badge" id="transferCount">0 / 50</span>
                 </div>
                 <div class="transfer-header">
-                    <span>⏱ Time</span>
-                    <span>↗ From</span>
-                    <span>↘ To</span>
+                    <span>Time</span>
+                    <span>From</span>
+                    <span>To</span>
                     <span></span>
                 </div>
                 <div class="transfer-feed" id="transferFeed"></div>
@@ -1042,24 +521,20 @@
     <script>
         const API = 'https://eluxraj-api-production.up.railway.app/api/v1';
         
-        // Auth check
+        // Auth
         (async () => {
             const token = localStorage.getItem('token');
             if (!token) { window.location.replace('/login.html'); return; }
-            
             try {
-                const res = await fetch(`${API}/auth/me`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
+                const res = await fetch(`${API}/auth/me`, { headers: { 'Authorization': `Bearer ${token}` } });
                 if (!res.ok) throw new Error();
-                loadAllData();
+                init();
             } catch (e) {
                 localStorage.removeItem('token');
                 window.location.replace('/login.html');
             }
         })();
         
-        // Ticker data
         const tickerData = [
             { icon: '🐋', entity: 'Whale Alert', value: '$489.61M', change: '+2.82%', up: true },
             { icon: '📊', entity: 'Zeta Markets', value: '$35.29M', change: '+2.58%', up: true },
@@ -1071,21 +546,17 @@
             { icon: '₿', entity: 'BTC Whales', value: '$2.1B', change: '+3.4%', up: true },
             { icon: 'Ξ', entity: 'ETH Whales', value: '$1.8B', change: '+2.1%', up: true },
             { icon: '◎', entity: 'SOL Whales', value: '$567M', change: '+5.2%', up: true },
-            { icon: '🏦', entity: 'Grayscale', value: '$24.5B', change: '+0.8%', up: true },
-            { icon: '📈', entity: 'Jump Trading', value: '$890M', change: '+1.5%', up: true },
         ];
         
-        // Insights data
         const insightsData = [
-            { tags: ['important', 'whale'], title: 'ETH Faces Bearish Pressure: Whales Sell $45M in Past 24H', tokens: ['ETH'], time: '2 hours ago', updates: 12 },
-            { tags: ['bullish', 'whale', 'on-chain'], title: "Whale 'BitcoinOG' Bets $166M on ETH Long Position", tokens: ['BTC', 'ETH'], time: '5 hours ago', updates: 7 },
-            { tags: ['important', 'exchange'], title: 'Bitcoin Dips Below $88,000 Amid FOMC Nerves - Exchange Inflows Spike', tokens: ['BTC'], time: '8 hours ago', updates: 21 },
-            { tags: ['bullish', 'institution'], title: 'Grayscale Accumulates $234M ETH - Largest Purchase This Month', tokens: ['ETH'], time: '10 hours ago', updates: 9 },
-            { tags: ['whale', 'on-chain'], title: 'SOL Mega Whale Moves $89M to Cold Storage - Bullish Signal', tokens: ['SOL'], time: '12 hours ago', updates: 4 },
-            { tags: ['bearish', 'exchange'], title: 'Kraken Sees $67M ETH Inflow from Unknown Whale Cluster', tokens: ['ETH'], time: '18 hours ago', updates: 6 }
+            { tags: ['important', 'whale'], title: 'ETH Faces Bearish Pressure: Whales Sell $45M in Past 24H', tokens: ['ETH'], time: '2h ago', updates: 12 },
+            { tags: ['bullish', 'whale', 'on-chain'], title: "Whale 'BitcoinOG' Bets $166M on ETH Long Position", tokens: ['BTC', 'ETH'], time: '5h ago', updates: 7 },
+            { tags: ['important', 'exchange'], title: 'Bitcoin Dips Below $88K - Exchange Inflows Spike', tokens: ['BTC'], time: '8h ago', updates: 21 },
+            { tags: ['bullish', 'institution'], title: 'Grayscale Accumulates $234M ETH This Month', tokens: ['ETH'], time: '10h ago', updates: 9 },
+            { tags: ['whale', 'on-chain'], title: 'SOL Whale Moves $89M to Cold Storage', tokens: ['SOL'], time: '12h ago', updates: 4 },
+            { tags: ['bearish', 'exchange'], title: 'Kraken Sees $67M ETH Inflow from Whale Cluster', tokens: ['ETH'], time: '18h ago', updates: 6 }
         ];
         
-        // Exchange data
         const exchangeData = [
             { name: 'Binance', icon: '🟡', inflow: 234.5, outflow: 312.8, type: 'CEX' },
             { name: 'Coinbase', icon: '🔵', inflow: 156.2, outflow: 198.4, type: 'CEX' },
@@ -1095,15 +566,22 @@
             { name: 'Bitfinex', icon: '🟢', inflow: 78.4, outflow: 91.2, type: 'CEX' }
         ];
         
-        // Smooth ticker animation
-        let tickerPosition = 0;
-        let tickerWidth = 0;
+        let transfers = [];
         
-        function initTicker() {
-            const track = document.getElementById('tickerTrack');
-            // Create items 3x for seamless loop
-            const items = [...tickerData, ...tickerData, ...tickerData];
-            track.innerHTML = items.map(t => `
+        function init() {
+            loadTicker();
+            loadInsights();
+            loadFlows();
+            loadTransfers();
+            updateStats();
+            
+            // Add transfer every 5 seconds (reduced frequency)
+            setInterval(addTransfer, 5000);
+        }
+        
+        function loadTicker() {
+            const doubled = [...tickerData, ...tickerData];
+            document.getElementById('tickerTrack').innerHTML = doubled.map(t => `
                 <div class="ticker-item">
                     <span class="ticker-icon">${t.icon}</span>
                     <span class="ticker-entity">${t.entity}</span>
@@ -1111,59 +589,25 @@
                     <span class="ticker-change ${t.up ? 'up' : 'down'}">${t.change}</span>
                 </div>
             `).join('');
-            
-            // Calculate single set width
-            const singleSetWidth = track.scrollWidth / 3;
-            tickerWidth = singleSetWidth;
-            
-            // Start animation
-            animateTicker();
-        }
-        
-        function animateTicker() {
-            const track = document.getElementById('tickerTrack');
-            tickerPosition -= 0.5; // Speed
-            
-            if (Math.abs(tickerPosition) >= tickerWidth) {
-                tickerPosition = 0;
-            }
-            
-            track.style.transform = `translateX(${tickerPosition}px)`;
-            requestAnimationFrame(animateTicker);
-        }
-        
-        function loadAllData() {
-            initTicker();
-            loadInsights();
-            loadExchangeFlows();
-            loadTransfers();
-            calculateSmartMoney();
-            
-            // Add new transfer every 2.5 seconds
-            setInterval(addNewTransfer, 2500);
         }
         
         function loadInsights() {
             document.getElementById('insightsGrid').innerHTML = insightsData.map(i => `
                 <div class="insight-card">
-                    <div class="insight-tags">
-                        ${i.tags.map(t => `<span class="tag ${t}">${t}</span>`).join('')}
-                    </div>
+                    <div class="insight-tags">${i.tags.map(t => `<span class="tag ${t}">${t}</span>`).join('')}</div>
                     <div class="insight-title">${i.title}</div>
                     <div class="insight-meta">
-                        <div class="insight-tokens">
-                            Tokens: ${i.tokens.map(t => `<span class="token-icon ${t.toLowerCase()}">${t === 'BTC' ? '₿' : t === 'ETH' ? 'Ξ' : '◎'}</span>`).join('')}
-                        </div>
+                        <div class="insight-tokens">Tokens: ${i.tokens.map(t => `<span class="token-icon ${t.toLowerCase()}">${t === 'BTC' ? '₿' : t === 'ETH' ? 'Ξ' : '◎'}</span>`).join('')}</div>
                         <span>${i.time} • ${i.updates} updates</span>
                     </div>
                 </div>
             `).join('');
         }
         
-        function loadExchangeFlows() {
-            const maxFlow = Math.max(...exchangeData.map(e => Math.max(e.inflow, e.outflow)));
+        function loadFlows() {
+            const max = Math.max(...exchangeData.map(e => Math.max(e.inflow, e.outflow)));
             document.getElementById('flowsList').innerHTML = exchangeData.map(ex => {
-                const netFlow = ex.outflow - ex.inflow;
+                const net = ex.outflow - ex.inflow;
                 return `
                     <div class="flow-item">
                         <div class="flow-icon">${ex.icon}</div>
@@ -1174,21 +618,17 @@
                         <div class="flow-bars">
                             <div class="flow-bar-row">
                                 <span class="flow-bar-label">In</span>
-                                <div class="flow-bar">
-                                    <div class="flow-bar-fill inflow" style="width: ${(ex.inflow/maxFlow)*100}%"></div>
-                                </div>
+                                <div class="flow-bar"><div class="flow-bar-fill inflow" style="width:${(ex.inflow/max)*100}%"></div></div>
                                 <span class="flow-bar-value">$${ex.inflow.toFixed(0)}M</span>
                             </div>
                             <div class="flow-bar-row">
                                 <span class="flow-bar-label">Out</span>
-                                <div class="flow-bar">
-                                    <div class="flow-bar-fill outflow" style="width: ${(ex.outflow/maxFlow)*100}%"></div>
-                                </div>
+                                <div class="flow-bar"><div class="flow-bar-fill outflow" style="width:${(ex.outflow/max)*100}%"></div></div>
                                 <span class="flow-bar-value">$${ex.outflow.toFixed(0)}M</span>
                             </div>
                         </div>
                         <div class="flow-net">
-                            <div class="flow-net-value ${netFlow >= 0 ? 'positive' : 'negative'}">${netFlow >= 0 ? '+' : ''}$${netFlow.toFixed(1)}M</div>
+                            <div class="flow-net-value ${net >= 0 ? 'positive' : 'negative'}">${net >= 0 ? '+' : ''}$${net.toFixed(1)}M</div>
                             <div class="flow-net-label">Net Flow</div>
                         </div>
                     </div>
@@ -1196,84 +636,67 @@
             }).join('');
         }
         
-        let transfers = [];
-        
-        function generateTransfer(isNew = false) {
-            const exchanges = ['Binance', 'Coinbase', 'Kraken', 'OKX', 'Bitfinex', 'Uniswap'];
+        function generateTransfer() {
+            const exchanges = ['Binance', 'Coinbase', 'Kraken', 'OKX', 'Bitfinex'];
             const isInflow = Math.random() > 0.5;
             const exchange = exchanges[Math.floor(Math.random() * exchanges.length)];
-            const seconds = isNew ? 0 : Math.floor(Math.random() * 3600);
-            const timeStr = seconds === 0 ? 'Just now' : seconds < 60 ? `${seconds} sec ago` : `${Math.floor(seconds/60)} min ago`;
-            
+            const secs = Math.floor(Math.random() * 300);
             return {
-                time: timeStr,
+                time: secs < 60 ? `${secs}s ago` : `${Math.floor(secs/60)}m ago`,
                 from: isInflow ? { name: '0x' + Math.random().toString(16).substr(2,6) + '...', type: 'whale' } : { name: exchange, type: 'exchange' },
                 to: isInflow ? { name: exchange, type: 'exchange' } : { name: '0x' + Math.random().toString(16).substr(2,6) + '...', type: 'whale' },
-                impact: isInflow ? 'bearish' : 'bullish',
-                isNew: isNew
+                impact: isInflow ? 'bearish' : 'bullish'
             };
         }
         
         function loadTransfers() {
-            transfers = Array(25).fill().map(() => generateTransfer());
+            transfers = Array(25).fill().map(generateTransfer);
             renderTransfers();
         }
         
-        function addNewTransfer() {
-            transfers.forEach(t => t.isNew = false);
-            transfers.unshift(generateTransfer(true));
-            if (transfers.length > 62) transfers.pop();
+        function addTransfer() {
+            transfers.unshift({ ...generateTransfer(), time: 'Just now' });
+            if (transfers.length > 50) transfers.pop();
             renderTransfers();
+            updateStats();
         }
         
         function renderTransfers() {
-            document.getElementById('transferCount').textContent = `${transfers.length} / 62`;
+            document.getElementById('transferCount').textContent = `${transfers.length} / 50`;
             document.getElementById('transferFeed').innerHTML = transfers.map(tx => `
-                <div class="transfer-row ${tx.isNew ? 'new' : ''}">
+                <div class="transfer-row">
                     <div class="transfer-time">${tx.time}</div>
                     <div class="transfer-entity">
                         <div class="entity-icon ${tx.from.type}">${tx.from.type === 'exchange' ? '🏛️' : '🐋'}</div>
-                        <div>
-                            <div class="entity-name">${tx.from.name}</div>
-                        </div>
+                        <div class="entity-name">${tx.from.name}</div>
                     </div>
                     <div class="transfer-entity">
                         <div class="entity-icon ${tx.to.type}">${tx.to.type === 'exchange' ? '🏛️' : '🐋'}</div>
-                        <div>
-                            <div class="entity-name">${tx.to.name}</div>
-                        </div>
+                        <div class="entity-name">${tx.to.name}</div>
                     </div>
-                    <div class="transfer-impact">
-                        <div class="impact-dot ${tx.impact}"></div>
-                    </div>
+                    <div class="transfer-impact"><div class="impact-dot ${tx.impact}"></div></div>
                 </div>
             `).join('');
         }
         
-        function calculateSmartMoney() {
+        function updateStats() {
             const bullish = transfers.filter(t => t.impact === 'bullish').length;
             const bearish = transfers.filter(t => t.impact === 'bearish').length;
-            const netFlow = exchangeData.reduce((sum, ex) => sum + (ex.outflow - ex.inflow), 0);
+            const net = exchangeData.reduce((s, e) => s + (e.outflow - e.inflow), 0);
             
             document.getElementById('bullishCount').textContent = bullish;
             document.getElementById('bearishCount').textContent = bearish;
-            document.getElementById('netFlow').textContent = `${netFlow >= 0 ? '+' : ''}$${netFlow.toFixed(0)}M`;
-            document.getElementById('netFlow').className = `sm-stat-value ${netFlow >= 0 ? 'bullish' : 'bearish'}`;
-            
-            const sentiment = bullish > bearish ? 'Bullish' : bullish < bearish ? 'Bearish' : 'Neutral';
-            const badge = document.getElementById('sentimentBadge');
-            badge.textContent = sentiment;
+            document.getElementById('netFlow').textContent = `${net >= 0 ? '+' : ''}$${net.toFixed(0)}M`;
+            document.getElementById('netFlow').className = `sm-stat-value ${net >= 0 ? 'bullish' : 'bearish'}`;
+            document.getElementById('sentimentBadge').textContent = bullish > bearish ? 'Bullish' : 'Bearish';
         }
-        
-        // Recalculate smart money every 5 seconds
-        setInterval(calculateSmartMoney, 5000);
         
         // Filter buttons
         document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', function() {
+            btn.onclick = function() {
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
                 this.classList.add('active');
-            });
+            };
         });
     </script>
 </body>
