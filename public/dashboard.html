@@ -4,17 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | ELUXRAJ</title>
+    <script>if(!localStorage.getItem('token'))window.location.replace('/login.html');</script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root{--bg:#0a0a0f;--bg2:#12121a;--card:#1a1a24;--purple:#7c3aed;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--yellow:#f59e0b;--white:#fff;--gray300:#d1d5db;--gray400:#9ca3af;--gray500:#6b7280}
         *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);min-height:100vh}
-        
-        /* Hide everything until auth checked */
-        .app{display:none}
-        .app.ready{display:block}
-        
-        /* Header */
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);min-height:100vh;opacity:0;transition:opacity .15s}
+        body.ready{opacity:1}
         .header{display:flex;justify-content:space-between;align-items:center;padding:16px 32px;border-bottom:1px solid rgba(124,58,237,0.2)}
         .logo{font-size:1.25rem;font-weight:900;background:linear-gradient(135deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
         .user-info{display:flex;align-items:center;gap:16px}
@@ -22,38 +18,26 @@
         .tier-badge{font-size:.7rem;font-weight:700;padding:4px 10px;border-radius:20px;text-transform:uppercase}
         .tier-badge.free{background:rgba(107,114,128,0.2);color:var(--gray400)}
         .tier-badge.pro{background:rgba(124,58,237,0.2);color:var(--purple)}
-        .tier-badge.elite{background:linear-gradient(135deg,var(--purple),var(--cyan));color:var(--white)}
+        .tier-badge.elite,.tier-badge.admin{background:linear-gradient(135deg,var(--purple),var(--cyan));color:var(--white)}
         .logout-btn{background:transparent;border:1px solid rgba(255,255,255,0.1);color:var(--gray400);padding:8px 16px;border-radius:8px;cursor:pointer;font-size:.85rem}
         .logout-btn:hover{border-color:var(--purple);color:var(--white)}
-        
-        /* Container */
         .container{max-width:1200px;margin:0 auto;padding:32px}
-        
-        /* Upgrade Banner */
         .upgrade-banner{background:var(--card);border:1px solid var(--purple);border-radius:16px;padding:24px 32px;display:flex;justify-content:space-between;align-items:center;margin-bottom:32px}
         .upgrade-text h3{font-size:1.1rem;font-weight:700;margin-bottom:4px}
         .upgrade-text p{color:var(--gray400);font-size:.9rem}
-        .upgrade-btn{background:linear-gradient(135deg,var(--purple),var(--cyan));color:var(--white);font-weight:700;padding:12px 24px;border-radius:10px;text-decoration:none;font-size:.9rem;transition:transform .2s}
-        .upgrade-btn:hover{transform:translateY(-2px)}
-        
-        /* Market Cards */
+        .upgrade-btn{background:linear-gradient(135deg,var(--purple),var(--cyan));color:var(--white);font-weight:700;padding:12px 24px;border-radius:10px;text-decoration:none;font-size:.9rem}
         .market-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:40px}
         @media(max-width:900px){.market-grid{grid-template-columns:repeat(2,1fr)}}
         @media(max-width:500px){.market-grid{grid-template-columns:1fr}}
         .market-card{background:var(--card);border:1px solid rgba(124,58,237,0.15);border-radius:16px;padding:20px}
-        .market-label{font-size:.8rem;color:var(--gray500);margin-bottom:8px;display:flex;align-items:center;gap:6px}
+        .market-label{font-size:.8rem;color:var(--gray500);margin-bottom:8px}
         .market-value{font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:700;margin-bottom:4px}
         .market-change{font-size:.85rem;font-weight:600}
-        .market-change.up{color:var(--green)}
-        .market-change.down{color:var(--red)}
-        
-        /* Section */
-        .section-title{font-size:.85rem;color:var(--gray500);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px;display:flex;align-items:center;gap:8px}
-        
-        /* Feature Grid */
+        .market-change.up{color:var(--green)}.market-change.down{color:var(--red)}
+        .section-title{font-size:.85rem;color:var(--gray500);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
         .feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:40px}
         @media(max-width:700px){.feature-grid{grid-template-columns:1fr}}
-        .feature-card{background:var(--card);border:1px solid rgba(124,58,237,0.15);border-radius:16px;padding:24px;cursor:pointer;transition:all .2s;text-decoration:none;color:var(--white)}
+        .feature-card{background:var(--card);border:1px solid rgba(124,58,237,0.15);border-radius:16px;padding:24px;text-decoration:none;color:var(--white);transition:all .2s}
         .feature-card:hover{border-color:var(--purple);transform:translateY(-2px)}
         .feature-card.oracle{background:linear-gradient(135deg,rgba(124,58,237,0.2),rgba(6,182,212,0.1));border-color:var(--purple)}
         .feature-card.chart{background:linear-gradient(135deg,rgba(16,185,129,0.2),rgba(6,182,212,0.1));border-color:var(--green)}
@@ -63,216 +47,78 @@
         .feature-badge{display:inline-block;font-size:.65rem;font-weight:700;padding:3px 8px;border-radius:4px;margin-left:8px;text-transform:uppercase}
         .feature-badge.elite{background:linear-gradient(135deg,var(--purple),var(--cyan));color:var(--white)}
         .feature-badge.pro{background:rgba(124,58,237,0.2);color:var(--purple)}
-        
-        /* Quick Actions */
         .actions-grid{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:40px}
-        .action-btn{background:var(--card);border:1px solid rgba(124,58,237,0.15);border-radius:12px;padding:14px 20px;font-size:.9rem;color:var(--gray300);cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px;text-decoration:none}
+        .action-btn{background:var(--card);border:1px solid rgba(124,58,237,0.15);border-radius:12px;padding:14px 20px;font-size:.9rem;color:var(--gray300);text-decoration:none}
         .action-btn:hover{border-color:var(--purple);color:var(--white)}
-        
-        /* Tools Grid */
         .tools-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
         @media(max-width:800px){.tools-grid{grid-template-columns:repeat(2,1fr)}}
-        .tool-card{background:var(--card);border:1px solid rgba(124,58,237,0.15);border-radius:12px;padding:20px;text-align:center;cursor:pointer;transition:all .2s;text-decoration:none;color:var(--white)}
+        .tool-card{background:var(--card);border:1px solid rgba(124,58,237,0.15);border-radius:12px;padding:20px;text-align:center;text-decoration:none;color:var(--white)}
         .tool-card:hover{border-color:var(--purple)}
         .tool-icon{font-size:1.5rem;margin-bottom:8px}
         .tool-name{font-size:.85rem;font-weight:600}
-        
-        /* Loading state */
-        .loading-screen{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:1000}
-        .loading-screen.hidden{display:none}
-        .spinner{width:40px;height:40px;border:3px solid var(--bg2);border-top-color:var(--purple);border-radius:50%;animation:spin 1s linear infinite}
-        @keyframes spin{to{transform:rotate(360deg)}}
     </style>
 </head>
 <body>
-    <!-- Loading screen shown while checking auth -->
-    <div class="loading-screen" id="loadingScreen">
-        <div class="spinner"></div>
-    </div>
-
-    <div class="app" id="app">
-        <header class="header">
-            <div class="logo">ELUXRAJ™</div>
-            <div class="user-info">
-                <span class="username" id="username">User</span>
-                <span class="tier-badge free" id="tierBadge">FREE</span>
-                <button class="logout-btn" onclick="logout()">Logout</button>
+    <header class="header">
+        <div class="logo">ELUXRAJ™</div>
+        <div class="user-info">
+            <span class="username" id="username">User</span>
+            <span class="tier-badge free" id="tierBadge">FREE</span>
+            <button class="logout-btn" onclick="logout()">Logout</button>
+        </div>
+    </header>
+    <main class="container">
+        <div class="upgrade-banner" id="upgradeBanner">
+            <div class="upgrade-text">
+                <h3>🚀 Unlock All AI Features</h3>
+                <p>Upgrade to Elite for ORACLE predictions, whale alerts, and more</p>
             </div>
-        </header>
-        
-        <main class="container">
-            <!-- Upgrade Banner (shown for non-Elite users) -->
-            <div class="upgrade-banner" id="upgradeBanner">
-                <div class="upgrade-text">
-                    <h3>🚀 Unlock All AI Features</h3>
-                    <p>Upgrade to Elite for ORACLE predictions, whale alerts, and more</p>
-                </div>
-                <a href="/pricing.html" class="upgrade-btn">Upgrade to Elite - $98/mo</a>
-            </div>
-            
-            <!-- Market Overview -->
-            <div class="market-grid">
-                <div class="market-card">
-                    <div class="market-label">₿ Bitcoin</div>
-                    <div class="market-value" id="btcPrice">$--</div>
-                    <div class="market-change up" id="btcChange">--%</div>
-                </div>
-                <div class="market-card">
-                    <div class="market-label">Ξ Ethereum</div>
-                    <div class="market-value" id="ethPrice">$--</div>
-                    <div class="market-change up" id="ethChange">--%</div>
-                </div>
-                <div class="market-card">
-                    <div class="market-label">◎ Solana</div>
-                    <div class="market-value" id="solPrice">$--</div>
-                    <div class="market-change up" id="solChange">--%</div>
-                </div>
-                <div class="market-card">
-                    <div class="market-label">😱 Fear & Greed</div>
-                    <div class="market-value" id="fngValue">--</div>
-                    <div class="market-change" id="fngLabel">Loading...</div>
-                </div>
-            </div>
-            
-            <!-- AI Intelligence Suite -->
-            <div class="section-title">🤖 AI INTELLIGENCE SUITE</div>
-            <div class="feature-grid">
-                <a href="/oracle.html" class="feature-card oracle">
-                    <div class="feature-icon">🔮</div>
-                    <div class="feature-name">ORACLE <span class="feature-badge elite">Elite</span></div>
-                    <div class="feature-desc">AI-powered predictions with whale tracking, liquidation zones, and smart entry points</div>
-                </a>
-                <a href="/chart-analysis.html" class="feature-card chart">
-                    <div class="feature-icon">📊</div>
-                    <div class="feature-name">CHART AI <span class="feature-badge pro">Pro</span></div>
-                    <div class="feature-desc">Upload any chart and get instant AI pattern analysis with entry/exit signals</div>
-                </a>
-            </div>
-            
-            <!-- Quick Actions -->
-            <div class="section-title">⚡ QUICK ACTIONS</div>
-            <div class="actions-grid">
-                <a href="#" class="action-btn">🔗 Connect Brokerage</a>
-                <a href="#" class="action-btn">🔔 Set Price Alert</a>
-                <a href="#" class="action-btn">🪄 Portfolio Wizard</a>
-            </div>
-            
-            <!-- Pro Tools -->
-            <div class="section-title">✨ PRO TOOLS</div>
-            <div class="tools-grid">
-                <a href="/signals.html" class="tool-card">
-                    <div class="tool-icon">📡</div>
-                    <div class="tool-name">Signals</div>
-                </a>
-                <a href="/track" class="tool-card">
-                    <div class="tool-icon">📈</div>
-                    <div class="tool-name">Track Record</div>
-                </a>
-                <a href="/screener.html" class="tool-card">
-                    <div class="tool-icon">🔍</div>
-                    <div class="tool-name">Screener</div>
-                </a>
-                <a href="/watchlist.html" class="tool-card">
-                    <div class="tool-icon">👁️</div>
-                    <div class="tool-name">Watchlist</div>
-                </a>
-            </div>
-        </main>
-    </div>
-    
+            <a href="/pricing.html" class="upgrade-btn">Upgrade to Elite - $98/mo</a>
+        </div>
+        <div class="market-grid">
+            <div class="market-card"><div class="market-label">₿ Bitcoin</div><div class="market-value" id="btcPrice">$91,400</div><div class="market-change up" id="btcChange">+2.1%</div></div>
+            <div class="market-card"><div class="market-label">Ξ Ethereum</div><div class="market-value" id="ethPrice">$3,420</div><div class="market-change up" id="ethChange">+1.8%</div></div>
+            <div class="market-card"><div class="market-label">◎ Solana</div><div class="market-value" id="solPrice">$198</div><div class="market-change up" id="solChange">+3.2%</div></div>
+            <div class="market-card"><div class="market-label">😱 Fear & Greed</div><div class="market-value" id="fngValue">76</div><div class="market-change" id="fngLabel">Extreme Greed</div></div>
+        </div>
+        <div class="section-title">🤖 AI INTELLIGENCE SUITE</div>
+        <div class="feature-grid">
+            <a href="/oracle.html" class="feature-card oracle"><div class="feature-icon">🔮</div><div class="feature-name">ORACLE <span class="feature-badge elite">Elite</span></div><div class="feature-desc">AI-powered predictions with whale tracking, liquidation zones, and smart entry points</div></a>
+            <a href="/chart-analysis.html" class="feature-card chart"><div class="feature-icon">📊</div><div class="feature-name">CHART AI <span class="feature-badge pro">Pro</span></div><div class="feature-desc">Upload any chart and get instant AI pattern analysis with entry/exit signals</div></a>
+        </div>
+        <div class="section-title">⚡ QUICK ACTIONS</div>
+        <div class="actions-grid">
+            <a href="#" class="action-btn">🔗 Connect Brokerage</a>
+            <a href="#" class="action-btn">🔔 Set Price Alert</a>
+            <a href="#" class="action-btn">🪄 Portfolio Wizard</a>
+        </div>
+        <div class="section-title">✨ PRO TOOLS</div>
+        <div class="tools-grid">
+            <a href="/signals.html" class="tool-card"><div class="tool-icon">📡</div><div class="tool-name">Signals</div></a>
+            <a href="/track" class="tool-card"><div class="tool-icon">📈</div><div class="tool-name">Track Record</div></a>
+            <a href="/screener.html" class="tool-card"><div class="tool-icon">🔍</div><div class="tool-name">Screener</div></a>
+            <a href="/watchlist.html" class="tool-card"><div class="tool-icon">👁️</div><div class="tool-name">Watchlist</div></a>
+        </div>
+    </main>
     <script>
-        const API = 'https://eluxraj-api-production.up.railway.app/api/v1';
-        
-        // Check auth FIRST before showing anything
-        (async function checkAuth() {
-            const token = localStorage.getItem('token');
-            
-            if (!token) {
-                window.location.href = '/login.html';
-                return;
-            }
-            
-            try {
-                const res = await fetch(`${API}/auth/me`, {
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                
-                if (!res.ok) {
-                    throw new Error('Not authenticated');
-                }
-                
-                const user = await res.json();
-                
-                // Update UI with user info
-                document.getElementById('username').textContent = user.username || user.email;
-                const badge = document.getElementById('tierBadge');
-                const tier = user.subscription_tier || 'free';
-                badge.textContent = tier.toUpperCase();
-                badge.className = 'tier-badge ' + tier;
-                
-                // Hide upgrade banner for Elite users
-                if (tier === 'elite' || tier === 'admin') {
-                    document.getElementById('upgradeBanner').style.display = 'none';
-                }
-                
-                // Show app, hide loading
-                document.getElementById('loadingScreen').classList.add('hidden');
-                document.getElementById('app').classList.add('ready');
-                
-                // Load market data
-                loadMarkets();
-                
-            } catch (e) {
-                console.error('Auth failed:', e);
-                localStorage.removeItem('token');
-                window.location.href = '/login.html';
-            }
+        const API='https://eluxraj-api-production.up.railway.app/api/v1';
+        (async()=>{
+            const token=localStorage.getItem('token');
+            if(!token){window.location.replace('/login.html');return;}
+            try{
+                const res=await fetch(`${API}/auth/me`,{headers:{'Authorization':`Bearer ${token}`}});
+                if(!res.ok)throw new Error();
+                const user=await res.json();
+                document.getElementById('username').textContent=user.username||user.email;
+                const tier=user.subscription_tier||'free';
+                const badge=document.getElementById('tierBadge');
+                badge.textContent=tier.toUpperCase();
+                badge.className='tier-badge '+tier;
+                if(tier==='elite'||tier==='admin')document.getElementById('upgradeBanner').style.display='none';
+                document.body.classList.add('ready');
+            }catch(e){localStorage.removeItem('token');window.location.replace('/login.html');}
         })();
-        
-        async function loadMarkets() {
-            try {
-                // Bitcoin, Ethereum, Solana
-                const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd&include_24hr_change=true');
-                const data = await res.json();
-                
-                if (data.bitcoin) {
-                    document.getElementById('btcPrice').textContent = '$' + data.bitcoin.usd.toLocaleString();
-                    const btcChange = data.bitcoin.usd_24h_change || 0;
-                    document.getElementById('btcChange').textContent = (btcChange > 0 ? '+' : '') + btcChange.toFixed(1) + '%';
-                    document.getElementById('btcChange').className = 'market-change ' + (btcChange >= 0 ? 'up' : 'down');
-                }
-                
-                if (data.ethereum) {
-                    document.getElementById('ethPrice').textContent = '$' + data.ethereum.usd.toLocaleString();
-                    const ethChange = data.ethereum.usd_24h_change || 0;
-                    document.getElementById('ethChange').textContent = (ethChange > 0 ? '+' : '') + ethChange.toFixed(1) + '%';
-                    document.getElementById('ethChange').className = 'market-change ' + (ethChange >= 0 ? 'up' : 'down');
-                }
-                
-                if (data.solana) {
-                    document.getElementById('solPrice').textContent = '$' + data.solana.usd.toLocaleString();
-                    const solChange = data.solana.usd_24h_change || 0;
-                    document.getElementById('solChange').textContent = (solChange > 0 ? '+' : '') + solChange.toFixed(1) + '%';
-                    document.getElementById('solChange').className = 'market-change ' + (solChange >= 0 ? 'up' : 'down');
-                }
-                
-                // Fear & Greed
-                const fngRes = await fetch('https://api.alternative.me/fng/?limit=1');
-                const fng = await fngRes.json();
-                if (fng.data && fng.data[0]) {
-                    document.getElementById('fngValue').textContent = fng.data[0].value;
-                    document.getElementById('fngLabel').textContent = fng.data[0].value_classification;
-                }
-                
-            } catch (e) {
-                console.error('Market data error:', e);
-            }
-        }
-        
-        function logout() {
-            localStorage.removeItem('token');
-            window.location.href = '/login.html';
-        }
+        function logout(){localStorage.removeItem('token');window.location.replace('/login.html');}
     </script>
 </body>
 </html>
