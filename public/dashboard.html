@@ -4,14 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | ELUXRAJ</title>
-    <style>body{display:none}</style>
-    <script>if(!localStorage.getItem('token')){window.location.replace('/login.html');}</script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root{--bg:#0a0a0f;--bg2:#12121a;--card:#1a1a24;--purple:#7c3aed;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--yellow:#f59e0b;--white:#fff;--gray300:#d1d5db;--gray400:#9ca3af;--gray500:#6b7280}
         *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);min-height:100vh;display:none}
-        body.ready{display:block}
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);min-height:100vh}
         .header{display:flex;justify-content:space-between;align-items:center;padding:16px 32px;border-bottom:1px solid rgba(124,58,237,0.2)}
         .logo{font-size:1.25rem;font-weight:900;background:linear-gradient(135deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
         .user-info{display:flex;align-items:center;gap:16px}
@@ -103,23 +100,24 @@
     </main>
     <script>
         const API='https://eluxraj-api-production.up.railway.app/api/v1';
-        (async()=>{
-            const token=localStorage.getItem('token');
-            if(!token){window.location.replace('/login.html');return;}
-            try{
-                const res=await fetch(`${API}/auth/me`,{headers:{'Authorization':`Bearer ${token}`}});
-                if(!res.ok)throw new Error();
-                const user=await res.json();
+        const token=localStorage.getItem('token');
+        
+        if(!token){
+            window.location.href='/login.html';
+        } else {
+            fetch(`${API}/auth/me`,{headers:{'Authorization':`Bearer ${token}`}})
+            .then(res=>{if(!res.ok)throw new Error();return res.json();})
+            .then(user=>{
                 document.getElementById('username').textContent=user.username||user.email;
                 const tier=user.subscription_tier||'free';
-                const badge=document.getElementById('tierBadge');
-                badge.textContent=tier.toUpperCase();
-                badge.className='tier-badge '+tier;
+                document.getElementById('tierBadge').textContent=tier.toUpperCase();
+                document.getElementById('tierBadge').className='tier-badge '+tier;
                 if(tier==='elite'||tier==='admin')document.getElementById('upgradeBanner').style.display='none';
-                document.body.classList.add('ready');
-            }catch(e){localStorage.removeItem('token');window.location.replace('/login.html');}
-        })();
-        function logout(){localStorage.removeItem('token');window.location.replace('/login.html');}
+            })
+            .catch(()=>{localStorage.removeItem('token');window.location.href='/login.html';});
+        }
+        
+        function logout(){localStorage.removeItem('token');window.location.href='/login.html';}
     </script>
 </body>
 </html>
