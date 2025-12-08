@@ -3,25 +3,33 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Whale Intelligence | ELUXRAJ</title>
+    <title>GOTHAM INTEL | ELUXRAJ</title>
     <script>if(!localStorage.getItem('token'))window.location.replace('/login.html');</script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #05050a;
-            --bg2: #0a0a12;
-            --bg3: #0f0f1a;
-            --card: #12121f;
-            --card-hover: #1a1a2e;
-            --border: rgba(100,100,255,0.15);
-            --purple: #8b5cf6;
-            --purple-bright: #a78bfa;
+            --bg: #000000;
+            --bg2: #050508;
+            --bg3: #0a0a10;
+            --card: linear-gradient(145deg, rgba(20,20,35,0.9) 0%, rgba(10,10,18,0.95) 100%);
+            --card-solid: #0d0d15;
+            --glass: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.02) 100%);
+            --glass-border: rgba(255,255,255,0.15);
+            --glass-shine: linear-gradient(135deg, rgba(255,255,255,0.25) 0%, transparent 50%);
+            --border: rgba(255,255,255,0.08);
+            --border-glow: rgba(100,200,255,0.3);
+            --purple: #a855f7;
+            --purple-bright: #c084fc;
+            --purple-glow: rgba(168,85,247,0.5);
             --cyan: #22d3ee;
             --cyan-bright: #67e8f9;
+            --cyan-glow: rgba(34,211,238,0.5);
             --green: #10b981;
             --green-bright: #34d399;
+            --green-glow: rgba(16,185,129,0.6);
             --red: #ef4444;
             --red-bright: #f87171;
+            --red-glow: rgba(239,68,68,0.6);
             --yellow: #fbbf24;
             --orange: #fb923c;
             --blue: #3b82f6;
@@ -35,72 +43,103 @@
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
-            font-family: 'Inter', sans-serif; 
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif; 
             background: var(--bg); 
             color: var(--white); 
             min-height: 100vh;
-            opacity: 0;
-            transition: opacity 0.2s;
+            overflow-x: hidden;
         }
-        body.ready { opacity: 1; }
+        
+        /* Glossy Card Mixin */
+        .glossy {
+            background: var(--card);
+            border: 1px solid var(--glass-border);
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .glossy::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: var(--glass-shine);
+            pointer-events: none;
+            border-radius: 20px 20px 0 0;
+        }
         
         /* Header */
         .header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 12px 24px;
-            background: linear-gradient(180deg, var(--bg2) 0%, var(--bg) 100%);
-            border-bottom: 1px solid var(--border);
+            padding: 14px 28px;
+            background: linear-gradient(180deg, rgba(10,10,20,0.98) 0%, rgba(5,5,10,0.95) 100%);
+            border-bottom: 1px solid var(--glass-border);
             position: sticky;
             top: 0;
             z-index: 100;
+            backdrop-filter: blur(20px);
         }
         .logo {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
         }
         .logo-icon {
-            width: 36px;
-            height: 36px;
-            background: linear-gradient(135deg, var(--purple) 0%, var(--cyan) 100%);
-            border-radius: 10px;
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--purple) 0%, var(--cyan) 50%, var(--green) 100%);
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
-            box-shadow: 0 0 20px rgba(139,92,246,0.4);
+            font-size: 22px;
+            box-shadow: 0 0 30px var(--purple-glow), 0 0 60px rgba(34,211,238,0.3);
+            position: relative;
+        }
+        .logo-icon::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.4) 0%, transparent 50%);
+            border-radius: 12px;
         }
         .logo-text {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: 900;
-            letter-spacing: 2px;
-            background: linear-gradient(135deg, var(--white) 0%, var(--cyan) 100%);
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, var(--white) 0%, var(--cyan-bright) 50%, var(--purple-bright) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 40px var(--cyan-glow);
         }
         .nav {
             display: flex;
-            gap: 4px;
+            gap: 6px;
         }
         .nav-item {
-            padding: 10px 18px;
+            padding: 10px 20px;
             color: var(--gray400);
             text-decoration: none;
             font-size: 0.9rem;
             font-weight: 600;
-            border-radius: 10px;
-            transition: all 0.3s;
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
         }
         .nav-item:hover { 
             color: var(--white); 
-            background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(34,211,238,0.1));
+            background: rgba(255,255,255,0.05);
         }
         .nav-item.active { 
-            color: var(--cyan-bright); 
-            background: linear-gradient(135deg, rgba(139,92,246,0.3), rgba(34,211,238,0.2));
-            box-shadow: 0 0 15px rgba(34,211,238,0.2);
+            color: var(--white);
+            background: linear-gradient(135deg, rgba(168,85,247,0.3) 0%, rgba(34,211,238,0.2) 100%);
+            box-shadow: 0 0 20px var(--purple-glow), inset 0 1px 0 rgba(255,255,255,0.1);
         }
         .header-right {
             display: flex;
@@ -110,17 +149,26 @@
         .search-box {
             display: flex;
             align-items: center;
-            background: var(--bg3);
-            border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 10px 18px;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid var(--glass-border);
+            border-radius: 14px;
+            padding: 12px 20px;
             gap: 12px;
-            min-width: 320px;
+            min-width: 340px;
             transition: all 0.3s;
+            position: relative;
+        }
+        .search-box::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 50%);
+            border-radius: 14px;
+            pointer-events: none;
         }
         .search-box:focus-within {
             border-color: var(--cyan);
-            box-shadow: 0 0 20px rgba(34,211,238,0.2);
+            box-shadow: 0 0 30px var(--cyan-glow);
         }
         .search-box input {
             background: none;
@@ -129,31 +177,45 @@
             font-size: 0.9rem;
             outline: none;
             width: 100%;
+            position: relative;
+            z-index: 1;
         }
         .search-box input::placeholder { color: var(--gray500); }
         .profile-btn {
-            padding: 10px 20px;
-            background: linear-gradient(135deg, var(--purple), var(--blue));
+            padding: 12px 24px;
+            background: linear-gradient(135deg, var(--purple) 0%, var(--blue) 100%);
             border: none;
-            border-radius: 10px;
+            border-radius: 12px;
             color: var(--white);
             font-size: 0.85rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
-            box-shadow: 0 0 15px rgba(139,92,246,0.3);
+            box-shadow: 0 0 20px var(--purple-glow), inset 0 1px 0 rgba(255,255,255,0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        .profile-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 100%);
         }
         .profile-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 0 25px rgba(139,92,246,0.5);
+            box-shadow: 0 0 40px var(--purple-glow);
         }
         
-        /* Animated Ticker Bar */
+        /* Smooth Scrolling Ticker */
         .ticker-wrapper {
-            background: linear-gradient(90deg, var(--bg2), var(--bg3), var(--bg2));
-            border-bottom: 1px solid var(--border);
+            background: linear-gradient(90deg, var(--bg2) 0%, var(--bg3) 50%, var(--bg2) 100%);
+            border-bottom: 1px solid var(--glass-border);
             overflow: hidden;
             position: relative;
+            height: 56px;
         }
         .ticker-wrapper::before,
         .ticker-wrapper::after {
@@ -161,57 +223,52 @@
             position: absolute;
             top: 0;
             bottom: 0;
-            width: 60px;
-            z-index: 2;
+            width: 100px;
+            z-index: 10;
             pointer-events: none;
         }
         .ticker-wrapper::before {
             left: 0;
-            background: linear-gradient(90deg, var(--bg2), transparent);
+            background: linear-gradient(90deg, var(--bg2) 0%, transparent 100%);
         }
         .ticker-wrapper::after {
             right: 0;
-            background: linear-gradient(-90deg, var(--bg2), transparent);
+            background: linear-gradient(-90deg, var(--bg2) 0%, transparent 100%);
         }
         .ticker-track {
             display: flex;
-            animation: scroll 40s linear infinite;
-            width: fit-content;
-        }
-        .ticker-track:hover {
-            animation-play-state: paused;
-        }
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
+            position: absolute;
+            left: 0;
+            top: 0;
+            height: 100%;
+            will-change: transform;
         }
         .ticker-item {
             display: flex;
             align-items: center;
-            gap: 10px;
-            padding: 14px 28px;
+            gap: 12px;
+            padding: 0 32px;
+            height: 100%;
             white-space: nowrap;
-            border-right: 1px solid var(--border);
+            border-right: 1px solid rgba(255,255,255,0.05);
             cursor: pointer;
-            transition: all 0.3s;
+            transition: background 0.3s;
         }
         .ticker-item:hover {
-            background: rgba(139,92,246,0.1);
+            background: rgba(168,85,247,0.1);
         }
         .ticker-icon {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
-            background: var(--bg);
-            border: 1px solid var(--border);
+            font-size: 16px;
+            background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0.02) 100%);
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
         }
-        .ticker-icon.btc { background: linear-gradient(135deg, #f7931a, #ffab40); }
-        .ticker-icon.eth { background: linear-gradient(135deg, #627eea, #8fa8ff); }
-        .ticker-icon.sol { background: linear-gradient(135deg, #9945ff, #14f195); }
         .ticker-entity { 
             color: var(--gray300); 
             font-weight: 600; 
@@ -222,125 +279,174 @@
             font-weight: 700; 
             font-size: 0.9rem;
             color: var(--white);
+            text-shadow: 0 0 10px rgba(255,255,255,0.3);
         }
         .ticker-change { 
             font-size: 0.85rem; 
             font-weight: 700;
-            padding: 3px 8px;
-            border-radius: 6px;
+            padding: 4px 10px;
+            border-radius: 8px;
         }
         .ticker-change.up { 
             color: var(--green-bright); 
             background: rgba(16,185,129,0.15);
+            box-shadow: 0 0 15px rgba(16,185,129,0.2);
         }
         .ticker-change.down { 
             color: var(--red-bright); 
             background: rgba(239,68,68,0.15);
+            box-shadow: 0 0 15px rgba(239,68,68,0.2);
         }
         
         /* Title Section */
         .title-section {
-            padding: 32px 24px 24px;
-            background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+            padding: 40px 24px 32px;
             text-align: center;
+            position: relative;
+        }
+        .title-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 300px;
+            background: radial-gradient(ellipse, var(--purple-glow) 0%, transparent 70%);
+            opacity: 0.3;
+            pointer-events: none;
         }
         .page-title {
-            font-size: 3.5rem;
+            font-size: 4rem;
             font-weight: 900;
-            letter-spacing: 4px;
-            background: linear-gradient(135deg, var(--white) 0%, var(--cyan-bright) 50%, var(--purple-bright) 100%);
+            letter-spacing: 8px;
+            background: linear-gradient(135deg, var(--white) 0%, var(--cyan-bright) 30%, var(--purple-bright) 60%, var(--pink) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            text-shadow: 0 0 60px rgba(34,211,238,0.3);
-            margin-bottom: 8px;
+            margin-bottom: 12px;
+            position: relative;
+            text-shadow: 0 0 80px var(--cyan-glow);
         }
         .page-subtitle {
             color: var(--gray400);
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 500;
+            letter-spacing: 2px;
         }
         
         /* Main Content */
         .main {
             display: grid;
-            grid-template-columns: 1fr 420px;
-            gap: 24px;
-            padding: 24px;
-            max-width: 1700px;
+            grid-template-columns: 1fr 440px;
+            gap: 28px;
+            padding: 0 28px 40px;
+            max-width: 1800px;
             margin: 0 auto;
         }
-        @media (max-width: 1200px) {
+        @media (max-width: 1300px) {
             .main { grid-template-columns: 1fr; }
         }
         
         /* Cards */
         .card {
-            background: linear-gradient(135deg, var(--card) 0%, var(--bg3) 100%);
-            border: 1px solid var(--border);
-            border-radius: 20px;
+            background: var(--card);
+            border: 1px solid var(--glass-border);
+            border-radius: 24px;
             overflow: hidden;
-            transition: all 0.3s;
+            position: relative;
+            backdrop-filter: blur(20px);
         }
-        .card:hover {
-            border-color: rgba(139,92,246,0.3);
-            box-shadow: 0 0 30px rgba(139,92,246,0.1);
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 100px;
+            background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%);
+            pointer-events: none;
+            border-radius: 24px 24px 0 0;
         }
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 18px 24px;
+            padding: 20px 28px;
             border-bottom: 1px solid var(--border);
-            background: rgba(0,0,0,0.2);
+            position: relative;
+            z-index: 1;
         }
         .card-title {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 800;
-            letter-spacing: 1.5px;
+            letter-spacing: 2px;
             text-transform: uppercase;
-            background: linear-gradient(135deg, var(--white), var(--cyan-bright));
+            background: linear-gradient(135deg, var(--white) 0%, var(--cyan-bright) 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
         .card-badge {
             font-size: 0.7rem;
             font-weight: 700;
-            padding: 5px 12px;
+            padding: 6px 14px;
             border-radius: 20px;
-            background: linear-gradient(135deg, var(--purple), var(--blue));
+            background: linear-gradient(135deg, var(--green) 0%, var(--cyan) 100%);
             color: var(--white);
-            box-shadow: 0 0 15px rgba(139,92,246,0.3);
-            animation: pulse 2s ease-in-out infinite;
+            box-shadow: 0 0 20px var(--green-glow);
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
-        @keyframes pulse {
+        .badge-dot {
+            width: 6px;
+            height: 6px;
+            background: var(--white);
+            border-radius: 50%;
+            animation: blink 1s ease-in-out infinite;
+        }
+        @keyframes blink {
             0%, 100% { opacity: 1; }
-            50% { opacity: 0.7; }
+            50% { opacity: 0.3; }
         }
         
         /* Trending Insights */
         .insights-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            padding: 20px;
+            gap: 18px;
+            padding: 24px;
+            position: relative;
+            z-index: 1;
         }
-        @media (max-width: 1000px) {
+        @media (max-width: 1100px) {
             .insights-grid { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 700px) {
             .insights-grid { grid-template-columns: 1fr; }
         }
         .insight-card {
-            background: linear-gradient(135deg, var(--bg3) 0%, var(--bg) 100%);
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            padding: 18px;
+            background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 18px;
+            padding: 20px;
             cursor: pointer;
-            transition: all 0.3s;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             position: relative;
             overflow: hidden;
         }
         .insight-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%);
+            pointer-events: none;
+            border-radius: 18px 18px 0 0;
+            transition: opacity 0.3s;
+        }
+        .insight-card::after {
             content: '';
             position: absolute;
             top: 0;
@@ -353,62 +459,79 @@
         }
         .insight-card:hover {
             border-color: var(--cyan);
-            transform: translateY(-4px);
-            box-shadow: 0 10px 40px rgba(34,211,238,0.15);
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(34,211,238,0.2), 0 0 40px rgba(168,85,247,0.1);
         }
-        .insight-card:hover::before {
+        .insight-card:hover::after {
             opacity: 1;
         }
         .insight-tags {
             display: flex;
-            gap: 6px;
-            margin-bottom: 14px;
+            gap: 8px;
+            margin-bottom: 16px;
             flex-wrap: wrap;
+            position: relative;
+            z-index: 1;
         }
         .tag {
             font-size: 0.65rem;
             font-weight: 800;
-            padding: 5px 10px;
-            border-radius: 6px;
+            padding: 6px 12px;
+            border-radius: 8px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+        .tag::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.2) 0%, transparent 100%);
         }
         .tag.important { 
-            background: linear-gradient(135deg, rgba(239,68,68,0.3), rgba(249,115,22,0.2)); 
+            background: linear-gradient(135deg, rgba(239,68,68,0.4) 0%, rgba(249,115,22,0.3) 100%); 
             color: var(--red-bright);
-            box-shadow: 0 0 10px rgba(239,68,68,0.2);
+            box-shadow: 0 0 15px rgba(239,68,68,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
         }
         .tag.bullish { 
-            background: linear-gradient(135deg, rgba(16,185,129,0.3), rgba(34,211,238,0.2)); 
+            background: linear-gradient(135deg, rgba(16,185,129,0.4) 0%, rgba(34,211,238,0.3) 100%); 
             color: var(--green-bright);
-            box-shadow: 0 0 10px rgba(16,185,129,0.2);
+            box-shadow: 0 0 15px rgba(16,185,129,0.3), inset 0 1px 0 rgba(255,255,255,0.1);
         }
         .tag.bearish { 
-            background: linear-gradient(135deg, rgba(239,68,68,0.3), rgba(236,72,153,0.2)); 
+            background: linear-gradient(135deg, rgba(239,68,68,0.4) 0%, rgba(236,72,153,0.3) 100%); 
             color: var(--red-bright);
+            box-shadow: 0 0 15px rgba(239,68,68,0.3);
         }
         .tag.whale { 
-            background: linear-gradient(135deg, rgba(59,130,246,0.3), rgba(139,92,246,0.2)); 
+            background: linear-gradient(135deg, rgba(59,130,246,0.4) 0%, rgba(139,92,246,0.3) 100%); 
             color: var(--blue-bright);
+            box-shadow: 0 0 15px rgba(59,130,246,0.3);
         }
         .tag.exchange { 
-            background: linear-gradient(135deg, rgba(249,115,22,0.3), rgba(251,191,36,0.2)); 
+            background: linear-gradient(135deg, rgba(249,115,22,0.4) 0%, rgba(251,191,36,0.3) 100%); 
             color: var(--orange);
         }
         .tag.institution { 
-            background: linear-gradient(135deg, rgba(139,92,246,0.3), rgba(236,72,153,0.2)); 
+            background: linear-gradient(135deg, rgba(168,85,247,0.4) 0%, rgba(236,72,153,0.3) 100%); 
             color: var(--purple-bright);
         }
         .tag.on-chain {
-            background: linear-gradient(135deg, rgba(34,211,238,0.3), rgba(16,185,129,0.2));
+            background: linear-gradient(135deg, rgba(34,211,238,0.4) 0%, rgba(16,185,129,0.3) 100%);
             color: var(--cyan-bright);
         }
         .insight-title {
-            font-size: 1rem;
+            font-size: 1.05rem;
             font-weight: 700;
             line-height: 1.5;
-            margin-bottom: 14px;
+            margin-bottom: 16px;
             color: var(--white);
+            position: relative;
+            z-index: 1;
         }
         .insight-meta {
             display: flex;
@@ -416,6 +539,8 @@
             align-items: center;
             font-size: 0.75rem;
             color: var(--gray500);
+            position: relative;
+            z-index: 1;
         }
         .insight-tokens {
             display: flex;
@@ -423,77 +548,111 @@
             gap: 6px;
         }
         .token-icon {
-            width: 20px;
-            height: 20px;
+            width: 22px;
+            height: 22px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 11px;
             font-weight: 700;
+            position: relative;
         }
-        .token-icon.btc { background: linear-gradient(135deg, #f7931a, #ffab40); }
-        .token-icon.eth { background: linear-gradient(135deg, #627eea, #8fa8ff); }
-        .token-icon.sol { background: linear-gradient(135deg, #9945ff, #14f195); }
+        .token-icon::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.3) 0%, transparent 50%);
+            border-radius: 50%;
+        }
+        .token-icon.btc { background: linear-gradient(135deg, #f7931a, #ffab40); box-shadow: 0 0 10px rgba(247,147,26,0.5); }
+        .token-icon.eth { background: linear-gradient(135deg, #627eea, #8fa8ff); box-shadow: 0 0 10px rgba(98,126,234,0.5); }
+        .token-icon.sol { background: linear-gradient(135deg, #9945ff, #14f195); box-shadow: 0 0 10px rgba(153,69,255,0.5); }
         
         /* Exchange Flows */
-        .flows-section { padding: 20px; }
+        .flows-section { padding: 24px; position: relative; z-index: 1; }
         .flow-filters {
             display: flex;
-            gap: 8px;
-            margin-bottom: 20px;
+            gap: 10px;
+            margin-bottom: 24px;
             flex-wrap: wrap;
         }
         .filter-btn {
-            padding: 8px 16px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 8px;
+            padding: 10px 18px;
+            background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.02) 100%);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 10px;
             color: var(--gray400);
             font-size: 0.75rem;
             font-weight: 700;
             cursor: pointer;
             transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .filter-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%);
         }
         .filter-btn:hover {
             border-color: var(--cyan);
             color: var(--cyan);
         }
         .filter-btn.active {
-            background: linear-gradient(135deg, var(--purple), var(--cyan));
+            background: linear-gradient(135deg, var(--purple) 0%, var(--cyan) 100%);
             border-color: transparent;
             color: var(--white);
-            box-shadow: 0 0 15px rgba(34,211,238,0.3);
+            box-shadow: 0 0 25px var(--purple-glow);
         }
         .flow-item {
             display: flex;
             align-items: center;
-            gap: 16px;
-            padding: 16px;
-            margin-bottom: 12px;
-            background: var(--bg);
-            border: 1px solid var(--border);
-            border-radius: 14px;
+            gap: 18px;
+            padding: 18px;
+            margin-bottom: 14px;
+            background: linear-gradient(145deg, rgba(255,255,255,0.04) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
             transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .flow-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.05) 0%, transparent 100%);
+            pointer-events: none;
         }
         .flow-item:hover {
             border-color: var(--purple);
-            background: var(--bg3);
+            transform: translateX(6px);
+            box-shadow: 0 10px 40px rgba(168,85,247,0.15);
         }
         .flow-icon {
-            width: 44px;
-            height: 44px;
-            border-radius: 12px;
+            width: 50px;
+            height: 50px;
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 20px;
-            background: linear-gradient(135deg, var(--bg3), var(--card));
-            border: 1px solid var(--border);
+            font-size: 24px;
+            background: linear-gradient(145deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.02) 100%);
+            border: 1px solid rgba(255,255,255,0.1);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,0.1);
+            position: relative;
         }
         .flow-info { flex: 1; }
         .flow-name {
-            font-size: 1rem;
+            font-size: 1.05rem;
             font-weight: 700;
             margin-bottom: 4px;
         }
@@ -503,78 +662,92 @@
             font-weight: 600;
         }
         .flow-bars {
-            width: 140px;
+            width: 160px;
         }
         .flow-bar-row {
             display: flex;
             align-items: center;
-            gap: 8px;
-            margin-bottom: 6px;
+            gap: 10px;
+            margin-bottom: 8px;
         }
         .flow-bar-label {
-            font-size: 0.65rem;
+            font-size: 0.7rem;
             color: var(--gray500);
-            width: 24px;
+            width: 28px;
+            font-weight: 600;
         }
         .flow-bar {
             flex: 1;
-            height: 8px;
-            border-radius: 4px;
-            background: var(--bg3);
+            height: 10px;
+            border-radius: 5px;
+            background: rgba(255,255,255,0.05);
             overflow: hidden;
+            box-shadow: inset 0 1px 3px rgba(0,0,0,0.3);
         }
         .flow-bar-fill {
             height: 100%;
-            border-radius: 4px;
-            transition: width 0.5s ease;
+            border-radius: 5px;
+            transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+        }
+        .flow-bar-fill::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.3) 0%, transparent 100%);
+            border-radius: 5px 5px 0 0;
         }
         .flow-bar-fill.inflow { 
-            background: linear-gradient(90deg, var(--red), var(--orange)); 
-            box-shadow: 0 0 10px rgba(239,68,68,0.3);
+            background: linear-gradient(90deg, var(--red) 0%, var(--orange) 100%); 
+            box-shadow: 0 0 15px var(--red-glow);
         }
         .flow-bar-fill.outflow { 
-            background: linear-gradient(90deg, var(--green), var(--cyan)); 
-            box-shadow: 0 0 10px rgba(16,185,129,0.3);
+            background: linear-gradient(90deg, var(--green) 0%, var(--cyan) 100%); 
+            box-shadow: 0 0 15px var(--green-glow);
         }
         .flow-bar-value {
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.7rem;
             font-weight: 600;
             color: var(--gray400);
-            width: 50px;
+            width: 55px;
             text-align: right;
         }
         .flow-net {
             text-align: right;
-            min-width: 90px;
+            min-width: 100px;
         }
         .flow-net-value {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 1rem;
-            font-weight: 800;
+            font-size: 1.1rem;
+            font-weight: 900;
         }
         .flow-net-value.positive { 
             color: var(--green-bright); 
-            text-shadow: 0 0 10px rgba(16,185,129,0.5);
+            text-shadow: 0 0 20px var(--green-glow);
         }
         .flow-net-value.negative { 
             color: var(--red-bright); 
-            text-shadow: 0 0 10px rgba(239,68,68,0.5);
+            text-shadow: 0 0 20px var(--red-glow);
         }
         .flow-net-label {
             font-size: 0.65rem;
             color: var(--gray500);
-            font-weight: 600;
+            font-weight: 700;
             text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         /* Transfer Feed */
-        .transfer-feed { max-height: 650px; overflow-y: auto; }
+        .transfer-feed { max-height: 680px; overflow-y: auto; position: relative; z-index: 1; }
         .transfer-header {
             display: grid;
-            grid-template-columns: 90px 1fr 1fr 50px;
+            grid-template-columns: 100px 1fr 1fr 50px;
             gap: 12px;
-            padding: 14px 20px;
+            padding: 16px 24px;
             font-size: 0.7rem;
             font-weight: 700;
             color: var(--gray500);
@@ -583,20 +756,27 @@
             border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
-            background: var(--card);
-            z-index: 1;
+            background: var(--card-solid);
+            z-index: 2;
         }
         .transfer-row {
             display: grid;
-            grid-template-columns: 90px 1fr 1fr 50px;
+            grid-template-columns: 100px 1fr 1fr 50px;
             gap: 12px;
-            padding: 16px 20px;
-            border-bottom: 1px solid var(--border);
+            padding: 18px 24px;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
             align-items: center;
-            transition: all 0.2s;
+            transition: all 0.3s;
         }
         .transfer-row:hover { 
-            background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(34,211,238,0.05));
+            background: linear-gradient(90deg, rgba(168,85,247,0.1) 0%, rgba(34,211,238,0.05) 100%);
+        }
+        .transfer-row.new {
+            animation: flashNew 1s ease-out;
+        }
+        @keyframes flashNew {
+            0% { background: rgba(34,211,238,0.3); }
+            100% { background: transparent; }
         }
         .transfer-time {
             font-size: 0.8rem;
@@ -606,25 +786,35 @@
         .transfer-entity {
             display: flex;
             align-items: center;
-            gap: 10px;
+            gap: 12px;
         }
         .entity-icon {
-            width: 32px;
-            height: 32px;
+            width: 36px;
+            height: 36px;
             border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
+            font-size: 16px;
+            position: relative;
+        }
+        .entity-icon::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, transparent 50%);
+            border-radius: 10px;
         }
         .entity-icon.exchange { 
-            background: linear-gradient(135deg, rgba(249,115,22,0.3), rgba(251,191,36,0.2));
+            background: linear-gradient(135deg, rgba(249,115,22,0.4) 0%, rgba(251,191,36,0.3) 100%);
+            box-shadow: 0 0 15px rgba(249,115,22,0.3);
         }
         .entity-icon.whale { 
-            background: linear-gradient(135deg, rgba(59,130,246,0.3), rgba(139,92,246,0.2));
+            background: linear-gradient(135deg, rgba(59,130,246,0.4) 0%, rgba(139,92,246,0.3) 100%);
+            box-shadow: 0 0 15px rgba(59,130,246,0.3);
         }
         .entity-name {
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             font-weight: 600;
             white-space: nowrap;
             overflow: hidden;
@@ -641,117 +831,124 @@
             justify-content: center;
         }
         .impact-dot {
-            width: 12px;
-            height: 12px;
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
-            animation: glow 2s ease-in-out infinite;
+            position: relative;
         }
-        @keyframes glow {
-            0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.2); }
+        .impact-dot::before {
+            content: '';
+            position: absolute;
+            inset: 2px;
+            background: inherit;
+            border-radius: 50%;
+            filter: blur(4px);
         }
         .impact-dot.bullish { 
             background: var(--green-bright); 
-            box-shadow: 0 0 15px var(--green);
+            box-shadow: 0 0 20px var(--green-glow), 0 0 40px var(--green-glow);
+            animation: pulse-green 2s ease-in-out infinite;
+        }
+        @keyframes pulse-green {
+            0%, 100% { box-shadow: 0 0 20px var(--green-glow); }
+            50% { box-shadow: 0 0 30px var(--green-glow), 0 0 50px var(--green-glow); }
         }
         .impact-dot.bearish { 
             background: var(--red-bright); 
-            box-shadow: 0 0 15px var(--red);
+            box-shadow: 0 0 20px var(--red-glow);
+            animation: pulse-red 2s ease-in-out infinite;
+        }
+        @keyframes pulse-red {
+            0%, 100% { box-shadow: 0 0 20px var(--red-glow); }
+            50% { box-shadow: 0 0 30px var(--red-glow), 0 0 50px var(--red-glow); }
         }
         .impact-dot.neutral { 
             background: var(--gray500);
-            animation: none;
         }
         
         /* Smart Money Section */
-        .smart-money { margin-top: 24px; }
+        .smart-money { margin-top: 28px; }
         .sm-stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            padding: 20px;
+            gap: 18px;
+            padding: 24px;
+            position: relative;
+            z-index: 1;
         }
         .sm-stat {
             text-align: center;
-            padding: 24px 16px;
-            background: linear-gradient(135deg, var(--bg), var(--bg3));
-            border: 1px solid var(--border);
-            border-radius: 16px;
-            transition: all 0.3s;
+            padding: 28px 20px;
+            background: linear-gradient(145deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0.01) 100%);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 18px;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+        .sm-stat::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50%;
+            background: linear-gradient(180deg, rgba(255,255,255,0.08) 0%, transparent 100%);
+            pointer-events: none;
         }
         .sm-stat:hover {
             border-color: var(--purple);
-            transform: translateY(-4px);
+            transform: translateY(-8px) scale(1.02);
+            box-shadow: 0 20px 60px rgba(168,85,247,0.2);
         }
         .sm-stat-value {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 2rem;
+            font-size: 2.5rem;
             font-weight: 900;
-            margin-bottom: 8px;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
         }
         .sm-stat-value.bullish { 
             color: var(--green-bright);
-            text-shadow: 0 0 20px rgba(16,185,129,0.5);
+            text-shadow: 0 0 30px var(--green-glow);
         }
         .sm-stat-value.bearish { 
             color: var(--red-bright);
-            text-shadow: 0 0 20px rgba(239,68,68,0.5);
+            text-shadow: 0 0 30px var(--red-glow);
         }
         .sm-stat-label {
             font-size: 0.75rem;
             color: var(--gray400);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
             font-weight: 700;
-        }
-        
-        /* Loading */
-        .loading {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 60px 20px;
-        }
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid var(--bg3);
-            border-top-color: var(--cyan);
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin-bottom: 20px;
-            box-shadow: 0 0 20px rgba(34,211,238,0.3);
-        }
-        @keyframes spin { to { transform: rotate(360deg); } }
-        .loading-text { 
-            color: var(--gray400); 
-            font-size: 0.95rem;
-            font-weight: 500;
+            position: relative;
+            z-index: 1;
         }
         
         /* Scrollbar */
         ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: var(--bg2); }
         ::-webkit-scrollbar-thumb { 
-            background: linear-gradient(180deg, var(--purple), var(--cyan));
+            background: linear-gradient(180deg, var(--purple) 0%, var(--cyan) 100%);
             border-radius: 4px;
         }
         ::-webkit-scrollbar-thumb:hover { 
-            background: linear-gradient(180deg, var(--purple-bright), var(--cyan-bright));
+            background: linear-gradient(180deg, var(--purple-bright) 0%, var(--cyan-bright) 100%);
         }
     </style>
 </head>
 <body>
     <header class="header">
         <div class="logo">
-            <div class="logo-icon">🐋</div>
+            <div class="logo-icon">🦇</div>
             <span class="logo-text">ELUXRAJ</span>
         </div>
         <nav class="nav">
             <a href="/dashboard.html" class="nav-item">Dashboard</a>
             <a href="/oracle.html" class="nav-item">Oracle</a>
-            <a href="/whale-intel.html" class="nav-item active">Whale Intel</a>
+            <a href="/whale-intel.html" class="nav-item active">Gotham Intel</a>
             <a href="/chart-analysis.html" class="nav-item">Chart AI</a>
         </nav>
         <div class="header-right">
@@ -759,17 +956,17 @@
                 <span>🔍</span>
                 <input type="text" placeholder="Search tokens, addresses, entities..." id="searchInput">
             </div>
-            <button class="profile-btn" id="userBtn">Profile</button>
+            <button class="profile-btn">Profile</button>
         </div>
     </header>
     
-    <!-- Animated Ticker -->
+    <!-- Smooth Scrolling Ticker -->
     <div class="ticker-wrapper">
         <div class="ticker-track" id="tickerTrack"></div>
     </div>
     
     <section class="title-section">
-        <h1 class="page-title">WHALE INTEL</h1>
+        <h1 class="page-title">GOTHAM INTEL</h1>
         <p class="page-subtitle">Real-time blockchain intelligence • Track smart money movements</p>
     </section>
     
@@ -779,40 +976,35 @@
             <div class="card">
                 <div class="card-header">
                     <span class="card-title">🔥 Trending Insights</span>
-                    <span class="card-badge">● Live</span>
+                    <span class="card-badge"><span class="badge-dot"></span> Live</span>
                 </div>
-                <div class="insights-grid" id="insightsGrid">
-                    <div class="loading">
-                        <div class="spinner"></div>
-                        <div class="loading-text">Analyzing whale activity...</div>
-                    </div>
-                </div>
+                <div class="insights-grid" id="insightsGrid"></div>
             </div>
             
             <!-- Exchange Flows -->
-            <div class="card" style="margin-top: 24px;">
+            <div class="card" style="margin-top: 28px;">
                 <div class="card-header">
                     <span class="card-title">💹 Exchange Flows</span>
                     <span class="card-badge">24H</span>
                 </div>
                 <div class="flows-section">
                     <div class="flow-filters">
-                        <button class="filter-btn active" data-filter="all">All Exchanges</button>
-                        <button class="filter-btn" data-filter="cex">CEX+DEX</button>
-                        <button class="filter-btn" data-filter="volume">Market Cap ≥ $100M</button>
-                        <button class="filter-btn" data-filter="netflow">Sort by Netflow</button>
+                        <button class="filter-btn active">All Exchanges</button>
+                        <button class="filter-btn">CEX+DEX</button>
+                        <button class="filter-btn">Market Cap ≥ $100M</button>
+                        <button class="filter-btn">Sort by Netflow</button>
                     </div>
                     <div id="flowsList"></div>
                 </div>
             </div>
             
             <!-- Smart Money Stats -->
-            <div class="card smart-money" style="margin-top: 24px;">
+            <div class="card smart-money" style="margin-top: 28px;">
                 <div class="card-header">
                     <span class="card-title">🧠 Smart Money Sentiment</span>
                     <span class="card-badge" id="sentimentBadge">Analyzing...</span>
                 </div>
-                <div class="sm-stats" id="smartMoneyStats">
+                <div class="sm-stats">
                     <div class="sm-stat">
                         <div class="sm-stat-value bullish" id="bullishCount">--</div>
                         <div class="sm-stat-label">Bullish Signals</div>
@@ -860,7 +1052,6 @@
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
                 if (!res.ok) throw new Error();
-                document.body.classList.add('ready');
                 loadAllData();
             } catch (e) {
                 localStorage.removeItem('token');
@@ -868,11 +1059,11 @@
             }
         })();
         
-        // Ticker data - will scroll infinitely
+        // Ticker data
         const tickerData = [
             { icon: '🐋', entity: 'Whale Alert', value: '$489.61M', change: '+2.82%', up: true },
             { icon: '📊', entity: 'Zeta Markets', value: '$35.29M', change: '+2.58%', up: true },
-            { icon: '👤', entity: 'Smart Money', value: '$914.67K', change: '+2.1%', up: true },
+            { icon: '👤', entity: 'Donald Trump', value: '$914.67K', change: '+2.1%', up: true },
             { icon: '💰', entity: 'FTX Exploiter', value: '$323.85M', change: '-2.55%', up: false },
             { icon: '🟡', entity: 'Binance', value: '$1.24B', change: '+1.8%', up: true },
             { icon: '🔵', entity: 'Coinbase', value: '$892M', change: '+0.9%', up: true },
@@ -886,51 +1077,15 @@
         
         // Insights data
         const insightsData = [
-            {
-                tags: ['important', 'whale'],
-                title: 'ETH Faces Bearish Pressure: Whales Sell $45M in Past 24H',
-                tokens: ['ETH'],
-                time: '2 hours ago',
-                updates: 12
-            },
-            {
-                tags: ['bullish', 'whale', 'on-chain'],
-                title: "Whale 'BitcoinOG' Bets $166M on ETH Long Position",
-                tokens: ['BTC', 'ETH'],
-                time: '5 hours ago',
-                updates: 7
-            },
-            {
-                tags: ['important', 'exchange'],
-                title: 'Bitcoin Dips Below $88,000 Amid FOMC Nerves - Exchange Inflows Spike',
-                tokens: ['BTC'],
-                time: '8 hours ago',
-                updates: 21
-            },
-            {
-                tags: ['bullish', 'institution'],
-                title: 'Grayscale Accumulates $234M ETH - Largest Purchase This Month',
-                tokens: ['ETH'],
-                time: '10 hours ago',
-                updates: 9
-            },
-            {
-                tags: ['whale', 'on-chain'],
-                title: 'SOL Mega Whale Moves $89M to Cold Storage - Bullish Signal',
-                tokens: ['SOL'],
-                time: '12 hours ago',
-                updates: 4
-            },
-            {
-                tags: ['bearish', 'exchange'],
-                title: 'Kraken Sees $67M ETH Inflow from Unknown Whale Cluster',
-                tokens: ['ETH'],
-                time: '18 hours ago',
-                updates: 6
-            }
+            { tags: ['important', 'whale'], title: 'ETH Faces Bearish Pressure: Whales Sell $45M in Past 24H', tokens: ['ETH'], time: '2 hours ago', updates: 12 },
+            { tags: ['bullish', 'whale', 'on-chain'], title: "Whale 'BitcoinOG' Bets $166M on ETH Long Position", tokens: ['BTC', 'ETH'], time: '5 hours ago', updates: 7 },
+            { tags: ['important', 'exchange'], title: 'Bitcoin Dips Below $88,000 Amid FOMC Nerves - Exchange Inflows Spike', tokens: ['BTC'], time: '8 hours ago', updates: 21 },
+            { tags: ['bullish', 'institution'], title: 'Grayscale Accumulates $234M ETH - Largest Purchase This Month', tokens: ['ETH'], time: '10 hours ago', updates: 9 },
+            { tags: ['whale', 'on-chain'], title: 'SOL Mega Whale Moves $89M to Cold Storage - Bullish Signal', tokens: ['SOL'], time: '12 hours ago', updates: 4 },
+            { tags: ['bearish', 'exchange'], title: 'Kraken Sees $67M ETH Inflow from Unknown Whale Cluster', tokens: ['ETH'], time: '18 hours ago', updates: 6 }
         ];
         
-        // Exchange flows data
+        // Exchange data
         const exchangeData = [
             { name: 'Binance', icon: '🟡', inflow: 234.5, outflow: 312.8, type: 'CEX' },
             { name: 'Coinbase', icon: '🔵', inflow: 156.2, outflow: 198.4, type: 'CEX' },
@@ -940,29 +1095,15 @@
             { name: 'Bitfinex', icon: '🟢', inflow: 78.4, outflow: 91.2, type: 'CEX' }
         ];
         
-        function loadAllData() {
-            loadTicker();
-            loadInsights();
-            loadExchangeFlows();
-            loadTransfers();
-            calculateSmartMoney();
-            
-            // Add new transfer every 3 seconds
-            setInterval(() => {
-                addNewTransfer();
-            }, 3000);
-            
-            // Refresh smart money every 30 seconds
-            setInterval(() => {
-                calculateSmartMoney();
-            }, 30000);
-        }
+        // Smooth ticker animation
+        let tickerPosition = 0;
+        let tickerWidth = 0;
         
-        function loadTicker() {
-            // Double the data for seamless loop
-            const doubledData = [...tickerData, ...tickerData];
-            
-            document.getElementById('tickerTrack').innerHTML = doubledData.map(t => `
+        function initTicker() {
+            const track = document.getElementById('tickerTrack');
+            // Create items 3x for seamless loop
+            const items = [...tickerData, ...tickerData, ...tickerData];
+            track.innerHTML = items.map(t => `
                 <div class="ticker-item">
                     <span class="ticker-icon">${t.icon}</span>
                     <span class="ticker-entity">${t.entity}</span>
@@ -970,20 +1111,50 @@
                     <span class="ticker-change ${t.up ? 'up' : 'down'}">${t.change}</span>
                 </div>
             `).join('');
+            
+            // Calculate single set width
+            const singleSetWidth = track.scrollWidth / 3;
+            tickerWidth = singleSetWidth;
+            
+            // Start animation
+            animateTicker();
+        }
+        
+        function animateTicker() {
+            const track = document.getElementById('tickerTrack');
+            tickerPosition -= 0.5; // Speed
+            
+            if (Math.abs(tickerPosition) >= tickerWidth) {
+                tickerPosition = 0;
+            }
+            
+            track.style.transform = `translateX(${tickerPosition}px)`;
+            requestAnimationFrame(animateTicker);
+        }
+        
+        function loadAllData() {
+            initTicker();
+            loadInsights();
+            loadExchangeFlows();
+            loadTransfers();
+            calculateSmartMoney();
+            
+            // Add new transfer every 2.5 seconds
+            setInterval(addNewTransfer, 2500);
         }
         
         function loadInsights() {
-            document.getElementById('insightsGrid').innerHTML = insightsData.map(insight => `
+            document.getElementById('insightsGrid').innerHTML = insightsData.map(i => `
                 <div class="insight-card">
                     <div class="insight-tags">
-                        ${insight.tags.map(tag => `<span class="tag ${tag}">${tag}</span>`).join('')}
+                        ${i.tags.map(t => `<span class="tag ${t}">${t}</span>`).join('')}
                     </div>
-                    <div class="insight-title">${insight.title}</div>
+                    <div class="insight-title">${i.title}</div>
                     <div class="insight-meta">
                         <div class="insight-tokens">
-                            Tokens: ${insight.tokens.map(t => `<span class="token-icon ${t.toLowerCase()}">${t === 'BTC' ? '₿' : t === 'ETH' ? 'Ξ' : '◎'}</span>`).join('')}
+                            Tokens: ${i.tokens.map(t => `<span class="token-icon ${t.toLowerCase()}">${t === 'BTC' ? '₿' : t === 'ETH' ? 'Ξ' : '◎'}</span>`).join('')}
                         </div>
-                        <span>${insight.time} • ${insight.updates} updates</span>
+                        <span>${i.time} • ${i.updates} updates</span>
                     </div>
                 </div>
             `).join('');
@@ -991,12 +1162,8 @@
         
         function loadExchangeFlows() {
             const maxFlow = Math.max(...exchangeData.map(e => Math.max(e.inflow, e.outflow)));
-            
             document.getElementById('flowsList').innerHTML = exchangeData.map(ex => {
                 const netFlow = ex.outflow - ex.inflow;
-                const inflowWidth = (ex.inflow / maxFlow) * 100;
-                const outflowWidth = (ex.outflow / maxFlow) * 100;
-                
                 return `
                     <div class="flow-item">
                         <div class="flow-icon">${ex.icon}</div>
@@ -1008,22 +1175,20 @@
                             <div class="flow-bar-row">
                                 <span class="flow-bar-label">In</span>
                                 <div class="flow-bar">
-                                    <div class="flow-bar-fill inflow" style="width: ${inflowWidth}%"></div>
+                                    <div class="flow-bar-fill inflow" style="width: ${(ex.inflow/maxFlow)*100}%"></div>
                                 </div>
                                 <span class="flow-bar-value">$${ex.inflow.toFixed(0)}M</span>
                             </div>
                             <div class="flow-bar-row">
                                 <span class="flow-bar-label">Out</span>
                                 <div class="flow-bar">
-                                    <div class="flow-bar-fill outflow" style="width: ${outflowWidth}%"></div>
+                                    <div class="flow-bar-fill outflow" style="width: ${(ex.outflow/maxFlow)*100}%"></div>
                                 </div>
                                 <span class="flow-bar-value">$${ex.outflow.toFixed(0)}M</span>
                             </div>
                         </div>
                         <div class="flow-net">
-                            <div class="flow-net-value ${netFlow >= 0 ? 'positive' : 'negative'}">
-                                ${netFlow >= 0 ? '+' : ''}$${netFlow.toFixed(1)}M
-                            </div>
+                            <div class="flow-net-value ${netFlow >= 0 ? 'positive' : 'negative'}">${netFlow >= 0 ? '+' : ''}$${netFlow.toFixed(1)}M</div>
                             <div class="flow-net-label">Net Flow</div>
                         </div>
                     </div>
@@ -1032,60 +1197,50 @@
         }
         
         let transfers = [];
-        let transferCount = 0;
         
-        function generateTransfer() {
+        function generateTransfer(isNew = false) {
             const exchanges = ['Binance', 'Coinbase', 'Kraken', 'OKX', 'Bitfinex', 'Uniswap'];
-            const tokens = ['BTC', 'ETH', 'SOL'];
-            const isExchangeInflow = Math.random() > 0.5;
-            const token = tokens[Math.floor(Math.random() * tokens.length)];
+            const isInflow = Math.random() > 0.5;
             const exchange = exchanges[Math.floor(Math.random() * exchanges.length)];
+            const seconds = isNew ? 0 : Math.floor(Math.random() * 3600);
+            const timeStr = seconds === 0 ? 'Just now' : seconds < 60 ? `${seconds} sec ago` : `${Math.floor(seconds/60)} min ago`;
             
             return {
-                time: `${Math.floor(Math.random() * 59) + 1} seconds ago`,
-                from: isExchangeInflow ? 
-                    { name: 'Unknown Wallet', type: 'whale', address: '0x' + Math.random().toString(16).substr(2, 8) + '...' } : 
-                    { name: exchange, type: 'exchange', address: '' },
-                to: isExchangeInflow ? 
-                    { name: exchange, type: 'exchange', address: '' } : 
-                    { name: 'Unknown Wallet', type: 'whale', address: '0x' + Math.random().toString(16).substr(2, 8) + '...' },
-                token: token,
-                impact: isExchangeInflow ? 'bearish' : 'bullish'
+                time: timeStr,
+                from: isInflow ? { name: '0x' + Math.random().toString(16).substr(2,6) + '...', type: 'whale' } : { name: exchange, type: 'exchange' },
+                to: isInflow ? { name: exchange, type: 'exchange' } : { name: '0x' + Math.random().toString(16).substr(2,6) + '...', type: 'whale' },
+                impact: isInflow ? 'bearish' : 'bullish',
+                isNew: isNew
             };
         }
         
         function loadTransfers() {
-            transfers = Array(20).fill().map(() => generateTransfer());
-            transferCount = transfers.length;
+            transfers = Array(25).fill().map(() => generateTransfer());
             renderTransfers();
         }
         
         function addNewTransfer() {
-            const newTransfer = generateTransfer();
-            newTransfer.time = 'Just now';
-            transfers.unshift(newTransfer);
+            transfers.forEach(t => t.isNew = false);
+            transfers.unshift(generateTransfer(true));
             if (transfers.length > 62) transfers.pop();
-            transferCount = Math.min(transferCount + 1, 62);
             renderTransfers();
         }
         
         function renderTransfers() {
-            document.getElementById('transferCount').textContent = `${transferCount} / 62`;
+            document.getElementById('transferCount').textContent = `${transfers.length} / 62`;
             document.getElementById('transferFeed').innerHTML = transfers.map(tx => `
-                <div class="transfer-row">
+                <div class="transfer-row ${tx.isNew ? 'new' : ''}">
                     <div class="transfer-time">${tx.time}</div>
                     <div class="transfer-entity">
                         <div class="entity-icon ${tx.from.type}">${tx.from.type === 'exchange' ? '🏛️' : '🐋'}</div>
                         <div>
                             <div class="entity-name">${tx.from.name}</div>
-                            ${tx.from.address ? `<div class="entity-address">${tx.from.address}</div>` : ''}
                         </div>
                     </div>
                     <div class="transfer-entity">
                         <div class="entity-icon ${tx.to.type}">${tx.to.type === 'exchange' ? '🏛️' : '🐋'}</div>
                         <div>
                             <div class="entity-name">${tx.to.name}</div>
-                            ${tx.to.address ? `<div class="entity-address">${tx.to.address}</div>` : ''}
                         </div>
                     </div>
                     <div class="transfer-impact">
@@ -1108,18 +1263,16 @@
             const sentiment = bullish > bearish ? 'Bullish' : bullish < bearish ? 'Bearish' : 'Neutral';
             const badge = document.getElementById('sentimentBadge');
             badge.textContent = sentiment;
-            badge.style.background = sentiment === 'Bullish' ? 
-                'linear-gradient(135deg, rgba(16,185,129,0.3), rgba(34,211,238,0.2))' : 
-                sentiment === 'Bearish' ? 
-                'linear-gradient(135deg, rgba(239,68,68,0.3), rgba(236,72,153,0.2))' : 
-                'linear-gradient(135deg, var(--purple), var(--blue))';
         }
+        
+        // Recalculate smart money every 5 seconds
+        setInterval(calculateSmartMoney, 5000);
         
         // Filter buttons
         document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.addEventListener('click', () => {
+            btn.addEventListener('click', function() {
                 document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
+                this.classList.add('active');
             });
         });
     </script>
