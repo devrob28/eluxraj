@@ -22,15 +22,19 @@
         .asset-btn{background:var(--card);border:1px solid rgba(124,58,237,0.2);color:var(--gray400);padding:12px 20px;border-radius:12px;font-size:.9rem;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px}
         .asset-btn:hover{border-color:var(--purple);color:var(--white)}
         .asset-btn.active{background:linear-gradient(135deg,var(--purple),var(--cyan));border-color:transparent;color:var(--white)}
-        .grid{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+        .grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:32px}
         @media(max-width:1000px){.grid{grid-template-columns:1fr}}
         .card{background:var(--card);border:1px solid rgba(124,58,237,0.2);border-radius:20px;padding:32px;position:relative}
         .card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--purple),var(--cyan));border-radius:20px 20px 0 0}
         .score-label{font-size:.85rem;color:var(--gray400);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px;text-align:center}
         .score-circle{width:200px;height:200px;margin:0 auto 24px;position:relative}
         .score-ring{width:100%;height:100%;border-radius:50%;background:conic-gradient(var(--green) 0deg,var(--green) calc(var(--score) * 3.6deg),var(--bg2) calc(var(--score) * 3.6deg));display:flex;align-items:center;justify-content:center}
+        .score-ring.bear{background:conic-gradient(var(--red) 0deg,var(--red) calc(var(--score) * 3.6deg),var(--bg2) calc(var(--score) * 3.6deg))}
+        .score-ring.neutral{background:conic-gradient(var(--yellow) 0deg,var(--yellow) calc(var(--score) * 3.6deg),var(--bg2) calc(var(--score) * 3.6deg))}
         .score-inner{width:160px;height:160px;background:var(--card);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center}
         .score-value{font-family:'JetBrains Mono',monospace;font-size:4rem;font-weight:900;background:linear-gradient(135deg,var(--green),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .score-value.bear{background:linear-gradient(135deg,var(--red),var(--yellow));-webkit-background-clip:text}
+        .score-value.neutral{background:linear-gradient(135deg,var(--yellow),var(--cyan));-webkit-background-clip:text}
         .score-max{font-size:1rem;color:var(--gray500)}
         .signal{font-size:1.5rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;text-align:center}
         .signal.buy{color:var(--green)}.signal.sell{color:var(--red)}.signal.hold{color:var(--yellow)}
@@ -95,13 +99,7 @@
         .spinner{width:60px;height:60px;border:4px solid var(--bg2);border-top-color:var(--purple);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:20px}
         @keyframes spin{to{transform:rotate(360deg)}}
         .loading-text{color:var(--gray400)}
-        .locked{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);background:var(--card);border:2px solid var(--purple);border-radius:20px;padding:40px;text-align:center;z-index:10;max-width:400px;width:90%}
-        .locked-icon{font-size:3rem;margin-bottom:16px}
-        .locked h3{font-size:1.5rem;font-weight:800;margin-bottom:12px;background:linear-gradient(135deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .locked p{color:var(--gray400);margin-bottom:24px;line-height:1.6}
-        .upgrade-btn{display:inline-block;background:linear-gradient(135deg,var(--purple),var(--cyan));color:white;font-weight:700;padding:14px 32px;border-radius:12px;text-decoration:none;transition:transform .2s,box-shadow .2s}
-        .upgrade-btn:hover{transform:translateY(-2px);box-shadow:0 10px 40px rgba(124,58,237,0.3)}
-        .blur{filter:blur(8px);pointer-events:none}
+        .error-msg{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:12px;padding:20px;text-align:center;color:var(--red)}
     </style>
 </head>
 <body>
@@ -116,27 +114,10 @@
     <main class="container">
         <div class="asset-section">
             <div class="asset-label">Crypto</div>
-            <div class="assets" id="cryptoAssets">
+            <div class="assets">
                 <button class="asset-btn active" data-asset="BTC"><span>₿</span> Bitcoin</button>
                 <button class="asset-btn" data-asset="ETH"><span>Ξ</span> Ethereum</button>
                 <button class="asset-btn" data-asset="SOL"><span>◎</span> Solana</button>
-            </div>
-        </div>
-        
-        <div class="asset-section">
-            <div class="asset-label">Indices</div>
-            <div class="assets" id="indexAssets">
-                <button class="asset-btn" data-asset="SPX"><span>📈</span> S&P 500</button>
-                <button class="asset-btn" data-asset="DJI"><span>📊</span> Dow Jones</button>
-                <button class="asset-btn" data-asset="NDX"><span>💻</span> NASDAQ</button>
-            </div>
-        </div>
-        
-        <div class="asset-section" style="margin-bottom:32px">
-            <div class="asset-label">Commodities</div>
-            <div class="assets" id="commodityAssets">
-                <button class="asset-btn" data-asset="GOLD"><span>🥇</span> Gold</button>
-                <button class="asset-btn" data-asset="SILVER"><span>🥈</span> Silver</button>
             </div>
         </div>
         
@@ -144,6 +125,8 @@
             <div class="spinner"></div>
             <div class="loading-text">🔮 ORACLE analyzing <span id="loadingAsset">BTC</span>...</div>
         </div>
+        
+        <div id="errorMsg" class="error-msg" style="display:none"></div>
         
         <div class="grid" id="content" style="display:none">
             <div class="card" style="text-align:center">
@@ -180,7 +163,7 @@
                 <div id="whales"></div>
             </section>
             
-            <section class="full">
+            <section class="full" id="liqSection">
                 <h3 class="section-title">💥 Liquidation Zones</h3>
                 <div class="liq-zones" id="liq"></div>
             </section>
@@ -193,22 +176,12 @@
                 </div>
             </section>
             
-            <div class="full disclaimer">⚠️ ORACLE provides AI-powered analysis for informational purposes only. This is NOT financial advice.</div>
+            <div class="full disclaimer">⚠️ ORACLE provides AI-powered analysis for informational purposes only. This is NOT financial advice. Always do your own research.</div>
             
             <div class="full meta">
                 <span>Model: <strong id="model">oracle-v2.0.0</strong></span>
                 <span>Generated: <strong id="generated">-</strong></span>
                 <span>Expires: <strong id="expires">-</strong></span>
-            </div>
-        </div>
-        
-        <div id="lockedState" style="display:none;position:relative;min-height:400px">
-            <div class="grid blur" id="blurContent"></div>
-            <div class="locked">
-                <div class="locked-icon">🔒</div>
-                <h3>Unlock ORACLE</h3>
-                <p>Get AI-powered predictions with whale tracking, liquidation zones, and smart entry points.</p>
-                <a href="/pricing.html" class="upgrade-btn">Upgrade to Elite - $98/mo</a>
             </div>
         </div>
     </main>
@@ -222,27 +195,26 @@
             document.querySelectorAll('.asset-btn').forEach(b => b.classList.toggle('active', b.dataset.asset === sym));
             document.getElementById('loading').style.display = 'flex';
             document.getElementById('content').style.display = 'none';
-            document.getElementById('lockedState').style.display = 'none';
+            document.getElementById('errorMsg').style.display = 'none';
             document.getElementById('loadingAsset').textContent = sym;
             
             try {
                 const res = await fetch(`${API}/oracle/score/${sym}`);
                 const data = await res.json();
                 
-                if (data.data && data.data.is_demo) {
-                    document.getElementById('lockedState').style.display = 'block';
-                    document.getElementById('loading').style.display = 'none';
-                    return;
+                if (!res.ok) {
+                    throw new Error(data.detail || 'Failed to load');
                 }
                 
                 if (data.ok && data.data) {
                     render(data.data);
                 } else {
-                    throw new Error(data.detail || 'Failed to load');
+                    throw new Error('Invalid response');
                 }
             } catch (e) {
                 console.error(e);
-                alert('Failed to load ORACLE: ' + e.message);
+                document.getElementById('errorMsg').textContent = 'Failed to load ORACLE data for ' + sym + '. ' + e.message;
+                document.getElementById('errorMsg').style.display = 'block';
             }
             document.getElementById('loading').style.display = 'none';
         }
@@ -251,11 +223,16 @@
             document.getElementById('content').style.display = 'grid';
             
             const s = d.oracle_score;
-            document.getElementById('ring').style.setProperty('--score', s);
-            document.getElementById('score').textContent = s;
+            const ring = document.getElementById('ring');
+            ring.style.setProperty('--score', s);
+            ring.className = 'score-ring ' + (s >= 60 ? '' : s <= 40 ? 'bear' : 'neutral');
+            
+            const scoreEl = document.getElementById('score');
+            scoreEl.textContent = s;
+            scoreEl.className = 'score-value ' + (s >= 60 ? '' : s <= 40 ? 'bear' : 'neutral');
             
             const sig = document.getElementById('signal');
-            sig.textContent = d.signal_type.replace('_', ' ').toUpperCase();
+            sig.textContent = d.signal_type.replace(/_/g, ' ').toUpperCase();
             sig.className = 'signal ' + (d.signal_type.includes('buy') ? 'buy' : d.signal_type.includes('sell') ? 'sell' : 'hold');
             
             const conf = document.getElementById('conf');
@@ -283,12 +260,18 @@
                 document.getElementById('whales').innerHTML = d.whale_alerts.map(a => `<div class="alert"><div class="alert-icon">🐋</div><div class="alert-content"><div class="alert-title">${a.title}</div><div class="alert-desc">${a.description}</div></div><span class="alert-impact ${a.impact}">${a.impact}</span></div>`).join('');
             }
             
-            const longs = (d.liquidation_zones || []).filter(z => z.type === 'long');
-            const shorts = (d.liquidation_zones || []).filter(z => z.type === 'short');
-            document.getElementById('liq').innerHTML = `
-                <div class="liq-card longs"><h4>📉 Long Liquidations</h4>${longs.map(z => `<div class="liq-level"><div><span class="liq-price">$${z.price.toLocaleString()}</span><span class="liq-lev"> ${z.leverage}</span></div><span class="liq-int ${z.intensity}">${z.intensity}</span></div>`).join('')}</div>
-                <div class="liq-card shorts"><h4>📈 Short Liquidations</h4>${shorts.map(z => `<div class="liq-level"><div><span class="liq-price">$${z.price.toLocaleString()}</span><span class="liq-lev"> ${z.leverage}</span></div><span class="liq-int ${z.intensity}">${z.intensity}</span></div>`).join('')}</div>
-            `;
+            const liqSection = document.getElementById('liqSection');
+            if (!d.liquidation_zones || !d.liquidation_zones.length) {
+                liqSection.style.display = 'none';
+            } else {
+                liqSection.style.display = 'block';
+                const longs = d.liquidation_zones.filter(z => z.type === 'long');
+                const shorts = d.liquidation_zones.filter(z => z.type === 'short');
+                document.getElementById('liq').innerHTML = `
+                    <div class="liq-card longs"><h4>📉 Long Liquidations</h4>${longs.map(z => `<div class="liq-level"><div><span class="liq-price">$${z.price.toLocaleString()}</span><span class="liq-lev"> ${z.leverage}</span></div><span class="liq-int ${z.intensity}">${z.intensity}</span></div>`).join('')}</div>
+                    <div class="liq-card shorts"><h4>📈 Short Liquidations</h4>${shorts.map(z => `<div class="liq-level"><div><span class="liq-price">$${z.price.toLocaleString()}</span><span class="liq-lev"> ${z.leverage}</span></div><span class="liq-int ${z.intensity}">${z.intensity}</span></div>`).join('')}</div>
+                `;
+            }
             
             document.getElementById('summary').textContent = d.reasoning_summary;
             document.getElementById('bullets').innerHTML = (d.reasoning_bullets || []).map(b => `<div class="bullet">${b}</div>`).join('');
@@ -298,11 +281,8 @@
             document.getElementById('expires').textContent = new Date(d.expires_at).toLocaleString();
         }
         
-        document.querySelectorAll('.assets').forEach(container => {
-            container.addEventListener('click', e => {
-                const btn = e.target.closest('.asset-btn');
-                if (btn) load(btn.dataset.asset);
-            });
+        document.querySelectorAll('.asset-btn').forEach(btn => {
+            btn.addEventListener('click', () => load(btn.dataset.asset));
         });
         
         load('BTC');
