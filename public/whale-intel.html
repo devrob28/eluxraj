@@ -39,7 +39,6 @@
             overflow-x: hidden;
         }
         
-        /* Header */
         .header {
             display: flex;
             justify-content: space-between;
@@ -51,11 +50,7 @@
             top: 0;
             z-index: 100;
         }
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-        }
+        .logo { display: flex; align-items: center; gap: 14px; }
         .logo-icon {
             width: 42px;
             height: 42px;
@@ -121,7 +116,6 @@
             cursor: pointer;
         }
         
-        /* Simple CSS Ticker */
         .ticker-wrapper {
             background: var(--bg2);
             border-bottom: 1px solid var(--glass-border);
@@ -162,11 +156,7 @@
         .ticker-change.up { color: var(--green-bright); background: rgba(16,185,129,0.15); }
         .ticker-change.down { color: var(--red-bright); background: rgba(239,68,68,0.15); }
         
-        /* Title */
-        .title-section {
-            padding: 40px 24px 32px;
-            text-align: center;
-        }
+        .title-section { padding: 40px 24px 32px; text-align: center; }
         .page-title {
             font-size: 3.5rem;
             font-weight: 900;
@@ -178,7 +168,6 @@
         }
         .page-subtitle { color: var(--gray400); font-size: 1rem; letter-spacing: 2px; }
         
-        /* Main */
         .main {
             display: grid;
             grid-template-columns: 1fr 420px;
@@ -189,7 +178,6 @@
         }
         @media (max-width: 1200px) { .main { grid-template-columns: 1fr; } }
         
-        /* Cards */
         .card {
             background: var(--card);
             border: 1px solid var(--glass-border);
@@ -228,7 +216,6 @@
             border-radius: 50%;
         }
         
-        /* Insights */
         .insights-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -281,7 +268,6 @@
         .token-icon.eth { background: linear-gradient(135deg, #627eea, #8fa8ff); }
         .token-icon.sol { background: linear-gradient(135deg, #9945ff, #14f195); }
         
-        /* Exchange Flows */
         .flows-section { padding: 20px; }
         .flow-filters { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
         .filter-btn {
@@ -343,7 +329,7 @@
             font-family: 'JetBrains Mono', monospace;
             font-size: 0.7rem;
             color: var(--gray400);
-            width: 50px;
+            width: 60px;
             text-align: right;
         }
         .flow-net { text-align: right; min-width: 90px; }
@@ -352,7 +338,6 @@
         .flow-net-value.negative { color: var(--red-bright); }
         .flow-net-label { font-size: 0.65rem; color: var(--gray500); text-transform: uppercase; }
         
-        /* Transfers */
         .transfer-feed { max-height: 650px; overflow-y: auto; }
         .transfer-header {
             display: grid;
@@ -391,12 +376,12 @@
         .entity-icon.exchange { background: rgba(249,115,22,0.2); }
         .entity-icon.whale { background: rgba(59,130,246,0.2); }
         .entity-name { font-size: 0.85rem; font-weight: 600; }
+        .entity-amount { font-size: 0.7rem; color: var(--gray500); font-family: 'JetBrains Mono', monospace; }
         .transfer-impact { display: flex; justify-content: center; }
         .impact-dot { width: 12px; height: 12px; border-radius: 50%; }
         .impact-dot.bullish { background: var(--green-bright); box-shadow: 0 0 8px var(--green); }
         .impact-dot.bearish { background: var(--red-bright); box-shadow: 0 0 8px var(--red); }
         
-        /* Smart Money */
         .sm-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 20px; }
         .sm-stat {
             text-align: center;
@@ -417,7 +402,8 @@
         .sm-stat-value.bearish { color: var(--red-bright); }
         .sm-stat-label { font-size: 0.75rem; color: var(--gray400); text-transform: uppercase; letter-spacing: 1px; }
         
-        /* Scrollbar */
+        .loading { text-align: center; padding: 40px; color: var(--gray500); }
+        
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: var(--bg2); }
         ::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 3px; }
@@ -460,7 +446,9 @@
                     <span class="card-title">🔥 Trending Insights</span>
                     <span class="card-badge"><span class="badge-dot"></span> Live</span>
                 </div>
-                <div class="insights-grid" id="insightsGrid"></div>
+                <div class="insights-grid" id="insightsGrid">
+                    <div class="loading">Loading insights...</div>
+                </div>
             </div>
             
             <div class="card" style="margin-top: 24px;">
@@ -471,11 +459,13 @@
                 <div class="flows-section">
                     <div class="flow-filters">
                         <button class="filter-btn active">All Exchanges</button>
-                        <button class="filter-btn">CEX+DEX</button>
-                        <button class="filter-btn">Volume ≥ $100M</button>
+                        <button class="filter-btn">CEX Only</button>
+                        <button class="filter-btn">Volume ≥ $10M</button>
                         <button class="filter-btn">Sort by Netflow</button>
                     </div>
-                    <div id="flowsList"></div>
+                    <div id="flowsList">
+                        <div class="loading">Loading exchange flows...</div>
+                    </div>
                 </div>
             </div>
             
@@ -505,7 +495,7 @@
             <div class="card">
                 <div class="card-header">
                     <span class="card-title">⚡ Live Transfers</span>
-                    <span class="card-badge" id="transferCount">0 / 50</span>
+                    <span class="card-badge" id="transferCount">0</span>
                 </div>
                 <div class="transfer-header">
                     <span>Time</span>
@@ -513,7 +503,9 @@
                     <span>To</span>
                     <span></span>
                 </div>
-                <div class="transfer-feed" id="transferFeed"></div>
+                <div class="transfer-feed" id="transferFeed">
+                    <div class="loading">Loading transfers...</div>
+                </div>
             </div>
         </div>
     </main>
@@ -535,51 +527,40 @@
             }
         })();
         
-        const tickerData = [
-            { icon: '🐋', entity: 'Whale Alert', value: '$489.61M', change: '+2.82%', up: true },
-            { icon: '📊', entity: 'Zeta Markets', value: '$35.29M', change: '+2.58%', up: true },
-            { icon: '👤', entity: 'Donald Trump', value: '$914.67K', change: '+2.1%', up: true },
-            { icon: '💰', entity: 'FTX Exploiter', value: '$323.85M', change: '-2.55%', up: false },
-            { icon: '🟡', entity: 'Binance', value: '$1.24B', change: '+1.8%', up: true },
-            { icon: '🔵', entity: 'Coinbase', value: '$892M', change: '+0.9%', up: true },
-            { icon: '🟣', entity: 'Kraken', value: '$456M', change: '-1.2%', up: false },
-            { icon: '₿', entity: 'BTC Whales', value: '$2.1B', change: '+3.4%', up: true },
-            { icon: 'Ξ', entity: 'ETH Whales', value: '$1.8B', change: '+2.1%', up: true },
-            { icon: '◎', entity: 'SOL Whales', value: '$567M', change: '+5.2%', up: true },
-        ];
+        const exchangeIcons = {
+            'Binance': '🟡',
+            'Coinbase': '🔵',
+            'Kraken': '🟣',
+            'OKX': '⚫',
+            'Bitfinex': '🟢',
+            'Bybit': '🟠'
+        };
         
-        const insightsData = [
-            { tags: ['important', 'whale'], title: 'ETH Faces Bearish Pressure: Whales Sell $45M in Past 24H', tokens: ['ETH'], time: '2h ago', updates: 12 },
-            { tags: ['bullish', 'whale', 'on-chain'], title: "Whale 'BitcoinOG' Bets $166M on ETH Long Position", tokens: ['BTC', 'ETH'], time: '5h ago', updates: 7 },
-            { tags: ['important', 'exchange'], title: 'Bitcoin Dips Below $88K - Exchange Inflows Spike', tokens: ['BTC'], time: '8h ago', updates: 21 },
-            { tags: ['bullish', 'institution'], title: 'Grayscale Accumulates $234M ETH This Month', tokens: ['ETH'], time: '10h ago', updates: 9 },
-            { tags: ['whale', 'on-chain'], title: 'SOL Whale Moves $89M to Cold Storage', tokens: ['SOL'], time: '12h ago', updates: 4 },
-            { tags: ['bearish', 'exchange'], title: 'Kraken Sees $67M ETH Inflow from Whale Cluster', tokens: ['ETH'], time: '18h ago', updates: 6 }
-        ];
-        
-        const exchangeData = [
-            { name: 'Binance', icon: '🟡', inflow: 234.5, outflow: 312.8, type: 'CEX' },
-            { name: 'Coinbase', icon: '🔵', inflow: 156.2, outflow: 198.4, type: 'CEX' },
-            { name: 'Kraken', icon: '🟣', inflow: 89.3, outflow: 67.1, type: 'CEX' },
-            { name: 'OKX', icon: '⚫', inflow: 145.6, outflow: 123.9, type: 'CEX' },
-            { name: 'Uniswap', icon: '🦄', inflow: 45.2, outflow: 52.1, type: 'DEX' },
-            { name: 'Bitfinex', icon: '🟢', inflow: 78.4, outflow: 91.2, type: 'CEX' }
-        ];
-        
-        let transfers = [];
-        
-        function init() {
+        async function init() {
             loadTicker();
-            loadInsights();
-            loadFlows();
-            loadTransfers();
-            updateStats();
+            await Promise.all([
+                loadInsights(),
+                loadFlows(),
+                loadTransfers(),
+                loadSentiment()
+            ]);
             
-            // Add transfer every 5 seconds (reduced frequency)
-            setInterval(addTransfer, 5000);
+            // Refresh every 30 seconds
+            setInterval(loadTransfers, 30000);
+            setInterval(loadSentiment, 30000);
         }
         
         function loadTicker() {
+            const tickerData = [
+                { icon: '🦇', entity: 'Gotham Intel', value: 'LIVE', change: '●', up: true },
+                { icon: '🐋', entity: 'Whale Activity', value: '$489M', change: '+2.8%', up: true },
+                { icon: '📊', entity: 'Exchange Volume', value: '$35.2M', change: '+2.5%', up: true },
+                { icon: '🟡', entity: 'Binance Flow', value: '+$78M', change: 'Net Out', up: true },
+                { icon: '🔵', entity: 'Coinbase Flow', value: '+$42M', change: 'Net Out', up: true },
+                { icon: '₿', entity: 'BTC Whales', value: '$2.1B', change: '+3.4%', up: true },
+                { icon: 'Ξ', entity: 'ETH Whales', value: '$1.8B', change: '+2.1%', up: true },
+                { icon: '◎', entity: 'SOL Whales', value: '$567M', change: '+5.2%', up: true },
+            ];
             const doubled = [...tickerData, ...tickerData];
             document.getElementById('tickerTrack').innerHTML = doubled.map(t => `
                 <div class="ticker-item">
@@ -591,104 +572,144 @@
             `).join('');
         }
         
-        function loadInsights() {
-            document.getElementById('insightsGrid').innerHTML = insightsData.map(i => `
-                <div class="insight-card">
-                    <div class="insight-tags">${i.tags.map(t => `<span class="tag ${t}">${t}</span>`).join('')}</div>
-                    <div class="insight-title">${i.title}</div>
-                    <div class="insight-meta">
-                        <div class="insight-tokens">Tokens: ${i.tokens.map(t => `<span class="token-icon ${t.toLowerCase()}">${t === 'BTC' ? '₿' : t === 'ETH' ? 'Ξ' : '◎'}</span>`).join('')}</div>
-                        <span>${i.time} • ${i.updates} updates</span>
-                    </div>
-                </div>
-            `).join('');
-        }
-        
-        function loadFlows() {
-            const max = Math.max(...exchangeData.map(e => Math.max(e.inflow, e.outflow)));
-            document.getElementById('flowsList').innerHTML = exchangeData.map(ex => {
-                const net = ex.outflow - ex.inflow;
-                return `
-                    <div class="flow-item">
-                        <div class="flow-icon">${ex.icon}</div>
-                        <div class="flow-info">
-                            <div class="flow-name">${ex.name}</div>
-                            <div class="flow-type">${ex.type}</div>
-                        </div>
-                        <div class="flow-bars">
-                            <div class="flow-bar-row">
-                                <span class="flow-bar-label">In</span>
-                                <div class="flow-bar"><div class="flow-bar-fill inflow" style="width:${(ex.inflow/max)*100}%"></div></div>
-                                <span class="flow-bar-value">$${ex.inflow.toFixed(0)}M</span>
-                            </div>
-                            <div class="flow-bar-row">
-                                <span class="flow-bar-label">Out</span>
-                                <div class="flow-bar"><div class="flow-bar-fill outflow" style="width:${(ex.outflow/max)*100}%"></div></div>
-                                <span class="flow-bar-value">$${ex.outflow.toFixed(0)}M</span>
+        async function loadInsights() {
+            try {
+                const res = await fetch(`${API}/whale/insights`);
+                const data = await res.json();
+                if (data.ok && data.insights) {
+                    document.getElementById('insightsGrid').innerHTML = data.insights.map(i => `
+                        <div class="insight-card">
+                            <div class="insight-tags">${i.tags.map(t => `<span class="tag ${t}">${t}</span>`).join('')}</div>
+                            <div class="insight-title">${i.title}</div>
+                            <div class="insight-meta">
+                                <div class="insight-tokens">Tokens: ${i.tokens.map(t => `<span class="token-icon ${t.toLowerCase()}">${t === 'BTC' ? '₿' : t === 'ETH' ? 'Ξ' : '◎'}</span>`).join('')}</div>
+                                <span>${i.time} • ${i.updates} updates</span>
                             </div>
                         </div>
-                        <div class="flow-net">
-                            <div class="flow-net-value ${net >= 0 ? 'positive' : 'negative'}">${net >= 0 ? '+' : ''}$${net.toFixed(1)}M</div>
-                            <div class="flow-net-label">Net Flow</div>
-                        </div>
-                    </div>
-                `;
-            }).join('');
+                    `).join('');
+                }
+            } catch (e) {
+                console.error('Error loading insights:', e);
+            }
         }
         
-        function generateTransfer() {
-            const exchanges = ['Binance', 'Coinbase', 'Kraken', 'OKX', 'Bitfinex'];
-            const isInflow = Math.random() > 0.5;
-            const exchange = exchanges[Math.floor(Math.random() * exchanges.length)];
-            const secs = Math.floor(Math.random() * 300);
-            return {
-                time: secs < 60 ? `${secs}s ago` : `${Math.floor(secs/60)}m ago`,
-                from: isInflow ? { name: '0x' + Math.random().toString(16).substr(2,6) + '...', type: 'whale' } : { name: exchange, type: 'exchange' },
-                to: isInflow ? { name: exchange, type: 'exchange' } : { name: '0x' + Math.random().toString(16).substr(2,6) + '...', type: 'whale' },
-                impact: isInflow ? 'bearish' : 'bullish'
-            };
+        async function loadFlows() {
+            try {
+                const res = await fetch(`${API}/whale/flows`);
+                const data = await res.json();
+                if (data.ok && data.exchanges) {
+                    const max = Math.max(...data.exchanges.map(e => Math.max(e.inflow, e.outflow)));
+                    document.getElementById('flowsList').innerHTML = data.exchanges.map(ex => {
+                        const icon = exchangeIcons[ex.name] || '🏦';
+                        const inM = (ex.inflow / 1e6).toFixed(1);
+                        const outM = (ex.outflow / 1e6).toFixed(1);
+                        const netM = (ex.net_flow / 1e6).toFixed(1);
+                        return `
+                            <div class="flow-item">
+                                <div class="flow-icon">${icon}</div>
+                                <div class="flow-info">
+                                    <div class="flow-name">${ex.name}</div>
+                                    <div class="flow-type">${ex.type}</div>
+                                </div>
+                                <div class="flow-bars">
+                                    <div class="flow-bar-row">
+                                        <span class="flow-bar-label">In</span>
+                                        <div class="flow-bar"><div class="flow-bar-fill inflow" style="width:${(ex.inflow/max)*100}%"></div></div>
+                                        <span class="flow-bar-value">$${inM}M</span>
+                                    </div>
+                                    <div class="flow-bar-row">
+                                        <span class="flow-bar-label">Out</span>
+                                        <div class="flow-bar"><div class="flow-bar-fill outflow" style="width:${(ex.outflow/max)*100}%"></div></div>
+                                        <span class="flow-bar-value">$${outM}M</span>
+                                    </div>
+                                </div>
+                                <div class="flow-net">
+                                    <div class="flow-net-value ${ex.net_flow >= 0 ? 'positive' : 'negative'}">${ex.net_flow >= 0 ? '+' : ''}$${netM}M</div>
+                                    <div class="flow-net-label">Net Flow</div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+            } catch (e) {
+                console.error('Error loading flows:', e);
+            }
         }
         
-        function loadTransfers() {
-            transfers = Array(25).fill().map(generateTransfer);
-            renderTransfers();
+        async function loadTransfers() {
+            try {
+                const res = await fetch(`${API}/whale/transfers?limit=50`);
+                const data = await res.json();
+                if (data.ok && data.transfers) {
+                    document.getElementById('transferCount').textContent = data.count;
+                    document.getElementById('transferFeed').innerHTML = data.transfers.map(tx => {
+                        const time = formatTime(tx.timestamp);
+                        const amountStr = formatAmount(tx.amount, tx.symbol);
+                        const usdStr = formatUSD(tx.amount_usd);
+                        return `
+                            <div class="transfer-row">
+                                <div class="transfer-time">${time}</div>
+                                <div class="transfer-entity">
+                                    <div class="entity-icon ${tx.from.type}">${tx.from.type === 'exchange' ? '🏛️' : '🐋'}</div>
+                                    <div>
+                                        <div class="entity-name">${tx.from.name}</div>
+                                        <div class="entity-amount">${amountStr} ${tx.symbol}</div>
+                                    </div>
+                                </div>
+                                <div class="transfer-entity">
+                                    <div class="entity-icon ${tx.to.type}">${tx.to.type === 'exchange' ? '🏛️' : '🐋'}</div>
+                                    <div>
+                                        <div class="entity-name">${tx.to.name}</div>
+                                        <div class="entity-amount">${usdStr}</div>
+                                    </div>
+                                </div>
+                                <div class="transfer-impact"><div class="impact-dot ${tx.impact}"></div></div>
+                            </div>
+                        `;
+                    }).join('');
+                }
+            } catch (e) {
+                console.error('Error loading transfers:', e);
+            }
         }
         
-        function addTransfer() {
-            transfers.unshift({ ...generateTransfer(), time: 'Just now' });
-            if (transfers.length > 50) transfers.pop();
-            renderTransfers();
-            updateStats();
+        async function loadSentiment() {
+            try {
+                const res = await fetch(`${API}/whale/sentiment`);
+                const data = await res.json();
+                if (data.ok) {
+                    document.getElementById('bullishCount').textContent = data.bullish_signals;
+                    document.getElementById('bearishCount').textContent = data.bearish_signals;
+                    
+                    const netM = (data.net_flow_usd / 1e6).toFixed(1);
+                    document.getElementById('netFlow').textContent = `${data.net_flow_usd >= 0 ? '+' : ''}$${netM}M`;
+                    document.getElementById('netFlow').className = `sm-stat-value ${data.net_flow_usd >= 0 ? 'bullish' : 'bearish'}`;
+                    
+                    document.getElementById('sentimentBadge').textContent = data.sentiment;
+                }
+            } catch (e) {
+                console.error('Error loading sentiment:', e);
+            }
         }
         
-        function renderTransfers() {
-            document.getElementById('transferCount').textContent = `${transfers.length} / 50`;
-            document.getElementById('transferFeed').innerHTML = transfers.map(tx => `
-                <div class="transfer-row">
-                    <div class="transfer-time">${tx.time}</div>
-                    <div class="transfer-entity">
-                        <div class="entity-icon ${tx.from.type}">${tx.from.type === 'exchange' ? '🏛️' : '🐋'}</div>
-                        <div class="entity-name">${tx.from.name}</div>
-                    </div>
-                    <div class="transfer-entity">
-                        <div class="entity-icon ${tx.to.type}">${tx.to.type === 'exchange' ? '🏛️' : '🐋'}</div>
-                        <div class="entity-name">${tx.to.name}</div>
-                    </div>
-                    <div class="transfer-impact"><div class="impact-dot ${tx.impact}"></div></div>
-                </div>
-            `).join('');
+        function formatTime(timestamp) {
+            const date = new Date(timestamp);
+            const now = new Date();
+            const diff = Math.floor((now - date) / 1000);
+            if (diff < 60) return `${diff}s ago`;
+            if (diff < 3600) return `${Math.floor(diff/60)}m ago`;
+            return `${Math.floor(diff/3600)}h ago`;
         }
         
-        function updateStats() {
-            const bullish = transfers.filter(t => t.impact === 'bullish').length;
-            const bearish = transfers.filter(t => t.impact === 'bearish').length;
-            const net = exchangeData.reduce((s, e) => s + (e.outflow - e.inflow), 0);
-            
-            document.getElementById('bullishCount').textContent = bullish;
-            document.getElementById('bearishCount').textContent = bearish;
-            document.getElementById('netFlow').textContent = `${net >= 0 ? '+' : ''}$${net.toFixed(0)}M`;
-            document.getElementById('netFlow').className = `sm-stat-value ${net >= 0 ? 'bullish' : 'bearish'}`;
-            document.getElementById('sentimentBadge').textContent = bullish > bearish ? 'Bullish' : 'Bearish';
+        function formatAmount(amount, symbol) {
+            if (amount >= 1000) return amount.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            return amount.toFixed(2);
+        }
+        
+        function formatUSD(amount) {
+            if (amount >= 1e6) return `$${(amount/1e6).toFixed(1)}M`;
+            if (amount >= 1e3) return `$${(amount/1e3).toFixed(0)}K`;
+            return `$${amount.toFixed(0)}`;
         }
         
         // Filter buttons
