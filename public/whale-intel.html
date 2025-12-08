@@ -8,24 +8,30 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg: #0a0a0f;
-            --bg2: #0f0f16;
-            --bg3: #14141c;
-            --card: #1a1a24;
-            --border: rgba(255,255,255,0.08);
-            --purple: #7c3aed;
-            --cyan: #06b6d4;
+            --bg: #05050a;
+            --bg2: #0a0a12;
+            --bg3: #0f0f1a;
+            --card: #12121f;
+            --card-hover: #1a1a2e;
+            --border: rgba(100,100,255,0.15);
+            --purple: #8b5cf6;
+            --purple-bright: #a78bfa;
+            --cyan: #22d3ee;
+            --cyan-bright: #67e8f9;
             --green: #10b981;
+            --green-bright: #34d399;
             --red: #ef4444;
-            --yellow: #f59e0b;
-            --orange: #f97316;
+            --red-bright: #f87171;
+            --yellow: #fbbf24;
+            --orange: #fb923c;
             --blue: #3b82f6;
+            --blue-bright: #60a5fa;
+            --pink: #ec4899;
             --white: #ffffff;
             --gray100: #f3f4f6;
             --gray300: #d1d5db;
             --gray400: #9ca3af;
             --gray500: #6b7280;
-            --gray600: #4b5563;
         }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { 
@@ -44,7 +50,7 @@
             justify-content: space-between;
             align-items: center;
             padding: 12px 24px;
-            background: var(--bg2);
+            background: linear-gradient(180deg, var(--bg2) 0%, var(--bg) 100%);
             border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
@@ -56,35 +62,46 @@
             gap: 12px;
         }
         .logo-icon {
-            width: 32px;
-            height: 32px;
-            background: linear-gradient(135deg, var(--purple), var(--cyan));
-            border-radius: 8px;
+            width: 36px;
+            height: 36px;
+            background: linear-gradient(135deg, var(--purple) 0%, var(--cyan) 100%);
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
+            font-size: 20px;
+            box-shadow: 0 0 20px rgba(139,92,246,0.4);
         }
         .logo-text {
-            font-size: 1.1rem;
-            font-weight: 800;
-            letter-spacing: 1px;
+            font-size: 1.2rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, var(--white) 0%, var(--cyan) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         .nav {
             display: flex;
-            gap: 8px;
+            gap: 4px;
         }
         .nav-item {
-            padding: 8px 16px;
+            padding: 10px 18px;
             color: var(--gray400);
             text-decoration: none;
             font-size: 0.9rem;
-            font-weight: 500;
-            border-radius: 8px;
-            transition: all 0.2s;
+            font-weight: 600;
+            border-radius: 10px;
+            transition: all 0.3s;
         }
-        .nav-item:hover { color: var(--white); background: var(--bg3); }
-        .nav-item.active { color: var(--white); background: var(--card); }
+        .nav-item:hover { 
+            color: var(--white); 
+            background: linear-gradient(135deg, rgba(139,92,246,0.2), rgba(34,211,238,0.1));
+        }
+        .nav-item.active { 
+            color: var(--cyan-bright); 
+            background: linear-gradient(135deg, rgba(139,92,246,0.3), rgba(34,211,238,0.2));
+            box-shadow: 0 0 15px rgba(34,211,238,0.2);
+        }
         .header-right {
             display: flex;
             align-items: center;
@@ -95,10 +112,15 @@
             align-items: center;
             background: var(--bg3);
             border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 8px 16px;
-            gap: 10px;
-            min-width: 280px;
+            border-radius: 12px;
+            padding: 10px 18px;
+            gap: 12px;
+            min-width: 320px;
+            transition: all 0.3s;
+        }
+        .search-box:focus-within {
+            border-color: var(--cyan);
+            box-shadow: 0 0 20px rgba(34,211,238,0.2);
         }
         .search-box input {
             background: none;
@@ -110,68 +132,141 @@
         }
         .search-box input::placeholder { color: var(--gray500); }
         .profile-btn {
-            padding: 8px 16px;
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 8px;
+            padding: 10px 20px;
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            border: none;
+            border-radius: 10px;
             color: var(--white);
             font-size: 0.85rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 15px rgba(139,92,246,0.3);
+        }
+        .profile-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 25px rgba(139,92,246,0.5);
         }
         
-        /* Title Section */
-        .title-section {
-            padding: 24px;
-            background: linear-gradient(180deg, var(--bg2) 0%, var(--bg) 100%);
-        }
-        .page-title {
-            font-size: 2.5rem;
-            font-weight: 900;
-            letter-spacing: 2px;
-            background: linear-gradient(135deg, var(--white) 0%, var(--gray400) 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 16px;
-        }
-        
-        /* Ticker Bar */
-        .ticker-bar {
-            display: flex;
-            gap: 24px;
-            padding: 12px 24px;
-            background: var(--bg2);
+        /* Animated Ticker Bar */
+        .ticker-wrapper {
+            background: linear-gradient(90deg, var(--bg2), var(--bg3), var(--bg2));
             border-bottom: 1px solid var(--border);
-            overflow-x: auto;
+            overflow: hidden;
+            position: relative;
+        }
+        .ticker-wrapper::before,
+        .ticker-wrapper::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            width: 60px;
+            z-index: 2;
+            pointer-events: none;
+        }
+        .ticker-wrapper::before {
+            left: 0;
+            background: linear-gradient(90deg, var(--bg2), transparent);
+        }
+        .ticker-wrapper::after {
+            right: 0;
+            background: linear-gradient(-90deg, var(--bg2), transparent);
+        }
+        .ticker-track {
+            display: flex;
+            animation: scroll 40s linear infinite;
+            width: fit-content;
+        }
+        .ticker-track:hover {
+            animation-play-state: paused;
+        }
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
         .ticker-item {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
+            padding: 14px 28px;
             white-space: nowrap;
+            border-right: 1px solid var(--border);
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        .ticker-item:hover {
+            background: rgba(139,92,246,0.1);
         }
         .ticker-icon {
-            width: 20px;
-            height: 20px;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
+            font-size: 14px;
+            background: var(--bg);
+            border: 1px solid var(--border);
         }
-        .ticker-name { color: var(--gray300); font-weight: 500; font-size: 0.85rem; }
-        .ticker-value { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 0.85rem; }
-        .ticker-change { font-size: 0.8rem; font-weight: 600; }
-        .ticker-change.up { color: var(--green); }
-        .ticker-change.down { color: var(--red); }
+        .ticker-icon.btc { background: linear-gradient(135deg, #f7931a, #ffab40); }
+        .ticker-icon.eth { background: linear-gradient(135deg, #627eea, #8fa8ff); }
+        .ticker-icon.sol { background: linear-gradient(135deg, #9945ff, #14f195); }
+        .ticker-entity { 
+            color: var(--gray300); 
+            font-weight: 600; 
+            font-size: 0.9rem;
+        }
+        .ticker-value { 
+            font-family: 'JetBrains Mono', monospace; 
+            font-weight: 700; 
+            font-size: 0.9rem;
+            color: var(--white);
+        }
+        .ticker-change { 
+            font-size: 0.85rem; 
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+        }
+        .ticker-change.up { 
+            color: var(--green-bright); 
+            background: rgba(16,185,129,0.15);
+        }
+        .ticker-change.down { 
+            color: var(--red-bright); 
+            background: rgba(239,68,68,0.15);
+        }
+        
+        /* Title Section */
+        .title-section {
+            padding: 32px 24px 24px;
+            background: linear-gradient(180deg, var(--bg) 0%, var(--bg2) 100%);
+            text-align: center;
+        }
+        .page-title {
+            font-size: 3.5rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            background: linear-gradient(135deg, var(--white) 0%, var(--cyan-bright) 50%, var(--purple-bright) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 60px rgba(34,211,238,0.3);
+            margin-bottom: 8px;
+        }
+        .page-subtitle {
+            color: var(--gray400);
+            font-size: 1rem;
+            font-weight: 500;
+        }
         
         /* Main Content */
         .main {
             display: grid;
-            grid-template-columns: 1fr 400px;
+            grid-template-columns: 1fr 420px;
             gap: 24px;
             padding: 24px;
-            max-width: 1600px;
+            max-width: 1700px;
             margin: 0 auto;
         }
         @media (max-width: 1200px) {
@@ -180,32 +275,46 @@
         
         /* Cards */
         .card {
-            background: var(--card);
+            background: linear-gradient(135deg, var(--card) 0%, var(--bg3) 100%);
             border: 1px solid var(--border);
-            border-radius: 16px;
+            border-radius: 20px;
             overflow: hidden;
+            transition: all 0.3s;
+        }
+        .card:hover {
+            border-color: rgba(139,92,246,0.3);
+            box-shadow: 0 0 30px rgba(139,92,246,0.1);
         }
         .card-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 16px 20px;
+            padding: 18px 24px;
             border-bottom: 1px solid var(--border);
+            background: rgba(0,0,0,0.2);
         }
         .card-title {
-            font-size: 0.8rem;
-            font-weight: 700;
-            letter-spacing: 1px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            letter-spacing: 1.5px;
             text-transform: uppercase;
-            color: var(--gray400);
+            background: linear-gradient(135deg, var(--white), var(--cyan-bright));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
         }
         .card-badge {
             font-size: 0.7rem;
-            font-weight: 600;
-            padding: 4px 10px;
+            font-weight: 700;
+            padding: 5px 12px;
             border-radius: 20px;
-            background: rgba(124,58,237,0.2);
-            color: var(--purple);
+            background: linear-gradient(135deg, var(--purple), var(--blue));
+            color: var(--white);
+            box-shadow: 0 0 15px rgba(139,92,246,0.3);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
         }
         
         /* Trending Insights */
@@ -215,50 +324,91 @@
             gap: 16px;
             padding: 20px;
         }
-        @media (max-width: 900px) {
+        @media (max-width: 1000px) {
+            .insights-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 700px) {
             .insights-grid { grid-template-columns: 1fr; }
         }
         .insight-card {
-            background: var(--bg3);
+            background: linear-gradient(135deg, var(--bg3) 0%, var(--bg) 100%);
             border: 1px solid var(--border);
-            border-radius: 12px;
-            padding: 16px;
+            border-radius: 16px;
+            padding: 18px;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .insight-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--purple), var(--cyan), var(--green));
+            opacity: 0;
+            transition: opacity 0.3s;
         }
         .insight-card:hover {
-            border-color: var(--purple);
-            transform: translateY(-2px);
+            border-color: var(--cyan);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 40px rgba(34,211,238,0.15);
+        }
+        .insight-card:hover::before {
+            opacity: 1;
         }
         .insight-tags {
             display: flex;
             gap: 6px;
-            margin-bottom: 12px;
+            margin-bottom: 14px;
             flex-wrap: wrap;
         }
         .tag {
             font-size: 0.65rem;
-            font-weight: 700;
-            padding: 4px 8px;
-            border-radius: 4px;
+            font-weight: 800;
+            padding: 5px 10px;
+            border-radius: 6px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
         }
-        .tag.important { background: rgba(239,68,68,0.2); color: var(--red); }
-        .tag.bullish { background: rgba(16,185,129,0.2); color: var(--green); }
-        .tag.bearish { background: rgba(239,68,68,0.2); color: var(--red); }
-        .tag.whale { background: rgba(59,130,246,0.2); color: var(--blue); }
-        .tag.exchange { background: rgba(249,115,22,0.2); color: var(--orange); }
-        .tag.institution { background: rgba(124,58,237,0.2); color: var(--purple); }
+        .tag.important { 
+            background: linear-gradient(135deg, rgba(239,68,68,0.3), rgba(249,115,22,0.2)); 
+            color: var(--red-bright);
+            box-shadow: 0 0 10px rgba(239,68,68,0.2);
+        }
+        .tag.bullish { 
+            background: linear-gradient(135deg, rgba(16,185,129,0.3), rgba(34,211,238,0.2)); 
+            color: var(--green-bright);
+            box-shadow: 0 0 10px rgba(16,185,129,0.2);
+        }
+        .tag.bearish { 
+            background: linear-gradient(135deg, rgba(239,68,68,0.3), rgba(236,72,153,0.2)); 
+            color: var(--red-bright);
+        }
+        .tag.whale { 
+            background: linear-gradient(135deg, rgba(59,130,246,0.3), rgba(139,92,246,0.2)); 
+            color: var(--blue-bright);
+        }
+        .tag.exchange { 
+            background: linear-gradient(135deg, rgba(249,115,22,0.3), rgba(251,191,36,0.2)); 
+            color: var(--orange);
+        }
+        .tag.institution { 
+            background: linear-gradient(135deg, rgba(139,92,246,0.3), rgba(236,72,153,0.2)); 
+            color: var(--purple-bright);
+        }
+        .tag.on-chain {
+            background: linear-gradient(135deg, rgba(34,211,238,0.3), rgba(16,185,129,0.2));
+            color: var(--cyan-bright);
+        }
         .insight-title {
-            font-size: 0.95rem;
-            font-weight: 600;
-            line-height: 1.4;
-            margin-bottom: 12px;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+            font-size: 1rem;
+            font-weight: 700;
+            line-height: 1.5;
+            margin-bottom: 14px;
+            color: var(--white);
         }
         .insight-meta {
             display: flex;
@@ -270,162 +420,212 @@
         .insight-tokens {
             display: flex;
             align-items: center;
-            gap: 4px;
+            gap: 6px;
         }
         .token-icon {
-            width: 16px;
-            height: 16px;
+            width: 20px;
+            height: 20px;
             border-radius: 50%;
-            background: var(--bg);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 10px;
+            font-size: 11px;
+            font-weight: 700;
         }
+        .token-icon.btc { background: linear-gradient(135deg, #f7931a, #ffab40); }
+        .token-icon.eth { background: linear-gradient(135deg, #627eea, #8fa8ff); }
+        .token-icon.sol { background: linear-gradient(135deg, #9945ff, #14f195); }
         
         /* Exchange Flows */
         .flows-section { padding: 20px; }
         .flow-filters {
             display: flex;
             gap: 8px;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
             flex-wrap: wrap;
         }
         .filter-btn {
-            padding: 6px 12px;
-            background: var(--bg3);
+            padding: 8px 16px;
+            background: var(--bg);
             border: 1px solid var(--border);
-            border-radius: 6px;
+            border-radius: 8px;
             color: var(--gray400);
             font-size: 0.75rem;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.3s;
         }
-        .filter-btn:hover, .filter-btn.active {
+        .filter-btn:hover {
             border-color: var(--cyan);
             color: var(--cyan);
+        }
+        .filter-btn.active {
+            background: linear-gradient(135deg, var(--purple), var(--cyan));
+            border-color: transparent;
+            color: var(--white);
+            box-shadow: 0 0 15px rgba(34,211,238,0.3);
         }
         .flow-item {
             display: flex;
             align-items: center;
-            gap: 12px;
-            padding: 12px 0;
-            border-bottom: 1px solid var(--border);
+            gap: 16px;
+            padding: 16px;
+            margin-bottom: 12px;
+            background: var(--bg);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            transition: all 0.3s;
         }
-        .flow-item:last-child { border-bottom: none; }
+        .flow-item:hover {
+            border-color: var(--purple);
+            background: var(--bg3);
+        }
         .flow-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 14px;
-            background: var(--bg3);
+            font-size: 20px;
+            background: linear-gradient(135deg, var(--bg3), var(--card));
+            border: 1px solid var(--border);
         }
         .flow-info { flex: 1; }
         .flow-name {
-            font-size: 0.9rem;
-            font-weight: 600;
-            margin-bottom: 2px;
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 4px;
         }
         .flow-type {
             font-size: 0.75rem;
             color: var(--gray500);
+            font-weight: 600;
         }
-        .flow-bar-container {
-            width: 120px;
+        .flow-bars {
+            width: 140px;
+        }
+        .flow-bar-row {
             display: flex;
-            flex-direction: column;
-            gap: 4px;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 6px;
+        }
+        .flow-bar-label {
+            font-size: 0.65rem;
+            color: var(--gray500);
+            width: 24px;
         }
         .flow-bar {
-            height: 6px;
-            border-radius: 3px;
-            background: var(--bg);
+            flex: 1;
+            height: 8px;
+            border-radius: 4px;
+            background: var(--bg3);
             overflow: hidden;
         }
         .flow-bar-fill {
             height: 100%;
-            border-radius: 3px;
+            border-radius: 4px;
+            transition: width 0.5s ease;
         }
-        .flow-bar-fill.inflow { background: linear-gradient(90deg, var(--red), var(--orange)); }
-        .flow-bar-fill.outflow { background: linear-gradient(90deg, var(--green), var(--cyan)); }
-        .flow-values {
-            display: flex;
-            justify-content: space-between;
-            font-size: 0.65rem;
-            color: var(--gray500);
+        .flow-bar-fill.inflow { 
+            background: linear-gradient(90deg, var(--red), var(--orange)); 
+            box-shadow: 0 0 10px rgba(239,68,68,0.3);
+        }
+        .flow-bar-fill.outflow { 
+            background: linear-gradient(90deg, var(--green), var(--cyan)); 
+            box-shadow: 0 0 10px rgba(16,185,129,0.3);
+        }
+        .flow-bar-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--gray400);
+            width: 50px;
+            text-align: right;
         }
         .flow-net {
             text-align: right;
-            min-width: 80px;
+            min-width: 90px;
         }
         .flow-net-value {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            font-weight: 600;
+            font-size: 1rem;
+            font-weight: 800;
         }
-        .flow-net-value.positive { color: var(--green); }
-        .flow-net-value.negative { color: var(--red); }
+        .flow-net-value.positive { 
+            color: var(--green-bright); 
+            text-shadow: 0 0 10px rgba(16,185,129,0.5);
+        }
+        .flow-net-value.negative { 
+            color: var(--red-bright); 
+            text-shadow: 0 0 10px rgba(239,68,68,0.5);
+        }
         .flow-net-label {
             font-size: 0.65rem;
             color: var(--gray500);
+            font-weight: 600;
+            text-transform: uppercase;
         }
         
         /* Transfer Feed */
-        .transfer-feed { max-height: 600px; overflow-y: auto; }
+        .transfer-feed { max-height: 650px; overflow-y: auto; }
         .transfer-header {
             display: grid;
-            grid-template-columns: 100px 1fr 1fr 80px;
+            grid-template-columns: 90px 1fr 1fr 50px;
             gap: 12px;
-            padding: 12px 20px;
+            padding: 14px 20px;
             font-size: 0.7rem;
-            font-weight: 600;
+            font-weight: 700;
             color: var(--gray500);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
             border-bottom: 1px solid var(--border);
             position: sticky;
             top: 0;
             background: var(--card);
+            z-index: 1;
         }
         .transfer-row {
             display: grid;
-            grid-template-columns: 100px 1fr 1fr 80px;
+            grid-template-columns: 90px 1fr 1fr 50px;
             gap: 12px;
-            padding: 14px 20px;
+            padding: 16px 20px;
             border-bottom: 1px solid var(--border);
             align-items: center;
-            transition: background 0.2s;
+            transition: all 0.2s;
         }
-        .transfer-row:hover { background: var(--bg3); }
+        .transfer-row:hover { 
+            background: linear-gradient(135deg, rgba(139,92,246,0.1), rgba(34,211,238,0.05));
+        }
         .transfer-time {
             font-size: 0.8rem;
-            color: var(--cyan);
-            font-weight: 500;
+            color: var(--cyan-bright);
+            font-weight: 600;
         }
         .transfer-entity {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 10px;
         }
         .entity-icon {
-            width: 24px;
-            height: 24px;
-            border-radius: 6px;
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 12px;
+            font-size: 14px;
         }
-        .entity-icon.exchange { background: rgba(249,115,22,0.2); }
-        .entity-icon.whale { background: rgba(59,130,246,0.2); }
-        .entity-icon.unknown { background: var(--bg); }
+        .entity-icon.exchange { 
+            background: linear-gradient(135deg, rgba(249,115,22,0.3), rgba(251,191,36,0.2));
+        }
+        .entity-icon.whale { 
+            background: linear-gradient(135deg, rgba(59,130,246,0.3), rgba(139,92,246,0.2));
+        }
         .entity-name {
             font-size: 0.85rem;
-            font-weight: 500;
+            font-weight: 600;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -435,36 +635,36 @@
             color: var(--gray500);
             font-family: 'JetBrains Mono', monospace;
         }
-        .transfer-amount {
-            text-align: right;
-        }
-        .amount-value {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.85rem;
-            font-weight: 600;
-        }
-        .amount-usd {
-            font-size: 0.7rem;
-            color: var(--gray500);
-        }
         .transfer-impact {
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .impact-dot {
-            width: 10px;
-            height: 10px;
+            width: 12px;
+            height: 12px;
             border-radius: 50%;
+            animation: glow 2s ease-in-out infinite;
         }
-        .impact-dot.bullish { background: var(--green); box-shadow: 0 0 8px var(--green); }
-        .impact-dot.bearish { background: var(--red); box-shadow: 0 0 8px var(--red); }
-        .impact-dot.neutral { background: var(--gray500); }
+        @keyframes glow {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.2); }
+        }
+        .impact-dot.bullish { 
+            background: var(--green-bright); 
+            box-shadow: 0 0 15px var(--green);
+        }
+        .impact-dot.bearish { 
+            background: var(--red-bright); 
+            box-shadow: 0 0 15px var(--red);
+        }
+        .impact-dot.neutral { 
+            background: var(--gray500);
+            animation: none;
+        }
         
         /* Smart Money Section */
-        .smart-money {
-            margin-top: 24px;
-        }
+        .smart-money { margin-top: 24px; }
         .sm-stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
@@ -473,23 +673,36 @@
         }
         .sm-stat {
             text-align: center;
-            padding: 16px;
-            background: var(--bg3);
-            border-radius: 12px;
+            padding: 24px 16px;
+            background: linear-gradient(135deg, var(--bg), var(--bg3));
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            transition: all 0.3s;
+        }
+        .sm-stat:hover {
+            border-color: var(--purple);
+            transform: translateY(-4px);
         }
         .sm-stat-value {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 4px;
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 8px;
         }
-        .sm-stat-value.bullish { color: var(--green); }
-        .sm-stat-value.bearish { color: var(--red); }
+        .sm-stat-value.bullish { 
+            color: var(--green-bright);
+            text-shadow: 0 0 20px rgba(16,185,129,0.5);
+        }
+        .sm-stat-value.bearish { 
+            color: var(--red-bright);
+            text-shadow: 0 0 20px rgba(239,68,68,0.5);
+        }
         .sm-stat-label {
             font-size: 0.75rem;
-            color: var(--gray500);
+            color: var(--gray400);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
+            font-weight: 700;
         }
         
         /* Loading */
@@ -501,22 +714,32 @@
             padding: 60px 20px;
         }
         .spinner {
-            width: 40px;
-            height: 40px;
-            border: 3px solid var(--bg3);
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--bg3);
             border-top-color: var(--cyan);
             border-radius: 50%;
             animation: spin 1s linear infinite;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
+            box-shadow: 0 0 20px rgba(34,211,238,0.3);
         }
         @keyframes spin { to { transform: rotate(360deg); } }
-        .loading-text { color: var(--gray400); font-size: 0.9rem; }
+        .loading-text { 
+            color: var(--gray400); 
+            font-size: 0.95rem;
+            font-weight: 500;
+        }
         
         /* Scrollbar */
-        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
         ::-webkit-scrollbar-track { background: var(--bg2); }
-        ::-webkit-scrollbar-thumb { background: var(--gray600); border-radius: 3px; }
-        ::-webkit-scrollbar-thumb:hover { background: var(--gray500); }
+        ::-webkit-scrollbar-thumb { 
+            background: linear-gradient(180deg, var(--purple), var(--cyan));
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover { 
+            background: linear-gradient(180deg, var(--purple-bright), var(--cyan-bright));
+        }
     </style>
 </head>
 <body>
@@ -540,13 +763,15 @@
         </div>
     </header>
     
+    <!-- Animated Ticker -->
+    <div class="ticker-wrapper">
+        <div class="ticker-track" id="tickerTrack"></div>
+    </div>
+    
     <section class="title-section">
         <h1 class="page-title">WHALE INTEL</h1>
+        <p class="page-subtitle">Real-time blockchain intelligence • Track smart money movements</p>
     </section>
-    
-    <div class="ticker-bar" id="tickerBar">
-        <!-- Populated by JS -->
-    </div>
     
     <main class="main">
         <div class="left-column">
@@ -554,7 +779,7 @@
             <div class="card">
                 <div class="card-header">
                     <span class="card-title">🔥 Trending Insights</span>
-                    <span class="card-badge">Live</span>
+                    <span class="card-badge">● Live</span>
                 </div>
                 <div class="insights-grid" id="insightsGrid">
                     <div class="loading">
@@ -573,16 +798,11 @@
                 <div class="flows-section">
                     <div class="flow-filters">
                         <button class="filter-btn active" data-filter="all">All Exchanges</button>
-                        <button class="filter-btn" data-filter="cex">CEX Only</button>
-                        <button class="filter-btn" data-filter="dex">DEX Only</button>
-                        <button class="filter-btn" data-filter="volume">Volume ≥ $10M</button>
+                        <button class="filter-btn" data-filter="cex">CEX+DEX</button>
+                        <button class="filter-btn" data-filter="volume">Market Cap ≥ $100M</button>
+                        <button class="filter-btn" data-filter="netflow">Sort by Netflow</button>
                     </div>
-                    <div id="flowsList">
-                        <div class="loading">
-                            <div class="spinner"></div>
-                            <div class="loading-text">Loading exchange flows...</div>
-                        </div>
-                    </div>
+                    <div id="flowsList"></div>
                 </div>
             </div>
             
@@ -614,20 +834,15 @@
             <div class="card">
                 <div class="card-header">
                     <span class="card-title">⚡ Live Transfers</span>
-                    <span class="card-badge" id="transferCount">0 / 50</span>
+                    <span class="card-badge" id="transferCount">0 / 62</span>
                 </div>
                 <div class="transfer-header">
-                    <span>Time</span>
-                    <span>From</span>
-                    <span>To</span>
+                    <span>⏱ Time</span>
+                    <span>↗ From</span>
+                    <span>↘ To</span>
                     <span></span>
                 </div>
-                <div class="transfer-feed" id="transferFeed">
-                    <div class="loading">
-                        <div class="spinner"></div>
-                        <div class="loading-text">Loading transfers...</div>
-                    </div>
-                </div>
+                <div class="transfer-feed" id="transferFeed"></div>
             </div>
         </div>
     </main>
@@ -653,99 +868,77 @@
             }
         })();
         
-        // Simulated whale data (will be replaced with real API)
-        const whaleData = {
-            insights: [
-                {
-                    tags: ['important', 'whale'],
-                    title: 'ETH Faces Bearish Pressure: Whales Sell $45M in Past 24H',
-                    tokens: ['ETH'],
-                    entities: 3,
-                    time: '2 hours ago',
-                    updates: 12
-                },
-                {
-                    tags: ['bullish', 'whale'],
-                    title: "Whale 'BitcoinOG' Accumulates $166M in BTC During Dip",
-                    tokens: ['BTC'],
-                    entities: 1,
-                    time: '5 hours ago',
-                    updates: 7
-                },
-                {
-                    tags: ['important', 'exchange'],
-                    title: 'Major Exchange Outflow: $89M BTC Withdrawn from Binance',
-                    tokens: ['BTC'],
-                    entities: 2,
-                    time: '8 hours ago',
-                    updates: 5
-                },
-                {
-                    tags: ['institution'],
-                    title: 'Grayscale Moves $234M ETH to Cold Storage',
-                    tokens: ['ETH'],
-                    entities: 1,
-                    time: '12 hours ago',
-                    updates: 3
-                },
-                {
-                    tags: ['bullish', 'whale'],
-                    title: 'SOL Whale Buys $28M During Market Correction',
-                    tokens: ['SOL'],
-                    entities: 1,
-                    time: '14 hours ago',
-                    updates: 4
-                },
-                {
-                    tags: ['bearish', 'exchange'],
-                    title: 'Kraken Receives $67M ETH Deposit from Unknown Wallet',
-                    tokens: ['ETH'],
-                    entities: 2,
-                    time: '18 hours ago',
-                    updates: 6
-                }
-            ],
-            exchanges: [
-                { name: 'Binance', icon: '🟡', inflow: 234.5, outflow: 312.8, type: 'CEX' },
-                { name: 'Coinbase', icon: '🔵', inflow: 156.2, outflow: 198.4, type: 'CEX' },
-                { name: 'Kraken', icon: '🟣', inflow: 89.3, outflow: 67.1, type: 'CEX' },
-                { name: 'OKX', icon: '⚫', inflow: 145.6, outflow: 123.9, type: 'CEX' },
-                { name: 'Uniswap', icon: '🦄', inflow: 45.2, outflow: 52.1, type: 'DEX' },
-                { name: 'Bitfinex', icon: '🟢', inflow: 78.4, outflow: 91.2, type: 'CEX' }
-            ],
-            transfers: [],
-            smartMoney: { bullish: 0, bearish: 0, netFlow: 0 }
-        };
+        // Ticker data - will scroll infinitely
+        const tickerData = [
+            { icon: '🐋', entity: 'Whale Alert', value: '$489.61M', change: '+2.82%', up: true },
+            { icon: '📊', entity: 'Zeta Markets', value: '$35.29M', change: '+2.58%', up: true },
+            { icon: '👤', entity: 'Smart Money', value: '$914.67K', change: '+2.1%', up: true },
+            { icon: '💰', entity: 'FTX Exploiter', value: '$323.85M', change: '-2.55%', up: false },
+            { icon: '🟡', entity: 'Binance', value: '$1.24B', change: '+1.8%', up: true },
+            { icon: '🔵', entity: 'Coinbase', value: '$892M', change: '+0.9%', up: true },
+            { icon: '🟣', entity: 'Kraken', value: '$456M', change: '-1.2%', up: false },
+            { icon: '₿', entity: 'BTC Whales', value: '$2.1B', change: '+3.4%', up: true },
+            { icon: 'Ξ', entity: 'ETH Whales', value: '$1.8B', change: '+2.1%', up: true },
+            { icon: '◎', entity: 'SOL Whales', value: '$567M', change: '+5.2%', up: true },
+            { icon: '🏦', entity: 'Grayscale', value: '$24.5B', change: '+0.8%', up: true },
+            { icon: '📈', entity: 'Jump Trading', value: '$890M', change: '+1.5%', up: true },
+        ];
         
-        // Generate realistic transfers
-        function generateTransfers() {
-            const exchanges = ['Binance', 'Coinbase', 'Kraken', 'OKX', 'Bitfinex'];
-            const tokens = ['BTC', 'ETH', 'SOL'];
-            const transfers = [];
-            
-            for (let i = 0; i < 50; i++) {
-                const isExchangeInflow = Math.random() > 0.5;
-                const token = tokens[Math.floor(Math.random() * tokens.length)];
-                const exchange = exchanges[Math.floor(Math.random() * exchanges.length)];
-                const amount = Math.random() * 1000 + 100;
-                const prices = { BTC: 91000, ETH: 3400, SOL: 135 };
-                const amountUsd = amount * prices[token];
-                
-                const secondsAgo = Math.floor(Math.random() * 3600);
-                
-                transfers.push({
-                    time: secondsAgo < 60 ? `${secondsAgo} seconds ago` : `${Math.floor(secondsAgo/60)} minutes ago`,
-                    from: isExchangeInflow ? { name: 'Unknown Wallet', type: 'whale', address: '0x' + Math.random().toString(16).substr(2, 8) + '...' } : { name: exchange, type: 'exchange', address: '' },
-                    to: isExchangeInflow ? { name: exchange, type: 'exchange', address: '' } : { name: 'Unknown Wallet', type: 'whale', address: '0x' + Math.random().toString(16).substr(2, 8) + '...' },
-                    amount: amount.toFixed(2),
-                    token: token,
-                    amountUsd: amountUsd,
-                    impact: isExchangeInflow ? 'bearish' : 'bullish'
-                });
+        // Insights data
+        const insightsData = [
+            {
+                tags: ['important', 'whale'],
+                title: 'ETH Faces Bearish Pressure: Whales Sell $45M in Past 24H',
+                tokens: ['ETH'],
+                time: '2 hours ago',
+                updates: 12
+            },
+            {
+                tags: ['bullish', 'whale', 'on-chain'],
+                title: "Whale 'BitcoinOG' Bets $166M on ETH Long Position",
+                tokens: ['BTC', 'ETH'],
+                time: '5 hours ago',
+                updates: 7
+            },
+            {
+                tags: ['important', 'exchange'],
+                title: 'Bitcoin Dips Below $88,000 Amid FOMC Nerves - Exchange Inflows Spike',
+                tokens: ['BTC'],
+                time: '8 hours ago',
+                updates: 21
+            },
+            {
+                tags: ['bullish', 'institution'],
+                title: 'Grayscale Accumulates $234M ETH - Largest Purchase This Month',
+                tokens: ['ETH'],
+                time: '10 hours ago',
+                updates: 9
+            },
+            {
+                tags: ['whale', 'on-chain'],
+                title: 'SOL Mega Whale Moves $89M to Cold Storage - Bullish Signal',
+                tokens: ['SOL'],
+                time: '12 hours ago',
+                updates: 4
+            },
+            {
+                tags: ['bearish', 'exchange'],
+                title: 'Kraken Sees $67M ETH Inflow from Unknown Whale Cluster',
+                tokens: ['ETH'],
+                time: '18 hours ago',
+                updates: 6
             }
-            
-            return transfers;
-        }
+        ];
+        
+        // Exchange flows data
+        const exchangeData = [
+            { name: 'Binance', icon: '🟡', inflow: 234.5, outflow: 312.8, type: 'CEX' },
+            { name: 'Coinbase', icon: '🔵', inflow: 156.2, outflow: 198.4, type: 'CEX' },
+            { name: 'Kraken', icon: '🟣', inflow: 89.3, outflow: 67.1, type: 'CEX' },
+            { name: 'OKX', icon: '⚫', inflow: 145.6, outflow: 123.9, type: 'CEX' },
+            { name: 'Uniswap', icon: '🦄', inflow: 45.2, outflow: 52.1, type: 'DEX' },
+            { name: 'Bitfinex', icon: '🟢', inflow: 78.4, outflow: 91.2, type: 'CEX' }
+        ];
         
         function loadAllData() {
             loadTicker();
@@ -754,34 +947,33 @@
             loadTransfers();
             calculateSmartMoney();
             
-            // Refresh every 30 seconds
+            // Add new transfer every 3 seconds
             setInterval(() => {
-                loadTransfers();
+                addNewTransfer();
+            }, 3000);
+            
+            // Refresh smart money every 30 seconds
+            setInterval(() => {
                 calculateSmartMoney();
             }, 30000);
         }
         
         function loadTicker() {
-            const tickers = [
-                { icon: '🐋', name: 'Whale Activity', value: '$489.61M', change: '+2.82%', up: true },
-                { icon: '📊', name: 'Exchange Volume', value: '$35.29M', change: '+2.58%', up: true },
-                { icon: '🏦', name: 'Institution Flow', value: '$914.67K', change: '+2.1%', up: true },
-                { icon: '💰', name: 'Smart Money', value: '$323.85M', change: '-2.55%', up: false },
-                { icon: '🟡', name: 'Binance Flow', value: '+$78.3M', change: '', up: true }
-            ];
+            // Double the data for seamless loop
+            const doubledData = [...tickerData, ...tickerData];
             
-            document.getElementById('tickerBar').innerHTML = tickers.map(t => `
+            document.getElementById('tickerTrack').innerHTML = doubledData.map(t => `
                 <div class="ticker-item">
                     <span class="ticker-icon">${t.icon}</span>
-                    <span class="ticker-name">${t.name}</span>
+                    <span class="ticker-entity">${t.entity}</span>
                     <span class="ticker-value">${t.value}</span>
-                    ${t.change ? `<span class="ticker-change ${t.up ? 'up' : 'down'}">${t.change}</span>` : ''}
+                    <span class="ticker-change ${t.up ? 'up' : 'down'}">${t.change}</span>
                 </div>
             `).join('');
         }
         
         function loadInsights() {
-            document.getElementById('insightsGrid').innerHTML = whaleData.insights.map(insight => `
+            document.getElementById('insightsGrid').innerHTML = insightsData.map(insight => `
                 <div class="insight-card">
                     <div class="insight-tags">
                         ${insight.tags.map(tag => `<span class="tag ${tag}">${tag}</span>`).join('')}
@@ -789,8 +981,7 @@
                     <div class="insight-title">${insight.title}</div>
                     <div class="insight-meta">
                         <div class="insight-tokens">
-                            Tokens: ${insight.tokens.map(t => `<span class="token-icon">${t === 'BTC' ? '₿' : t === 'ETH' ? 'Ξ' : '◎'}</span>`).join('')}
-                            &nbsp;Entities: ${insight.entities}
+                            Tokens: ${insight.tokens.map(t => `<span class="token-icon ${t.toLowerCase()}">${t === 'BTC' ? '₿' : t === 'ETH' ? 'Ξ' : '◎'}</span>`).join('')}
                         </div>
                         <span>${insight.time} • ${insight.updates} updates</span>
                     </div>
@@ -799,9 +990,9 @@
         }
         
         function loadExchangeFlows() {
-            const maxFlow = Math.max(...whaleData.exchanges.map(e => Math.max(e.inflow, e.outflow)));
+            const maxFlow = Math.max(...exchangeData.map(e => Math.max(e.inflow, e.outflow)));
             
-            document.getElementById('flowsList').innerHTML = whaleData.exchanges.map(ex => {
+            document.getElementById('flowsList').innerHTML = exchangeData.map(ex => {
                 const netFlow = ex.outflow - ex.inflow;
                 const inflowWidth = (ex.inflow / maxFlow) * 100;
                 const outflowWidth = (ex.outflow / maxFlow) * 100;
@@ -813,16 +1004,20 @@
                             <div class="flow-name">${ex.name}</div>
                             <div class="flow-type">${ex.type}</div>
                         </div>
-                        <div class="flow-bar-container">
-                            <div class="flow-bar">
-                                <div class="flow-bar-fill inflow" style="width: ${inflowWidth}%"></div>
+                        <div class="flow-bars">
+                            <div class="flow-bar-row">
+                                <span class="flow-bar-label">In</span>
+                                <div class="flow-bar">
+                                    <div class="flow-bar-fill inflow" style="width: ${inflowWidth}%"></div>
+                                </div>
+                                <span class="flow-bar-value">$${ex.inflow.toFixed(0)}M</span>
                             </div>
-                            <div class="flow-bar">
-                                <div class="flow-bar-fill outflow" style="width: ${outflowWidth}%"></div>
-                            </div>
-                            <div class="flow-values">
-                                <span>In: $${ex.inflow.toFixed(1)}M</span>
-                                <span>Out: $${ex.outflow.toFixed(1)}M</span>
+                            <div class="flow-bar-row">
+                                <span class="flow-bar-label">Out</span>
+                                <div class="flow-bar">
+                                    <div class="flow-bar-fill outflow" style="width: ${outflowWidth}%"></div>
+                                </div>
+                                <span class="flow-bar-value">$${ex.outflow.toFixed(0)}M</span>
                             </div>
                         </div>
                         <div class="flow-net">
@@ -836,11 +1031,47 @@
             }).join('');
         }
         
-        function loadTransfers() {
-            whaleData.transfers = generateTransfers();
-            document.getElementById('transferCount').textContent = `${whaleData.transfers.length} / 50`;
+        let transfers = [];
+        let transferCount = 0;
+        
+        function generateTransfer() {
+            const exchanges = ['Binance', 'Coinbase', 'Kraken', 'OKX', 'Bitfinex', 'Uniswap'];
+            const tokens = ['BTC', 'ETH', 'SOL'];
+            const isExchangeInflow = Math.random() > 0.5;
+            const token = tokens[Math.floor(Math.random() * tokens.length)];
+            const exchange = exchanges[Math.floor(Math.random() * exchanges.length)];
             
-            document.getElementById('transferFeed').innerHTML = whaleData.transfers.map(tx => `
+            return {
+                time: `${Math.floor(Math.random() * 59) + 1} seconds ago`,
+                from: isExchangeInflow ? 
+                    { name: 'Unknown Wallet', type: 'whale', address: '0x' + Math.random().toString(16).substr(2, 8) + '...' } : 
+                    { name: exchange, type: 'exchange', address: '' },
+                to: isExchangeInflow ? 
+                    { name: exchange, type: 'exchange', address: '' } : 
+                    { name: 'Unknown Wallet', type: 'whale', address: '0x' + Math.random().toString(16).substr(2, 8) + '...' },
+                token: token,
+                impact: isExchangeInflow ? 'bearish' : 'bullish'
+            };
+        }
+        
+        function loadTransfers() {
+            transfers = Array(20).fill().map(() => generateTransfer());
+            transferCount = transfers.length;
+            renderTransfers();
+        }
+        
+        function addNewTransfer() {
+            const newTransfer = generateTransfer();
+            newTransfer.time = 'Just now';
+            transfers.unshift(newTransfer);
+            if (transfers.length > 62) transfers.pop();
+            transferCount = Math.min(transferCount + 1, 62);
+            renderTransfers();
+        }
+        
+        function renderTransfers() {
+            document.getElementById('transferCount').textContent = `${transferCount} / 62`;
+            document.getElementById('transferFeed').innerHTML = transfers.map(tx => `
                 <div class="transfer-row">
                     <div class="transfer-time">${tx.time}</div>
                     <div class="transfer-entity">
@@ -865,19 +1096,23 @@
         }
         
         function calculateSmartMoney() {
-            const bullish = whaleData.transfers.filter(t => t.impact === 'bullish').length;
-            const bearish = whaleData.transfers.filter(t => t.impact === 'bearish').length;
-            const netFlow = whaleData.exchanges.reduce((sum, ex) => sum + (ex.outflow - ex.inflow), 0);
+            const bullish = transfers.filter(t => t.impact === 'bullish').length;
+            const bearish = transfers.filter(t => t.impact === 'bearish').length;
+            const netFlow = exchangeData.reduce((sum, ex) => sum + (ex.outflow - ex.inflow), 0);
             
             document.getElementById('bullishCount').textContent = bullish;
             document.getElementById('bearishCount').textContent = bearish;
-            document.getElementById('netFlow').textContent = `${netFlow >= 0 ? '+' : ''}$${netFlow.toFixed(1)}M`;
+            document.getElementById('netFlow').textContent = `${netFlow >= 0 ? '+' : ''}$${netFlow.toFixed(0)}M`;
             document.getElementById('netFlow').className = `sm-stat-value ${netFlow >= 0 ? 'bullish' : 'bearish'}`;
             
             const sentiment = bullish > bearish ? 'Bullish' : bullish < bearish ? 'Bearish' : 'Neutral';
-            document.getElementById('sentimentBadge').textContent = sentiment;
-            document.getElementById('sentimentBadge').style.background = sentiment === 'Bullish' ? 'rgba(16,185,129,0.2)' : sentiment === 'Bearish' ? 'rgba(239,68,68,0.2)' : 'rgba(124,58,237,0.2)';
-            document.getElementById('sentimentBadge').style.color = sentiment === 'Bullish' ? 'var(--green)' : sentiment === 'Bearish' ? 'var(--red)' : 'var(--purple)';
+            const badge = document.getElementById('sentimentBadge');
+            badge.textContent = sentiment;
+            badge.style.background = sentiment === 'Bullish' ? 
+                'linear-gradient(135deg, rgba(16,185,129,0.3), rgba(34,211,238,0.2))' : 
+                sentiment === 'Bearish' ? 
+                'linear-gradient(135deg, rgba(239,68,68,0.3), rgba(236,72,153,0.2))' : 
+                'linear-gradient(135deg, var(--purple), var(--blue))';
         }
         
         // Filter buttons
