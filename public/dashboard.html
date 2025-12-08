@@ -10,6 +10,10 @@
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);min-height:100vh}
         
+        /* Hide everything until auth checked */
+        .app{display:none}
+        .app.ready{display:block}
+        
         /* Header */
         .header{display:flex;justify-content:space-between;align-items:center;padding:16px 32px;border-bottom:1px solid rgba(124,58,237,0.2)}
         .logo{font-size:1.25rem;font-weight:900;background:linear-gradient(135deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
@@ -72,148 +76,184 @@
         .tool-card:hover{border-color:var(--purple)}
         .tool-icon{font-size:1.5rem;margin-bottom:8px}
         .tool-name{font-size:.85rem;font-weight:600}
+        
+        /* Loading state */
+        .loading-screen{position:fixed;top:0;left:0;right:0;bottom:0;background:var(--bg);display:flex;align-items:center;justify-content:center;z-index:1000}
+        .loading-screen.hidden{display:none}
+        .spinner{width:40px;height:40px;border:3px solid var(--bg2);border-top-color:var(--purple);border-radius:50%;animation:spin 1s linear infinite}
+        @keyframes spin{to{transform:rotate(360deg)}}
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="logo">ELUXRAJ™</div>
-        <div class="user-info">
-            <span class="username" id="username">User</span>
-            <span class="tier-badge free" id="tierBadge">FREE</span>
-            <button class="logout-btn" onclick="logout()">Logout</button>
-        </div>
-    </header>
-    
-    <main class="container">
-        <!-- Upgrade Banner (shown for non-Elite users) -->
-        <div class="upgrade-banner" id="upgradeBanner">
-            <div class="upgrade-text">
-                <h3>🚀 Unlock All AI Features</h3>
-                <p>Upgrade to Elite for ORACLE predictions, whale alerts, and more</p>
+    <!-- Loading screen shown while checking auth -->
+    <div class="loading-screen" id="loadingScreen">
+        <div class="spinner"></div>
+    </div>
+
+    <div class="app" id="app">
+        <header class="header">
+            <div class="logo">ELUXRAJ™</div>
+            <div class="user-info">
+                <span class="username" id="username">User</span>
+                <span class="tier-badge free" id="tierBadge">FREE</span>
+                <button class="logout-btn" onclick="logout()">Logout</button>
             </div>
-            <a href="/pricing.html" class="upgrade-btn">Upgrade to Elite - $98/mo</a>
-        </div>
+        </header>
         
-        <!-- Market Overview -->
-        <div class="market-grid">
-            <div class="market-card">
-                <div class="market-label">₿ Bitcoin</div>
-                <div class="market-value" id="btcPrice">$--</div>
-                <div class="market-change up" id="btcChange">--%</div>
+        <main class="container">
+            <!-- Upgrade Banner (shown for non-Elite users) -->
+            <div class="upgrade-banner" id="upgradeBanner">
+                <div class="upgrade-text">
+                    <h3>🚀 Unlock All AI Features</h3>
+                    <p>Upgrade to Elite for ORACLE predictions, whale alerts, and more</p>
+                </div>
+                <a href="/pricing.html" class="upgrade-btn">Upgrade to Elite - $98/mo</a>
             </div>
-            <div class="market-card">
-                <div class="market-label">📈 S&P 500</div>
-                <div class="market-value" id="spxPrice">$--</div>
-                <div class="market-change up" id="spxChange">--%</div>
+            
+            <!-- Market Overview -->
+            <div class="market-grid">
+                <div class="market-card">
+                    <div class="market-label">₿ Bitcoin</div>
+                    <div class="market-value" id="btcPrice">$--</div>
+                    <div class="market-change up" id="btcChange">--%</div>
+                </div>
+                <div class="market-card">
+                    <div class="market-label">Ξ Ethereum</div>
+                    <div class="market-value" id="ethPrice">$--</div>
+                    <div class="market-change up" id="ethChange">--%</div>
+                </div>
+                <div class="market-card">
+                    <div class="market-label">◎ Solana</div>
+                    <div class="market-value" id="solPrice">$--</div>
+                    <div class="market-change up" id="solChange">--%</div>
+                </div>
+                <div class="market-card">
+                    <div class="market-label">😱 Fear & Greed</div>
+                    <div class="market-value" id="fngValue">--</div>
+                    <div class="market-change" id="fngLabel">Loading...</div>
+                </div>
             </div>
-            <div class="market-card">
-                <div class="market-label">🥇 Gold</div>
-                <div class="market-value" id="goldPrice">$--</div>
-                <div class="market-change up" id="goldChange">--%</div>
+            
+            <!-- AI Intelligence Suite -->
+            <div class="section-title">🤖 AI INTELLIGENCE SUITE</div>
+            <div class="feature-grid">
+                <a href="/oracle.html" class="feature-card oracle">
+                    <div class="feature-icon">🔮</div>
+                    <div class="feature-name">ORACLE <span class="feature-badge elite">Elite</span></div>
+                    <div class="feature-desc">AI-powered predictions with whale tracking, liquidation zones, and smart entry points</div>
+                </a>
+                <a href="/chart-analysis.html" class="feature-card chart">
+                    <div class="feature-icon">📊</div>
+                    <div class="feature-name">CHART AI <span class="feature-badge pro">Pro</span></div>
+                    <div class="feature-desc">Upload any chart and get instant AI pattern analysis with entry/exit signals</div>
+                </a>
             </div>
-            <div class="market-card">
-                <div class="market-label">😱 Fear & Greed</div>
-                <div class="market-value" id="fngValue">--</div>
-                <div class="market-change" id="fngLabel">Loading...</div>
+            
+            <!-- Quick Actions -->
+            <div class="section-title">⚡ QUICK ACTIONS</div>
+            <div class="actions-grid">
+                <a href="#" class="action-btn">🔗 Connect Brokerage</a>
+                <a href="#" class="action-btn">🔔 Set Price Alert</a>
+                <a href="#" class="action-btn">🪄 Portfolio Wizard</a>
             </div>
-        </div>
-        
-        <!-- AI Intelligence Suite -->
-        <div class="section-title">🤖 AI INTELLIGENCE SUITE</div>
-        <div class="feature-grid">
-            <a href="/oracle.html" class="feature-card oracle">
-                <div class="feature-icon">🔮</div>
-                <div class="feature-name">ORACLE <span class="feature-badge elite">Elite</span></div>
-                <div class="feature-desc">AI-powered predictions with whale tracking, liquidation zones, and smart entry points</div>
-            </a>
-            <a href="/chart-analysis.html" class="feature-card chart">
-                <div class="feature-icon">📊</div>
-                <div class="feature-name">CHART AI <span class="feature-badge pro">Pro</span></div>
-                <div class="feature-desc">Upload any chart and get instant AI pattern analysis with entry/exit signals</div>
-            </a>
-        </div>
-        
-        <!-- Quick Actions -->
-        <div class="section-title">⚡ QUICK ACTIONS</div>
-        <div class="actions-grid">
-            <a href="#" class="action-btn">🔗 Connect Brokerage</a>
-            <a href="#" class="action-btn">🔔 Set Price Alert</a>
-            <a href="#" class="action-btn">🪄 Portfolio Wizard</a>
-        </div>
-        
-        <!-- Pro Tools -->
-        <div class="section-title">✨ PRO TOOLS</div>
-        <div class="tools-grid">
-            <a href="/signals.html" class="tool-card">
-                <div class="tool-icon">📡</div>
-                <div class="tool-name">Signals</div>
-            </a>
-            <a href="/track" class="tool-card">
-                <div class="tool-icon">📈</div>
-                <div class="tool-name">Track Record</div>
-            </a>
-            <a href="/screener.html" class="tool-card">
-                <div class="tool-icon">🔍</div>
-                <div class="tool-name">Screener</div>
-            </a>
-            <a href="/watchlist.html" class="tool-card">
-                <div class="tool-icon">👁️</div>
-                <div class="tool-name">Watchlist</div>
-            </a>
-        </div>
-    </main>
+            
+            <!-- Pro Tools -->
+            <div class="section-title">✨ PRO TOOLS</div>
+            <div class="tools-grid">
+                <a href="/signals.html" class="tool-card">
+                    <div class="tool-icon">📡</div>
+                    <div class="tool-name">Signals</div>
+                </a>
+                <a href="/track" class="tool-card">
+                    <div class="tool-icon">📈</div>
+                    <div class="tool-name">Track Record</div>
+                </a>
+                <a href="/screener.html" class="tool-card">
+                    <div class="tool-icon">🔍</div>
+                    <div class="tool-name">Screener</div>
+                </a>
+                <a href="/watchlist.html" class="tool-card">
+                    <div class="tool-icon">👁️</div>
+                    <div class="tool-name">Watchlist</div>
+                </a>
+            </div>
+        </main>
+    </div>
     
     <script>
-        // Check auth
-        const token = localStorage.getItem('token');
-        if (!token) {
-            window.location.href = '/login.html';
-        }
+        const API = 'https://eluxraj-api-production.up.railway.app/api/v1';
         
-        // Load user info
-        async function loadUser() {
+        // Check auth FIRST before showing anything
+        (async function checkAuth() {
+            const token = localStorage.getItem('token');
+            
+            if (!token) {
+                window.location.href = '/login.html';
+                return;
+            }
+            
             try {
-                const res = await fetch('/api/v1/users/me', {
+                const res = await fetch(`${API}/auth/me`, {
                     headers: { 'Authorization': `Bearer ${token}` }
                 });
-                if (!res.ok) throw new Error('Not authenticated');
+                
+                if (!res.ok) {
+                    throw new Error('Not authenticated');
+                }
+                
                 const user = await res.json();
                 
+                // Update UI with user info
                 document.getElementById('username').textContent = user.username || user.email;
                 const badge = document.getElementById('tierBadge');
-                badge.textContent = (user.subscription_tier || 'free').toUpperCase();
-                badge.className = 'tier-badge ' + (user.subscription_tier || 'free');
+                const tier = user.subscription_tier || 'free';
+                badge.textContent = tier.toUpperCase();
+                badge.className = 'tier-badge ' + tier;
                 
                 // Hide upgrade banner for Elite users
-                if (user.subscription_tier === 'elite' || user.subscription_tier === 'admin') {
+                if (tier === 'elite' || tier === 'admin') {
                     document.getElementById('upgradeBanner').style.display = 'none';
                 }
+                
+                // Show app, hide loading
+                document.getElementById('loadingScreen').classList.add('hidden');
+                document.getElementById('app').classList.add('ready');
+                
+                // Load market data
+                loadMarkets();
+                
             } catch (e) {
-                console.error(e);
+                console.error('Auth failed:', e);
                 localStorage.removeItem('token');
                 window.location.href = '/login.html';
             }
-        }
+        })();
         
-        // Load market data
         async function loadMarkets() {
             try {
-                // Bitcoin
-                const btcRes = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin&vs_currencies=usd&include_24hr_change=true');
-                const btc = await btcRes.json();
-                document.getElementById('btcPrice').textContent = '$' + btc.bitcoin.usd.toLocaleString();
-                const btcChange = btc.bitcoin.usd_24h_change;
-                document.getElementById('btcChange').textContent = (btcChange > 0 ? '+' : '') + btcChange.toFixed(1) + '%';
-                document.getElementById('btcChange').className = 'market-change ' + (btcChange >= 0 ? 'up' : 'down');
+                // Bitcoin, Ethereum, Solana
+                const res = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd&include_24hr_change=true');
+                const data = await res.json();
                 
-                // Gold
-                const goldRes = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=tether-gold&vs_currencies=usd&include_24hr_change=true');
-                const gold = await goldRes.json();
-                if (gold['tether-gold']) {
-                    document.getElementById('goldPrice').textContent = '$' + gold['tether-gold'].usd.toLocaleString();
-                    const goldChange = gold['tether-gold'].usd_24h_change || 0;
-                    document.getElementById('goldChange').textContent = (goldChange > 0 ? '+' : '') + goldChange.toFixed(1) + '%';
-                    document.getElementById('goldChange').className = 'market-change ' + (goldChange >= 0 ? 'up' : 'down');
+                if (data.bitcoin) {
+                    document.getElementById('btcPrice').textContent = '$' + data.bitcoin.usd.toLocaleString();
+                    const btcChange = data.bitcoin.usd_24h_change || 0;
+                    document.getElementById('btcChange').textContent = (btcChange > 0 ? '+' : '') + btcChange.toFixed(1) + '%';
+                    document.getElementById('btcChange').className = 'market-change ' + (btcChange >= 0 ? 'up' : 'down');
+                }
+                
+                if (data.ethereum) {
+                    document.getElementById('ethPrice').textContent = '$' + data.ethereum.usd.toLocaleString();
+                    const ethChange = data.ethereum.usd_24h_change || 0;
+                    document.getElementById('ethChange').textContent = (ethChange > 0 ? '+' : '') + ethChange.toFixed(1) + '%';
+                    document.getElementById('ethChange').className = 'market-change ' + (ethChange >= 0 ? 'up' : 'down');
+                }
+                
+                if (data.solana) {
+                    document.getElementById('solPrice').textContent = '$' + data.solana.usd.toLocaleString();
+                    const solChange = data.solana.usd_24h_change || 0;
+                    document.getElementById('solChange').textContent = (solChange > 0 ? '+' : '') + solChange.toFixed(1) + '%';
+                    document.getElementById('solChange').className = 'market-change ' + (solChange >= 0 ? 'up' : 'down');
                 }
                 
                 // Fear & Greed
@@ -224,10 +264,6 @@
                     document.getElementById('fngLabel').textContent = fng.data[0].value_classification;
                 }
                 
-                // S&P 500 placeholder (would need real API)
-                document.getElementById('spxPrice').textContent = '$5,990';
-                document.getElementById('spxChange').textContent = '+0.3%';
-                
             } catch (e) {
                 console.error('Market data error:', e);
             }
@@ -237,9 +273,6 @@
             localStorage.removeItem('token');
             window.location.href = '/login.html';
         }
-        
-        loadUser();
-        loadMarkets();
     </script>
 </body>
 </html>
