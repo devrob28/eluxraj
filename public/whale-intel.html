@@ -1,0 +1,892 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Whale Intelligence | ELUXRAJ</title>
+    <script>if(!localStorage.getItem('token'))window.location.replace('/login.html');</script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0a0a0f;
+            --bg2: #0f0f16;
+            --bg3: #14141c;
+            --card: #1a1a24;
+            --border: rgba(255,255,255,0.08);
+            --purple: #7c3aed;
+            --cyan: #06b6d4;
+            --green: #10b981;
+            --red: #ef4444;
+            --yellow: #f59e0b;
+            --orange: #f97316;
+            --blue: #3b82f6;
+            --white: #ffffff;
+            --gray100: #f3f4f6;
+            --gray300: #d1d5db;
+            --gray400: #9ca3af;
+            --gray500: #6b7280;
+            --gray600: #4b5563;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { 
+            font-family: 'Inter', sans-serif; 
+            background: var(--bg); 
+            color: var(--white); 
+            min-height: 100vh;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        body.ready { opacity: 1; }
+        
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 24px;
+            background: var(--bg2);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(135deg, var(--purple), var(--cyan));
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+        }
+        .logo-text {
+            font-size: 1.1rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+        .nav {
+            display: flex;
+            gap: 8px;
+        }
+        .nav-item {
+            padding: 8px 16px;
+            color: var(--gray400);
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+        .nav-item:hover { color: var(--white); background: var(--bg3); }
+        .nav-item.active { color: var(--white); background: var(--card); }
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 8px 16px;
+            gap: 10px;
+            min-width: 280px;
+        }
+        .search-box input {
+            background: none;
+            border: none;
+            color: var(--white);
+            font-size: 0.9rem;
+            outline: none;
+            width: 100%;
+        }
+        .search-box input::placeholder { color: var(--gray500); }
+        .profile-btn {
+            padding: 8px 16px;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--white);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        
+        /* Title Section */
+        .title-section {
+            padding: 24px;
+            background: linear-gradient(180deg, var(--bg2) 0%, var(--bg) 100%);
+        }
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            letter-spacing: 2px;
+            background: linear-gradient(135deg, var(--white) 0%, var(--gray400) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 16px;
+        }
+        
+        /* Ticker Bar */
+        .ticker-bar {
+            display: flex;
+            gap: 24px;
+            padding: 12px 24px;
+            background: var(--bg2);
+            border-bottom: 1px solid var(--border);
+            overflow-x: auto;
+        }
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            white-space: nowrap;
+        }
+        .ticker-icon {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        .ticker-name { color: var(--gray300); font-weight: 500; font-size: 0.85rem; }
+        .ticker-value { font-family: 'JetBrains Mono', monospace; font-weight: 600; font-size: 0.85rem; }
+        .ticker-change { font-size: 0.8rem; font-weight: 600; }
+        .ticker-change.up { color: var(--green); }
+        .ticker-change.down { color: var(--red); }
+        
+        /* Main Content */
+        .main {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 24px;
+            padding: 24px;
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        @media (max-width: 1200px) {
+            .main { grid-template-columns: 1fr; }
+        }
+        
+        /* Cards */
+        .card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 20px;
+            border-bottom: 1px solid var(--border);
+        }
+        .card-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--gray400);
+        }
+        .card-badge {
+            font-size: 0.7rem;
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 20px;
+            background: rgba(124,58,237,0.2);
+            color: var(--purple);
+        }
+        
+        /* Trending Insights */
+        .insights-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            padding: 20px;
+        }
+        @media (max-width: 900px) {
+            .insights-grid { grid-template-columns: 1fr; }
+        }
+        .insight-card {
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 16px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .insight-card:hover {
+            border-color: var(--purple);
+            transform: translateY(-2px);
+        }
+        .insight-tags {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 12px;
+            flex-wrap: wrap;
+        }
+        .tag {
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 4px 8px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .tag.important { background: rgba(239,68,68,0.2); color: var(--red); }
+        .tag.bullish { background: rgba(16,185,129,0.2); color: var(--green); }
+        .tag.bearish { background: rgba(239,68,68,0.2); color: var(--red); }
+        .tag.whale { background: rgba(59,130,246,0.2); color: var(--blue); }
+        .tag.exchange { background: rgba(249,115,22,0.2); color: var(--orange); }
+        .tag.institution { background: rgba(124,58,237,0.2); color: var(--purple); }
+        .insight-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            line-height: 1.4;
+            margin-bottom: 12px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .insight-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: var(--gray500);
+        }
+        .insight-tokens {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .token-icon {
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: var(--bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 10px;
+        }
+        
+        /* Exchange Flows */
+        .flows-section { padding: 20px; }
+        .flow-filters {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: 6px 12px;
+            background: var(--bg3);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            color: var(--gray400);
+            font-size: 0.75rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .filter-btn:hover, .filter-btn.active {
+            border-color: var(--cyan);
+            color: var(--cyan);
+        }
+        .flow-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid var(--border);
+        }
+        .flow-item:last-child { border-bottom: none; }
+        .flow-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+            background: var(--bg3);
+        }
+        .flow-info { flex: 1; }
+        .flow-name {
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+        .flow-type {
+            font-size: 0.75rem;
+            color: var(--gray500);
+        }
+        .flow-bar-container {
+            width: 120px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .flow-bar {
+            height: 6px;
+            border-radius: 3px;
+            background: var(--bg);
+            overflow: hidden;
+        }
+        .flow-bar-fill {
+            height: 100%;
+            border-radius: 3px;
+        }
+        .flow-bar-fill.inflow { background: linear-gradient(90deg, var(--red), var(--orange)); }
+        .flow-bar-fill.outflow { background: linear-gradient(90deg, var(--green), var(--cyan)); }
+        .flow-values {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.65rem;
+            color: var(--gray500);
+        }
+        .flow-net {
+            text-align: right;
+            min-width: 80px;
+        }
+        .flow-net-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .flow-net-value.positive { color: var(--green); }
+        .flow-net-value.negative { color: var(--red); }
+        .flow-net-label {
+            font-size: 0.65rem;
+            color: var(--gray500);
+        }
+        
+        /* Transfer Feed */
+        .transfer-feed { max-height: 600px; overflow-y: auto; }
+        .transfer-header {
+            display: grid;
+            grid-template-columns: 100px 1fr 1fr 80px;
+            gap: 12px;
+            padding: 12px 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            color: var(--gray500);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            background: var(--card);
+        }
+        .transfer-row {
+            display: grid;
+            grid-template-columns: 100px 1fr 1fr 80px;
+            gap: 12px;
+            padding: 14px 20px;
+            border-bottom: 1px solid var(--border);
+            align-items: center;
+            transition: background 0.2s;
+        }
+        .transfer-row:hover { background: var(--bg3); }
+        .transfer-time {
+            font-size: 0.8rem;
+            color: var(--cyan);
+            font-weight: 500;
+        }
+        .transfer-entity {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .entity-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+        }
+        .entity-icon.exchange { background: rgba(249,115,22,0.2); }
+        .entity-icon.whale { background: rgba(59,130,246,0.2); }
+        .entity-icon.unknown { background: var(--bg); }
+        .entity-name {
+            font-size: 0.85rem;
+            font-weight: 500;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .entity-address {
+            font-size: 0.7rem;
+            color: var(--gray500);
+            font-family: 'JetBrains Mono', monospace;
+        }
+        .transfer-amount {
+            text-align: right;
+        }
+        .amount-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+        .amount-usd {
+            font-size: 0.7rem;
+            color: var(--gray500);
+        }
+        .transfer-impact {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .impact-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+        .impact-dot.bullish { background: var(--green); box-shadow: 0 0 8px var(--green); }
+        .impact-dot.bearish { background: var(--red); box-shadow: 0 0 8px var(--red); }
+        .impact-dot.neutral { background: var(--gray500); }
+        
+        /* Smart Money Section */
+        .smart-money {
+            margin-top: 24px;
+        }
+        .sm-stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 16px;
+            padding: 20px;
+        }
+        .sm-stat {
+            text-align: center;
+            padding: 16px;
+            background: var(--bg3);
+            border-radius: 12px;
+        }
+        .sm-stat-value {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+        .sm-stat-value.bullish { color: var(--green); }
+        .sm-stat-value.bearish { color: var(--red); }
+        .sm-stat-label {
+            font-size: 0.75rem;
+            color: var(--gray500);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        /* Loading */
+        .loading {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 60px 20px;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid var(--bg3);
+            border-top-color: var(--cyan);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-bottom: 16px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading-text { color: var(--gray400); font-size: 0.9rem; }
+        
+        /* Scrollbar */
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg2); }
+        ::-webkit-scrollbar-thumb { background: var(--gray600); border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--gray500); }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="logo">
+            <div class="logo-icon">🐋</div>
+            <span class="logo-text">ELUXRAJ</span>
+        </div>
+        <nav class="nav">
+            <a href="/dashboard.html" class="nav-item">Dashboard</a>
+            <a href="/oracle.html" class="nav-item">Oracle</a>
+            <a href="/whale-intel.html" class="nav-item active">Whale Intel</a>
+            <a href="/chart-analysis.html" class="nav-item">Chart AI</a>
+        </nav>
+        <div class="header-right">
+            <div class="search-box">
+                <span>🔍</span>
+                <input type="text" placeholder="Search tokens, addresses, entities..." id="searchInput">
+            </div>
+            <button class="profile-btn" id="userBtn">Profile</button>
+        </div>
+    </header>
+    
+    <section class="title-section">
+        <h1 class="page-title">WHALE INTEL</h1>
+    </section>
+    
+    <div class="ticker-bar" id="tickerBar">
+        <!-- Populated by JS -->
+    </div>
+    
+    <main class="main">
+        <div class="left-column">
+            <!-- Trending Insights -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">🔥 Trending Insights</span>
+                    <span class="card-badge">Live</span>
+                </div>
+                <div class="insights-grid" id="insightsGrid">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <div class="loading-text">Analyzing whale activity...</div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Exchange Flows -->
+            <div class="card" style="margin-top: 24px;">
+                <div class="card-header">
+                    <span class="card-title">💹 Exchange Flows</span>
+                    <span class="card-badge">24H</span>
+                </div>
+                <div class="flows-section">
+                    <div class="flow-filters">
+                        <button class="filter-btn active" data-filter="all">All Exchanges</button>
+                        <button class="filter-btn" data-filter="cex">CEX Only</button>
+                        <button class="filter-btn" data-filter="dex">DEX Only</button>
+                        <button class="filter-btn" data-filter="volume">Volume ≥ $10M</button>
+                    </div>
+                    <div id="flowsList">
+                        <div class="loading">
+                            <div class="spinner"></div>
+                            <div class="loading-text">Loading exchange flows...</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Smart Money Stats -->
+            <div class="card smart-money" style="margin-top: 24px;">
+                <div class="card-header">
+                    <span class="card-title">🧠 Smart Money Sentiment</span>
+                    <span class="card-badge" id="sentimentBadge">Analyzing...</span>
+                </div>
+                <div class="sm-stats" id="smartMoneyStats">
+                    <div class="sm-stat">
+                        <div class="sm-stat-value bullish" id="bullishCount">--</div>
+                        <div class="sm-stat-label">Bullish Signals</div>
+                    </div>
+                    <div class="sm-stat">
+                        <div class="sm-stat-value bearish" id="bearishCount">--</div>
+                        <div class="sm-stat-label">Bearish Signals</div>
+                    </div>
+                    <div class="sm-stat">
+                        <div class="sm-stat-value" id="netFlow">--</div>
+                        <div class="sm-stat-label">Net Flow (24H)</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="right-column">
+            <!-- Live Transfer Feed -->
+            <div class="card">
+                <div class="card-header">
+                    <span class="card-title">⚡ Live Transfers</span>
+                    <span class="card-badge" id="transferCount">0 / 50</span>
+                </div>
+                <div class="transfer-header">
+                    <span>Time</span>
+                    <span>From</span>
+                    <span>To</span>
+                    <span></span>
+                </div>
+                <div class="transfer-feed" id="transferFeed">
+                    <div class="loading">
+                        <div class="spinner"></div>
+                        <div class="loading-text">Loading transfers...</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <script>
+        const API = 'https://eluxraj-api-production.up.railway.app/api/v1';
+        
+        // Auth check
+        (async () => {
+            const token = localStorage.getItem('token');
+            if (!token) { window.location.replace('/login.html'); return; }
+            
+            try {
+                const res = await fetch(`${API}/auth/me`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (!res.ok) throw new Error();
+                document.body.classList.add('ready');
+                loadAllData();
+            } catch (e) {
+                localStorage.removeItem('token');
+                window.location.replace('/login.html');
+            }
+        })();
+        
+        // Simulated whale data (will be replaced with real API)
+        const whaleData = {
+            insights: [
+                {
+                    tags: ['important', 'whale'],
+                    title: 'ETH Faces Bearish Pressure: Whales Sell $45M in Past 24H',
+                    tokens: ['ETH'],
+                    entities: 3,
+                    time: '2 hours ago',
+                    updates: 12
+                },
+                {
+                    tags: ['bullish', 'whale'],
+                    title: "Whale 'BitcoinOG' Accumulates $166M in BTC During Dip",
+                    tokens: ['BTC'],
+                    entities: 1,
+                    time: '5 hours ago',
+                    updates: 7
+                },
+                {
+                    tags: ['important', 'exchange'],
+                    title: 'Major Exchange Outflow: $89M BTC Withdrawn from Binance',
+                    tokens: ['BTC'],
+                    entities: 2,
+                    time: '8 hours ago',
+                    updates: 5
+                },
+                {
+                    tags: ['institution'],
+                    title: 'Grayscale Moves $234M ETH to Cold Storage',
+                    tokens: ['ETH'],
+                    entities: 1,
+                    time: '12 hours ago',
+                    updates: 3
+                },
+                {
+                    tags: ['bullish', 'whale'],
+                    title: 'SOL Whale Buys $28M During Market Correction',
+                    tokens: ['SOL'],
+                    entities: 1,
+                    time: '14 hours ago',
+                    updates: 4
+                },
+                {
+                    tags: ['bearish', 'exchange'],
+                    title: 'Kraken Receives $67M ETH Deposit from Unknown Wallet',
+                    tokens: ['ETH'],
+                    entities: 2,
+                    time: '18 hours ago',
+                    updates: 6
+                }
+            ],
+            exchanges: [
+                { name: 'Binance', icon: '🟡', inflow: 234.5, outflow: 312.8, type: 'CEX' },
+                { name: 'Coinbase', icon: '🔵', inflow: 156.2, outflow: 198.4, type: 'CEX' },
+                { name: 'Kraken', icon: '🟣', inflow: 89.3, outflow: 67.1, type: 'CEX' },
+                { name: 'OKX', icon: '⚫', inflow: 145.6, outflow: 123.9, type: 'CEX' },
+                { name: 'Uniswap', icon: '🦄', inflow: 45.2, outflow: 52.1, type: 'DEX' },
+                { name: 'Bitfinex', icon: '🟢', inflow: 78.4, outflow: 91.2, type: 'CEX' }
+            ],
+            transfers: [],
+            smartMoney: { bullish: 0, bearish: 0, netFlow: 0 }
+        };
+        
+        // Generate realistic transfers
+        function generateTransfers() {
+            const exchanges = ['Binance', 'Coinbase', 'Kraken', 'OKX', 'Bitfinex'];
+            const tokens = ['BTC', 'ETH', 'SOL'];
+            const transfers = [];
+            
+            for (let i = 0; i < 50; i++) {
+                const isExchangeInflow = Math.random() > 0.5;
+                const token = tokens[Math.floor(Math.random() * tokens.length)];
+                const exchange = exchanges[Math.floor(Math.random() * exchanges.length)];
+                const amount = Math.random() * 1000 + 100;
+                const prices = { BTC: 91000, ETH: 3400, SOL: 135 };
+                const amountUsd = amount * prices[token];
+                
+                const secondsAgo = Math.floor(Math.random() * 3600);
+                
+                transfers.push({
+                    time: secondsAgo < 60 ? `${secondsAgo} seconds ago` : `${Math.floor(secondsAgo/60)} minutes ago`,
+                    from: isExchangeInflow ? { name: 'Unknown Wallet', type: 'whale', address: '0x' + Math.random().toString(16).substr(2, 8) + '...' } : { name: exchange, type: 'exchange', address: '' },
+                    to: isExchangeInflow ? { name: exchange, type: 'exchange', address: '' } : { name: 'Unknown Wallet', type: 'whale', address: '0x' + Math.random().toString(16).substr(2, 8) + '...' },
+                    amount: amount.toFixed(2),
+                    token: token,
+                    amountUsd: amountUsd,
+                    impact: isExchangeInflow ? 'bearish' : 'bullish'
+                });
+            }
+            
+            return transfers;
+        }
+        
+        function loadAllData() {
+            loadTicker();
+            loadInsights();
+            loadExchangeFlows();
+            loadTransfers();
+            calculateSmartMoney();
+            
+            // Refresh every 30 seconds
+            setInterval(() => {
+                loadTransfers();
+                calculateSmartMoney();
+            }, 30000);
+        }
+        
+        function loadTicker() {
+            const tickers = [
+                { icon: '🐋', name: 'Whale Activity', value: '$489.61M', change: '+2.82%', up: true },
+                { icon: '📊', name: 'Exchange Volume', value: '$35.29M', change: '+2.58%', up: true },
+                { icon: '🏦', name: 'Institution Flow', value: '$914.67K', change: '+2.1%', up: true },
+                { icon: '💰', name: 'Smart Money', value: '$323.85M', change: '-2.55%', up: false },
+                { icon: '🟡', name: 'Binance Flow', value: '+$78.3M', change: '', up: true }
+            ];
+            
+            document.getElementById('tickerBar').innerHTML = tickers.map(t => `
+                <div class="ticker-item">
+                    <span class="ticker-icon">${t.icon}</span>
+                    <span class="ticker-name">${t.name}</span>
+                    <span class="ticker-value">${t.value}</span>
+                    ${t.change ? `<span class="ticker-change ${t.up ? 'up' : 'down'}">${t.change}</span>` : ''}
+                </div>
+            `).join('');
+        }
+        
+        function loadInsights() {
+            document.getElementById('insightsGrid').innerHTML = whaleData.insights.map(insight => `
+                <div class="insight-card">
+                    <div class="insight-tags">
+                        ${insight.tags.map(tag => `<span class="tag ${tag}">${tag}</span>`).join('')}
+                    </div>
+                    <div class="insight-title">${insight.title}</div>
+                    <div class="insight-meta">
+                        <div class="insight-tokens">
+                            Tokens: ${insight.tokens.map(t => `<span class="token-icon">${t === 'BTC' ? '₿' : t === 'ETH' ? 'Ξ' : '◎'}</span>`).join('')}
+                            &nbsp;Entities: ${insight.entities}
+                        </div>
+                        <span>${insight.time} • ${insight.updates} updates</span>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function loadExchangeFlows() {
+            const maxFlow = Math.max(...whaleData.exchanges.map(e => Math.max(e.inflow, e.outflow)));
+            
+            document.getElementById('flowsList').innerHTML = whaleData.exchanges.map(ex => {
+                const netFlow = ex.outflow - ex.inflow;
+                const inflowWidth = (ex.inflow / maxFlow) * 100;
+                const outflowWidth = (ex.outflow / maxFlow) * 100;
+                
+                return `
+                    <div class="flow-item">
+                        <div class="flow-icon">${ex.icon}</div>
+                        <div class="flow-info">
+                            <div class="flow-name">${ex.name}</div>
+                            <div class="flow-type">${ex.type}</div>
+                        </div>
+                        <div class="flow-bar-container">
+                            <div class="flow-bar">
+                                <div class="flow-bar-fill inflow" style="width: ${inflowWidth}%"></div>
+                            </div>
+                            <div class="flow-bar">
+                                <div class="flow-bar-fill outflow" style="width: ${outflowWidth}%"></div>
+                            </div>
+                            <div class="flow-values">
+                                <span>In: $${ex.inflow.toFixed(1)}M</span>
+                                <span>Out: $${ex.outflow.toFixed(1)}M</span>
+                            </div>
+                        </div>
+                        <div class="flow-net">
+                            <div class="flow-net-value ${netFlow >= 0 ? 'positive' : 'negative'}">
+                                ${netFlow >= 0 ? '+' : ''}$${netFlow.toFixed(1)}M
+                            </div>
+                            <div class="flow-net-label">Net Flow</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function loadTransfers() {
+            whaleData.transfers = generateTransfers();
+            document.getElementById('transferCount').textContent = `${whaleData.transfers.length} / 50`;
+            
+            document.getElementById('transferFeed').innerHTML = whaleData.transfers.map(tx => `
+                <div class="transfer-row">
+                    <div class="transfer-time">${tx.time}</div>
+                    <div class="transfer-entity">
+                        <div class="entity-icon ${tx.from.type}">${tx.from.type === 'exchange' ? '🏛️' : '🐋'}</div>
+                        <div>
+                            <div class="entity-name">${tx.from.name}</div>
+                            ${tx.from.address ? `<div class="entity-address">${tx.from.address}</div>` : ''}
+                        </div>
+                    </div>
+                    <div class="transfer-entity">
+                        <div class="entity-icon ${tx.to.type}">${tx.to.type === 'exchange' ? '🏛️' : '🐋'}</div>
+                        <div>
+                            <div class="entity-name">${tx.to.name}</div>
+                            ${tx.to.address ? `<div class="entity-address">${tx.to.address}</div>` : ''}
+                        </div>
+                    </div>
+                    <div class="transfer-impact">
+                        <div class="impact-dot ${tx.impact}"></div>
+                    </div>
+                </div>
+            `).join('');
+        }
+        
+        function calculateSmartMoney() {
+            const bullish = whaleData.transfers.filter(t => t.impact === 'bullish').length;
+            const bearish = whaleData.transfers.filter(t => t.impact === 'bearish').length;
+            const netFlow = whaleData.exchanges.reduce((sum, ex) => sum + (ex.outflow - ex.inflow), 0);
+            
+            document.getElementById('bullishCount').textContent = bullish;
+            document.getElementById('bearishCount').textContent = bearish;
+            document.getElementById('netFlow').textContent = `${netFlow >= 0 ? '+' : ''}$${netFlow.toFixed(1)}M`;
+            document.getElementById('netFlow').className = `sm-stat-value ${netFlow >= 0 ? 'bullish' : 'bearish'}`;
+            
+            const sentiment = bullish > bearish ? 'Bullish' : bullish < bearish ? 'Bearish' : 'Neutral';
+            document.getElementById('sentimentBadge').textContent = sentiment;
+            document.getElementById('sentimentBadge').style.background = sentiment === 'Bullish' ? 'rgba(16,185,129,0.2)' : sentiment === 'Bearish' ? 'rgba(239,68,68,0.2)' : 'rgba(124,58,237,0.2)';
+            document.getElementById('sentimentBadge').style.color = sentiment === 'Bullish' ? 'var(--green)' : sentiment === 'Bearish' ? 'var(--red)' : 'var(--purple)';
+        }
+        
+        // Filter buttons
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+            });
+        });
+    </script>
+</body>
+</html>
