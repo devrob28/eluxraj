@@ -16,7 +16,9 @@
         .back{color:var(--gray400);text-decoration:none;font-size:.9rem}
         .back:hover{color:var(--white)}
         .container{max-width:1400px;margin:0 auto;padding:32px}
-        .assets{display:flex;gap:12px;margin-bottom:32px;flex-wrap:wrap}
+        .asset-section{margin-bottom:16px}
+        .asset-label{font-size:.75rem;color:var(--gray500);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+        .assets{display:flex;gap:12px;flex-wrap:wrap}
         .asset-btn{background:var(--card);border:1px solid rgba(124,58,237,0.2);color:var(--gray400);padding:12px 20px;border-radius:12px;font-size:.9rem;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px}
         .asset-btn:hover{border-color:var(--purple);color:var(--white)}
         .asset-btn.active{background:linear-gradient(135deg,var(--purple),var(--cyan));border-color:transparent;color:var(--white)}
@@ -112,15 +114,30 @@
     </header>
     
     <main class="container">
-        <div class="assets" id="assets">
-            <button class="asset-btn active" data-asset="BTC"><span>₿</span> Bitcoin</button>
-            <button class="asset-btn" data-asset="ETH"><span>Ξ</span> Ethereum</button>
-            <button class="asset-btn" data-asset="SOL"><span>◎</span> Solana</button>
-            <button class="asset-btn" data-asset="XRP"><span>✕</span> XRP</button>
-            <button class="asset-btn" data-asset="DOGE"><span>Ð</span> Dogecoin</button>
-            <button class="asset-btn" data-asset="PEPE"><span>🐸</span> Pepe</button>
-            <button class="asset-btn" data-asset="LINK"><span>⬡</span> Chainlink</button>
-            <button class="asset-btn" data-asset="AVAX"><span>△</span> Avalanche</button>
+        <div class="asset-section">
+            <div class="asset-label">Crypto</div>
+            <div class="assets" id="cryptoAssets">
+                <button class="asset-btn active" data-asset="BTC"><span>₿</span> Bitcoin</button>
+                <button class="asset-btn" data-asset="ETH"><span>Ξ</span> Ethereum</button>
+                <button class="asset-btn" data-asset="SOL"><span>◎</span> Solana</button>
+            </div>
+        </div>
+        
+        <div class="asset-section">
+            <div class="asset-label">Indices</div>
+            <div class="assets" id="indexAssets">
+                <button class="asset-btn" data-asset="SPX"><span>📈</span> S&P 500</button>
+                <button class="asset-btn" data-asset="DJI"><span>📊</span> Dow Jones</button>
+                <button class="asset-btn" data-asset="NDX"><span>💻</span> NASDAQ</button>
+            </div>
+        </div>
+        
+        <div class="asset-section" style="margin-bottom:32px">
+            <div class="asset-label">Commodities</div>
+            <div class="assets" id="commodityAssets">
+                <button class="asset-btn" data-asset="GOLD"><span>🥇</span> Gold</button>
+                <button class="asset-btn" data-asset="SILVER"><span>🥈</span> Silver</button>
+            </div>
         </div>
         
         <div class="loading" id="loading">
@@ -212,16 +229,20 @@
                 const res = await fetch(`${API}/oracle/score/${sym}`);
                 const data = await res.json();
                 
-                if (data.data.is_demo) {
+                if (data.data && data.data.is_demo) {
                     document.getElementById('lockedState').style.display = 'block';
                     document.getElementById('loading').style.display = 'none';
                     return;
                 }
                 
-                render(data.data);
+                if (data.ok && data.data) {
+                    render(data.data);
+                } else {
+                    throw new Error(data.detail || 'Failed to load');
+                }
             } catch (e) {
                 console.error(e);
-                alert('Failed to load ORACLE');
+                alert('Failed to load ORACLE: ' + e.message);
             }
             document.getElementById('loading').style.display = 'none';
         }
@@ -262,24 +283,26 @@
                 document.getElementById('whales').innerHTML = d.whale_alerts.map(a => `<div class="alert"><div class="alert-icon">🐋</div><div class="alert-content"><div class="alert-title">${a.title}</div><div class="alert-desc">${a.description}</div></div><span class="alert-impact ${a.impact}">${a.impact}</span></div>`).join('');
             }
             
-            const longs = d.liquidation_zones.filter(z => z.type === 'long');
-            const shorts = d.liquidation_zones.filter(z => z.type === 'short');
+            const longs = (d.liquidation_zones || []).filter(z => z.type === 'long');
+            const shorts = (d.liquidation_zones || []).filter(z => z.type === 'short');
             document.getElementById('liq').innerHTML = `
                 <div class="liq-card longs"><h4>📉 Long Liquidations</h4>${longs.map(z => `<div class="liq-level"><div><span class="liq-price">$${z.price.toLocaleString()}</span><span class="liq-lev"> ${z.leverage}</span></div><span class="liq-int ${z.intensity}">${z.intensity}</span></div>`).join('')}</div>
                 <div class="liq-card shorts"><h4>📈 Short Liquidations</h4>${shorts.map(z => `<div class="liq-level"><div><span class="liq-price">$${z.price.toLocaleString()}</span><span class="liq-lev"> ${z.leverage}</span></div><span class="liq-int ${z.intensity}">${z.intensity}</span></div>`).join('')}</div>
             `;
             
             document.getElementById('summary').textContent = d.reasoning_summary;
-            document.getElementById('bullets').innerHTML = d.reasoning_bullets.map(b => `<div class="bullet">${b}</div>`).join('');
+            document.getElementById('bullets').innerHTML = (d.reasoning_bullets || []).map(b => `<div class="bullet">${b}</div>`).join('');
             
             document.getElementById('model').textContent = d.model_version;
             document.getElementById('generated').textContent = new Date(d.generated_at).toLocaleString();
             document.getElementById('expires').textContent = new Date(d.expires_at).toLocaleString();
         }
         
-        document.getElementById('assets').addEventListener('click', e => {
-            const btn = e.target.closest('.asset-btn');
-            if (btn) load(btn.dataset.asset);
+        document.querySelectorAll('.assets').forEach(container => {
+            container.addEventListener('click', e => {
+                const btn = e.target.closest('.asset-btn');
+                if (btn) load(btn.dataset.asset);
+            });
         });
         
         load('BTC');
