@@ -3,290 +3,287 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ORACLE - AI Predictive Intelligence | ELUXRAJ</title>
+    <title>ORACLE | ELUXRAJ</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root{--bg:#0a0a0f;--bg2:#12121a;--card:#1a1a24;--purple:#7c3aed;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--yellow:#f59e0b;--white:#fff;--gray400:#9ca3af;--gray500:#6b7280}
+        :root{--bg:#050508;--card:#0a0a12;--purple:#7c3aed;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--yellow:#f59e0b;--white:#fff;--gray300:#d1d5db;--gray400:#9ca3af;--gray500:#6b7280;--gray600:#4b5563}
         *{margin:0;padding:0;box-sizing:border-box}
         body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);min-height:100vh}
-        .header{display:flex;justify-content:space-between;align-items:center;padding:20px 32px;border-bottom:1px solid rgba(124,58,237,0.2);background:linear-gradient(180deg,rgba(124,58,237,0.1) 0%,transparent 100%)}
-        .title{display:flex;align-items:center;gap:12px}
-        .title h1{font-size:1.5rem;font-weight:800;background:linear-gradient(135deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .badge{background:linear-gradient(135deg,var(--purple),var(--cyan));color:white;font-size:.65rem;font-weight:700;padding:4px 8px;border-radius:4px}
-        .back{color:var(--gray400);text-decoration:none;font-size:.9rem}
-        .back:hover{color:var(--white)}
-        .container{max-width:1400px;margin:0 auto;padding:32px}
-        .asset-section{margin-bottom:16px}
-        .asset-label{font-size:.75rem;color:var(--gray500);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
-        .assets{display:flex;gap:12px;flex-wrap:wrap}
-        .asset-btn{background:var(--card);border:1px solid rgba(124,58,237,0.2);color:var(--gray400);padding:12px 20px;border-radius:12px;font-size:.9rem;font-weight:600;cursor:pointer;transition:all .2s;display:flex;align-items:center;gap:8px}
-        .asset-btn:hover{border-color:var(--purple);color:var(--white)}
-        .asset-btn.active{background:linear-gradient(135deg,var(--purple),var(--cyan));border-color:transparent;color:var(--white)}
-        .grid{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:32px}
-        @media(max-width:1000px){.grid{grid-template-columns:1fr}}
-        .card{background:var(--card);border:1px solid rgba(124,58,237,0.2);border-radius:20px;padding:32px;position:relative}
-        .card::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--purple),var(--cyan));border-radius:20px 20px 0 0}
-        .score-label{font-size:.85rem;color:var(--gray400);text-transform:uppercase;letter-spacing:2px;margin-bottom:16px;text-align:center}
-        .score-circle{width:200px;height:200px;margin:0 auto 24px;position:relative}
-        .score-ring{width:100%;height:100%;border-radius:50%;background:conic-gradient(var(--green) 0deg,var(--green) calc(var(--score) * 3.6deg),var(--bg2) calc(var(--score) * 3.6deg));display:flex;align-items:center;justify-content:center}
-        .score-ring.bear{background:conic-gradient(var(--red) 0deg,var(--red) calc(var(--score) * 3.6deg),var(--bg2) calc(var(--score) * 3.6deg))}
-        .score-ring.neutral{background:conic-gradient(var(--yellow) 0deg,var(--yellow) calc(var(--score) * 3.6deg),var(--bg2) calc(var(--score) * 3.6deg))}
-        .score-inner{width:160px;height:160px;background:var(--card);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center}
-        .score-value{font-family:'JetBrains Mono',monospace;font-size:4rem;font-weight:900;background:linear-gradient(135deg,var(--green),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .score-value.bear{background:linear-gradient(135deg,var(--red),var(--yellow));-webkit-background-clip:text}
-        .score-value.neutral{background:linear-gradient(135deg,var(--yellow),var(--cyan));-webkit-background-clip:text}
-        .score-max{font-size:1rem;color:var(--gray500)}
-        .signal{font-size:1.5rem;font-weight:800;text-transform:uppercase;letter-spacing:2px;margin-bottom:8px;text-align:center}
-        .signal.buy{color:var(--green)}.signal.sell{color:var(--red)}.signal.hold{color:var(--yellow)}
-        .conf{display:inline-block;padding:6px 16px;border-radius:20px;font-size:.8rem;font-weight:600;text-transform:uppercase}
-        .conf.high{background:rgba(16,185,129,0.2);color:var(--green)}
-        .conf.medium{background:rgba(245,158,11,0.2);color:var(--yellow)}
-        .conf.low{background:rgba(107,114,128,0.2);color:var(--gray400)}
-        .trade h3{font-size:1rem;color:var(--gray400);text-transform:uppercase;letter-spacing:1px;margin-bottom:24px}
-        .prices{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
-        .price-item{text-align:center;padding:16px;background:var(--bg2);border-radius:12px}
-        .price-item label{display:block;font-size:.75rem;color:var(--gray500);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
-        .price-item .val{font-family:'JetBrains Mono',monospace;font-size:1.25rem;font-weight:700}
-        .price-item.entry .val{color:var(--white)}
-        .price-item.target .val{color:var(--green)}
-        .price-item.stop .val{color:var(--red)}
-        .rr{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;background:linear-gradient(135deg,rgba(124,58,237,0.1),rgba(6,182,212,0.1));border-radius:12px;border:1px solid rgba(124,58,237,0.2)}
-        .rr label{font-size:.85rem;color:var(--gray400)}
-        .rr .val{font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:800;color:var(--green)}
-        .full{grid-column:1/-1}
-        .section-title{font-size:1.1rem;font-weight:700;margin-bottom:20px;display:flex;align-items:center;gap:10px}
-        .factors{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px}
-        .factor{background:var(--card);border:1px solid rgba(124,58,237,0.15);border-radius:16px;padding:20px}
-        .factor-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
-        .factor-name{font-size:.85rem;color:var(--gray400);font-weight:600}
-        .factor-score{font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:700}
-        .factor-score.bull{color:var(--green)}.factor-score.bear{color:var(--red)}.factor-score.neut{color:var(--yellow)}
-        .factor-bar{height:6px;background:var(--bg2);border-radius:3px;overflow:hidden;margin-bottom:8px}
-        .factor-fill{height:100%;border-radius:3px;transition:width .5s}
-        .factor-fill.bull{background:linear-gradient(90deg,var(--green),var(--cyan))}
-        .factor-fill.bear{background:linear-gradient(90deg,var(--red),#f97316)}
-        .factor-fill.neut{background:linear-gradient(90deg,var(--yellow),#f97316)}
-        .factor-val{font-size:.8rem;color:var(--gray500);text-transform:capitalize}
-        .alert{background:var(--card);border:1px solid rgba(124,58,237,0.15);border-radius:16px;padding:20px;display:flex;align-items:center;gap:16px;margin-bottom:12px}
-        .alert-icon{font-size:2rem}
-        .alert-content{flex:1}
-        .alert-title{font-size:1rem;font-weight:700;margin-bottom:4px}
-        .alert-desc{font-size:.85rem;color:var(--gray400)}
-        .alert-impact{padding:6px 12px;border-radius:20px;font-size:.75rem;font-weight:700;text-transform:uppercase}
-        .alert-impact.bullish{background:rgba(16,185,129,0.2);color:var(--green)}
-        .alert-impact.bearish{background:rgba(239,68,68,0.2);color:var(--red)}
-        .liq-zones{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-        @media(max-width:768px){.liq-zones{grid-template-columns:1fr}}
-        .liq-card{background:var(--card);border:1px solid rgba(124,58,237,0.15);border-radius:16px;padding:20px}
-        .liq-card h4{font-size:.9rem;color:var(--gray400);margin-bottom:16px}
-        .liq-card.longs h4{color:var(--green)}
-        .liq-card.shorts h4{color:var(--red)}
-        .liq-level{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
-        .liq-level:last-child{border-bottom:none}
-        .liq-price{font-family:'JetBrains Mono',monospace;font-weight:600}
-        .liq-lev{font-size:.8rem;color:var(--gray500)}
-        .liq-int{font-size:.75rem;padding:4px 10px;border-radius:12px;text-transform:uppercase;font-weight:600}
-        .liq-int.high{background:rgba(239,68,68,0.2);color:var(--red)}
-        .liq-int.medium{background:rgba(245,158,11,0.2);color:var(--yellow)}
-        .liq-int.low{background:rgba(107,114,128,0.2);color:var(--gray400)}
-        .reasoning{background:var(--card);border:1px solid rgba(124,58,237,0.15);border-radius:16px;padding:24px}
-        .reasoning-sum{font-size:1.1rem;font-weight:600;margin-bottom:20px;line-height:1.5}
-        .reasoning-bullets{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
-        .bullet{display:flex;align-items:flex-start;gap:12px;padding:12px 16px;background:var(--bg2);border-radius:12px;font-size:.9rem;color:var(--gray400)}
-        .disclaimer{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:12px;padding:16px 20px;font-size:.85rem;color:var(--red);margin-top:24px}
-        .meta{display:flex;justify-content:space-between;flex-wrap:wrap;gap:16px;padding:16px 0;border-top:1px solid rgba(255,255,255,0.05);margin-top:24px;font-size:.8rem;color:var(--gray500)}
-        .loading{display:flex;flex-direction:column;align-items:center;justify-content:center;padding:80px 20px}
-        .spinner{width:60px;height:60px;border:4px solid var(--bg2);border-top-color:var(--purple);border-radius:50%;animation:spin 1s linear infinite;margin-bottom:20px}
-        @keyframes spin{to{transform:rotate(360deg)}}
-        .loading-text{color:var(--gray400)}
-        .error-msg{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.3);border-radius:12px;padding:20px;text-align:center;color:var(--red)}
+        .header{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;border-bottom:1px solid rgba(124,58,237,0.2);background:rgba(5,5,8,0.95);position:sticky;top:0;z-index:100}
+        .logo{font-size:1.1rem;font-weight:900;background:linear-gradient(135deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .nav{display:flex;gap:8px}
+        .nav a{padding:8px 16px;color:var(--gray400);text-decoration:none;font-size:.85rem;font-weight:600;border-radius:8px;transition:all .2s}
+        .nav a:hover{color:var(--white);background:rgba(255,255,255,0.05)}
+        .nav a.active{color:var(--white);background:linear-gradient(135deg,rgba(124,58,237,0.3),rgba(6,182,212,0.2))}
+        .container{max-width:1400px;margin:0 auto;padding:24px}
+        
+        /* Token selector */
+        .token-bar{display:flex;gap:8px;margin-bottom:24px;flex-wrap:wrap}
+        .token-btn{padding:10px 20px;background:var(--card);border:1px solid rgba(124,58,237,0.2);border-radius:10px;color:var(--gray400);font-size:.85rem;font-weight:600;cursor:pointer;transition:all .2s}
+        .token-btn:hover{border-color:var(--purple);color:var(--white)}
+        .token-btn.active{background:linear-gradient(135deg,var(--purple),var(--cyan));border-color:transparent;color:var(--white)}
+        .token-btn.loading{opacity:0.5;pointer-events:none}
+        
+        /* Score card */
+        .score-section{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:24px}
+        @media(max-width:900px){.score-section{grid-template-columns:1fr}}
+        .score-card{background:var(--card);border:1px solid rgba(124,58,237,0.2);border-radius:20px;padding:32px;text-align:center}
+        .score-card.bullish{border-color:rgba(16,185,129,0.4);background:linear-gradient(135deg,rgba(16,185,129,0.1),transparent)}
+        .score-card.bearish{border-color:rgba(239,68,68,0.4);background:linear-gradient(135deg,rgba(239,68,68,0.1),transparent)}
+        .score-card.neutral{border-color:rgba(245,158,11,0.4);background:linear-gradient(135deg,rgba(245,158,11,0.1),transparent)}
+        .score-label{font-size:.75rem;color:var(--gray500);text-transform:uppercase;letter-spacing:1px;margin-bottom:8px}
+        .score-value{font-family:'JetBrains Mono',monospace;font-size:4rem;font-weight:900;margin-bottom:8px}
+        .score-value.bullish{color:var(--green)}
+        .score-value.bearish{color:var(--red)}
+        .score-value.neutral{color:var(--yellow)}
+        .score-signal{font-size:1.5rem;font-weight:800;text-transform:uppercase;margin-bottom:16px}
+        .score-signal.bullish{color:var(--green)}
+        .score-signal.bearish{color:var(--red)}
+        .score-signal.neutral{color:var(--yellow)}
+        .score-reasoning{color:var(--gray400);font-size:.9rem;line-height:1.6}
+        
+        /* Metrics grid */
+        .metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+        @media(max-width:1000px){.metrics-grid{grid-template-columns:repeat(2,1fr)}}
+        @media(max-width:500px){.metrics-grid{grid-template-columns:1fr}}
+        .metric-card{background:var(--card);border:1px solid rgba(124,58,237,0.15);border-radius:14px;padding:20px}
+        .metric-icon{font-size:1.5rem;margin-bottom:8px}
+        .metric-label{font-size:.7rem;color:var(--gray500);text-transform:uppercase;letter-spacing:.5px;margin-bottom:4px}
+        .metric-value{font-family:'JetBrains Mono',monospace;font-size:1.3rem;font-weight:700}
+        .metric-sub{font-size:.75rem;color:var(--gray500);margin-top:4px}
+        
+        /* Components */
+        .components{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+        @media(max-width:800px){.components{grid-template-columns:1fr}}
+        .component{background:var(--card);border:1px solid rgba(124,58,237,0.15);border-radius:14px;padding:20px}
+        .component-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+        .component-title{font-size:.85rem;font-weight:700;color:var(--gray300)}
+        .component-value{font-family:'JetBrains Mono',monospace;font-weight:700}
+        .component-bar{height:8px;background:rgba(255,255,255,0.1);border-radius:4px;overflow:hidden;margin-bottom:8px}
+        .component-fill{height:100%;border-radius:4px;transition:width .5s ease}
+        .component-fill.bullish{background:linear-gradient(90deg,var(--green),var(--cyan))}
+        .component-fill.bearish{background:linear-gradient(90deg,var(--red),var(--yellow))}
+        .component-fill.neutral{background:linear-gradient(90deg,var(--yellow),var(--cyan))}
+        .component-desc{font-size:.75rem;color:var(--gray500)}
+        
+        /* Skeleton loading */
+        .skeleton{background:linear-gradient(90deg,var(--card) 25%,rgba(124,58,237,0.1) 50%,var(--card) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:8px}
+        @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+        .skeleton-text{height:20px;margin-bottom:8px}
+        .skeleton-score{height:80px;width:150px;margin:0 auto 16px}
+        .skeleton-bar{height:8px;margin-top:8px}
+        
+        /* Error state */
+        .error-state{text-align:center;padding:60px 20px;color:var(--gray400)}
+        .error-state .icon{font-size:3rem;margin-bottom:16px}
+        .error-state .message{font-size:1rem;margin-bottom:16px}
+        .error-state .retry-btn{padding:12px 24px;background:var(--purple);border:none;border-radius:10px;color:var(--white);font-weight:600;cursor:pointer}
+        .error-state .retry-btn:hover{opacity:0.9}
+        
+        /* Last updated */
+        .last-updated{text-align:center;padding:16px;color:var(--gray600);font-size:.75rem}
     </style>
 </head>
 <body>
     <header class="header">
-        <div class="title">
-            <h1>🔮 ORACLE</h1>
-            <span class="badge">Elite</span>
-        </div>
-        <a href="/dashboard.html" class="back">← Back to Dashboard</a>
+        <div class="logo">ELUXRAJ™</div>
+        <nav class="nav">
+            <a href="/dashboard.html">Dashboard</a>
+            <a href="/oracle.html" class="active">Oracle</a>
+            <a href="/whale-intel.html">Gotham Intel</a>
+            <a href="/chart-analysis.html">Chart AI</a>
+        </nav>
     </header>
     
     <main class="container">
-        <div class="asset-section">
-            <div class="asset-label">Crypto</div>
-            <div class="assets">
-                <button class="asset-btn active" data-asset="BTC"><span>₿</span> Bitcoin</button>
-                <button class="asset-btn" data-asset="ETH"><span>Ξ</span> Ethereum</button>
-                <button class="asset-btn" data-asset="SOL"><span>◎</span> Solana</button>
-            </div>
+        <div class="token-bar" id="tokenBar">
+            <button class="token-btn active" data-symbol="BTC">₿ Bitcoin</button>
+            <button class="token-btn" data-symbol="ETH">Ξ Ethereum</button>
+            <button class="token-btn" data-symbol="SOL">◎ Solana</button>
+            <button class="token-btn" data-symbol="BNB">BNB</button>
+            <button class="token-btn" data-symbol="XRP">XRP</button>
+            <button class="token-btn" data-symbol="DOGE">DOGE</button>
         </div>
         
-        <div class="loading" id="loading">
-            <div class="spinner"></div>
-            <div class="loading-text">🔮 ORACLE analyzing <span id="loadingAsset">BTC</span>...</div>
+        <div id="content">
+            <!-- Content loaded dynamically -->
         </div>
         
-        <div id="errorMsg" class="error-msg" style="display:none"></div>
+        <div class="last-updated" id="lastUpdated"></div>
+    </main>
+    
+    <script src="/js/eluxraj-utils.js"></script>
+    <script>
+        let currentSymbol = 'BTC';
+        let isLoading = false;
         
-        <div class="grid" id="content" style="display:none">
-            <div class="card" style="text-align:center">
-                <div class="score-label">ORACLE Score</div>
-                <div class="score-circle">
-                    <div class="score-ring" id="ring" style="--score:75">
-                        <div class="score-inner">
-                            <div class="score-value" id="score">75</div>
-                            <div class="score-max">/100</div>
+        // Initialize
+        (async () => {
+            const user = await Auth.check();
+            if (!user) return;
+            
+            // Check subscription
+            if (user.subscription_tier === 'free') {
+                document.getElementById('content').innerHTML = `
+                    <div class="error-state">
+                        <div class="icon">🔒</div>
+                        <div class="message">ORACLE is an Elite feature</div>
+                        <a href="/pricing.html" class="retry-btn">Upgrade to Elite</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            loadOracle(currentSymbol);
+        })();
+        
+        // Token selection
+        document.getElementById('tokenBar').addEventListener('click', (e) => {
+            if (e.target.classList.contains('token-btn') && !isLoading) {
+                document.querySelectorAll('.token-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                currentSymbol = e.target.dataset.symbol;
+                loadOracle(currentSymbol);
+            }
+        });
+        
+        async function loadOracle(symbol) {
+            if (isLoading) return;
+            isLoading = true;
+            
+            // Show skeleton
+            document.getElementById('content').innerHTML = renderSkeleton();
+            document.querySelectorAll('.token-btn').forEach(b => b.classList.add('loading'));
+            
+            try {
+                const data = await retry(() => API.get(`/oracle/${symbol}`), 3, 1000);
+                renderOracle(data);
+                document.getElementById('lastUpdated').textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
+            } catch (error) {
+                Toast.error(error.message);
+                document.getElementById('content').innerHTML = `
+                    <div class="error-state">
+                        <div class="icon">⚠️</div>
+                        <div class="message">${error.message}</div>
+                        <button class="retry-btn" onclick="loadOracle('${symbol}')">Retry</button>
+                    </div>
+                `;
+            } finally {
+                isLoading = false;
+                document.querySelectorAll('.token-btn').forEach(b => b.classList.remove('loading'));
+            }
+        }
+        
+        function renderSkeleton() {
+            return `
+                <div class="score-section">
+                    <div class="score-card">
+                        <div class="skeleton skeleton-text" style="width:100px;margin:0 auto"></div>
+                        <div class="skeleton skeleton-score"></div>
+                        <div class="skeleton skeleton-text" style="width:80px;margin:0 auto"></div>
+                    </div>
+                    <div class="score-card">
+                        <div class="skeleton skeleton-text" style="width:100px;margin:0 auto"></div>
+                        <div class="skeleton skeleton-score"></div>
+                        <div class="skeleton skeleton-text" style="width:200px;margin:0 auto"></div>
+                    </div>
+                </div>
+                <div class="metrics-grid">
+                    ${[1,2,3,4].map(() => `
+                        <div class="metric-card">
+                            <div class="skeleton skeleton-text" style="width:40px"></div>
+                            <div class="skeleton skeleton-text" style="width:60px"></div>
+                            <div class="skeleton skeleton-text" style="width:100px"></div>
+                        </div>
+                    `).join('')}
+                </div>
+            `;
+        }
+        
+        function renderOracle(data) {
+            const signal = getSignal(data.oracle_score);
+            const signalClass = signal.toLowerCase();
+            
+            document.getElementById('content').innerHTML = `
+                <div class="score-section">
+                    <div class="score-card ${signalClass}">
+                        <div class="score-label">ORACLE Score</div>
+                        <div class="score-value ${signalClass}">${data.oracle_score}</div>
+                        <div class="score-signal ${signalClass}">${signal}</div>
+                    </div>
+                    <div class="score-card">
+                        <div class="score-label">AI Analysis</div>
+                        <div class="score-reasoning">${data.reasoning || 'Analysis based on whale activity, technical indicators, sentiment data, and liquidation risk assessment.'}</div>
+                        <div style="margin-top:16px;display:flex;gap:16px;justify-content:center;flex-wrap:wrap">
+                            <div style="text-align:center">
+                                <div style="font-size:.7rem;color:var(--gray500)">Price</div>
+                                <div style="font-family:'JetBrains Mono';font-weight:700">${Format.currency(data.price || 0)}</div>
+                            </div>
+                            <div style="text-align:center">
+                                <div style="font-size:.7rem;color:var(--gray500)">24h Change</div>
+                                <div style="font-family:'JetBrains Mono';font-weight:700;color:${(data.price_change_24h || 0) >= 0 ? 'var(--green)' : 'var(--red)'}">${Format.percent(data.price_change_24h || 0)}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
-                <div class="signal buy" id="signal">STRONG BUY</div>
-                <span class="conf high" id="conf">High Confidence</span>
-            </div>
-            
-            <div class="card trade">
-                <h3>📊 Trade Setup</h3>
-                <div class="prices">
-                    <div class="price-item entry"><label>Entry</label><div class="val" id="entry">$97,245</div></div>
-                    <div class="price-item target"><label>Target</label><div class="val" id="target">$105,000</div></div>
-                    <div class="price-item stop"><label>Stop Loss</label><div class="val" id="stop">$94,000</div></div>
-                </div>
-                <div class="rr"><label>Risk/Reward</label><div class="val" id="rr">2.4:1</div></div>
-            </div>
-            
-            <section class="full">
-                <h3 class="section-title">📈 Analysis Factors</h3>
-                <div class="factors" id="factors"></div>
-            </section>
-            
-            <section class="full" id="whaleSection">
-                <h3 class="section-title">🐋 Whale Alerts</h3>
-                <div id="whales"></div>
-            </section>
-            
-            <section class="full" id="liqSection">
-                <h3 class="section-title">💥 Liquidation Zones</h3>
-                <div class="liq-zones" id="liq"></div>
-            </section>
-            
-            <section class="full">
-                <h3 class="section-title">🧠 AI Reasoning</h3>
-                <div class="reasoning">
-                    <div class="reasoning-sum" id="summary"></div>
-                    <div class="reasoning-bullets" id="bullets"></div>
-                </div>
-            </section>
-            
-            <div class="full disclaimer">⚠️ ORACLE provides AI-powered analysis for informational purposes only. This is NOT financial advice. Always do your own research.</div>
-            
-            <div class="full meta">
-                <span>Model: <strong id="model">oracle-v2.0.0</strong></span>
-                <span>Generated: <strong id="generated">-</strong></span>
-                <span>Expires: <strong id="expires">-</strong></span>
-            </div>
-        </div>
-    </main>
-    
-    <script>
-        // Use Railway backend directly for ORACLE API
-        const API = 'https://eluxraj-api-production.up.railway.app/api/v1';
-        let asset = 'BTC';
-        
-        async function load(sym) {
-            asset = sym;
-            document.querySelectorAll('.asset-btn').forEach(b => b.classList.toggle('active', b.dataset.asset === sym));
-            document.getElementById('loading').style.display = 'flex';
-            document.getElementById('content').style.display = 'none';
-            document.getElementById('errorMsg').style.display = 'none';
-            document.getElementById('loadingAsset').textContent = sym;
-            
-            try {
-                const res = await fetch(`${API}/oracle/score/${sym}`);
-                const data = await res.json();
                 
-                if (!res.ok) {
-                    throw new Error(data.detail || 'Failed to load');
-                }
+                <div class="metrics-grid">
+                    <div class="metric-card">
+                        <div class="metric-icon">🐋</div>
+                        <div class="metric-label">Whale Score</div>
+                        <div class="metric-value">${data.components?.whale_score || '--'}/100</div>
+                        <div class="metric-sub">Large holder activity</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">📊</div>
+                        <div class="metric-label">Technical Score</div>
+                        <div class="metric-value">${data.components?.technical_score || '--'}/100</div>
+                        <div class="metric-sub">Chart indicators</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">💬</div>
+                        <div class="metric-label">Sentiment Score</div>
+                        <div class="metric-value">${data.components?.sentiment_score || '--'}/100</div>
+                        <div class="metric-sub">Social & news</div>
+                    </div>
+                    <div class="metric-card">
+                        <div class="metric-icon">⚠️</div>
+                        <div class="metric-label">Risk Score</div>
+                        <div class="metric-value">${data.components?.liquidation_risk || '--'}/100</div>
+                        <div class="metric-sub">Liquidation risk</div>
+                    </div>
+                </div>
                 
-                if (data.ok && data.data) {
-                    render(data.data);
-                } else {
-                    throw new Error('Invalid response');
-                }
-            } catch (e) {
-                console.error(e);
-                document.getElementById('errorMsg').textContent = 'Failed to load ORACLE data for ' + sym + '. ' + e.message;
-                document.getElementById('errorMsg').style.display = 'block';
-            }
-            document.getElementById('loading').style.display = 'none';
+                <div class="components">
+                    ${renderComponent('Whale Activity', data.components?.whale_score, 'Large transactions and accumulation patterns', signalClass)}
+                    ${renderComponent('Technical Indicators', data.components?.technical_score, 'RSI, MACD, moving averages', signalClass)}
+                    ${renderComponent('Market Sentiment', data.components?.sentiment_score, 'Social media and news analysis', signalClass)}
+                    ${renderComponent('Liquidation Risk', data.components?.liquidation_risk, 'Leverage and liquidation levels', signalClass)}
+                </div>
+            `;
         }
         
-        function render(d) {
-            document.getElementById('content').style.display = 'grid';
-            
-            const s = d.oracle_score;
-            const ring = document.getElementById('ring');
-            ring.style.setProperty('--score', s);
-            ring.className = 'score-ring ' + (s >= 60 ? '' : s <= 40 ? 'bear' : 'neutral');
-            
-            const scoreEl = document.getElementById('score');
-            scoreEl.textContent = s;
-            scoreEl.className = 'score-value ' + (s >= 60 ? '' : s <= 40 ? 'bear' : 'neutral');
-            
-            const sig = document.getElementById('signal');
-            sig.textContent = d.signal_type.replace(/_/g, ' ').toUpperCase();
-            sig.className = 'signal ' + (d.signal_type.includes('buy') ? 'buy' : d.signal_type.includes('sell') ? 'sell' : 'hold');
-            
-            const conf = document.getElementById('conf');
-            conf.textContent = d.confidence + ' Confidence';
-            conf.className = 'conf ' + d.confidence;
-            
-            document.getElementById('entry').textContent = '$' + d.entry_price.toLocaleString();
-            document.getElementById('target').textContent = '$' + d.target_price.toLocaleString();
-            document.getElementById('stop').textContent = '$' + d.stop_loss.toLocaleString();
-            document.getElementById('rr').textContent = d.risk_reward_ratio + ':1';
-            
-            const icons = {whale_activity:'🐋',market_sentiment:'😱',momentum_24h:'📈',trend_7d:'📊',funding_rate:'💹',exchange_flow:'💰',liquidation_risk:'💥',open_interest:'📋',volume_flow:'📉',volatility:'⚡',ath_proximity:'🎯',social_sentiment:'🐦'};
-            const names = {whale_activity:'Whale Activity',market_sentiment:'Fear & Greed',momentum_24h:'24h Momentum',trend_7d:'7-Day Trend',funding_rate:'Funding Rate',exchange_flow:'Exchange Flow',liquidation_risk:'Liquidation Risk',open_interest:'Open Interest',volume_flow:'Volume',volatility:'Volatility',ath_proximity:'ATH Distance',social_sentiment:'Social'};
-            
-            document.getElementById('factors').innerHTML = d.factor_breakdown.map(f => {
-                const cls = f.score >= 60 ? 'bull' : f.score <= 40 ? 'bear' : 'neut';
-                return `<div class="factor"><div class="factor-head"><span class="factor-name">${icons[f.name]||'📊'} ${names[f.name]||f.name}</span><span class="factor-score ${cls}">${f.score}</span></div><div class="factor-bar"><div class="factor-fill ${cls}" style="width:${f.score}%"></div></div><div class="factor-val">${(f.value||'').replace(/_/g,' ')}</div></div>`;
-            }).join('');
-            
-            const ws = document.getElementById('whaleSection');
-            if (!d.whale_alerts || !d.whale_alerts.length) {
-                ws.style.display = 'none';
-            } else {
-                ws.style.display = 'block';
-                document.getElementById('whales').innerHTML = d.whale_alerts.map(a => `<div class="alert"><div class="alert-icon">🐋</div><div class="alert-content"><div class="alert-title">${a.title}</div><div class="alert-desc">${a.description}</div></div><span class="alert-impact ${a.impact}">${a.impact}</span></div>`).join('');
-            }
-            
-            const liqSection = document.getElementById('liqSection');
-            if (!d.liquidation_zones || !d.liquidation_zones.length) {
-                liqSection.style.display = 'none';
-            } else {
-                liqSection.style.display = 'block';
-                const longs = d.liquidation_zones.filter(z => z.type === 'long');
-                const shorts = d.liquidation_zones.filter(z => z.type === 'short');
-                document.getElementById('liq').innerHTML = `
-                    <div class="liq-card longs"><h4>📉 Long Liquidations</h4>${longs.map(z => `<div class="liq-level"><div><span class="liq-price">$${z.price.toLocaleString()}</span><span class="liq-lev"> ${z.leverage}</span></div><span class="liq-int ${z.intensity}">${z.intensity}</span></div>`).join('')}</div>
-                    <div class="liq-card shorts"><h4>📈 Short Liquidations</h4>${shorts.map(z => `<div class="liq-level"><div><span class="liq-price">$${z.price.toLocaleString()}</span><span class="liq-lev"> ${z.leverage}</span></div><span class="liq-int ${z.intensity}">${z.intensity}</span></div>`).join('')}</div>
-                `;
-            }
-            
-            document.getElementById('summary').textContent = d.reasoning_summary;
-            document.getElementById('bullets').innerHTML = (d.reasoning_bullets || []).map(b => `<div class="bullet">${b}</div>`).join('');
-            
-            document.getElementById('model').textContent = d.model_version;
-            document.getElementById('generated').textContent = new Date(d.generated_at).toLocaleString();
-            document.getElementById('expires').textContent = new Date(d.expires_at).toLocaleString();
+        function renderComponent(title, value, desc, signalClass) {
+            const v = value || 50;
+            return `
+                <div class="component">
+                    <div class="component-header">
+                        <span class="component-title">${title}</span>
+                        <span class="component-value" style="color:${v >= 60 ? 'var(--green)' : v <= 40 ? 'var(--red)' : 'var(--yellow)'}">${v}/100</span>
+                    </div>
+                    <div class="component-bar">
+                        <div class="component-fill ${v >= 60 ? 'bullish' : v <= 40 ? 'bearish' : 'neutral'}" style="width:${v}%"></div>
+                    </div>
+                    <div class="component-desc">${desc}</div>
+                </div>
+            `;
         }
         
-        document.querySelectorAll('.asset-btn').forEach(btn => {
-            btn.addEventListener('click', () => load(btn.dataset.asset));
-        });
-        
-        load('BTC');
+        function getSignal(score) {
+            if (score >= 70) return 'Bullish';
+            if (score <= 30) return 'Bearish';
+            return 'Neutral';
+        }
     </script>
 </body>
 </html>
