@@ -4,105 +4,100 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GOTHAM INTEL | ELUXRAJ</title>
+    <link rel="stylesheet" href="/css/theme.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root{--bg:#000;--card:#0d0d15;--border:rgba(255,255,255,0.1);--purple:#a855f7;--cyan:#22d3ee;--green:#10b981;--red:#ef4444;--yellow:#fbbf24;--white:#fff;--gray300:#d1d5db;--gray400:#9ca3af;--gray500:#6b7280}
         *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);min-height:100vh}
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
         
-        .header{display:flex;justify-content:space-between;align-items:center;padding:14px 24px;background:rgba(5,5,10,0.95);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+        .header{display:flex;justify-content:space-between;align-items:center;padding:14px 24px;background:var(--header-bg);border-bottom:1px solid var(--border);backdrop-filter:blur(10px);position:sticky;top:0;z-index:100}
         .logo{display:flex;align-items:center;gap:12px}
-        .logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--purple),var(--cyan));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px}
-        .logo-text{font-size:1.2rem;font-weight:900;letter-spacing:2px;background:linear-gradient(135deg,var(--white),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .logo-icon{width:38px;height:38px;background:var(--gradient-primary);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px}
+        .logo-text{font-size:1.2rem;font-weight:900;letter-spacing:2px;background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
         .nav{display:flex;gap:6px}
-        .nav a{padding:8px 16px;color:var(--gray400);text-decoration:none;font-size:.85rem;font-weight:600;border-radius:10px;transition:all .2s}
-        .nav a:hover{color:var(--white);background:rgba(255,255,255,0.05)}
-        .nav a.active{color:var(--white);background:linear-gradient(135deg,rgba(168,85,247,0.3),rgba(34,211,238,0.2))}
+        .nav a{padding:8px 16px;color:var(--text-muted);text-decoration:none;font-size:.85rem;font-weight:600;border-radius:10px;transition:all .2s}
+        .nav a:hover{color:var(--text);background:var(--card)}
+        .nav a.active{color:var(--text);background:var(--gradient-glow);border:1px solid var(--border)}
+        .header-right{display:flex;align-items:center;gap:12px}
         
         .title-section{padding:32px 24px 24px;text-align:center}
-        .page-title{font-size:2.5rem;font-weight:900;letter-spacing:4px;background:linear-gradient(135deg,var(--white),var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px}
-        .page-subtitle{color:var(--gray500);font-size:.9rem}
+        .page-title{font-size:2.5rem;font-weight:900;letter-spacing:4px;background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px}
+        .page-subtitle{color:var(--text-muted);font-size:.9rem}
         
         .main{display:grid;grid-template-columns:1fr 380px;gap:20px;padding:0 24px 40px;max-width:1600px;margin:0 auto}
         @media(max-width:1100px){.main{grid-template-columns:1fr}}
         
-        .card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
-        .card-header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--border)}
+        .card{background:var(--card);border:1px solid var(--border-light);border-radius:16px;overflow:hidden;box-shadow:var(--shadow)}
+        .card-header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--border-light);background:var(--gradient-card)}
         .card-title{font-size:.8rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--cyan)}
-        .card-badge{font-size:.65rem;font-weight:700;padding:4px 10px;border-radius:16px;background:linear-gradient(135deg,var(--green),var(--cyan));color:var(--white)}
+        .card-badge{font-size:.65rem;font-weight:700;padding:4px 10px;border-radius:16px;background:var(--gradient-primary);color:#fff}
         
         .insights-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:18px}
         @media(max-width:900px){.insights-grid{grid-template-columns:repeat(2,1fr)}}
         @media(max-width:500px){.insights-grid{grid-template-columns:1fr}}
-        .insight-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:16px;cursor:pointer;transition:all .2s}
-        .insight-card:hover{border-color:var(--cyan);transform:translateY(-2px)}
+        .insight-card{background:var(--bg2);border:1px solid var(--border-light);border-radius:12px;padding:16px;cursor:pointer;transition:all .2s}
+        .insight-card:hover{border-color:var(--cyan);transform:translateY(-2px);box-shadow:var(--shadow-hover)}
         .insight-tags{display:flex;gap:5px;margin-bottom:12px;flex-wrap:wrap}
         .tag{font-size:.6rem;font-weight:800;padding:4px 8px;border-radius:5px;text-transform:uppercase}
-        .tag.bullish{background:rgba(16,185,129,0.2);color:var(--green)}
-        .tag.bearish{background:rgba(239,68,68,0.2);color:var(--red)}
-        .tag.whale{background:rgba(59,130,246,0.2);color:#3b82f6}
-        .tag.important{background:rgba(239,68,68,0.2);color:var(--red)}
-        .tag.exchange{background:rgba(251,191,36,0.2);color:var(--yellow)}
-        .tag.institution{background:rgba(168,85,247,0.2);color:var(--purple)}
-        .tag.on-chain{background:rgba(34,211,238,0.2);color:var(--cyan)}
-        .insight-title{font-size:.9rem;font-weight:700;line-height:1.4;margin-bottom:10px}
-        .insight-meta{font-size:.7rem;color:var(--gray500)}
+        .tag.bullish{background:rgba(16,185,129,0.15);color:var(--green)}
+        .tag.bearish{background:rgba(239,68,68,0.15);color:var(--red)}
+        .tag.whale{background:rgba(59,130,246,0.15);color:var(--blue)}
+        .tag.important{background:rgba(239,68,68,0.15);color:var(--red)}
+        .tag.exchange{background:rgba(251,191,36,0.15);color:var(--yellow)}
+        .tag.institution{background:rgba(168,85,247,0.15);color:var(--purple)}
+        .tag.on-chain{background:rgba(6,182,212,0.15);color:var(--cyan)}
+        .insight-title{font-size:.9rem;font-weight:700;line-height:1.4;margin-bottom:10px;color:var(--text)}
+        .insight-meta{font-size:.7rem;color:var(--text-muted)}
         
         .flows-section{padding:18px}
-        .flow-item{display:flex;align-items:center;gap:14px;padding:14px;margin-bottom:10px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:12px;transition:all .2s}
-        .flow-item:hover{border-color:var(--purple)}
-        .flow-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;background:rgba(255,255,255,0.05)}
+        .flow-item{display:flex;align-items:center;gap:14px;padding:14px;margin-bottom:10px;background:var(--bg2);border:1px solid var(--border-light);border-radius:12px;transition:all .2s}
+        .flow-item:hover{border-color:var(--purple);box-shadow:var(--shadow)}
+        .flow-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;background:var(--card)}
         .flow-info{flex:1}
-        .flow-name{font-size:.95rem;font-weight:700}
-        .flow-type{font-size:.7rem;color:var(--gray500)}
+        .flow-name{font-size:.95rem;font-weight:700;color:var(--text)}
+        .flow-type{font-size:.7rem;color:var(--text-muted)}
         .flow-bars{width:130px}
         .flow-bar-row{display:flex;align-items:center;gap:6px;margin-bottom:5px}
-        .flow-bar-label{font-size:.6rem;color:var(--gray500);width:22px}
-        .flow-bar{flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,0.05);overflow:hidden}
+        .flow-bar-label{font-size:.6rem;color:var(--text-muted);width:22px}
+        .flow-bar{flex:1;height:6px;border-radius:3px;background:var(--bg3);overflow:hidden}
         .flow-bar-fill{height:100%;border-radius:3px}
         .flow-bar-fill.inflow{background:linear-gradient(90deg,var(--red),var(--yellow))}
         .flow-bar-fill.outflow{background:linear-gradient(90deg,var(--green),var(--cyan))}
-        .flow-bar-value{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--gray400);width:50px;text-align:right}
+        .flow-bar-value{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--text-muted);width:50px;text-align:right}
         .flow-net{text-align:right;min-width:80px}
         .flow-net-value{font-family:'JetBrains Mono',monospace;font-size:.95rem;font-weight:800}
         .flow-net-value.positive{color:var(--green)}
         .flow-net-value.negative{color:var(--red)}
-        .flow-net-label{font-size:.6rem;color:var(--gray500);text-transform:uppercase}
+        .flow-net-label{font-size:.6rem;color:var(--text-muted);text-transform:uppercase}
         
         .sm-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:18px}
-        .sm-stat{text-align:center;padding:20px 14px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px}
+        .sm-stat{text-align:center;padding:20px 14px;background:var(--bg2);border:1px solid var(--border-light);border-radius:12px}
         .sm-stat-value{font-family:'JetBrains Mono',monospace;font-size:2rem;font-weight:900;margin-bottom:6px}
         .sm-stat-value.bullish{color:var(--green)}
         .sm-stat-value.bearish{color:var(--red)}
-        .sm-stat-label{font-size:.7rem;color:var(--gray400);text-transform:uppercase;letter-spacing:.5px}
+        .sm-stat-label{font-size:.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px}
         
         .transfer-feed{max-height:600px;overflow-y:auto}
-        .transfer-header{display:grid;grid-template-columns:70px 1fr 1fr 36px;gap:10px;padding:12px 16px;font-size:.65rem;font-weight:700;color:var(--gray500);text-transform:uppercase;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--card)}
-        .transfer-row{display:grid;grid-template-columns:70px 1fr 1fr 36px;gap:10px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.03);align-items:center;transition:background .2s}
-        .transfer-row:hover{background:rgba(168,85,247,0.05)}
-        .transfer-row.new{animation:flashNew .5s ease}
-        @keyframes flashNew{0%{background:rgba(34,211,238,0.2)}100%{background:transparent}}
+        .transfer-header{display:grid;grid-template-columns:70px 1fr 1fr 36px;gap:10px;padding:12px 16px;font-size:.65rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;border-bottom:1px solid var(--border-light);position:sticky;top:0;background:var(--card)}
+        .transfer-row{display:grid;grid-template-columns:70px 1fr 1fr 36px;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border-light);align-items:center;transition:background .2s}
+        .transfer-row:hover{background:var(--gradient-glow)}
         .transfer-time{font-size:.75rem;color:var(--cyan);font-weight:600}
         .transfer-entity{display:flex;align-items:center;gap:8px}
         .entity-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px}
-        .entity-icon.exchange{background:rgba(251,191,36,0.2)}
-        .entity-icon.whale{background:rgba(59,130,246,0.2)}
-        .entity-name{font-size:.8rem;font-weight:600}
-        .entity-amount{font-size:.65rem;color:var(--gray500);font-family:'JetBrains Mono',monospace}
+        .entity-icon.exchange{background:rgba(251,191,36,0.15)}
+        .entity-icon.whale{background:rgba(59,130,246,0.15)}
+        .entity-name{font-size:.8rem;font-weight:600;color:var(--text)}
+        .entity-amount{font-size:.65rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace}
         .impact-dot{width:10px;height:10px;border-radius:50%}
         .impact-dot.bullish{background:var(--green);box-shadow:0 0 6px var(--green)}
         .impact-dot.bearish{background:var(--red);box-shadow:0 0 6px var(--red)}
         
-        .skeleton{background:linear-gradient(90deg,var(--card) 25%,rgba(168,85,247,0.1) 50%,var(--card) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:6px}
+        .skeleton{background:linear-gradient(90deg,var(--skeleton-base) 25%,var(--skeleton-shine) 50%,var(--skeleton-base) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:6px}
         @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
         
-        .error-state{text-align:center;padding:40px 20px;color:var(--gray400)}
+        .error-state{text-align:center;padding:40px 20px;color:var(--text-muted)}
         .error-state .icon{font-size:2.5rem;margin-bottom:12px}
-        .error-state .retry-btn{margin-top:12px;padding:10px 20px;background:var(--purple);border:none;border-radius:8px;color:var(--white);font-weight:600;cursor:pointer}
-        
-        ::-webkit-scrollbar{width:5px}
-        ::-webkit-scrollbar-track{background:var(--bg)}
-        ::-webkit-scrollbar-thumb{background:var(--purple);border-radius:3px}
+        .error-state .retry-btn{margin-top:12px;padding:10px 20px;background:var(--purple);border:none;border-radius:8px;color:#fff;font-weight:600;cursor:pointer}
     </style>
 </head>
 <body>
@@ -117,6 +112,7 @@
             <a href="/whale-intel.html" class="active">Gotham Intel</a>
             <a href="/chart-analysis.html">Chart AI</a>
         </nav>
+        <div class="header-right"></div>
     </header>
     
     <section class="title-section">
@@ -192,13 +188,13 @@
     </main>
     
     <script src="/js/eluxraj-utils.js"></script>
+    <script src="/js/theme.js"></script>
     <script>
         const exchangeIcons = {'Binance':'🟡','Coinbase':'🔵','Kraken':'🟣','OKX':'⚫','Bitfinex':'🟢','Bybit':'🟠'};
         
         (async () => {
             const user = await Auth.check();
             if (!user) return;
-            
             loadAll();
             setInterval(loadTransfers, 30000);
             setInterval(loadSentiment, 30000);
@@ -206,7 +202,7 @@
         
         async function loadAll() {
             await Promise.all([loadInsights(), loadFlows(), loadTransfers(), loadSentiment()]);
-            Toast.success('Data loaded successfully');
+            Toast.success('Data loaded');
         }
         
         async function loadInsights() {
@@ -264,7 +260,7 @@
                             <div class="transfer-time">${Format.timeAgo(tx.timestamp)}</div>
                             <div class="transfer-entity">
                                 <div class="entity-icon ${tx.from.type}">${tx.from.type === 'exchange' ? '🏛️' : '🐋'}</div>
-                                <div><div class="entity-name">${tx.from.name}</div><div class="entity-amount">${formatAmount(tx.amount, tx.symbol)}</div></div>
+                                <div><div class="entity-name">${tx.from.name}</div><div class="entity-amount">${formatAmt(tx.amount, tx.symbol)}</div></div>
                             </div>
                             <div class="transfer-entity">
                                 <div class="entity-icon ${tx.to.type}">${tx.to.type === 'exchange' ? '🏛️' : '🐋'}</div>
@@ -274,9 +270,7 @@
                         </div>
                     `).join('');
                 }
-            } catch (e) {
-                Toast.error('Failed to load transfers');
-            }
+            } catch (e) { Toast.error('Failed to load transfers'); }
         }
         
         async function loadSentiment() {
@@ -290,14 +284,11 @@
                     document.getElementById('netFlow').className = `sm-stat-value ${data.net_flow_usd >= 0 ? 'bullish' : 'bearish'}`;
                     document.getElementById('sentimentBadge').textContent = data.sentiment;
                 }
-            } catch (e) {
-                Toast.error('Failed to load sentiment');
-            }
+            } catch (e) { Toast.error('Failed to load sentiment'); }
         }
         
-        function formatAmount(amount, symbol) {
-            if (amount >= 1000) return amount.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' ' + symbol;
-            return amount.toFixed(2) + ' ' + symbol;
+        function formatAmt(amt, sym) {
+            return (amt >= 1000 ? amt.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",") : amt.toFixed(2)) + ' ' + sym;
         }
     </script>
 </body>

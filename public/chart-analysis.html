@@ -4,100 +4,101 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chart AI | ELUXRAJ</title>
+    <link rel="stylesheet" href="/css/theme.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root{--bg:#0a0a0f;--card:#12121a;--border:rgba(124,58,237,0.2);--purple:#7c3aed;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--yellow:#f59e0b;--white:#fff;--gray300:#d1d5db;--gray400:#9ca3af;--gray500:#6b7280}
         *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);min-height:100vh}
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
         
-        .header{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;border-bottom:1px solid var(--border);background:rgba(10,10,15,0.95);position:sticky;top:0;z-index:100}
-        .logo{font-size:1.1rem;font-weight:900;background:linear-gradient(135deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .header{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;border-bottom:1px solid var(--border);background:var(--header-bg);backdrop-filter:blur(10px);position:sticky;top:0;z-index:100}
+        .logo{font-size:1.1rem;font-weight:900;background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
         .nav{display:flex;gap:6px}
-        .nav a{padding:8px 16px;color:var(--gray400);text-decoration:none;font-size:.85rem;font-weight:600;border-radius:8px;transition:all .2s}
-        .nav a:hover{color:var(--white);background:rgba(255,255,255,0.05)}
-        .nav a.active{color:var(--white);background:linear-gradient(135deg,rgba(124,58,237,0.3),rgba(6,182,212,0.2))}
+        .nav a{padding:8px 16px;color:var(--text-muted);text-decoration:none;font-size:.85rem;font-weight:600;border-radius:8px;transition:all .2s}
+        .nav a:hover{color:var(--text);background:var(--card)}
+        .nav a.active{color:var(--text);background:var(--gradient-glow);border:1px solid var(--border)}
+        .header-right{display:flex;align-items:center;gap:12px}
         
         .container{max-width:800px;margin:0 auto;padding:24px}
         .page-title{text-align:center;margin-bottom:24px}
-        .page-title h1{font-size:1.8rem;font-weight:800;margin-bottom:6px}
-        .page-title p{color:var(--gray500);font-size:.9rem}
+        .page-title h1{font-size:1.8rem;font-weight:800;margin-bottom:6px;color:var(--text)}
+        .page-title p{color:var(--text-muted);font-size:.9rem}
         
-        .upload-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;margin-bottom:24px}
-        .section-label{font-size:.7rem;color:var(--gray500);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;font-weight:700}
+        .upload-card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:28px;margin-bottom:24px;box-shadow:var(--shadow)}
+        .section-label{font-size:.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:10px;font-weight:700}
         
         .asset-tabs{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
-        .asset-tab{padding:8px 14px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:16px;font-size:.75rem;color:var(--gray400);cursor:pointer;transition:all .2s;font-weight:600}
-        .asset-tab:hover{border-color:var(--purple);color:var(--white)}
-        .asset-tab.active{background:linear-gradient(135deg,var(--purple),var(--cyan));border-color:transparent;color:var(--white)}
+        .asset-tab{padding:8px 14px;background:var(--bg2);border:1px solid var(--border-light);border-radius:16px;font-size:.75rem;color:var(--text-muted);cursor:pointer;transition:all .2s;font-weight:600}
+        .asset-tab:hover{border-color:var(--purple);color:var(--text)}
+        .asset-tab.active{background:var(--gradient-primary);border-color:transparent;color:#fff}
         
-        .asset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:6px;max-height:160px;overflow-y:auto;padding:12px;background:rgba(0,0,0,0.3);border-radius:10px;margin-bottom:14px}
-        .asset-chip{padding:8px 10px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);border-radius:6px;font-size:.75rem;color:var(--gray400);cursor:pointer;text-align:center;transition:all .2s;font-weight:500}
-        .asset-chip:hover{border-color:var(--purple);color:var(--white)}
-        .asset-chip.selected{background:rgba(124,58,237,0.2);border-color:var(--purple);color:var(--white)}
+        .asset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(80px,1fr));gap:6px;max-height:160px;overflow-y:auto;padding:12px;background:var(--bg2);border-radius:10px;margin-bottom:14px}
+        .asset-chip{padding:8px 10px;background:var(--card);border:1px solid var(--border-light);border-radius:6px;font-size:.75rem;color:var(--text-muted);cursor:pointer;text-align:center;transition:all .2s;font-weight:500}
+        .asset-chip:hover{border-color:var(--purple);color:var(--text)}
+        .asset-chip.selected{background:rgba(124,58,237,0.15);border-color:var(--purple);color:var(--purple)}
         
         .selected-asset{display:flex;align-items:center;gap:12px;padding:12px 16px;background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.3);border-radius:10px;margin-bottom:14px}
-        .selected-asset-value{font-size:1rem;font-weight:700}
-        .clear-btn{margin-left:auto;color:var(--gray500);cursor:pointer;font-size:16px}
+        .selected-asset-value{font-size:1rem;font-weight:700;color:var(--text)}
+        .clear-btn{margin-left:auto;color:var(--text-muted);cursor:pointer;font-size:16px}
         .clear-btn:hover{color:var(--red)}
         
         .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px}
         @media(max-width:500px){.form-row{grid-template-columns:1fr}}
-        .form-group label{display:block;font-size:.7rem;color:var(--gray500);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;font-weight:600}
-        .form-group select,.form-group input{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:10px;padding:12px 14px;color:var(--white);font-size:.9rem;outline:none}
+        .form-group label{display:block;font-size:.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px;margin-bottom:6px;font-weight:600}
+        .form-group select,.form-group input{width:100%;background:var(--input-bg);border:1px solid var(--border-light);border-radius:10px;padding:12px 14px;color:var(--text);font-size:.9rem;outline:none}
         .form-group select:focus,.form-group input:focus{border-color:var(--purple)}
-        .form-group select option{background:#1a1a1a}
+        .form-group select option{background:var(--card)}
         
-        .dropzone{border:2px dashed rgba(124,58,237,0.4);border-radius:14px;padding:40px 20px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:14px}
+        .dropzone{border:2px dashed var(--border);border-radius:14px;padding:40px 20px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:14px;background:var(--bg2)}
         .dropzone:hover,.dropzone.dragover{border-color:var(--purple);background:rgba(124,58,237,0.05)}
         .dropzone-icon{font-size:40px;margin-bottom:10px}
-        .dropzone-text{color:var(--gray400);font-size:.9rem}
+        .dropzone-text{color:var(--text-muted);font-size:.9rem}
         .dropzone-text span{color:var(--purple)}
         
         .preview{display:none;margin-bottom:14px}
         .preview.active{display:block}
         .preview img{max-width:100%;max-height:250px;border-radius:10px;border:1px solid var(--border)}
-        .preview-info{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:.8rem;color:var(--gray500)}
+        .preview-info{display:flex;justify-content:space-between;align-items:center;margin-top:8px;font-size:.8rem;color:var(--text-muted)}
         .remove-btn{color:var(--red);cursor:pointer;background:none;border:none;font-size:.8rem}
         
-        .analyze-btn{width:100%;background:linear-gradient(135deg,var(--purple),var(--cyan));border:none;border-radius:12px;padding:16px;color:var(--white);font-size:1rem;font-weight:700;cursor:pointer;transition:all .2s}
-        .analyze-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 8px 24px rgba(124,58,237,0.3)}
+        .analyze-btn{width:100%;background:var(--gradient-primary);border:none;border-radius:12px;padding:16px;color:#fff;font-size:1rem;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 15px rgba(124,58,237,0.3)}
+        .analyze-btn:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 6px 20px rgba(124,58,237,0.4)}
         .analyze-btn:disabled{opacity:0.5;cursor:not-allowed}
         
         .results{display:none}
         .results.active{display:block}
         
-        .rec-card{border-radius:16px;padding:28px;text-align:center;margin-bottom:20px}
-        .rec-card.buy{background:linear-gradient(135deg,rgba(16,185,129,0.15),rgba(52,211,153,0.1));border:1px solid rgba(16,185,129,0.3)}
-        .rec-card.sell{background:linear-gradient(135deg,rgba(239,68,68,0.15),rgba(248,113,113,0.1));border:1px solid rgba(239,68,68,0.3)}
-        .rec-card.wait{background:linear-gradient(135deg,rgba(245,158,11,0.15),rgba(251,191,36,0.1));border:1px solid rgba(245,158,11,0.3)}
-        .rec-label{font-size:.7rem;color:var(--gray500);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+        .rec-card{border-radius:16px;padding:28px;text-align:center;margin-bottom:20px;box-shadow:var(--shadow)}
+        .rec-card.buy{background:linear-gradient(135deg,rgba(16,185,129,0.12),rgba(52,211,153,0.08));border:1px solid rgba(16,185,129,0.3)}
+        .rec-card.sell{background:linear-gradient(135deg,rgba(239,68,68,0.12),rgba(248,113,113,0.08));border:1px solid rgba(239,68,68,0.3)}
+        .rec-card.wait{background:linear-gradient(135deg,rgba(245,158,11,0.12),rgba(251,191,36,0.08));border:1px solid rgba(245,158,11,0.3)}
+        .rec-label{font-size:.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
         .rec-side{font-size:2.5rem;font-weight:900;text-transform:uppercase;margin-bottom:6px}
         .rec-side.buy{color:var(--green)}
         .rec-side.sell{color:var(--red)}
         .rec-side.wait{color:var(--yellow)}
-        .rec-prob{font-size:1.5rem;font-weight:700;margin-bottom:10px}
-        .rec-rationale{color:var(--gray400);font-size:.9rem}
+        .rec-prob{font-size:1.5rem;font-weight:700;color:var(--text);margin-bottom:10px}
+        .rec-rationale{color:var(--text-muted);font-size:.9rem}
         
         .outcomes-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:20px}
         @media(max-width:500px){.outcomes-grid{grid-template-columns:1fr}}
-        .outcomes-section{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px}
+        .outcomes-section{background:var(--card);border:1px solid var(--border-light);border-radius:14px;padding:18px;box-shadow:var(--shadow)}
         .outcomes-title{font-size:.85rem;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
         .outcomes-title.bullish{color:var(--green)}
         .outcomes-title.bearish{color:var(--red)}
-        .outcome-item{padding:12px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
+        .outcome-item{padding:12px 0;border-bottom:1px solid var(--border-light)}
         .outcome-item:last-child{border-bottom:none}
         .outcome-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
-        .outcome-name{font-size:.85rem;font-weight:600}
+        .outcome-name{font-size:.85rem;font-weight:600;color:var(--text)}
         .outcome-prob{font-size:.9rem;font-weight:700}
         .outcome-prob.high{color:var(--green)}
         .outcome-prob.medium{color:var(--yellow)}
-        .outcome-prob.low{color:var(--gray500)}
-        .outcome-explanation{font-size:.75rem;color:var(--gray500)}
+        .outcome-prob.low{color:var(--text-muted)}
+        .outcome-explanation{font-size:.75rem;color:var(--text-muted)}
         
-        .meta-info{display:flex;justify-content:space-between;font-size:.7rem;color:var(--gray600);margin-bottom:14px;flex-wrap:wrap;gap:8px}
-        .disclaimer{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);border-radius:10px;padding:12px 14px;font-size:.75rem;color:#f87171;margin-bottom:14px}
-        .new-btn{width:100%;background:transparent;border:1px solid var(--border);border-radius:12px;padding:14px;color:var(--gray400);font-size:.9rem;cursor:pointer;transition:all .2s}
-        .new-btn:hover{border-color:var(--purple);color:var(--white)}
+        .meta-info{display:flex;justify-content:space-between;font-size:.7rem;color:var(--text-faint);margin-bottom:14px;flex-wrap:wrap;gap:8px}
+        .disclaimer{background:rgba(239,68,68,0.08);border:1px solid rgba(239,68,68,0.2);border-radius:10px;padding:12px 14px;font-size:.75rem;color:var(--red);margin-bottom:14px}
+        .new-btn{width:100%;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px;color:var(--text-muted);font-size:.9rem;cursor:pointer;transition:all .2s}
+        .new-btn:hover{border-color:var(--purple);color:var(--text)}
     </style>
 </head>
 <body>
@@ -109,6 +110,7 @@
             <a href="/whale-intel.html">Gotham Intel</a>
             <a href="/chart-analysis.html" class="active">Chart AI</a>
         </nav>
+        <div class="header-right"></div>
     </header>
     
     <main class="container">
@@ -197,6 +199,7 @@
     </main>
     
     <script src="/js/eluxraj-utils.js"></script>
+    <script src="/js/theme.js"></script>
     <script>
         const ASSETS = {
             crypto: ['BTC-USD','ETH-USD','SOL-USD','BNB-USD','XRP-USD','DOGE-USD','ADA-USD','AVAX-USD','DOT-USD','MATIC-USD','LINK-USD','UNI-USD','ATOM-USD','LTC-USD','PEPE-USD'],
@@ -204,9 +207,7 @@
             indices: ['SPY','QQQ','DIA','IWM','VTI','VOO']
         };
         
-        let selectedAsset = null;
-        let selectedFile = null;
-        let currentCat = 'crypto';
+        let selectedAsset = null, selectedFile = null, currentCat = 'crypto';
         
         (async () => {
             const user = await Auth.check();
@@ -214,15 +215,14 @@
             renderAssets('crypto');
         })();
         
-        // Asset tabs
-        document.getElementById('assetTabs').addEventListener('click', e => {
+        document.getElementById('assetTabs').onclick = e => {
             if (e.target.classList.contains('asset-tab')) {
                 document.querySelectorAll('.asset-tab').forEach(t => t.classList.remove('active'));
                 e.target.classList.add('active');
                 currentCat = e.target.dataset.cat;
                 renderAssets(currentCat);
             }
-        });
+        };
         
         function renderAssets(cat) {
             document.getElementById('assetGrid').innerHTML = ASSETS[cat].map(a => 
@@ -230,9 +230,9 @@
             ).join('');
         }
         
-        document.getElementById('assetGrid').addEventListener('click', e => {
+        document.getElementById('assetGrid').onclick = e => {
             if (e.target.classList.contains('asset-chip')) selectAsset(e.target.dataset.asset);
-        });
+        };
         
         function selectAsset(asset) {
             selectedAsset = asset;
@@ -249,17 +249,14 @@
             updateBtn();
         };
         
-        document.getElementById('customAsset').addEventListener('keypress', e => {
+        document.getElementById('customAsset').onkeypress = e => {
             if (e.key === 'Enter' && e.target.value.trim()) {
                 selectAsset(e.target.value.trim().toUpperCase());
                 e.target.value = '';
             }
-        });
+        };
         
-        // File handling
-        const dropzone = document.getElementById('dropzone');
-        const fileInput = document.getElementById('fileInput');
-        
+        const dropzone = document.getElementById('dropzone'), fileInput = document.getElementById('fileInput');
         dropzone.onclick = () => fileInput.click();
         dropzone.ondragover = e => { e.preventDefault(); dropzone.classList.add('dragover'); };
         dropzone.ondragleave = () => dropzone.classList.remove('dragover');
@@ -288,64 +285,38 @@
             updateBtn();
         };
         
-        function updateBtn() {
-            document.getElementById('analyzeBtn').disabled = !(selectedAsset && selectedFile);
-        }
+        function updateBtn() { document.getElementById('analyzeBtn').disabled = !(selectedAsset && selectedFile); }
         
-        // Analyze
         document.getElementById('analyzeBtn').onclick = async () => {
             if (!selectedAsset || !selectedFile) return;
-            
-            const timeframe = document.getElementById('timeframe').value;
             Loading.show('Analyzing chart patterns...');
-            
             try {
                 const formData = new FormData();
                 formData.append('asset', selectedAsset);
-                formData.append('timeframe', timeframe);
+                formData.append('timeframe', document.getElementById('timeframe').value);
                 formData.append('file', selectedFile);
-                
                 const data = await API.postForm('/chart/analyze', formData);
                 displayResults(data);
                 Toast.success('Analysis complete!');
-            } catch (e) {
-                Toast.error(e.message);
-            } finally {
-                Loading.hide();
-            }
+            } catch (e) { Toast.error(e.message); }
+            finally { Loading.hide(); }
         };
         
         function displayResults(data) {
             document.getElementById('uploadSection').style.display = 'none';
             document.getElementById('results').classList.add('active');
-            
             const side = data.recommended_trade.side.toLowerCase();
             document.getElementById('recCard').className = 'rec-card ' + side;
             document.getElementById('recSide').className = 'rec-side ' + side;
             document.getElementById('recSide').textContent = side.toUpperCase();
             document.getElementById('recProb').textContent = Math.round(data.recommended_trade.probability * 100) + '%';
             document.getElementById('recRationale').textContent = data.recommended_trade.rationale;
-            
             document.getElementById('bullishOutcomes').innerHTML = data.bullish.map(o => `
-                <div class="outcome-item">
-                    <div class="outcome-header">
-                        <span class="outcome-name">${o.name}</span>
-                        <span class="outcome-prob ${o.probability >= 0.3 ? 'high' : o.probability >= 0.15 ? 'medium' : 'low'}">${Math.round(o.probability * 100)}%</span>
-                    </div>
-                    <div class="outcome-explanation">${o.explanation}</div>
-                </div>
+                <div class="outcome-item"><div class="outcome-header"><span class="outcome-name">${o.name}</span><span class="outcome-prob ${o.probability >= 0.3 ? 'high' : o.probability >= 0.15 ? 'medium' : 'low'}">${Math.round(o.probability * 100)}%</span></div><div class="outcome-explanation">${o.explanation}</div></div>
             `).join('');
-            
             document.getElementById('bearishOutcomes').innerHTML = data.bearish.map(o => `
-                <div class="outcome-item">
-                    <div class="outcome-header">
-                        <span class="outcome-name">${o.name}</span>
-                        <span class="outcome-prob ${o.probability >= 0.3 ? 'high' : o.probability >= 0.15 ? 'medium' : 'low'}">${Math.round(o.probability * 100)}%</span>
-                    </div>
-                    <div class="outcome-explanation">${o.explanation}</div>
-                </div>
+                <div class="outcome-item"><div class="outcome-header"><span class="outcome-name">${o.name}</span><span class="outcome-prob ${o.probability >= 0.3 ? 'high' : o.probability >= 0.15 ? 'medium' : 'low'}">${Math.round(o.probability * 100)}%</span></div><div class="outcome-explanation">${o.explanation}</div></div>
             `).join('');
-            
             document.getElementById('metaAsset').textContent = `${data.asset} • ${data.timeframe}`;
             document.getElementById('metaModel').textContent = `Model: ${data.model_version}`;
             document.getElementById('metaTime').textContent = `Generated: ${new Date(data.generated_at).toLocaleString()}`;
