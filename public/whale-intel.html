@@ -4,409 +4,105 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GOTHAM INTEL | ELUXRAJ</title>
-    <script>if(!localStorage.getItem('token'))window.location.replace('/login.html');</script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --bg: #000000;
-            --bg2: #050508;
-            --bg3: #0a0a10;
-            --card: #0d0d15;
-            --glass-border: rgba(255,255,255,0.12);
-            --border: rgba(255,255,255,0.08);
-            --purple: #a855f7;
-            --purple-bright: #c084fc;
-            --cyan: #22d3ee;
-            --cyan-bright: #67e8f9;
-            --green: #10b981;
-            --green-bright: #34d399;
-            --red: #ef4444;
-            --red-bright: #f87171;
-            --yellow: #fbbf24;
-            --orange: #fb923c;
-            --blue: #3b82f6;
-            --white: #ffffff;
-            --gray300: #d1d5db;
-            --gray400: #9ca3af;
-            --gray500: #6b7280;
-        }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { 
-            font-family: 'Inter', -apple-system, sans-serif; 
-            background: var(--bg); 
-            color: var(--white); 
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
+        :root{--bg:#000;--card:#0d0d15;--border:rgba(255,255,255,0.1);--purple:#a855f7;--cyan:#22d3ee;--green:#10b981;--red:#ef4444;--yellow:#fbbf24;--white:#fff;--gray300:#d1d5db;--gray400:#9ca3af;--gray500:#6b7280}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);min-height:100vh}
         
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 14px 28px;
-            background: rgba(5,5,10,0.95);
-            border-bottom: 1px solid var(--glass-border);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-        .logo { display: flex; align-items: center; gap: 14px; }
-        .logo-icon {
-            width: 42px;
-            height: 42px;
-            background: linear-gradient(135deg, var(--purple), var(--cyan));
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-        }
-        .logo-text {
-            font-size: 1.3rem;
-            font-weight: 900;
-            letter-spacing: 3px;
-            background: linear-gradient(135deg, var(--white), var(--cyan-bright));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        .nav { display: flex; gap: 6px; }
-        .nav-item {
-            padding: 10px 20px;
-            color: var(--gray400);
-            text-decoration: none;
-            font-size: 0.9rem;
-            font-weight: 600;
-            border-radius: 12px;
-            transition: all 0.2s;
-        }
-        .nav-item:hover { color: var(--white); background: rgba(255,255,255,0.05); }
-        .nav-item.active { 
-            color: var(--white);
-            background: linear-gradient(135deg, rgba(168,85,247,0.3), rgba(34,211,238,0.2));
-        }
-        .header-right { display: flex; align-items: center; gap: 16px; }
-        .search-box {
-            display: flex;
-            align-items: center;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid var(--glass-border);
-            border-radius: 14px;
-            padding: 12px 20px;
-            gap: 12px;
-            min-width: 340px;
-        }
-        .search-box:focus-within { border-color: var(--cyan); }
-        .search-box input {
-            background: none;
-            border: none;
-            color: var(--white);
-            font-size: 0.9rem;
-            outline: none;
-            width: 100%;
-        }
-        .search-box input::placeholder { color: var(--gray500); }
-        .profile-btn {
-            padding: 12px 24px;
-            background: linear-gradient(135deg, var(--purple), var(--blue));
-            border: none;
-            border-radius: 12px;
-            color: var(--white);
-            font-size: 0.85rem;
-            font-weight: 700;
-            cursor: pointer;
-        }
+        .header{display:flex;justify-content:space-between;align-items:center;padding:14px 24px;background:rgba(5,5,10,0.95);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
+        .logo{display:flex;align-items:center;gap:12px}
+        .logo-icon{width:38px;height:38px;background:linear-gradient(135deg,var(--purple),var(--cyan));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px}
+        .logo-text{font-size:1.2rem;font-weight:900;letter-spacing:2px;background:linear-gradient(135deg,var(--white),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .nav{display:flex;gap:6px}
+        .nav a{padding:8px 16px;color:var(--gray400);text-decoration:none;font-size:.85rem;font-weight:600;border-radius:10px;transition:all .2s}
+        .nav a:hover{color:var(--white);background:rgba(255,255,255,0.05)}
+        .nav a.active{color:var(--white);background:linear-gradient(135deg,rgba(168,85,247,0.3),rgba(34,211,238,0.2))}
         
-        .ticker-wrapper {
-            background: var(--bg2);
-            border-bottom: 1px solid var(--glass-border);
-            overflow: hidden;
-            position: relative;
-        }
-        .ticker-track {
-            display: flex;
-            width: max-content;
-            animation: ticker 60s linear infinite;
-        }
-        .ticker-track:hover { animation-play-state: paused; }
-        @keyframes ticker {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        .ticker-item {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            padding: 14px 32px;
-            white-space: nowrap;
-            border-right: 1px solid rgba(255,255,255,0.05);
-        }
-        .ticker-icon {
-            width: 28px;
-            height: 28px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-            background: rgba(255,255,255,0.1);
-        }
-        .ticker-entity { color: var(--gray300); font-weight: 600; font-size: 0.85rem; }
-        .ticker-value { font-family: 'JetBrains Mono', monospace; font-weight: 700; font-size: 0.85rem; }
-        .ticker-change { font-size: 0.8rem; font-weight: 700; padding: 3px 8px; border-radius: 6px; }
-        .ticker-change.up { color: var(--green-bright); background: rgba(16,185,129,0.15); }
-        .ticker-change.down { color: var(--red-bright); background: rgba(239,68,68,0.15); }
+        .title-section{padding:32px 24px 24px;text-align:center}
+        .page-title{font-size:2.5rem;font-weight:900;letter-spacing:4px;background:linear-gradient(135deg,var(--white),var(--cyan),var(--purple));-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px}
+        .page-subtitle{color:var(--gray500);font-size:.9rem}
         
-        .title-section { padding: 40px 24px 32px; text-align: center; }
-        .page-title {
-            font-size: 3.5rem;
-            font-weight: 900;
-            letter-spacing: 6px;
-            background: linear-gradient(135deg, var(--white), var(--cyan-bright), var(--purple-bright));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            margin-bottom: 8px;
-        }
-        .page-subtitle { color: var(--gray400); font-size: 1rem; letter-spacing: 2px; }
+        .main{display:grid;grid-template-columns:1fr 380px;gap:20px;padding:0 24px 40px;max-width:1600px;margin:0 auto}
+        @media(max-width:1100px){.main{grid-template-columns:1fr}}
         
-        .main {
-            display: grid;
-            grid-template-columns: 1fr 420px;
-            gap: 24px;
-            padding: 0 24px 40px;
-            max-width: 1700px;
-            margin: 0 auto;
-        }
-        @media (max-width: 1200px) { .main { grid-template-columns: 1fr; } }
+        .card{background:var(--card);border:1px solid var(--border);border-radius:16px;overflow:hidden}
+        .card-header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--border)}
+        .card-title{font-size:.8rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--cyan)}
+        .card-badge{font-size:.65rem;font-weight:700;padding:4px 10px;border-radius:16px;background:linear-gradient(135deg,var(--green),var(--cyan));color:var(--white)}
         
-        .card {
-            background: var(--card);
-            border: 1px solid var(--glass-border);
-            border-radius: 20px;
-            overflow: hidden;
-        }
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 18px 24px;
-            border-bottom: 1px solid var(--border);
-        }
-        .card-title {
-            font-size: 0.85rem;
-            font-weight: 800;
-            letter-spacing: 1.5px;
-            text-transform: uppercase;
-            color: var(--cyan-bright);
-        }
-        .card-badge {
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 5px 12px;
-            border-radius: 20px;
-            background: linear-gradient(135deg, var(--green), var(--cyan));
-            color: var(--white);
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-        .badge-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--white);
-            border-radius: 50%;
-        }
+        .insights-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:18px}
+        @media(max-width:900px){.insights-grid{grid-template-columns:repeat(2,1fr)}}
+        @media(max-width:500px){.insights-grid{grid-template-columns:1fr}}
+        .insight-card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:16px;cursor:pointer;transition:all .2s}
+        .insight-card:hover{border-color:var(--cyan);transform:translateY(-2px)}
+        .insight-tags{display:flex;gap:5px;margin-bottom:12px;flex-wrap:wrap}
+        .tag{font-size:.6rem;font-weight:800;padding:4px 8px;border-radius:5px;text-transform:uppercase}
+        .tag.bullish{background:rgba(16,185,129,0.2);color:var(--green)}
+        .tag.bearish{background:rgba(239,68,68,0.2);color:var(--red)}
+        .tag.whale{background:rgba(59,130,246,0.2);color:#3b82f6}
+        .tag.important{background:rgba(239,68,68,0.2);color:var(--red)}
+        .tag.exchange{background:rgba(251,191,36,0.2);color:var(--yellow)}
+        .tag.institution{background:rgba(168,85,247,0.2);color:var(--purple)}
+        .tag.on-chain{background:rgba(34,211,238,0.2);color:var(--cyan)}
+        .insight-title{font-size:.9rem;font-weight:700;line-height:1.4;margin-bottom:10px}
+        .insight-meta{font-size:.7rem;color:var(--gray500)}
         
-        .insights-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 16px;
-            padding: 20px;
-        }
-        @media (max-width: 1000px) { .insights-grid { grid-template-columns: repeat(2, 1fr); } }
-        @media (max-width: 600px) { .insights-grid { grid-template-columns: 1fr; } }
-        .insight-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 16px;
-            padding: 18px;
-            cursor: pointer;
-            transition: border-color 0.2s, transform 0.2s;
-        }
-        .insight-card:hover {
-            border-color: var(--cyan);
-            transform: translateY(-4px);
-        }
-        .insight-tags { display: flex; gap: 6px; margin-bottom: 14px; flex-wrap: wrap; }
-        .tag {
-            font-size: 0.65rem;
-            font-weight: 800;
-            padding: 5px 10px;
-            border-radius: 6px;
-            text-transform: uppercase;
-        }
-        .tag.important { background: rgba(239,68,68,0.25); color: var(--red-bright); }
-        .tag.bullish { background: rgba(16,185,129,0.25); color: var(--green-bright); }
-        .tag.bearish { background: rgba(239,68,68,0.25); color: var(--red-bright); }
-        .tag.whale { background: rgba(59,130,246,0.25); color: var(--blue); }
-        .tag.exchange { background: rgba(249,115,22,0.25); color: var(--orange); }
-        .tag.institution { background: rgba(168,85,247,0.25); color: var(--purple-bright); }
-        .tag.on-chain { background: rgba(34,211,238,0.25); color: var(--cyan-bright); }
-        .insight-title { font-size: 0.95rem; font-weight: 700; line-height: 1.5; margin-bottom: 14px; }
-        .insight-meta { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--gray500); }
-        .insight-tokens { display: flex; align-items: center; gap: 6px; }
-        .token-icon {
-            width: 20px;
-            height: 20px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 10px;
-            font-weight: 700;
-        }
-        .token-icon.btc { background: linear-gradient(135deg, #f7931a, #ffab40); }
-        .token-icon.eth { background: linear-gradient(135deg, #627eea, #8fa8ff); }
-        .token-icon.sol { background: linear-gradient(135deg, #9945ff, #14f195); }
+        .flows-section{padding:18px}
+        .flow-item{display:flex;align-items:center;gap:14px;padding:14px;margin-bottom:10px;background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.05);border-radius:12px;transition:all .2s}
+        .flow-item:hover{border-color:var(--purple)}
+        .flow-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;background:rgba(255,255,255,0.05)}
+        .flow-info{flex:1}
+        .flow-name{font-size:.95rem;font-weight:700}
+        .flow-type{font-size:.7rem;color:var(--gray500)}
+        .flow-bars{width:130px}
+        .flow-bar-row{display:flex;align-items:center;gap:6px;margin-bottom:5px}
+        .flow-bar-label{font-size:.6rem;color:var(--gray500);width:22px}
+        .flow-bar{flex:1;height:6px;border-radius:3px;background:rgba(255,255,255,0.05);overflow:hidden}
+        .flow-bar-fill{height:100%;border-radius:3px}
+        .flow-bar-fill.inflow{background:linear-gradient(90deg,var(--red),var(--yellow))}
+        .flow-bar-fill.outflow{background:linear-gradient(90deg,var(--green),var(--cyan))}
+        .flow-bar-value{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--gray400);width:50px;text-align:right}
+        .flow-net{text-align:right;min-width:80px}
+        .flow-net-value{font-family:'JetBrains Mono',monospace;font-size:.95rem;font-weight:800}
+        .flow-net-value.positive{color:var(--green)}
+        .flow-net-value.negative{color:var(--red)}
+        .flow-net-label{font-size:.6rem;color:var(--gray500);text-transform:uppercase}
         
-        .flows-section { padding: 20px; }
-        .flow-filters { display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap; }
-        .filter-btn {
-            padding: 8px 16px;
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px;
-            color: var(--gray400);
-            font-size: 0.75rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .filter-btn:hover { border-color: var(--cyan); color: var(--cyan); }
-        .filter-btn.active {
-            background: linear-gradient(135deg, var(--purple), var(--cyan));
-            border-color: transparent;
-            color: var(--white);
-        }
-        .flow-item {
-            display: flex;
-            align-items: center;
-            gap: 16px;
-            padding: 16px;
-            margin-bottom: 12px;
-            background: rgba(255,255,255,0.02);
-            border: 1px solid rgba(255,255,255,0.06);
-            border-radius: 14px;
-            transition: border-color 0.2s;
-        }
-        .flow-item:hover { border-color: var(--purple); }
-        .flow-icon {
-            width: 46px;
-            height: 46px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            background: rgba(255,255,255,0.05);
-        }
-        .flow-info { flex: 1; }
-        .flow-name { font-size: 1rem; font-weight: 700; margin-bottom: 2px; }
-        .flow-type { font-size: 0.75rem; color: var(--gray500); }
-        .flow-bars { width: 150px; }
-        .flow-bar-row { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
-        .flow-bar-label { font-size: 0.65rem; color: var(--gray500); width: 26px; }
-        .flow-bar {
-            flex: 1;
-            height: 8px;
-            border-radius: 4px;
-            background: rgba(255,255,255,0.05);
-            overflow: hidden;
-        }
-        .flow-bar-fill { height: 100%; border-radius: 4px; }
-        .flow-bar-fill.inflow { background: linear-gradient(90deg, var(--red), var(--orange)); }
-        .flow-bar-fill.outflow { background: linear-gradient(90deg, var(--green), var(--cyan)); }
-        .flow-bar-value {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 0.7rem;
-            color: var(--gray400);
-            width: 60px;
-            text-align: right;
-        }
-        .flow-net { text-align: right; min-width: 90px; }
-        .flow-net-value { font-family: 'JetBrains Mono', monospace; font-size: 1rem; font-weight: 800; }
-        .flow-net-value.positive { color: var(--green-bright); }
-        .flow-net-value.negative { color: var(--red-bright); }
-        .flow-net-label { font-size: 0.65rem; color: var(--gray500); text-transform: uppercase; }
+        .sm-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:18px}
+        .sm-stat{text-align:center;padding:20px 14px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.06);border-radius:12px}
+        .sm-stat-value{font-family:'JetBrains Mono',monospace;font-size:2rem;font-weight:900;margin-bottom:6px}
+        .sm-stat-value.bullish{color:var(--green)}
+        .sm-stat-value.bearish{color:var(--red)}
+        .sm-stat-label{font-size:.7rem;color:var(--gray400);text-transform:uppercase;letter-spacing:.5px}
         
-        .transfer-feed { max-height: 650px; overflow-y: auto; }
-        .transfer-header {
-            display: grid;
-            grid-template-columns: 90px 1fr 1fr 40px;
-            gap: 12px;
-            padding: 14px 20px;
-            font-size: 0.7rem;
-            font-weight: 700;
-            color: var(--gray500);
-            text-transform: uppercase;
-            border-bottom: 1px solid var(--border);
-            position: sticky;
-            top: 0;
-            background: var(--card);
-        }
-        .transfer-row {
-            display: grid;
-            grid-template-columns: 90px 1fr 1fr 40px;
-            gap: 12px;
-            padding: 14px 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.04);
-            align-items: center;
-        }
-        .transfer-row:hover { background: rgba(168,85,247,0.05); }
-        .transfer-time { font-size: 0.8rem; color: var(--cyan-bright); font-weight: 600; }
-        .transfer-entity { display: flex; align-items: center; gap: 10px; }
-        .entity-icon {
-            width: 32px;
-            height: 32px;
-            border-radius: 8px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 14px;
-        }
-        .entity-icon.exchange { background: rgba(249,115,22,0.2); }
-        .entity-icon.whale { background: rgba(59,130,246,0.2); }
-        .entity-name { font-size: 0.85rem; font-weight: 600; }
-        .entity-amount { font-size: 0.7rem; color: var(--gray500); font-family: 'JetBrains Mono', monospace; }
-        .transfer-impact { display: flex; justify-content: center; }
-        .impact-dot { width: 12px; height: 12px; border-radius: 50%; }
-        .impact-dot.bullish { background: var(--green-bright); box-shadow: 0 0 8px var(--green); }
-        .impact-dot.bearish { background: var(--red-bright); box-shadow: 0 0 8px var(--red); }
+        .transfer-feed{max-height:600px;overflow-y:auto}
+        .transfer-header{display:grid;grid-template-columns:70px 1fr 1fr 36px;gap:10px;padding:12px 16px;font-size:.65rem;font-weight:700;color:var(--gray500);text-transform:uppercase;border-bottom:1px solid var(--border);position:sticky;top:0;background:var(--card)}
+        .transfer-row{display:grid;grid-template-columns:70px 1fr 1fr 36px;gap:10px;padding:12px 16px;border-bottom:1px solid rgba(255,255,255,0.03);align-items:center;transition:background .2s}
+        .transfer-row:hover{background:rgba(168,85,247,0.05)}
+        .transfer-row.new{animation:flashNew .5s ease}
+        @keyframes flashNew{0%{background:rgba(34,211,238,0.2)}100%{background:transparent}}
+        .transfer-time{font-size:.75rem;color:var(--cyan);font-weight:600}
+        .transfer-entity{display:flex;align-items:center;gap:8px}
+        .entity-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px}
+        .entity-icon.exchange{background:rgba(251,191,36,0.2)}
+        .entity-icon.whale{background:rgba(59,130,246,0.2)}
+        .entity-name{font-size:.8rem;font-weight:600}
+        .entity-amount{font-size:.65rem;color:var(--gray500);font-family:'JetBrains Mono',monospace}
+        .impact-dot{width:10px;height:10px;border-radius:50%}
+        .impact-dot.bullish{background:var(--green);box-shadow:0 0 6px var(--green)}
+        .impact-dot.bearish{background:var(--red);box-shadow:0 0 6px var(--red)}
         
-        .sm-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; padding: 20px; }
-        .sm-stat {
-            text-align: center;
-            padding: 24px 16px;
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 16px;
-            transition: border-color 0.2s, transform 0.2s;
-        }
-        .sm-stat:hover { border-color: var(--purple); transform: translateY(-4px); }
-        .sm-stat-value {
-            font-family: 'JetBrains Mono', monospace;
-            font-size: 2.2rem;
-            font-weight: 900;
-            margin-bottom: 8px;
-        }
-        .sm-stat-value.bullish { color: var(--green-bright); }
-        .sm-stat-value.bearish { color: var(--red-bright); }
-        .sm-stat-label { font-size: 0.75rem; color: var(--gray400); text-transform: uppercase; letter-spacing: 1px; }
+        .skeleton{background:linear-gradient(90deg,var(--card) 25%,rgba(168,85,247,0.1) 50%,var(--card) 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:6px}
+        @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
         
-        .loading { text-align: center; padding: 40px; color: var(--gray500); }
+        .error-state{text-align:center;padding:40px 20px;color:var(--gray400)}
+        .error-state .icon{font-size:2.5rem;margin-bottom:12px}
+        .error-state .retry-btn{margin-top:12px;padding:10px 20px;background:var(--purple);border:none;border-radius:8px;color:var(--white);font-weight:600;cursor:pointer}
         
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: var(--bg2); }
-        ::-webkit-scrollbar-thumb { background: var(--purple); border-radius: 3px; }
+        ::-webkit-scrollbar{width:5px}
+        ::-webkit-scrollbar-track{background:var(--bg)}
+        ::-webkit-scrollbar-thumb{background:var(--purple);border-radius:3px}
     </style>
 </head>
 <body>
@@ -416,23 +112,12 @@
             <span class="logo-text">ELUXRAJ</span>
         </div>
         <nav class="nav">
-            <a href="/dashboard.html" class="nav-item">Dashboard</a>
-            <a href="/oracle.html" class="nav-item">Oracle</a>
-            <a href="/whale-intel.html" class="nav-item active">Gotham Intel</a>
-            <a href="/chart-analysis.html" class="nav-item">Chart AI</a>
+            <a href="/dashboard.html">Dashboard</a>
+            <a href="/oracle.html">Oracle</a>
+            <a href="/whale-intel.html" class="active">Gotham Intel</a>
+            <a href="/chart-analysis.html">Chart AI</a>
         </nav>
-        <div class="header-right">
-            <div class="search-box">
-                <span>🔍</span>
-                <input type="text" placeholder="Search tokens, addresses, entities...">
-            </div>
-            <button class="profile-btn">Profile</button>
-        </div>
     </header>
-    
-    <div class="ticker-wrapper">
-        <div class="ticker-track" id="tickerTrack"></div>
-    </div>
     
     <section class="title-section">
         <h1 class="page-title">GOTHAM INTEL</h1>
@@ -444,32 +129,28 @@
             <div class="card">
                 <div class="card-header">
                     <span class="card-title">🔥 Trending Insights</span>
-                    <span class="card-badge"><span class="badge-dot"></span> Live</span>
+                    <span class="card-badge" id="insightsBadge">Loading</span>
                 </div>
                 <div class="insights-grid" id="insightsGrid">
-                    <div class="loading">Loading insights...</div>
+                    <div class="skeleton" style="height:150px"></div>
+                    <div class="skeleton" style="height:150px"></div>
+                    <div class="skeleton" style="height:150px"></div>
                 </div>
             </div>
             
-            <div class="card" style="margin-top: 24px;">
+            <div class="card" style="margin-top:20px">
                 <div class="card-header">
                     <span class="card-title">💹 Exchange Flows</span>
                     <span class="card-badge">24H</span>
                 </div>
-                <div class="flows-section">
-                    <div class="flow-filters">
-                        <button class="filter-btn active">All Exchanges</button>
-                        <button class="filter-btn">CEX Only</button>
-                        <button class="filter-btn">Volume ≥ $10M</button>
-                        <button class="filter-btn">Sort by Netflow</button>
-                    </div>
-                    <div id="flowsList">
-                        <div class="loading">Loading exchange flows...</div>
-                    </div>
+                <div class="flows-section" id="flowsList">
+                    <div class="skeleton" style="height:60px;margin-bottom:10px"></div>
+                    <div class="skeleton" style="height:60px;margin-bottom:10px"></div>
+                    <div class="skeleton" style="height:60px"></div>
                 </div>
             </div>
             
-            <div class="card" style="margin-top: 24px;">
+            <div class="card" style="margin-top:20px">
                 <div class="card-header">
                     <span class="card-title">🧠 Smart Money Sentiment</span>
                     <span class="card-badge" id="sentimentBadge">Analyzing</span>
@@ -504,99 +185,51 @@
                     <span></span>
                 </div>
                 <div class="transfer-feed" id="transferFeed">
-                    <div class="loading">Loading transfers...</div>
+                    <div style="padding:20px"><div class="skeleton" style="height:40px;margin-bottom:10px"></div><div class="skeleton" style="height:40px;margin-bottom:10px"></div><div class="skeleton" style="height:40px"></div></div>
                 </div>
             </div>
         </div>
     </main>
     
+    <script src="/js/eluxraj-utils.js"></script>
     <script>
-        const API = 'https://eluxraj-api-production.up.railway.app/api/v1';
+        const exchangeIcons = {'Binance':'🟡','Coinbase':'🔵','Kraken':'🟣','OKX':'⚫','Bitfinex':'🟢','Bybit':'🟠'};
         
-        // Auth
         (async () => {
-            const token = localStorage.getItem('token');
-            if (!token) { window.location.replace('/login.html'); return; }
-            try {
-                const res = await fetch(`${API}/auth/me`, { headers: { 'Authorization': `Bearer ${token}` } });
-                if (!res.ok) throw new Error();
-                init();
-            } catch (e) {
-                localStorage.removeItem('token');
-                window.location.replace('/login.html');
-            }
-        })();
-        
-        const exchangeIcons = {
-            'Binance': '🟡',
-            'Coinbase': '🔵',
-            'Kraken': '🟣',
-            'OKX': '⚫',
-            'Bitfinex': '🟢',
-            'Bybit': '🟠'
-        };
-        
-        async function init() {
-            loadTicker();
-            await Promise.all([
-                loadInsights(),
-                loadFlows(),
-                loadTransfers(),
-                loadSentiment()
-            ]);
+            const user = await Auth.check();
+            if (!user) return;
             
-            // Refresh every 30 seconds
+            loadAll();
             setInterval(loadTransfers, 30000);
             setInterval(loadSentiment, 30000);
-        }
+        })();
         
-        function loadTicker() {
-            const tickerData = [
-                { icon: '🦇', entity: 'Gotham Intel', value: 'LIVE', change: '●', up: true },
-                { icon: '🐋', entity: 'Whale Activity', value: '$489M', change: '+2.8%', up: true },
-                { icon: '📊', entity: 'Exchange Volume', value: '$35.2M', change: '+2.5%', up: true },
-                { icon: '🟡', entity: 'Binance Flow', value: '+$78M', change: 'Net Out', up: true },
-                { icon: '🔵', entity: 'Coinbase Flow', value: '+$42M', change: 'Net Out', up: true },
-                { icon: '₿', entity: 'BTC Whales', value: '$2.1B', change: '+3.4%', up: true },
-                { icon: 'Ξ', entity: 'ETH Whales', value: '$1.8B', change: '+2.1%', up: true },
-                { icon: '◎', entity: 'SOL Whales', value: '$567M', change: '+5.2%', up: true },
-            ];
-            const doubled = [...tickerData, ...tickerData];
-            document.getElementById('tickerTrack').innerHTML = doubled.map(t => `
-                <div class="ticker-item">
-                    <span class="ticker-icon">${t.icon}</span>
-                    <span class="ticker-entity">${t.entity}</span>
-                    <span class="ticker-value">${t.value}</span>
-                    <span class="ticker-change ${t.up ? 'up' : 'down'}">${t.change}</span>
-                </div>
-            `).join('');
+        async function loadAll() {
+            await Promise.all([loadInsights(), loadFlows(), loadTransfers(), loadSentiment()]);
+            Toast.success('Data loaded successfully');
         }
         
         async function loadInsights() {
             try {
-                const res = await fetch(`${API}/whale/insights`);
-                const data = await res.json();
+                const data = await API.get('/whale/insights');
                 if (data.ok && data.insights) {
+                    document.getElementById('insightsBadge').textContent = 'Live';
                     document.getElementById('insightsGrid').innerHTML = data.insights.map(i => `
                         <div class="insight-card">
                             <div class="insight-tags">${i.tags.map(t => `<span class="tag ${t}">${t}</span>`).join('')}</div>
                             <div class="insight-title">${i.title}</div>
-                            <div class="insight-meta">
-                                <div class="insight-tokens">Tokens: ${i.tokens.map(t => `<span class="token-icon ${t.toLowerCase()}">${t === 'BTC' ? '₿' : t === 'ETH' ? 'Ξ' : '◎'}</span>`).join('')}</div>
-                                <span>${i.time} • ${i.updates} updates</span>
-                            </div>
+                            <div class="insight-meta">${i.time} • ${i.updates} updates</div>
                         </div>
                     `).join('');
                 }
             } catch (e) {
-                console.error('Error loading insights:', e);
+                document.getElementById('insightsGrid').innerHTML = `<div class="error-state"><div class="icon">⚠️</div><div>${e.message}</div><button class="retry-btn" onclick="loadInsights()">Retry</button></div>`;
             }
         }
         
         async function loadFlows() {
             try {
-                const res = await fetch(`${API}/whale/flows`);
-                const data = await res.json();
+                const data = await API.get('/whale/flows');
                 if (data.ok && data.exchanges) {
                     const max = Math.max(...data.exchanges.map(e => Math.max(e.inflow, e.outflow)));
                     document.getElementById('flowsList').innerHTML = data.exchanges.map(ex => {
@@ -607,118 +240,65 @@
                         return `
                             <div class="flow-item">
                                 <div class="flow-icon">${icon}</div>
-                                <div class="flow-info">
-                                    <div class="flow-name">${ex.name}</div>
-                                    <div class="flow-type">${ex.type}</div>
-                                </div>
+                                <div class="flow-info"><div class="flow-name">${ex.name}</div><div class="flow-type">${ex.type}</div></div>
                                 <div class="flow-bars">
-                                    <div class="flow-bar-row">
-                                        <span class="flow-bar-label">In</span>
-                                        <div class="flow-bar"><div class="flow-bar-fill inflow" style="width:${(ex.inflow/max)*100}%"></div></div>
-                                        <span class="flow-bar-value">$${inM}M</span>
-                                    </div>
-                                    <div class="flow-bar-row">
-                                        <span class="flow-bar-label">Out</span>
-                                        <div class="flow-bar"><div class="flow-bar-fill outflow" style="width:${(ex.outflow/max)*100}%"></div></div>
-                                        <span class="flow-bar-value">$${outM}M</span>
-                                    </div>
+                                    <div class="flow-bar-row"><span class="flow-bar-label">In</span><div class="flow-bar"><div class="flow-bar-fill inflow" style="width:${(ex.inflow/max)*100}%"></div></div><span class="flow-bar-value">$${inM}M</span></div>
+                                    <div class="flow-bar-row"><span class="flow-bar-label">Out</span><div class="flow-bar"><div class="flow-bar-fill outflow" style="width:${(ex.outflow/max)*100}%"></div></div><span class="flow-bar-value">$${outM}M</span></div>
                                 </div>
-                                <div class="flow-net">
-                                    <div class="flow-net-value ${ex.net_flow >= 0 ? 'positive' : 'negative'}">${ex.net_flow >= 0 ? '+' : ''}$${netM}M</div>
-                                    <div class="flow-net-label">Net Flow</div>
-                                </div>
-                            </div>
-                        `;
+                                <div class="flow-net"><div class="flow-net-value ${ex.net_flow >= 0 ? 'positive' : 'negative'}">${ex.net_flow >= 0 ? '+' : ''}$${netM}M</div><div class="flow-net-label">Net Flow</div></div>
+                            </div>`;
                     }).join('');
                 }
             } catch (e) {
-                console.error('Error loading flows:', e);
+                document.getElementById('flowsList').innerHTML = `<div class="error-state"><div class="icon">⚠️</div><div>${e.message}</div><button class="retry-btn" onclick="loadFlows()">Retry</button></div>`;
             }
         }
         
         async function loadTransfers() {
             try {
-                const res = await fetch(`${API}/whale/transfers?limit=50`);
-                const data = await res.json();
+                const data = await API.get('/whale/transfers?limit=50');
                 if (data.ok && data.transfers) {
                     document.getElementById('transferCount').textContent = data.count;
-                    document.getElementById('transferFeed').innerHTML = data.transfers.map(tx => {
-                        const time = formatTime(tx.timestamp);
-                        const amountStr = formatAmount(tx.amount, tx.symbol);
-                        const usdStr = formatUSD(tx.amount_usd);
-                        return `
-                            <div class="transfer-row">
-                                <div class="transfer-time">${time}</div>
-                                <div class="transfer-entity">
-                                    <div class="entity-icon ${tx.from.type}">${tx.from.type === 'exchange' ? '🏛️' : '🐋'}</div>
-                                    <div>
-                                        <div class="entity-name">${tx.from.name}</div>
-                                        <div class="entity-amount">${amountStr} ${tx.symbol}</div>
-                                    </div>
-                                </div>
-                                <div class="transfer-entity">
-                                    <div class="entity-icon ${tx.to.type}">${tx.to.type === 'exchange' ? '🏛️' : '🐋'}</div>
-                                    <div>
-                                        <div class="entity-name">${tx.to.name}</div>
-                                        <div class="entity-amount">${usdStr}</div>
-                                    </div>
-                                </div>
-                                <div class="transfer-impact"><div class="impact-dot ${tx.impact}"></div></div>
+                    document.getElementById('transferFeed').innerHTML = data.transfers.map(tx => `
+                        <div class="transfer-row">
+                            <div class="transfer-time">${Format.timeAgo(tx.timestamp)}</div>
+                            <div class="transfer-entity">
+                                <div class="entity-icon ${tx.from.type}">${tx.from.type === 'exchange' ? '🏛️' : '🐋'}</div>
+                                <div><div class="entity-name">${tx.from.name}</div><div class="entity-amount">${formatAmount(tx.amount, tx.symbol)}</div></div>
                             </div>
-                        `;
-                    }).join('');
+                            <div class="transfer-entity">
+                                <div class="entity-icon ${tx.to.type}">${tx.to.type === 'exchange' ? '🏛️' : '🐋'}</div>
+                                <div><div class="entity-name">${tx.to.name}</div><div class="entity-amount">${Format.currency(tx.amount_usd)}</div></div>
+                            </div>
+                            <div><div class="impact-dot ${tx.impact}"></div></div>
+                        </div>
+                    `).join('');
                 }
             } catch (e) {
-                console.error('Error loading transfers:', e);
+                Toast.error('Failed to load transfers');
             }
         }
         
         async function loadSentiment() {
             try {
-                const res = await fetch(`${API}/whale/sentiment`);
-                const data = await res.json();
+                const data = await API.get('/whale/sentiment');
                 if (data.ok) {
                     document.getElementById('bullishCount').textContent = data.bullish_signals;
                     document.getElementById('bearishCount').textContent = data.bearish_signals;
-                    
                     const netM = (data.net_flow_usd / 1e6).toFixed(1);
                     document.getElementById('netFlow').textContent = `${data.net_flow_usd >= 0 ? '+' : ''}$${netM}M`;
                     document.getElementById('netFlow').className = `sm-stat-value ${data.net_flow_usd >= 0 ? 'bullish' : 'bearish'}`;
-                    
                     document.getElementById('sentimentBadge').textContent = data.sentiment;
                 }
             } catch (e) {
-                console.error('Error loading sentiment:', e);
+                Toast.error('Failed to load sentiment');
             }
         }
         
-        function formatTime(timestamp) {
-            const date = new Date(timestamp);
-            const now = new Date();
-            const diff = Math.floor((now - date) / 1000);
-            if (diff < 60) return `${diff}s ago`;
-            if (diff < 3600) return `${Math.floor(diff/60)}m ago`;
-            return `${Math.floor(diff/3600)}h ago`;
-        }
-        
         function formatAmount(amount, symbol) {
-            if (amount >= 1000) return amount.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-            return amount.toFixed(2);
+            if (amount >= 1000) return amount.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",") + ' ' + symbol;
+            return amount.toFixed(2) + ' ' + symbol;
         }
-        
-        function formatUSD(amount) {
-            if (amount >= 1e6) return `$${(amount/1e6).toFixed(1)}M`;
-            if (amount >= 1e3) return `$${(amount/1e3).toFixed(0)}K`;
-            return `$${amount.toFixed(0)}`;
-        }
-        
-        // Filter buttons
-        document.querySelectorAll('.filter-btn').forEach(btn => {
-            btn.onclick = function() {
-                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
-                this.classList.add('active');
-            };
-        });
     </script>
 </body>
 </html>
