@@ -109,8 +109,6 @@
         .risk-value.average{color:var(--yellow)}
         .risk-value.poor{color:var(--red)}
         .risk-label{font-size:.7rem;color:var(--text-faint)}
-        .risk-bar{height:6px;background:rgba(255,255,255,0.1);border-radius:3px;margin-top:12px;overflow:hidden}
-        .risk-bar-fill{height:100%;border-radius:3px;transition:width .5s}
         
         .components-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:24px}
         @media(max-width:800px){.components-grid{grid-template-columns:1fr}}
@@ -182,7 +180,7 @@
         <div class="last-updated" id="lastUpdated"></div>
         
         <div class="disclaimer">
-            <strong>⚠️ Not Financial Advice:</strong> ORACLE signals are for informational purposes only. Past performance does not guarantee future results. Always do your own research and consult a financial advisor before making investment decisions.
+            <strong>⚠️ Not Financial Advice:</strong> ORACLE signals are for informational purposes only. Past performance does not guarantee future results. Always do your own research and consult a financial advisor.
         </div>
     </main>
     
@@ -196,12 +194,7 @@
             if (!user) return;
             
             if (user.subscription_tier === 'free') {
-                document.getElementById('content').innerHTML = `
-                    <div class="error-state">
-                        <div class="icon">🔒</div>
-                        <div class="message">ORACLE v3.0 requires Elite subscription</div>
-                        <a href="/pricing.html" class="retry-btn">Upgrade to Elite — $98/mo</a>
-                    </div>`;
+                document.getElementById('content').innerHTML = '<div class="error-state"><div class="icon">🔒</div><div class="message">ORACLE v3.0 requires Elite subscription</div><a href="/pricing.html" class="retry-btn">Upgrade to Elite — $98/mo</a></div>';
                 return;
             }
             
@@ -222,29 +215,15 @@
             isLoading = true;
             
             document.querySelectorAll('.token-btn').forEach(b => b.disabled = true);
-            document.getElementById('content').innerHTML = `
-                <div class="main-grid">
-                    <div class="score-card"><div class="skeleton" style="height:250px"></div></div>
-                    <div class="quant-card"><div class="skeleton" style="height:250px"></div></div>
-                </div>
-                <div class="section-title">Risk Metrics</div>
-                <div class="risk-grid">
-                    <div class="risk-card"><div class="skeleton" style="height:120px"></div></div>
-                    <div class="risk-card"><div class="skeleton" style="height:120px"></div></div>
-                    <div class="risk-card"><div class="skeleton" style="height:120px"></div></div>
-                </div>`;
+            document.getElementById('content').innerHTML = '<div class="main-grid"><div class="score-card"><div class="skeleton" style="height:250px"></div></div><div class="quant-card"><div class="skeleton" style="height:250px"></div></div></div>';
             
             try {
-                const data = await API.get(`/oracle/${symbol}`);
+                const response = await API.get("/oracle/score/" + symbol);
+                const data = response.data || response;
                 renderOracle(data);
-                document.getElementById('lastUpdated').textContent = `Last updated: ${new Date().toLocaleTimeString()}`;
+                document.getElementById('lastUpdated').textContent = 'Last updated: ' + new Date().toLocaleTimeString();
             } catch (err) {
-                document.getElementById('content').innerHTML = `
-                    <div class="error-state">
-                        <div class="icon">⚠️</div>
-                        <div class="message">${err.message}</div>
-                        <button class="retry-btn" onclick="loadOracle('${symbol}')">Retry</button>
-                    </div>`;
+                document.getElementById('content').innerHTML = '<div class="error-state"><div class="icon">⚠️</div><div class="message">' + err.message + '</div><button class="retry-btn" onclick="loadOracle(\'' + symbol + '\')">Retry</button></div>';
             } finally {
                 isLoading = false;
                 document.querySelectorAll('.token-btn').forEach(b => b.disabled = false);
@@ -253,191 +232,101 @@
         
         function renderOracle(data) {
             const score = data.oracle_score;
-            const signal = data.signal_type.replace(/_/g, ' ').toUpperCase();
+            const signal = (data.signal_type || 'hold').replace(/_/g, ' ').toUpperCase();
             const cls = score >= 55 ? 'bullish' : score <= 45 ? 'bearish' : 'neutral';
             
             const quant = data.quant_models || {};
             const detailed = data.detailed_models || {};
             const components = data.components || {};
+            const price = data.price || data.entry_price || 0;
+            const priceChange = data.price_change_24h || 0;
             
-            document.getElementById('content').innerHTML = `
-                <!-- Main Score & Quant Signal -->
-                <div class="main-grid">
-                    <div class="score-card ${cls}">
-                        <div class="score-label">ORACLE Score</div>
-                        <div class="score-value ${cls}">${score}</div>
-                        <div class="score-signal ${cls}">${signal}</div>
-                        <div class="score-meta">
-                            <div class="score-meta-item">
-                                <div class="score-meta-label">Price</div>
-                                <div class="score-meta-value">${Format.currency(data.price)}</div>
-                            </div>
-                            <div class="score-meta-item">
-                                <div class="score-meta-label">24h Change</div>
-                                <div class="score-meta-value ${data.price_change_24h >= 0 ? 'up' : 'down'}">${Format.percent(data.price_change_24h)}</div>
-                            </div>
-                            <div class="score-meta-item">
-                                <div class="score-meta-label">Confidence</div>
-                                <div class="score-meta-value">${data.confidence.toUpperCase()}</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="quant-card">
-                        <div class="quant-header">
-                            <span class="quant-title">🏛️ Institutional Models</span>
-                            <span class="quant-badge">${quant.models_used || 11} Models</span>
-                        </div>
-                        <div class="quant-signal">
-                            <div class="quant-signal-label">Quant Signal</div>
-                            <div class="quant-signal-value" style="color:${getSignalColor(quant.signal)}">${quant.signal || 'HOLD'}</div>
-                        </div>
-                        <div class="quant-insights">
-                            ${(quant.key_insights || []).slice(0, 4).map(insight => `
-                                <div class="quant-insight">
-                                    <span class="quant-insight-icon">📊</span>
-                                    <span>${insight}</span>
-                                </div>
-                            `).join('')}
-                        </div>
-                    </div>
-                </div>
-                
-                <!-- Risk Metrics -->
-                <div class="section-title">📉 Risk Metrics (Goldman Sachs Style)</div>
-                <div class="risk-grid">
-                    ${renderRiskCard('Sharpe Ratio', detailed.risk_metrics?.sharpe?.sharpe_ratio, detailed.risk_metrics?.sharpe?.quality, 'Risk-adjusted returns', getSharpeColor)}
-                    ${renderRiskCard('Sortino Ratio', detailed.risk_metrics?.sortino?.sortino_ratio, null, 'Downside risk adjusted', getSortinoColor)}
-                    ${renderRiskCard('VaR 95%', detailed.risk_metrics?.var?.var_95 ? detailed.risk_metrics.var.var_95 + '%' : '--', detailed.risk_metrics?.var?.risk_level, 'Max daily loss (95% conf)', getVaRColor)}
-                </div>
-                
-                <!-- Quant Models Breakdown -->
-                <div class="section-title">🧮 Quantitative Models</div>
-                <div class="models-grid">
-                    ${renderModelCard('Time-Series Momentum', 'AQR Capital', detailed.momentum_tsmom)}
-                    ${renderModelCard('Mean Reversion', 'Two Sigma', detailed.mean_reversion)}
-                    ${renderModelCard('Trend Following', 'CTA Style', detailed.trend)}
-                    ${renderModelCard('Volume Analysis', 'Market Microstructure', detailed.volume)}
-                </div>
-                
-                <!-- On-Chain Components -->
-                <div class="section-title">⛓️ On-Chain Intelligence</div>
-                <div class="components-grid">
-                    ${renderComponent('Whale Activity', components.whale_score, '🐋', 'Large holder accumulation/distribution')}
-                    ${renderComponent('Technical Score', components.technical_score, '📊', 'RSI, MACD, moving averages')}
-                    ${renderComponent('Market Sentiment', components.sentiment_score, '💬', 'Fear & Greed, social signals')}
-                    ${renderComponent('Liquidation Risk', components.liquidation_risk, '⚠️', 'Leverage and liquidation levels')}
-                </div>
-                
-                <!-- AI Reasoning -->
-                <div class="reasoning-card">
-                    <div class="reasoning-title">🤖 AI Analysis</div>
-                    <div class="reasoning-summary">${data.reasoning || 'Analysis based on institutional quant models and on-chain data.'}</div>
-                    <div class="reasoning-bullets">
-                        ${(data.reasoning_bullets || []).map(b => `
-                            <div class="reasoning-bullet">
-                                <span class="reasoning-bullet-icon">→</span>
-                                <span>${b}</span>
-                            </div>
-                        `).join('')}
-                    </div>
-                </div>
-                
-                <!-- Trade Setup -->
-                <div class="section-title">🎯 Trade Setup</div>
-                <div class="metrics-grid">
-                    <div class="metric-card">
-                        <div class="metric-icon">📍</div>
-                        <div class="metric-label">Entry Price</div>
-                        <div class="metric-value">${Format.currency(data.entry_price)}</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-icon">🎯</div>
-                        <div class="metric-label">Target</div>
-                        <div class="metric-value" style="color:var(--green)">${Format.currency(data.target_price)}</div>
-                        <div class="metric-sub">+${data.target_pct}%</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-icon">🛑</div>
-                        <div class="metric-label">Stop Loss</div>
-                        <div class="metric-value" style="color:var(--red)">${Format.currency(data.stop_loss)}</div>
-                        <div class="metric-sub">-${data.stop_pct}%</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-icon">⚖️</div>
-                        <div class="metric-label">Risk/Reward</div>
-                        <div class="metric-value">${data.risk_reward_ratio}:1</div>
-                    </div>
-                </div>
-            `;
+            document.getElementById('content').innerHTML = 
+                '<div class="main-grid">' +
+                    '<div class="score-card ' + cls + '">' +
+                        '<div class="score-label">ORACLE Score</div>' +
+                        '<div class="score-value ' + cls + '">' + score + '</div>' +
+                        '<div class="score-signal ' + cls + '">' + signal + '</div>' +
+                        '<div class="score-meta">' +
+                            '<div class="score-meta-item"><div class="score-meta-label">Price</div><div class="score-meta-value">' + Format.currency(price) + '</div></div>' +
+                            '<div class="score-meta-item"><div class="score-meta-label">24h</div><div class="score-meta-value ' + (priceChange >= 0 ? 'up' : 'down') + '">' + Format.percent(priceChange) + '</div></div>' +
+                            '<div class="score-meta-item"><div class="score-meta-label">Confidence</div><div class="score-meta-value">' + (data.confidence || 'medium').toUpperCase() + '</div></div>' +
+                        '</div>' +
+                    '</div>' +
+                    '<div class="quant-card">' +
+                        '<div class="quant-header"><span class="quant-title">🏛️ Institutional Models</span><span class="quant-badge">' + (quant.models_used || 11) + ' Models</span></div>' +
+                        '<div class="quant-signal"><div class="quant-signal-label">Quant Signal</div><div class="quant-signal-value" style="color:' + getSignalColor(quant.signal) + '">' + (quant.signal || 'HOLD') + '</div></div>' +
+                        '<div class="quant-insights">' + renderInsights(quant.key_insights || []) + '</div>' +
+                    '</div>' +
+                '</div>' +
+                '<div class="section-title">📉 Risk Metrics (Goldman Sachs Style)</div>' +
+                '<div class="risk-grid">' +
+                    renderRiskCard('Sharpe Ratio', detailed.risk_metrics?.sharpe?.sharpe_ratio, detailed.risk_metrics?.sharpe?.quality, 'Risk-adjusted returns') +
+                    renderRiskCard('Sortino Ratio', detailed.risk_metrics?.sortino?.sortino_ratio, null, 'Downside risk adjusted') +
+                    renderRiskCard('VaR 95%', detailed.risk_metrics?.var?.var_95 ? detailed.risk_metrics.var.var_95 + '%' : '--', detailed.risk_metrics?.var?.risk_level, 'Max daily loss') +
+                '</div>' +
+                '<div class="section-title">🧮 Quantitative Models</div>' +
+                '<div class="models-grid">' +
+                    renderModelCard('Time-Series Momentum', 'AQR Capital', detailed.momentum_tsmom) +
+                    renderModelCard('Mean Reversion', 'Two Sigma', detailed.mean_reversion) +
+                    renderModelCard('Trend Following', 'CTA Style', detailed.trend) +
+                    renderModelCard('Volume Analysis', 'Microstructure', detailed.volume) +
+                '</div>' +
+                '<div class="section-title">⛓️ On-Chain Intelligence</div>' +
+                '<div class="components-grid">' +
+                    renderComponent('Whale Activity', components.whale_score, '🐋', 'Large holder activity') +
+                    renderComponent('Technical Score', components.technical_score, '📊', 'RSI, MACD, MA') +
+                    renderComponent('Market Sentiment', components.sentiment_score, '💬', 'Fear & Greed') +
+                    renderComponent('Liquidation Risk', components.liquidation_risk, '⚠️', 'Leverage levels') +
+                '</div>' +
+                '<div class="reasoning-card">' +
+                    '<div class="reasoning-title">🤖 AI Analysis</div>' +
+                    '<div class="reasoning-summary">' + (data.reasoning_summary || data.reasoning || 'Analysis complete.') + '</div>' +
+                    '<div class="reasoning-bullets">' + renderBullets(data.reasoning_bullets || []) + '</div>' +
+                '</div>' +
+                '<div class="section-title">🎯 Trade Setup</div>' +
+                '<div class="metrics-grid">' +
+                    '<div class="metric-card"><div class="metric-icon">📍</div><div class="metric-label">Entry</div><div class="metric-value">' + Format.currency(data.entry_price) + '</div></div>' +
+                    '<div class="metric-card"><div class="metric-icon">🎯</div><div class="metric-label">Target</div><div class="metric-value" style="color:var(--green)">' + Format.currency(data.target_price) + '</div><div class="metric-sub">+' + (data.target_pct || 0) + '%</div></div>' +
+                    '<div class="metric-card"><div class="metric-icon">🛑</div><div class="metric-label">Stop Loss</div><div class="metric-value" style="color:var(--red)">' + Format.currency(data.stop_loss) + '</div><div class="metric-sub">-' + (data.stop_pct || 0) + '%</div></div>' +
+                    '<div class="metric-card"><div class="metric-icon">⚖️</div><div class="metric-label">Risk/Reward</div><div class="metric-value">' + (data.risk_reward_ratio || 1) + ':1</div></div>' +
+                '</div>';
         }
         
-        function renderRiskCard(title, value, quality, desc, colorFn) {
-            const displayValue = value !== undefined && value !== null ? value : '--';
-            const colorClass = colorFn ? colorFn(value, quality) : 'average';
-            return `
-                <div class="risk-card">
-                    <div class="risk-header">
-                        <span class="risk-icon">📈</span>
-                        <span class="risk-title">${title}</span>
-                    </div>
-                    <div class="risk-value ${colorClass}">${displayValue}</div>
-                    <div class="risk-label">${desc}</div>
-                    ${quality ? `<div class="risk-label" style="color:var(--${colorClass === 'excellent' ? 'green' : colorClass === 'good' ? 'cyan' : colorClass === 'poor' ? 'red' : 'yellow'})">${quality.toUpperCase()}</div>` : ''}
-                </div>
-            `;
+        function renderInsights(insights) {
+            return insights.slice(0, 4).map(function(i) {
+                return '<div class="quant-insight"><span class="quant-insight-icon">📊</span><span>' + i + '</span></div>';
+            }).join('');
+        }
+        
+        function renderBullets(bullets) {
+            return bullets.map(function(b) {
+                return '<div class="reasoning-bullet"><span class="reasoning-bullet-icon">→</span><span>' + b + '</span></div>';
+            }).join('');
+        }
+        
+        function renderRiskCard(title, value, quality, desc) {
+            var displayValue = value !== undefined && value !== null ? value : '--';
+            var colorClass = getQualityClass(value, quality);
+            return '<div class="risk-card"><div class="risk-header"><span class="risk-icon">📈</span><span class="risk-title">' + title + '</span></div><div class="risk-value ' + colorClass + '">' + displayValue + '</div><div class="risk-label">' + desc + '</div></div>';
         }
         
         function renderModelCard(name, source, data) {
-            if (!data) return `
-                <div class="model-card">
-                    <div class="model-header">
-                        <div><div class="model-name">${name}</div><div class="model-source">${source}</div></div>
-                        <div class="model-score medium">--</div>
-                    </div>
-                    <div class="model-details"><div class="model-detail"><span class="model-detail-label">No data available</span></div></div>
-                </div>`;
-            
-            const score = data.score || 50;
-            const scoreClass = score >= 60 ? 'high' : score <= 40 ? 'low' : 'medium';
-            const signal = data.signal || data.crossover || 'neutral';
-            const signalClass = signal.includes('buy') || signal.includes('bullish') ? 'bullish' : 
-                               signal.includes('sell') || signal.includes('bearish') ? 'bearish' : 'neutral';
-            
-            let details = '';
-            if (data.lookback_return !== undefined) details += `<div class="model-detail"><span class="model-detail-label">Return</span><span class="model-detail-value">${data.lookback_return}%</span></div>`;
-            if (data.signal_strength !== undefined) details += `<div class="model-detail"><span class="model-detail-label">Strength</span><span class="model-detail-value">${data.signal_strength}</span></div>`;
-            if (data.zscore !== undefined) details += `<div class="model-detail"><span class="model-detail-label">Z-Score</span><span class="model-detail-value">${data.zscore}</span></div>`;
-            if (data.trend_strength !== undefined) details += `<div class="model-detail"><span class="model-detail-label">Trend</span><span class="model-detail-value">${data.trend_strength}%</span></div>`;
-            if (data.obv_signal) details += `<div class="model-detail"><span class="model-detail-label">OBV</span><span class="model-detail-value">${data.obv_signal.replace(/_/g, ' ')}</span></div>`;
-            if (data.divergence !== undefined) details += `<div class="model-detail"><span class="model-detail-label">Divergence</span><span class="model-detail-value">${data.divergence ? 'Yes' : 'No'}</span></div>`;
-            
-            return `
-                <div class="model-card">
-                    <div class="model-header">
-                        <div><div class="model-name">${name}</div><div class="model-source">${source}</div></div>
-                        <div class="model-score ${scoreClass}">${score}</div>
-                    </div>
-                    <div class="model-details">${details || '<div class="model-detail"><span class="model-detail-label">Score calculated</span></div>'}</div>
-                    <div class="model-signal ${signalClass}">${signal.replace(/_/g, ' ')}</div>
-                </div>
-            `;
+            if (!data) {
+                return '<div class="model-card"><div class="model-header"><div><div class="model-name">' + name + '</div><div class="model-source">' + source + '</div></div><div class="model-score medium">--</div></div><div class="model-details"><div class="model-detail"><span class="model-detail-label">No data</span></div></div></div>';
+            }
+            var score = data.score || 50;
+            var scoreClass = score >= 60 ? 'high' : score <= 40 ? 'low' : 'medium';
+            var signal = data.signal || data.crossover || 'neutral';
+            var signalClass = signal.includes('buy') || signal.includes('bullish') ? 'bullish' : signal.includes('sell') || signal.includes('bearish') ? 'bearish' : 'neutral';
+            return '<div class="model-card"><div class="model-header"><div><div class="model-name">' + name + '</div><div class="model-source">' + source + '</div></div><div class="model-score ' + scoreClass + '">' + score + '</div></div><div class="model-signal ' + signalClass + '">' + signal.replace(/_/g, ' ') + '</div></div>';
         }
         
         function renderComponent(name, score, icon, desc) {
-            const s = score || 50;
-            const cls = s >= 60 ? 'high' : s <= 40 ? 'low' : 'medium';
-            const color = s >= 60 ? 'var(--green)' : s <= 40 ? 'var(--red)' : 'var(--yellow)';
-            return `
-                <div class="component-card">
-                    <div class="component-header">
-                        <span class="component-name">${icon} ${name}</span>
-                        <span class="component-score" style="color:${color}">${s}/100</span>
-                    </div>
-                    <div class="component-bar"><div class="component-bar-fill ${cls}" style="width:${s}%"></div></div>
-                    <div class="component-desc">${desc}</div>
-                </div>
-            `;
+            var s = score || 50;
+            var cls = s >= 60 ? 'high' : s <= 40 ? 'low' : 'medium';
+            var color = s >= 60 ? 'var(--green)' : s <= 40 ? 'var(--red)' : 'var(--yellow)';
+            return '<div class="component-card"><div class="component-header"><span class="component-name">' + icon + ' ' + name + '</span><span class="component-score" style="color:' + color + '">' + s + '/100</span></div><div class="component-bar"><div class="component-bar-fill ' + cls + '" style="width:' + s + '%"></div></div><div class="component-desc">' + desc + '</div></div>';
         }
         
         function getSignalColor(signal) {
@@ -447,27 +336,10 @@
             return 'var(--yellow)';
         }
         
-        function getSharpeColor(value, quality) {
-            if (quality === 'excellent') return 'excellent';
-            if (quality === 'good') return 'good';
-            if (quality === 'poor') return 'poor';
-            if (value >= 2) return 'excellent';
-            if (value >= 1) return 'good';
-            if (value >= 0) return 'average';
-            return 'poor';
-        }
-        
-        function getSortinoColor(value) {
-            if (value >= 3) return 'excellent';
-            if (value >= 2) return 'good';
-            if (value >= 1) return 'average';
-            return 'poor';
-        }
-        
-        function getVaRColor(value, riskLevel) {
-            if (riskLevel === 'low') return 'excellent';
-            if (riskLevel === 'medium') return 'average';
-            if (riskLevel === 'high') return 'poor';
+        function getQualityClass(value, quality) {
+            if (quality === 'excellent' || value >= 2) return 'excellent';
+            if (quality === 'good' || value >= 1) return 'good';
+            if (quality === 'poor' || value < 0) return 'poor';
             return 'average';
         }
     </script>
