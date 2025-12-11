@@ -316,3 +316,29 @@ window.Loading = Loading;
 window.Utils = Utils;
 
 console.log('ELUXRAJ Utils loaded v1.0.0');
+
+// ============== ADD FORM POST METHOD ==============
+API.postForm = async function(endpoint, formData) {
+    const token = localStorage.getItem('token');
+    const headers = {};
+    if (token) headers['Authorization'] = 'Bearer ' + token;
+    
+    try {
+        const res = await fetch(API_BASE + endpoint, {
+            method: 'POST',
+            headers,
+            body: formData
+        });
+        const data = await res.json();
+        
+        if (!res.ok) {
+            throw new Error(data.detail || data.message || 'Request failed');
+        }
+        return data;
+    } catch (err) {
+        console.error('API postForm error:', endpoint, err);
+        throw err;
+    }
+};
+
+console.log('ELUXRAJ Utils postForm added');
