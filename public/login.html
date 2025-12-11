@@ -4,47 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login | ELUXRAJ</title>
-    <link rel="stylesheet" href="/css/theme.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
+        body{font-family:'Inter',sans-serif;background:#050508;color:#fff;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:20px}
         
         .login-container{width:100%;max-width:420px}
-        .login-card{background:var(--card);border:1px solid var(--border);border-radius:24px;padding:40px;box-shadow:var(--shadow)}
+        .login-card{background:#12121a;border:1px solid rgba(124,58,237,0.2);border-radius:24px;padding:40px;box-shadow:0 4px 24px rgba(124,58,237,0.1)}
         
         .logo{text-align:center;margin-bottom:32px}
         .logo-icon{font-size:48px;margin-bottom:12px}
-        .logo-text{font-size:1.5rem;font-weight:900;letter-spacing:3px;background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .logo-text{font-size:1.5rem;font-weight:900;letter-spacing:3px;background:linear-gradient(135deg,#7c3aed,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
         
-        .error-msg{background:rgba(239,68,68,0.1);border:1px solid rgba(239,68,68,0.2);color:var(--red);padding:12px 16px;border-radius:10px;font-size:.85rem;margin-bottom:20px;display:none}
+        .error-msg{background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);color:#f87171;padding:12px 16px;border-radius:10px;font-size:.85rem;margin-bottom:20px;display:none}
         .error-msg.show{display:block}
         
+        .success-msg{background:rgba(16,185,129,0.15);border:1px solid rgba(16,185,129,0.3);color:#34d399;padding:12px 16px;border-radius:10px;font-size:.85rem;margin-bottom:20px;display:none}
+        .success-msg.show{display:block}
+        
         .welcome{text-align:center;margin-bottom:24px}
-        .welcome h1{font-size:1.5rem;font-weight:700;margin-bottom:4px;color:var(--text)}
-        .welcome p{color:var(--text-muted);font-size:.9rem}
+        .welcome h1{font-size:1.5rem;font-weight:700;margin-bottom:4px;color:#fff}
+        .welcome p{color:#9ca3af;font-size:.9rem}
         
         .form-group{margin-bottom:20px}
-        .form-group label{display:block;font-size:.8rem;font-weight:600;color:var(--text-secondary);margin-bottom:8px}
-        .form-group input{width:100%;background:var(--input-bg);border:1px solid var(--border-light);border-radius:12px;padding:14px 16px;color:var(--text);font-size:1rem;outline:none;transition:all .2s}
-        .form-group input:focus{border-color:var(--purple);box-shadow:0 0 0 3px rgba(124,58,237,0.1)}
-        .form-group input::placeholder{color:var(--text-faint)}
+        .form-group label{display:block;font-size:.8rem;font-weight:600;color:#d1d5db;margin-bottom:8px}
+        .form-group input{width:100%;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:12px;padding:14px 16px;color:#fff;font-size:1rem;outline:none;transition:all .2s}
+        .form-group input:focus{border-color:#7c3aed;box-shadow:0 0 0 3px rgba(124,58,237,0.2)}
+        .form-group input::placeholder{color:#6b7280}
         
-        .login-btn{width:100%;background:var(--gradient-primary);border:none;border-radius:12px;padding:16px;color:#fff;font-size:1rem;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 15px rgba(124,58,237,0.3)}
+        .login-btn{width:100%;background:linear-gradient(135deg,#7c3aed,#06b6d4);border:none;border-radius:12px;padding:16px;color:#fff;font-size:1rem;font-weight:700;cursor:pointer;transition:all .2s;box-shadow:0 4px 15px rgba(124,58,237,0.3)}
         .login-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(124,58,237,0.4)}
         .login-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none}
         
         .links{text-align:center;margin-top:20px}
-        .links a{color:var(--purple);text-decoration:none;font-size:.85rem;font-weight:500}
+        .links a{color:#7c3aed;text-decoration:none;font-size:.85rem;font-weight:500}
         .links a:hover{text-decoration:underline}
-        .links p{color:var(--text-muted);font-size:.85rem;margin-top:12px}
-        
-        .theme-toggle{position:fixed;top:20px;right:20px}
+        .links p{color:#9ca3af;font-size:.85rem;margin-top:12px}
     </style>
 </head>
 <body>
-    <div class="theme-toggle" id="themeToggleContainer"></div>
-    
     <div class="login-container">
         <div class="login-card">
             <div class="logo">
@@ -53,6 +51,7 @@
             </div>
             
             <div class="error-msg" id="errorMsg"></div>
+            <div class="success-msg" id="successMsg"></div>
             
             <div class="welcome">
                 <h1>Welcome Back</h1>
@@ -78,7 +77,6 @@
         </div>
     </div>
     
-    <script src="/js/theme.js"></script>
     <script>
         const API = 'https://eluxraj-api-production.up.railway.app/api/v1';
         
@@ -102,8 +100,8 @@
             try {
                 const res = await fetch(`${API}/auth/login`, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: `username=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
                 });
                 
                 const data = await res.json();
