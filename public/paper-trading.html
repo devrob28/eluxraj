@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paper Trading | ELUXRAJ</title>
+    <link rel="stylesheet" href="/css/theme.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+        
+        .header{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;border-bottom:1px solid var(--border);background:rgba(5,5,8,0.95);backdrop-filter:blur(10px);position:sticky;top:0;z-index:100}
+        .logo{font-size:1.1rem;font-weight:900;background:linear-gradient(135deg,#7c3aed,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none}
+        .nav{display:flex;gap:6px}
+        .nav a{padding:8px 16px;color:#9ca3af;text-decoration:none;font-size:.85rem;font-weight:600;border-radius:8px;transition:all .2s}
+        .nav a:hover{color:#fff;background:rgba(255,255,255,0.05)}
+        .nav a.active{color:#fff;background:linear-gradient(135deg,rgba(124,58,237,0.2),rgba(6,182,212,0.1));border:1px solid rgba(124,58,237,0.2)}
+        
+        .container{max-width:1400px;margin:0 auto;padding:24px}
+        
+        .page-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+        .page-title{font-size:1.8rem;font-weight:900}
+        .page-title span{background:linear-gradient(135deg,#7c3aed,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .page-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(245,158,11,0.15);border:1px solid rgba(245,158,11,0.3);border-radius:20px;padding:6px 14px;font-size:.75rem;font-weight:700;color:#f59e0b}
+        
+        .stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+        @media(max-width:900px){.stats-grid{grid-template-columns:repeat(2,1fr)}}
+        @media(max-width:500px){.stats-grid{grid-template-columns:1fr}}
+        
+        .stat-card{background:#12121a;border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:20px}
+        .stat-card.highlight{border-color:rgba(124,58,237,0.3);background:linear-gradient(135deg,rgba(124,58,237,0.1),rgba(6,182,212,0.05))}
+        .stat-label{font-size:.7rem;color:#6b7280;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
+        .stat-value{font-family:'JetBrains Mono',monospace;font-size:1.8rem;font-weight:800}
+        .stat-value.positive{color:#10b981}
+        .stat-value.negative{color:#ef4444}
+        .stat-sub{font-size:.75rem;color:#6b7280;margin-top:4px}
+        
+        .main-grid{display:grid;grid-template-columns:1fr 400px;gap:24px}
+        @media(max-width:1000px){.main-grid{grid-template-columns:1fr}}
+        
+        .card{background:#12121a;border:1px solid rgba(255,255,255,0.06);border-radius:16px;padding:24px}
+        .card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}
+        .card-title{font-size:1rem;font-weight:800;display:flex;align-items:center;gap:8px}
+        
+        .positions-list{display:flex;flex-direction:column;gap:12px}
+        .position-item{background:rgba(255,255,255,0.02);border:1px solid rgba(255,255,255,0.06);border-radius:12px;padding:16px}
+        .position-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+        .position-asset{font-weight:700;font-size:1.1rem;display:flex;align-items:center;gap:8px}
+        .position-side{font-size:.7rem;font-weight:700;padding:4px 8px;border-radius:4px}
+        .position-side.long{background:rgba(16,185,129,0.15);color:#10b981}
+        .position-side.short{background:rgba(239,68,68,0.15);color:#ef4444}
+        .position-pnl{font-family:'JetBrains Mono',monospace;font-weight:700}
+        .position-pnl.positive{color:#10b981}
+        .position-pnl.negative{color:#ef4444}
+        .position-details{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;font-size:.8rem}
+        .position-detail-label{color:#6b7280}
+        .position-detail-value{font-family:'JetBrains Mono',monospace;font-weight:600}
+        .position-actions{display:flex;gap:8px;margin-top:12px}
+        .btn-close{padding:8px 16px;background:rgba(239,68,68,0.15);border:1px solid rgba(239,68,68,0.3);border-radius:8px;color:#ef4444;font-size:.8rem;font-weight:600;cursor:pointer}
+        .btn-close:hover{background:rgba(239,68,68,0.25)}
+        
+        .empty-state{text-align:center;padding:40px;color:#6b7280}
+        .empty-state .icon{font-size:3rem;margin-bottom:12px}
+        
+        .trade-form{display:flex;flex-direction:column;gap:16px}
+        .form-group{display:flex;flex-direction:column;gap:6px}
+        .form-label{font-size:.75rem;color:#6b7280;text-transform:uppercase;letter-spacing:1px;font-weight:600}
+        .form-input,.form-select{padding:12px 14px;background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:#fff;font-size:.9rem}
+        .form-input:focus,.form-select:focus{outline:none;border-color:#7c3aed}
+        .form-select option{background:#12121a}
+        
+        .side-toggle{display:flex;gap:8px}
+        .side-btn{flex:1;padding:12px;border:1px solid rgba(255,255,255,0.1);border-radius:10px;font-weight:600;cursor:pointer;transition:all .2s;background:transparent;color:#9ca3af}
+        .side-btn.long:hover,.side-btn.long.active{background:rgba(16,185,129,0.15);border-color:#10b981;color:#10b981}
+        .side-btn.short:hover,.side-btn.short.active{background:rgba(239,68,68,0.15);border-color:#ef4444;color:#ef4444}
+        
+        .btn-trade{width:100%;padding:14px;border:none;border-radius:12px;font-size:1rem;font-weight:700;cursor:pointer;transition:all .2s}
+        .btn-trade.buy{background:linear-gradient(135deg,#10b981,#06b6d4);color:#fff}
+        .btn-trade.sell{background:linear-gradient(135deg,#ef4444,#f59e0b);color:#fff}
+        .btn-trade:hover{transform:translateY(-2px)}
+        .btn-trade:disabled{opacity:0.5;cursor:not-allowed;transform:none}
+        
+        .btn-auto{width:100%;padding:14px;background:linear-gradient(135deg,#7c3aed,#06b6d4);border:none;border-radius:12px;color:#fff;font-size:1rem;font-weight:700;cursor:pointer;margin-top:12px}
+        .btn-auto:hover{opacity:0.9}
+        
+        .trades-table{width:100%;border-collapse:collapse}
+        .trades-table th{text-align:left;padding:12px;font-size:.7rem;color:#6b7280;text-transform:uppercase;letter-spacing:1px;border-bottom:1px solid rgba(255,255,255,0.06)}
+        .trades-table td{padding:12px;font-size:.85rem;border-bottom:1px solid rgba(255,255,255,0.03)}
+        .trades-table tr:hover{background:rgba(255,255,255,0.02)}
+        
+        .oracle-badge{display:inline-flex;align-items:center;gap:4px;font-size:.7rem;padding:4px 8px;border-radius:4px;background:rgba(124,58,237,0.15);color:#7c3aed;font-weight:600}
+        
+        .tab-bar{display:flex;gap:8px;margin-bottom:20px}
+        .tab-btn{padding:10px 20px;background:transparent;border:1px solid rgba(255,255,255,0.1);border-radius:10px;color:#9ca3af;font-weight:600;cursor:pointer;transition:all .2s}
+        .tab-btn:hover{border-color:#7c3aed;color:#fff}
+        .tab-btn.active{background:rgba(124,58,237,0.15);border-color:#7c3aed;color:#fff}
+        
+        .tab-content{display:none}
+        .tab-content.active{display:block}
+        
+        .reset-btn{padding:8px 16px;background:transparent;border:1px solid rgba(239,68,68,0.3);border-radius:8px;color:#ef4444;font-size:.8rem;font-weight:600;cursor:pointer}
+        .reset-btn:hover{background:rgba(239,68,68,0.1)}
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="/dashboard.html" class="logo">ELUXRAJ™</a>
+        <nav class="nav">
+            <a href="/dashboard.html">Dashboard</a>
+            <a href="/oracle.html">Oracle</a>
+            <a href="/whale-intel.html">Gotham Intel</a>
+            <a href="/chart-analysis.html">Chart AI</a>
+            <a href="/paper-trading.html" class="active">Paper Trade</a>
+        </nav>
+    </header>
+    
+    <main class="container">
+        <div class="page-header">
+            <div>
+                <div class="page-title">📈 <span>Paper Trading</span></div>
+                <div class="page-badge">🧪 Simulated • No Real Money</div>
+            </div>
+            <button class="reset-btn" onclick="resetPortfolio()">🔄 Reset Portfolio</button>
+        </div>
+        
+        <!-- Stats Grid -->
+        <div class="stats-grid" id="statsGrid">
+            <div class="stat-card highlight">
+                <div class="stat-label">Portfolio Value</div>
+                <div class="stat-value" id="totalValue">$100,000</div>
+                <div class="stat-sub" id="totalPnl">+$0.00 (0.00%)</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Cash Balance</div>
+                <div class="stat-value" id="cashBalance">$100,000</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">Win Rate</div>
+                <div class="stat-value" id="winRate">0%</div>
+                <div class="stat-sub" id="tradeCount">0 trades</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-label">ORACLE Accuracy</div>
+                <div class="stat-value" id="oracleAccuracy">--</div>
+                <div class="stat-sub">AI signal performance</div>
+            </div>
+        </div>
+        
+        <div class="main-grid">
+            <!-- Positions & History -->
+            <div class="card">
+                <div class="tab-bar">
+                    <button class="tab-btn active" data-tab="positions">Open Positions</button>
+                    <button class="tab-btn" data-tab="history">Trade History</button>
+                    <button class="tab-btn" data-tab="performance">Performance</button>
+                </div>
+                
+                <div class="tab-content active" id="positionsTab">
+                    <div class="positions-list" id="positionsList">
+                        <div class="empty-state">
+                            <div class="icon">📊</div>
+                            <div>No open positions</div>
+                            <div style="font-size:.8rem;margin-top:4px">Open a trade to get started</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="tab-content" id="historyTab">
+                    <table class="trades-table">
+                        <thead>
+                            <tr>
+                                <th>Asset</th>
+                                <th>Side</th>
+                                <th>Entry</th>
+                                <th>Exit</th>
+                                <th>P&L</th>
+                                <th>Oracle</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tradesBody">
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="tab-content" id="performanceTab">
+                    <div id="performanceStats"></div>
+                </div>
+            </div>
+            
+            <!-- Trade Form -->
+            <div class="card">
+                <div class="card-title">🎯 Open Position</div>
+                
+                <div class="trade-form">
+                    <div class="form-group">
+                        <label class="form-label">Asset</label>
+                        <select class="form-select" id="tradeAsset">
+                            <optgroup label="Crypto">
+                                <option value="BTC">BTC - Bitcoin</option>
+                                <option value="ETH">ETH - Ethereum</option>
+                            </optgroup>
+                            <optgroup label="Stocks">
+                                <option value="AAPL">AAPL - Apple</option>
+                                <option value="MSFT">MSFT - Microsoft</option>
+                                <option value="NVDA">NVDA - NVIDIA</option>
+                                <option value="TSLA">TSLA - Tesla</option>
+                                <option value="GOOGL">GOOGL - Google</option>
+                                <option value="AMZN">AMZN - Amazon</option>
+                                <option value="META">META - Meta</option>
+                            </optgroup>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Position Side</label>
+                        <div class="side-toggle">
+                            <button class="side-btn long active" data-side="long">📈 Long (Buy)</button>
+                            <button class="side-btn short" data-side="short">📉 Short (Sell)</button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Amount (USD)</label>
+                        <input type="number" class="form-input" id="tradeAmount" value="1000" min="100" max="50000">
+                    </div>
+                    
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+                        <div class="form-group">
+                            <label class="form-label">Stop Loss %</label>
+                            <input type="number" class="form-input" id="stopLoss" value="5" min="1" max="50">
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Take Profit %</label>
+                            <input type="number" class="form-input" id="takeProfit" value="10" min="1" max="100">
+                        </div>
+                    </div>
+                    
+                    <button class="btn-trade buy" id="tradeBtn" onclick="openTrade()">
+                        📈 Open Long Position
+                    </button>
+                    
+                    <div style="text-align:center;color:#6b7280;font-size:.8rem">— or —</div>
+                    
+                    <button class="btn-auto" onclick="autoTrade()">
+                        🤖 Auto-Trade with ORACLE Signal
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+    
+    <script src="/js/eluxraj-utils.js"></script>
+    <script>
+        let selectedSide = 'long';
+        
+        // Initialize
+        (async () => {
+            const user = await Auth.check();
+            if (!user) return;
+            loadPortfolio();
+            loadTrades();
+            loadPerformance();
+        })();
+        
+        // Tab switching
+        document.querySelectorAll('.tab-btn').forEach(btn => {
+            btn.onclick = () => {
+                document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+                document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+                btn.classList.add('active');
+                document.getElementById(btn.dataset.tab + 'Tab').classList.add('active');
+            };
+        });
+        
+        // Side toggle
+        document.querySelectorAll('.side-btn').forEach(btn => {
+            btn.onclick = () => {
+                document.querySelectorAll('.side-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedSide = btn.dataset.side;
+                updateTradeBtn();
+            };
+        });
+        
+        function updateTradeBtn() {
+            const btn = document.getElementById('tradeBtn');
+            if (selectedSide === 'long') {
+                btn.className = 'btn-trade buy';
+                btn.innerHTML = '📈 Open Long Position';
+            } else {
+                btn.className = 'btn-trade sell';
+                btn.innerHTML = '📉 Open Short Position';
+            }
+        }
+        
+        async function loadPortfolio() {
+            try {
+                const data = await API.get('/paper/portfolio');
+                const p = data.portfolio;
+                
+                document.getElementById('totalValue').textContent = Format.currency(p.total_value);
+                document.getElementById('cashBalance').textContent = Format.currency(p.cash_balance);
+                document.getElementById('winRate').textContent = p.win_rate + '%';
+                document.getElementById('tradeCount').textContent = p.total_trades + ' trades';
+                
+                const pnlEl = document.getElementById('totalPnl');
+                pnlEl.textContent = (p.total_pnl >= 0 ? '+' : '') + Format.currency(p.total_pnl) + ' (' + p.total_pnl_percent.toFixed(2) + '%)';
+                pnlEl.style.color = p.total_pnl >= 0 ? '#10b981' : '#ef4444';
+                
+                document.getElementById('totalValue').className = 'stat-value ' + (p.total_pnl >= 0 ? 'positive' : 'negative');
+                
+                // Render positions
+                const list = document.getElementById('positionsList');
+                if (data.positions.length === 0) {
+                    list.innerHTML = '<div class="empty-state"><div class="icon">📊</div><div>No open positions</div></div>';
+                } else {
+                    list.innerHTML = data.positions.map(pos => `
+                        <div class="position-item">
+                            <div class="position-header">
+                                <div class="position-asset">
+                                    ${pos.asset}
+                                    <span class="position-side ${pos.side}">${pos.side.toUpperCase()}</span>
+                                    ${pos.oracle_score_at_entry ? `<span class="oracle-badge">🔮 ${pos.oracle_score_at_entry}</span>` : ''}
+                                </div>
+                                <div class="position-pnl ${pos.unrealized_pnl >= 0 ? 'positive' : 'negative'}">
+                                    ${pos.unrealized_pnl >= 0 ? '+' : ''}${Format.currency(pos.unrealized_pnl)} (${pos.unrealized_pnl_percent.toFixed(2)}%)
+                                </div>
+                            </div>
+                            <div class="position-details">
+                                <div><span class="position-detail-label">Entry:</span> <span class="position-detail-value">${Format.currency(pos.entry_price)}</span></div>
+                                <div><span class="position-detail-label">Current:</span> <span class="position-detail-value">${Format.currency(pos.current_price)}</span></div>
+                                <div><span class="position-detail-label">Qty:</span> <span class="position-detail-value">${pos.quantity.toFixed(6)}</span></div>
+                            </div>
+                            <div class="position-actions">
+                                <button class="btn-close" onclick="closePosition(${pos.id})">Close Position</button>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            } catch (err) {
+                console.error('Portfolio load error:', err);
+            }
+        }
+        
+        async function loadTrades() {
+            try {
+                const data = await API.get('/paper/trades?limit=20');
+                const tbody = document.getElementById('tradesBody');
+                
+                if (data.trades.length === 0) {
+                    tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;color:#6b7280">No trades yet</td></tr>';
+                } else {
+                    tbody.innerHTML = data.trades.map(t => `
+                        <tr>
+                            <td><strong>${t.asset}</strong></td>
+                            <td><span class="position-side ${t.side}">${t.side.toUpperCase()}</span></td>
+                            <td>${Format.currency(t.entry_price)}</td>
+                            <td>${Format.currency(t.exit_price)}</td>
+                            <td class="${t.pnl >= 0 ? 'positive' : 'negative'}" style="color:${t.pnl >= 0 ? '#10b981' : '#ef4444'}">${t.pnl >= 0 ? '+' : ''}${Format.currency(t.pnl)}</td>
+                            <td>${t.oracle_score_at_entry ? `<span class="oracle-badge">🔮 ${t.oracle_score_at_entry}</span>` : '--'}</td>
+                        </tr>
+                    `).join('');
+                }
+            } catch (err) {
+                console.error('Trades load error:', err);
+            }
+        }
+        
+        async function loadPerformance() {
+            try {
+                const data = await API.get('/paper/performance');
+                const stats = data.stats;
+                
+                if (stats.total_trades === 0) {
+                    document.getElementById('performanceStats').innerHTML = '<div class="empty-state"><div class="icon">📈</div><div>Start trading to see performance stats</div></div>';
+                    document.getElementById('oracleAccuracy').textContent = '--';
+                    return;
+                }
+                
+                document.getElementById('oracleAccuracy').textContent = stats.oracle_accuracy + '%';
+                
+                document.getElementById('performanceStats').innerHTML = `
+                    <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:16px">
+                        <div style="padding:16px;background:rgba(255,255,255,0.02);border-radius:12px">
+                            <div style="font-size:.7rem;color:#6b7280;text-transform:uppercase">Profit Factor</div>
+                            <div style="font-size:1.5rem;font-weight:800">${stats.profit_factor || '--'}</div>
+                        </div>
+                        <div style="padding:16px;background:rgba(255,255,255,0.02);border-radius:12px">
+                            <div style="font-size:.7rem;color:#6b7280;text-transform:uppercase">Avg Win</div>
+                            <div style="font-size:1.5rem;font-weight:800;color:#10b981">+${Format.currency(stats.avg_win)}</div>
+                        </div>
+                        <div style="padding:16px;background:rgba(255,255,255,0.02);border-radius:12px">
+                            <div style="font-size:.7rem;color:#6b7280;text-transform:uppercase">Avg Loss</div>
+                            <div style="font-size:1.5rem;font-weight:800;color:#ef4444">${Format.currency(stats.avg_loss)}</div>
+                        </div>
+                        <div style="padding:16px;background:rgba(255,255,255,0.02);border-radius:12px">
+                            <div style="font-size:.7rem;color:#6b7280;text-transform:uppercase">ORACLE Trades</div>
+                            <div style="font-size:1.5rem;font-weight:800">${stats.oracle_trades}</div>
+                        </div>
+                    </div>
+                    <div style="margin-top:20px">
+                        <div style="font-size:.8rem;color:#6b7280;margin-bottom:12px">Performance by Asset</div>
+                        ${stats.by_asset.map(a => `
+                            <div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05)">
+                                <span>${a.asset}</span>
+                                <span>${a.trades} trades</span>
+                                <span style="color:${a.pnl >= 0 ? '#10b981' : '#ef4444'}">${a.pnl >= 0 ? '+' : ''}${Format.currency(a.pnl)}</span>
+                                <span>${a.win_rate}% win</span>
+                            </div>
+                        `).join('')}
+                    </div>
+                `;
+            } catch (err) {
+                console.error('Performance load error:', err);
+            }
+        }
+        
+        async function openTrade() {
+            const asset = document.getElementById('tradeAsset').value;
+            const amount = parseFloat(document.getElementById('tradeAmount').value);
+            const stopLoss = parseFloat(document.getElementById('stopLoss').value);
+            const takeProfit = parseFloat(document.getElementById('takeProfit').value);
+            const assetType = ['BTC', 'ETH'].includes(asset) ? 'crypto' : 'stock';
+            
+            try {
+                const data = await API.post('/paper/position/open', {
+                    asset,
+                    asset_type: assetType,
+                    side: selectedSide,
+                    amount_usd: amount,
+                    stop_loss_percent: stopLoss,
+                    take_profit_percent: takeProfit
+                });
+                
+                Toast.success(`Opened ${selectedSide} position on ${asset}`);
+                loadPortfolio();
+            } catch (err) {
+                Toast.error(err.message);
+            }
+        }
+        
+        async function closePosition(positionId) {
+            try {
+                const data = await API.post('/paper/position/close', {
+                    position_id: positionId,
+                    exit_reason: 'manual'
+                });
+                
+                const pnl = data.trade.pnl;
+                Toast.success(`Position closed: ${pnl >= 0 ? '+' : ''}$${pnl.toFixed(2)}`);
+                loadPortfolio();
+                loadTrades();
+                loadPerformance();
+            } catch (err) {
+                Toast.error(err.message);
+            }
+        }
+        
+        async function autoTrade() {
+            const asset = document.getElementById('tradeAsset').value;
+            const amount = parseFloat(document.getElementById('tradeAmount').value);
+            const assetType = ['BTC', 'ETH'].includes(asset) ? 'crypto' : 'stock';
+            
+            try {
+                const data = await API.post('/paper/auto-trade', {
+                    asset,
+                    asset_type: assetType,
+                    amount_usd: amount,
+                    follow_oracle: true
+                });
+                
+                if (data.action === 'none') {
+                    Toast.info(`ORACLE says ${data.signal} (score: ${data.score}). No trade opened.`);
+                } else {
+                    Toast.success(`ORACLE opened ${data.position.side} on ${asset} (score: ${data.oracle_score})`);
+                    loadPortfolio();
+                }
+            } catch (err) {
+                Toast.error(err.message);
+            }
+        }
+        
+        async function resetPortfolio() {
+            if (!confirm('Reset your paper trading portfolio? All positions and history will be deleted.')) return;
+            
+            try {
+                await API.post('/paper/reset', {});
+                Toast.success('Portfolio reset to $100,000');
+                loadPortfolio();
+                loadTrades();
+                loadPerformance();
+            } catch (err) {
+                Toast.error(err.message);
+            }
+        }
+    </script>
+</body>
+</html>
