@@ -5,349 +5,145 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GOTHAM INTEL | ELUXRAJ</title>
     <link rel="stylesheet" href="/css/theme.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
-        
-        .header{display:flex;justify-content:space-between;align-items:center;padding:14px 24px;background:var(--header-bg);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:100}
-        .logo{display:flex;align-items:center;gap:12px}
-        .logo-icon{width:38px;height:38px;background:var(--gradient-primary);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px}
-        .logo-text{font-size:1.2rem;font-weight:900;letter-spacing:2px;background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .nav{display:flex;gap:6px}
-        .nav a{padding:8px 16px;color:var(--text-muted);text-decoration:none;font-size:.85rem;font-weight:600;border-radius:10px;transition:all .2s}
-        .nav a:hover{color:var(--text);background:var(--card)}
-        .nav a.active{color:var(--text);background:var(--gradient-glow);border:1px solid var(--border)}
-        
-        .title-section{padding:32px 24px 16px;text-align:center}
-        .page-title{font-size:2.5rem;font-weight:900;letter-spacing:4px;background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px}
-        .page-subtitle{color:var(--text-muted);font-size:.9rem}
-        .data-sources{display:flex;justify-content:center;gap:16px;margin-top:12px}
-        .source-badge{display:flex;align-items:center;gap:6px;padding:6px 12px;background:var(--card);border:1px solid var(--border-light);border-radius:20px;font-size:.7rem;font-weight:600}
-        .source-dot{width:8px;height:8px;border-radius:50%;background:var(--green)}
-        
-        .main{display:grid;grid-template-columns:1fr 380px;gap:20px;padding:0 24px 40px;max-width:1600px;margin:0 auto}
-        @media(max-width:1100px){.main{grid-template-columns:1fr}}
-        
-        .card{background:var(--card);border:1px solid var(--border-light);border-radius:16px;overflow:hidden}
-        .card-header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--border-light)}
-        .card-title{font-size:.8rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--cyan)}
-        .card-badge{font-size:.65rem;font-weight:700;padding:4px 10px;border-radius:16px;background:var(--gradient-primary);color:#fff}
-        .card-badge.solana{background:linear-gradient(135deg,#9945FF,#14F195)}
-        
-        .insights-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:18px}
-        @media(max-width:900px){.insights-grid{grid-template-columns:repeat(2,1fr)}}
-        @media(max-width:500px){.insights-grid{grid-template-columns:1fr}}
-        .insight-card{background:var(--bg2);border:1px solid var(--border-light);border-radius:12px;padding:16px;position:relative}
-        .insight-source{position:absolute;top:8px;right:8px;font-size:.55rem;padding:2px 6px;border-radius:4px;background:var(--bg3);color:var(--text-muted)}
-        .insight-tags{display:flex;gap:5px;margin-bottom:12px;flex-wrap:wrap}
-        .tag{font-size:.6rem;font-weight:800;padding:4px 8px;border-radius:5px;text-transform:uppercase}
-        .tag.bullish,.tag.buy,.tag.accumulation{background:rgba(16,185,129,0.15);color:var(--green)}
-        .tag.bearish,.tag.sell,.tag.alert{background:rgba(239,68,68,0.15);color:var(--red)}
-        .tag.whale,.tag.volume{background:rgba(59,130,246,0.15);color:var(--blue)}
-        .tag.important{background:rgba(239,68,68,0.15);color:var(--red)}
-        .tag.exchange{background:rgba(251,191,36,0.15);color:var(--yellow)}
-        .tag.institution,.tag.activity{background:rgba(168,85,247,0.15);color:var(--purple)}
-        .tag.on-chain{background:rgba(6,182,212,0.15);color:var(--cyan)}
-        .tag.hot{background:rgba(251,146,60,0.15);color:#fb923c}
-        .tag.solana,.tag.momentum,.tag.breakout{background:rgba(153,69,255,0.15);color:#9945FF}
-        .tag.btc{background:rgba(247,147,26,0.15);color:#f7931a}
-        .tag.eth{background:rgba(98,126,234,0.15);color:#627EEA}
-        .insight-title{font-size:.9rem;font-weight:700;line-height:1.4;margin-bottom:10px;color:var(--text)}
-        .insight-meta{font-size:.7rem;color:var(--text-muted)}
-        
-        .solana-tokens{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:18px}
-        @media(max-width:900px){.solana-tokens{grid-template-columns:repeat(2,1fr)}}
-        .sol-token{background:var(--bg2);border:1px solid var(--border-light);border-radius:12px;padding:14px;text-align:center}
-        .sol-token-symbol{font-size:1.1rem;font-weight:800;color:var(--text);margin-bottom:4px}
-        .sol-token-name{font-size:.65rem;color:var(--text-muted);margin-bottom:10px}
-        .sol-token-change{font-size:.9rem;font-weight:700;margin-bottom:6px}
-        .sol-token-change.positive{color:var(--green)}
-        .sol-token-change.negative{color:var(--red)}
-        .sol-token-whales{font-size:.65rem;color:var(--cyan)}
-        
-        .flows-section{padding:18px}
-        .flow-item{display:flex;align-items:center;gap:14px;padding:14px;margin-bottom:10px;background:var(--bg2);border:1px solid var(--border-light);border-radius:12px}
-        .flow-icon{width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;background:var(--card)}
-        .flow-info{flex:1}
-        .flow-name{font-size:.95rem;font-weight:700;color:var(--text)}
-        .flow-type{font-size:.7rem;color:var(--text-muted)}
-        .flow-bars{width:130px}
-        .flow-bar-row{display:flex;align-items:center;gap:6px;margin-bottom:5px}
-        .flow-bar-label{font-size:.6rem;color:var(--text-muted);width:22px}
-        .flow-bar{flex:1;height:6px;border-radius:3px;background:var(--bg3);overflow:hidden}
-        .flow-bar-fill{height:100%;border-radius:3px}
-        .flow-bar-fill.inflow{background:linear-gradient(90deg,var(--red),var(--yellow))}
-        .flow-bar-fill.outflow{background:linear-gradient(90deg,var(--green),var(--cyan))}
-        .flow-bar-value{font-family:'JetBrains Mono',monospace;font-size:.65rem;color:var(--text-muted);width:50px;text-align:right}
-        .flow-net{text-align:right;min-width:80px}
-        .flow-net-value{font-family:'JetBrains Mono',monospace;font-size:.95rem;font-weight:800}
-        .flow-net-value.positive{color:var(--green)}
-        .flow-net-value.negative{color:var(--red)}
-        .flow-net-label{font-size:.6rem;color:var(--text-muted);text-transform:uppercase}
-        
-        .sm-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:18px}
-        @media(max-width:700px){.sm-stats{grid-template-columns:repeat(2,1fr)}}
-        .sm-stat{text-align:center;padding:20px 14px;background:var(--bg2);border:1px solid var(--border-light);border-radius:12px}
-        .sm-stat-value{font-family:'JetBrains Mono',monospace;font-size:1.8rem;font-weight:900;margin-bottom:6px}
-        .sm-stat-value.bullish{color:var(--green)}
-        .sm-stat-value.bearish{color:var(--red)}
-        .sm-stat-label{font-size:.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px}
-        .sentiment-emoji{font-size:2rem;margin-bottom:4px}
-        
-        .transfer-feed{max-height:600px;overflow-y:auto}
-        .transfer-header{display:grid;grid-template-columns:70px 1fr 1fr 36px;gap:10px;padding:12px 16px;font-size:.65rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;border-bottom:1px solid var(--border-light);position:sticky;top:0;background:var(--card)}
-        .transfer-row{display:grid;grid-template-columns:70px 1fr 1fr 36px;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border-light);align-items:center}
-        .transfer-row.moby{border-left:3px solid #9945FF}
-        .transfer-time{font-size:.75rem;color:var(--cyan);font-weight:600}
-        .transfer-entity{display:flex;align-items:center;gap:8px}
-        .entity-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px}
-        .entity-icon.exchange{background:rgba(251,191,36,0.15)}
-        .entity-icon.whale{background:rgba(59,130,246,0.15)}
-        .entity-icon.dex{background:rgba(153,69,255,0.15)}
-        .entity-name{font-size:.8rem;font-weight:600;color:var(--text)}
-        .entity-amount{font-size:.65rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace}
-        .impact-dot{width:10px;height:10px;border-radius:50%}
-        .impact-dot.bullish{background:var(--green)}
-        .impact-dot.bearish{background:var(--red)}
-        
-        .loading{color:var(--text-muted);padding:40px;text-align:center}
-        .error-state{text-align:center;padding:40px 20px;color:var(--text-muted)}
+        body{font-family:system-ui,sans-serif;background:#0a0a0f;color:#fff;margin:0;padding:20px}
+        .header{display:flex;justify-content:space-between;align-items:center;padding:14px 24px;background:#12121a;border-bottom:1px solid #1e1e2e;margin:-20px -20px 20px}
+        .logo{display:flex;align-items:center;gap:12px;font-weight:900;font-size:1.2rem}
+        .nav{display:flex;gap:8px}
+        .nav a{padding:8px 16px;color:#888;text-decoration:none;font-size:.85rem;border-radius:8px}
+        .nav a:hover,.nav a.active{color:#fff;background:#1e1e2e}
+        h1{font-size:2rem;text-align:center;margin-bottom:8px;background:linear-gradient(135deg,#a855f7,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .subtitle{text-align:center;color:#666;margin-bottom:30px}
+        .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:1400px;margin:0 auto}
+        @media(max-width:900px){.grid{grid-template-columns:1fr}}
+        .card{background:#12121a;border:1px solid #1e1e2e;border-radius:12px;padding:20px}
+        .card h2{font-size:.9rem;color:#06b6d4;margin-bottom:16px;text-transform:uppercase;letter-spacing:1px}
+        .insight{background:#1a1a24;border-radius:8px;padding:12px;margin-bottom:10px}
+        .insight-title{font-weight:600;margin-bottom:6px}
+        .insight-meta{font-size:.75rem;color:#666}
+        .tag{display:inline-block;font-size:.6rem;padding:3px 6px;border-radius:4px;margin-right:4px;margin-bottom:6px;background:#1e1e2e;color:#888}
+        .tag.bullish{background:rgba(16,185,129,0.2);color:#10b981}
+        .tag.bearish{background:rgba(239,68,68,0.2);color:#ef4444}
+        .stat{display:inline-block;text-align:center;padding:16px;background:#1a1a24;border-radius:8px;margin:5px}
+        .stat-value{font-size:1.5rem;font-weight:700}
+        .stat-value.green{color:#10b981}
+        .stat-value.red{color:#ef4444}
+        .stat-label{font-size:.7rem;color:#666;margin-top:4px}
+        .transfer{display:flex;justify-content:space-between;padding:10px;border-bottom:1px solid #1e1e2e;font-size:.85rem}
+        .transfer:last-child{border:none}
+        .dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-left:8px}
+        .dot.bullish{background:#10b981}
+        .dot.bearish{background:#ef4444}
+        #status{text-align:center;padding:20px;color:#666}
     </style>
 </head>
 <body>
     <header class="header">
-        <div class="logo">
-            <div class="logo-icon">🦇</div>
-            <span class="logo-text">ELUXRAJ</span>
-        </div>
+        <div class="logo">🦇 ELUXRAJ</div>
         <nav class="nav">
             <a href="/dashboard.html">Dashboard</a>
             <a href="/oracle.html">Oracle</a>
             <a href="/whale-intel.html" class="active">Gotham Intel</a>
-            <a href="/chart-analysis.html">Chart AI</a>
             <a href="/paper-trading.html">Paper Trade</a>
         </nav>
     </header>
     
-    <section class="title-section">
-        <h1 class="page-title">GOTHAM INTEL</h1>
-        <p class="page-subtitle">Real-time blockchain intelligence • Track smart money</p>
-        <div class="data-sources">
-            <div class="source-badge"><div class="source-dot"></div>Whale Alert</div>
-            <div class="source-badge"><div class="source-dot" style="background:#9945FF"></div>MobyScreener</div>
-        </div>
-    </section>
+    <h1>GOTHAM INTEL</h1>
+    <p class="subtitle">Whale tracking powered by Whale Alert + MobyScreener</p>
     
-    <main class="main">
-        <div class="left-column">
+    <div id="status">Loading data...</div>
+    
+    <div class="grid" id="content" style="display:none">
+        <div>
             <div class="card">
-                <div class="card-header">
-                    <span class="card-title">🔥 Trending Insights</span>
-                    <span class="card-badge" id="insightsBadge">Loading</span>
-                </div>
-                <div class="insights-grid" id="insightsGrid">
-                    <div class="loading">Loading insights...</div>
-                </div>
+                <h2>🔥 Insights</h2>
+                <div id="insights"></div>
             </div>
             
             <div class="card" style="margin-top:20px">
-                <div class="card-header">
-                    <span class="card-title">🐋 Solana Smart Money</span>
-                    <span class="card-badge solana">MobyScreener</span>
-                </div>
-                <div class="solana-tokens" id="solanaTokens">
-                    <div class="loading">Loading tokens...</div>
-                </div>
-            </div>
-            
-            <div class="card" style="margin-top:20px">
-                <div class="card-header">
-                    <span class="card-title">💹 Exchange Flows</span>
-                    <span class="card-badge">24H</span>
-                </div>
-                <div class="flows-section" id="flowsList">
-                    <div class="loading">Loading flows...</div>
-                </div>
-            </div>
-            
-            <div class="card" style="margin-top:20px">
-                <div class="card-header">
-                    <span class="card-title">🧠 Smart Money Sentiment</span>
-                    <span class="card-badge" id="sentimentBadge">Analyzing</span>
-                </div>
-                <div class="sm-stats">
-                    <div class="sm-stat">
-                        <div class="sentiment-emoji" id="sentimentEmoji">🟡</div>
-                        <div class="sm-stat-value" id="sentimentScore">--</div>
-                        <div class="sm-stat-label">Score</div>
-                    </div>
-                    <div class="sm-stat">
-                        <div class="sm-stat-value bullish" id="bullishCount">--</div>
-                        <div class="sm-stat-label">Bullish</div>
-                    </div>
-                    <div class="sm-stat">
-                        <div class="sm-stat-value bearish" id="bearishCount">--</div>
-                        <div class="sm-stat-label">Bearish</div>
-                    </div>
-                    <div class="sm-stat">
-                        <div class="sm-stat-value" id="netFlow">--</div>
-                        <div class="sm-stat-label">Net Flow</div>
-                    </div>
-                </div>
+                <h2>🧠 Sentiment</h2>
+                <div id="sentiment"></div>
             </div>
         </div>
         
-        <div class="right-column">
+        <div>
             <div class="card">
-                <div class="card-header">
-                    <span class="card-title">⚡ Live Transfers</span>
-                    <span class="card-badge" id="transferCount">0</span>
-                </div>
-                <div class="transfer-header">
-                    <span>Time</span>
-                    <span>From</span>
-                    <span>To</span>
-                    <span></span>
-                </div>
-                <div class="transfer-feed" id="transferFeed">
-                    <div class="loading">Loading transfers...</div>
-                </div>
+                <h2>⚡ Recent Transfers</h2>
+                <div id="transfers"></div>
             </div>
         </div>
-    </main>
+    </div>
     
     <script src="/js/eluxraj-utils.js"></script>
-    <script src="/js/theme.js"></script>
     <script>
-        const exchangeIcons = {'Binance':'🟡','Coinbase':'🔵','Kraken':'🟣','OKX':'⚫','Bitfinex':'🟢','Bybit':'🟠'};
-        let refreshInterval = null;
-        
-        (async () => {
+        // Single load, no intervals
+        (async function() {
             try {
                 const user = await Auth.check();
                 if (!user) return;
-                await loadAll();
-                // Refresh every 60 seconds (not 30)
-                refreshInterval = setInterval(loadAll, 60000);
-            } catch (e) {
-                console.error('Init error:', e);
+                
+                document.getElementById('status').textContent = 'Fetching whale data...';
+                
+                // Load one at a time to avoid overwhelming
+                await loadInsights();
+                await loadSentiment();
+                await loadTransfers();
+                
+                document.getElementById('status').style.display = 'none';
+                document.getElementById('content').style.display = 'grid';
+                
+            } catch(e) {
+                document.getElementById('status').textContent = 'Error: ' + e.message;
+                console.error(e);
             }
         })();
         
-        // Cleanup on page leave
-        window.addEventListener('beforeunload', () => {
-            if (refreshInterval) clearInterval(refreshInterval);
-        });
-        
-        async function loadAll() {
-            try {
-                await Promise.all([
-                    loadInsights().catch(e => console.error('Insights:', e)),
-                    loadSolanaTokens().catch(e => console.error('Solana:', e)),
-                    loadFlows().catch(e => console.error('Flows:', e)),
-                    loadTransfers().catch(e => console.error('Transfers:', e)),
-                    loadSentiment().catch(e => console.error('Sentiment:', e))
-                ]);
-            } catch (e) {
-                console.error('Load error:', e);
-            }
-        }
-        
         async function loadInsights() {
-            const data = await API.get('/whale/insights');
-            if (data.ok && data.insights) {
-                document.getElementById('insightsBadge').textContent = 'Live';
-                document.getElementById('insightsGrid').innerHTML = data.insights.map(i => `
-                    <div class="insight-card">
-                        <span class="insight-source">${i.source || 'aggregated'}</span>
-                        <div class="insight-tags">${i.tags.map(t => `<span class="tag ${t}">${t}</span>`).join('')}</div>
-                        <div class="insight-title">${i.title}</div>
-                        <div class="insight-meta">${i.time} • ${i.updates} updates</div>
-                    </div>
-                `).join('');
-            }
-        }
-        
-        async function loadSolanaTokens() {
-            const data = await API.get('/whale/solana');
-            if (data.ok && data.trending_tokens) {
-                document.getElementById('solanaTokens').innerHTML = data.trending_tokens.slice(0, 8).map(t => `
-                    <div class="sol-token">
-                        <div class="sol-token-symbol">${t.symbol}</div>
-                        <div class="sol-token-name">${t.name}</div>
-                        <div class="sol-token-change ${t.price_change_24h >= 0 ? 'positive' : 'negative'}">${t.price_change_24h >= 0 ? '+' : ''}${t.price_change_24h.toFixed(1)}%</div>
-                        <div class="sol-token-whales">🐋 ${t.whale_buys} whale buys</div>
-                    </div>
-                `).join('');
-            }
-        }
-        
-        async function loadFlows() {
-            const data = await API.get('/whale/flows');
-            if (data.ok && data.exchanges && data.exchanges.length > 0) {
-                const max = Math.max(...data.exchanges.map(e => Math.max(e.inflow || 1, e.outflow || 1)));
-                document.getElementById('flowsList').innerHTML = data.exchanges.map(ex => {
-                    const icon = exchangeIcons[ex.name] || '🏦';
-                    const inM = ((ex.inflow || 0) / 1e6).toFixed(1);
-                    const outM = ((ex.outflow || 0) / 1e6).toFixed(1);
-                    const netM = ((ex.net_flow || 0) / 1e6).toFixed(1);
-                    return `
-                        <div class="flow-item">
-                            <div class="flow-icon">${icon}</div>
-                            <div class="flow-info"><div class="flow-name">${ex.name}</div><div class="flow-type">${ex.type || 'CEX'}</div></div>
-                            <div class="flow-bars">
-                                <div class="flow-bar-row"><span class="flow-bar-label">In</span><div class="flow-bar"><div class="flow-bar-fill inflow" style="width:${Math.min((ex.inflow||0)/max*100, 100)}%"></div></div><span class="flow-bar-value">$${inM}M</span></div>
-                                <div class="flow-bar-row"><span class="flow-bar-label">Out</span><div class="flow-bar"><div class="flow-bar-fill outflow" style="width:${Math.min((ex.outflow||0)/max*100, 100)}%"></div></div><span class="flow-bar-value">$${outM}M</span></div>
-                            </div>
-                            <div class="flow-net"><div class="flow-net-value ${(ex.net_flow||0) >= 0 ? 'positive' : 'negative'}">${(ex.net_flow||0) >= 0 ? '+' : ''}$${netM}M</div><div class="flow-net-label">Net</div></div>
-                        </div>`;
-                }).join('');
-            }
-        }
-        
-        async function loadTransfers() {
-            const data = await API.get('/whale/transfers?limit=30');
-            if (data.ok && data.transfers) {
-                document.getElementById('transferCount').textContent = data.count || data.transfers.length;
-                document.getElementById('transferFeed').innerHTML = data.transfers.slice(0, 30).map(tx => {
-                    const isMoby = tx.source === 'moby';
-                    const fromIcon = tx.from?.type === 'exchange' ? '🏛️' : (tx.from?.type === 'dex' ? '🔄' : '🐋');
-                    const toIcon = tx.to?.type === 'exchange' ? '🏛️' : (tx.to?.type === 'dex' ? '🔄' : '🐋');
-                    return `
-                    <div class="transfer-row ${isMoby ? 'moby' : ''}">
-                        <div class="transfer-time">${Format.timeAgo(tx.timestamp)}</div>
-                        <div class="transfer-entity">
-                            <div class="entity-icon ${tx.from?.type || 'whale'}">${fromIcon}</div>
-                            <div><div class="entity-name">${tx.from?.name || 'Unknown'}</div><div class="entity-amount">${formatAmt(tx.amount, tx.symbol)}</div></div>
+            try {
+                const data = await API.get('/whale/insights');
+                if (data.ok && data.insights) {
+                    document.getElementById('insights').innerHTML = data.insights.slice(0,6).map(i => `
+                        <div class="insight">
+                            <div>${i.tags.map(t => '<span class="tag ' + t + '">' + t + '</span>').join('')}</div>
+                            <div class="insight-title">${i.title}</div>
+                            <div class="insight-meta">${i.time}</div>
                         </div>
-                        <div class="transfer-entity">
-                            <div class="entity-icon ${tx.to?.type || 'whale'}">${toIcon}</div>
-                            <div><div class="entity-name">${tx.to?.name || 'Unknown'}</div><div class="entity-amount">${Format.currency(tx.amount_usd)}</div></div>
-                        </div>
-                        <div><div class="impact-dot ${tx.impact || 'neutral'}"></div></div>
-                    </div>
-                `}).join('');
+                    `).join('');
+                }
+            } catch(e) {
+                document.getElementById('insights').innerHTML = '<p>Failed to load</p>';
             }
         }
         
         async function loadSentiment() {
-            const data = await API.get('/whale/sentiment');
-            if (data.ok) {
-                document.getElementById('sentimentEmoji').textContent = data.sentiment_emoji || '🟡';
-                document.getElementById('sentimentScore').textContent = data.sentiment_score || '--';
-                document.getElementById('bullishCount').textContent = data.bullish_signals || 0;
-                document.getElementById('bearishCount').textContent = data.bearish_signals || 0;
-                const netM = ((data.net_flow_usd || 0) / 1e6).toFixed(1);
-                document.getElementById('netFlow').textContent = `${(data.net_flow_usd||0) >= 0 ? '+' : ''}$${netM}M`;
-                document.getElementById('netFlow').className = `sm-stat-value ${(data.net_flow_usd||0) >= 0 ? 'bullish' : 'bearish'}`;
-                document.getElementById('sentimentBadge').textContent = data.sentiment || 'Neutral';
+            try {
+                const data = await API.get('/whale/sentiment');
+                if (data.ok) {
+                    document.getElementById('sentiment').innerHTML = `
+                        <div class="stat"><div class="stat-value">${data.sentiment_emoji || '🟡'}</div><div class="stat-label">${data.sentiment || 'Neutral'}</div></div>
+                        <div class="stat"><div class="stat-value green">${data.bullish_signals || 0}</div><div class="stat-label">Bullish</div></div>
+                        <div class="stat"><div class="stat-value red">${data.bearish_signals || 0}</div><div class="stat-label">Bearish</div></div>
+                    `;
+                }
+            } catch(e) {
+                document.getElementById('sentiment').innerHTML = '<p>Failed to load</p>';
             }
         }
         
-        function formatAmt(amt, sym) {
-            if (!amt) return '0 ' + (sym || '');
-            return (amt >= 1000 ? amt.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",") : amt.toFixed(2)) + ' ' + (sym || '');
+        async function loadTransfers() {
+            try {
+                const data = await API.get('/whale/transfers?limit=15');
+                if (data.ok && data.transfers) {
+                    document.getElementById('transfers').innerHTML = data.transfers.slice(0,15).map(tx => `
+                        <div class="transfer">
+                            <span>${tx.symbol} ${tx.from?.name || '?'} → ${tx.to?.name || '?'}</span>
+                            <span>$${((tx.amount_usd||0)/1e6).toFixed(1)}M <span class="dot ${tx.impact}"></span></span>
+                        </div>
+                    `).join('');
+                }
+            } catch(e) {
+                document.getElementById('transfers').innerHTML = '<p>Failed to load</p>';
+            }
         }
     </script>
 </body>
