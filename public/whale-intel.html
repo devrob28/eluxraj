@@ -20,9 +20,13 @@
         .nav a.active{color:var(--text);background:var(--gradient-glow);border:1px solid var(--border)}
         .header-right{display:flex;align-items:center;gap:12px}
         
-        .title-section{padding:32px 24px 24px;text-align:center}
+        .title-section{padding:32px 24px 16px;text-align:center}
         .page-title{font-size:2.5rem;font-weight:900;letter-spacing:4px;background:var(--gradient-primary);-webkit-background-clip:text;-webkit-text-fill-color:transparent;margin-bottom:6px}
         .page-subtitle{color:var(--text-muted);font-size:.9rem}
+        .data-sources{display:flex;justify-content:center;gap:16px;margin-top:12px}
+        .source-badge{display:flex;align-items:center;gap:6px;padding:6px 12px;background:var(--card);border:1px solid var(--border-light);border-radius:20px;font-size:.7rem;font-weight:600}
+        .source-dot{width:8px;height:8px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
         
         .main{display:grid;grid-template-columns:1fr 380px;gap:20px;padding:0 24px 40px;max-width:1600px;margin:0 auto}
         @media(max-width:1100px){.main{grid-template-columns:1fr}}
@@ -31,12 +35,14 @@
         .card-header{display:flex;justify-content:space-between;align-items:center;padding:16px 20px;border-bottom:1px solid var(--border-light);background:var(--gradient-card)}
         .card-title{font-size:.8rem;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:var(--cyan)}
         .card-badge{font-size:.65rem;font-weight:700;padding:4px 10px;border-radius:16px;background:var(--gradient-primary);color:#fff}
+        .card-badge.solana{background:linear-gradient(135deg,#9945FF,#14F195)}
         
         .insights-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:18px}
         @media(max-width:900px){.insights-grid{grid-template-columns:repeat(2,1fr)}}
         @media(max-width:500px){.insights-grid{grid-template-columns:1fr}}
-        .insight-card{background:var(--bg2);border:1px solid var(--border-light);border-radius:12px;padding:16px;cursor:pointer;transition:all .2s}
+        .insight-card{background:var(--bg2);border:1px solid var(--border-light);border-radius:12px;padding:16px;cursor:pointer;transition:all .2s;position:relative}
         .insight-card:hover{border-color:var(--cyan);transform:translateY(-2px);box-shadow:var(--shadow-hover)}
+        .insight-source{position:absolute;top:8px;right:8px;font-size:.55rem;padding:2px 6px;border-radius:4px;background:var(--bg3);color:var(--text-muted)}
         .insight-tags{display:flex;gap:5px;margin-bottom:12px;flex-wrap:wrap}
         .tag{font-size:.6rem;font-weight:800;padding:4px 8px;border-radius:5px;text-transform:uppercase}
         .tag.bullish{background:rgba(16,185,129,0.15);color:var(--green)}
@@ -46,8 +52,31 @@
         .tag.exchange{background:rgba(251,191,36,0.15);color:var(--yellow)}
         .tag.institution{background:rgba(168,85,247,0.15);color:var(--purple)}
         .tag.on-chain{background:rgba(6,182,212,0.15);color:var(--cyan)}
+        .tag.hot{background:rgba(251,146,60,0.15);color:#fb923c}
+        .tag.solana{background:rgba(153,69,255,0.15);color:#9945FF}
+        .tag.momentum{background:rgba(20,241,149,0.15);color:#14F195}
+        .tag.btc{background:rgba(247,147,26,0.15);color:#f7931a}
+        .tag.eth{background:rgba(98,126,234,0.15);color:#627EEA}
+        .tag.buy{background:rgba(16,185,129,0.15);color:var(--green)}
+        .tag.sell{background:rgba(239,68,68,0.15);color:var(--red)}
+        .tag.breakout{background:rgba(20,241,149,0.15);color:#14F195}
+        .tag.accumulation{background:rgba(16,185,129,0.15);color:var(--green)}
+        .tag.volume{background:rgba(59,130,246,0.15);color:var(--blue)}
+        .tag.activity{background:rgba(168,85,247,0.15);color:var(--purple)}
+        .tag.alert{background:rgba(239,68,68,0.15);color:var(--red)}
         .insight-title{font-size:.9rem;font-weight:700;line-height:1.4;margin-bottom:10px;color:var(--text)}
         .insight-meta{font-size:.7rem;color:var(--text-muted)}
+        
+        .solana-tokens{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;padding:18px}
+        @media(max-width:900px){.solana-tokens{grid-template-columns:repeat(2,1fr)}}
+        .sol-token{background:var(--bg2);border:1px solid var(--border-light);border-radius:12px;padding:14px;text-align:center;transition:all .2s}
+        .sol-token:hover{border-color:#9945FF;transform:translateY(-2px)}
+        .sol-token-symbol{font-size:1.1rem;font-weight:800;color:var(--text);margin-bottom:4px}
+        .sol-token-name{font-size:.65rem;color:var(--text-muted);margin-bottom:10px}
+        .sol-token-change{font-size:.9rem;font-weight:700;margin-bottom:6px}
+        .sol-token-change.positive{color:var(--green)}
+        .sol-token-change.negative{color:var(--red)}
+        .sol-token-whales{font-size:.65rem;color:var(--cyan)}
         
         .flows-section{padding:18px}
         .flow-item{display:flex;align-items:center;gap:14px;padding:14px;margin-bottom:10px;background:var(--bg2);border:1px solid var(--border-light);border-radius:12px;transition:all .2s}
@@ -70,22 +99,26 @@
         .flow-net-value.negative{color:var(--red)}
         .flow-net-label{font-size:.6rem;color:var(--text-muted);text-transform:uppercase}
         
-        .sm-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:18px}
+        .sm-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:18px}
+        @media(max-width:700px){.sm-stats{grid-template-columns:repeat(2,1fr)}}
         .sm-stat{text-align:center;padding:20px 14px;background:var(--bg2);border:1px solid var(--border-light);border-radius:12px}
-        .sm-stat-value{font-family:'JetBrains Mono',monospace;font-size:2rem;font-weight:900;margin-bottom:6px}
+        .sm-stat-value{font-family:'JetBrains Mono',monospace;font-size:1.8rem;font-weight:900;margin-bottom:6px}
         .sm-stat-value.bullish{color:var(--green)}
         .sm-stat-value.bearish{color:var(--red)}
         .sm-stat-label{font-size:.7rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:.5px}
+        .sentiment-emoji{font-size:2rem;margin-bottom:4px}
         
         .transfer-feed{max-height:600px;overflow-y:auto}
         .transfer-header{display:grid;grid-template-columns:70px 1fr 1fr 36px;gap:10px;padding:12px 16px;font-size:.65rem;font-weight:700;color:var(--text-muted);text-transform:uppercase;border-bottom:1px solid var(--border-light);position:sticky;top:0;background:var(--card)}
         .transfer-row{display:grid;grid-template-columns:70px 1fr 1fr 36px;gap:10px;padding:12px 16px;border-bottom:1px solid var(--border-light);align-items:center;transition:background .2s}
         .transfer-row:hover{background:var(--gradient-glow)}
+        .transfer-row.moby{border-left:3px solid #9945FF}
         .transfer-time{font-size:.75rem;color:var(--cyan);font-weight:600}
         .transfer-entity{display:flex;align-items:center;gap:8px}
         .entity-icon{width:28px;height:28px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:12px}
         .entity-icon.exchange{background:rgba(251,191,36,0.15)}
         .entity-icon.whale{background:rgba(59,130,246,0.15)}
+        .entity-icon.dex{background:rgba(153,69,255,0.15)}
         .entity-name{font-size:.8rem;font-weight:600;color:var(--text)}
         .entity-amount{font-size:.65rem;color:var(--text-muted);font-family:'JetBrains Mono',monospace}
         .impact-dot{width:10px;height:10px;border-radius:50%}
@@ -111,13 +144,18 @@
             <a href="/oracle.html">Oracle</a>
             <a href="/whale-intel.html" class="active">Gotham Intel</a>
             <a href="/chart-analysis.html">Chart AI</a>
+            <a href="/paper-trading.html">Paper Trade</a>
         </nav>
         <div class="header-right"></div>
     </header>
     
     <section class="title-section">
         <h1 class="page-title">GOTHAM INTEL</h1>
-        <p class="page-subtitle">Real-time blockchain intelligence • Track smart money</p>
+        <p class="page-subtitle">Real-time blockchain intelligence • Track smart money across chains</p>
+        <div class="data-sources">
+            <div class="source-badge"><div class="source-dot"></div>Whale Alert</div>
+            <div class="source-badge"><div class="source-dot" style="background:#9945FF"></div>MobyScreener</div>
+        </div>
     </section>
     
     <main class="main">
@@ -131,6 +169,19 @@
                     <div class="skeleton" style="height:150px"></div>
                     <div class="skeleton" style="height:150px"></div>
                     <div class="skeleton" style="height:150px"></div>
+                </div>
+            </div>
+            
+            <div class="card" style="margin-top:20px">
+                <div class="card-header">
+                    <span class="card-title">🐋 Solana Smart Money</span>
+                    <span class="card-badge solana">MobyScreener</span>
+                </div>
+                <div class="solana-tokens" id="solanaTokens">
+                    <div class="skeleton" style="height:100px"></div>
+                    <div class="skeleton" style="height:100px"></div>
+                    <div class="skeleton" style="height:100px"></div>
+                    <div class="skeleton" style="height:100px"></div>
                 </div>
             </div>
             
@@ -152,6 +203,11 @@
                     <span class="card-badge" id="sentimentBadge">Analyzing</span>
                 </div>
                 <div class="sm-stats">
+                    <div class="sm-stat">
+                        <div class="sentiment-emoji" id="sentimentEmoji">🟡</div>
+                        <div class="sm-stat-value" id="sentimentScore">--</div>
+                        <div class="sm-stat-label">Score</div>
+                    </div>
                     <div class="sm-stat">
                         <div class="sm-stat-value bullish" id="bullishCount">--</div>
                         <div class="sm-stat-label">Bullish Signals</div>
@@ -190,7 +246,7 @@
     <script src="/js/eluxraj-utils.js"></script>
     <script src="/js/theme.js"></script>
     <script>
-        const exchangeIcons = {'Binance':'🟡','Coinbase':'🔵','Kraken':'🟣','OKX':'⚫','Bitfinex':'🟢','Bybit':'🟠'};
+        const exchangeIcons = {'Binance':'🟡','Coinbase':'🔵','Kraken':'🟣','OKX':'⚫','Bitfinex':'🟢','Bybit':'🟠','DEX':'🔄'};
         
         (async () => {
             const user = await Auth.check();
@@ -201,7 +257,7 @@
         })();
         
         async function loadAll() {
-            await Promise.all([loadInsights(), loadFlows(), loadTransfers(), loadSentiment()]);
+            await Promise.all([loadInsights(), loadSolanaTokens(), loadFlows(), loadTransfers(), loadSentiment()]);
             Toast.success('Data loaded');
         }
         
@@ -212,14 +268,33 @@
                     document.getElementById('insightsBadge').textContent = 'Live';
                     document.getElementById('insightsGrid').innerHTML = data.insights.map(i => `
                         <div class="insight-card">
+                            <span class="insight-source">${i.source || 'aggregated'}</span>
                             <div class="insight-tags">${i.tags.map(t => `<span class="tag ${t}">${t}</span>`).join('')}</div>
                             <div class="insight-title">${i.title}</div>
-                            <div class="insight-meta">${i.time} • ${i.updates} updates</div>
+                            <div class="insight-meta">${i.time} • ${i.updates} updates${i.tokens ? ' • ' + i.tokens.join(', ') : ''}</div>
                         </div>
                     `).join('');
                 }
             } catch (e) {
                 document.getElementById('insightsGrid').innerHTML = `<div class="error-state"><div class="icon">⚠️</div><div>${e.message}</div><button class="retry-btn" onclick="loadInsights()">Retry</button></div>`;
+            }
+        }
+        
+        async function loadSolanaTokens() {
+            try {
+                const data = await API.get('/whale/solana');
+                if (data.ok && data.trending_tokens) {
+                    document.getElementById('solanaTokens').innerHTML = data.trending_tokens.slice(0, 8).map(t => `
+                        <div class="sol-token">
+                            <div class="sol-token-symbol">${t.symbol}</div>
+                            <div class="sol-token-name">${t.name}</div>
+                            <div class="sol-token-change ${t.price_change_24h >= 0 ? 'positive' : 'negative'}">${t.price_change_24h >= 0 ? '+' : ''}${t.price_change_24h.toFixed(1)}%</div>
+                            <div class="sol-token-whales">🐋 ${t.whale_buys} whale buys</div>
+                        </div>
+                    `).join('');
+                }
+            } catch (e) {
+                document.getElementById('solanaTokens').innerHTML = `<div class="error-state"><div class="icon">⚠️</div><div>${e.message}</div></div>`;
             }
         }
         
@@ -255,20 +330,24 @@
                 const data = await API.get('/whale/transfers?limit=50');
                 if (data.ok && data.transfers) {
                     document.getElementById('transferCount').textContent = data.count;
-                    document.getElementById('transferFeed').innerHTML = data.transfers.map(tx => `
-                        <div class="transfer-row">
+                    document.getElementById('transferFeed').innerHTML = data.transfers.map(tx => {
+                        const isMoby = tx.source === 'moby';
+                        const fromIcon = tx.from.type === 'exchange' ? '🏛️' : (tx.from.type === 'dex' ? '🔄' : '🐋');
+                        const toIcon = tx.to.type === 'exchange' ? '🏛️' : (tx.to.type === 'dex' ? '🔄' : '🐋');
+                        return `
+                        <div class="transfer-row ${isMoby ? 'moby' : ''}">
                             <div class="transfer-time">${Format.timeAgo(tx.timestamp)}</div>
                             <div class="transfer-entity">
-                                <div class="entity-icon ${tx.from.type}">${tx.from.type === 'exchange' ? '🏛️' : '🐋'}</div>
+                                <div class="entity-icon ${tx.from.type}">${fromIcon}</div>
                                 <div><div class="entity-name">${tx.from.name}</div><div class="entity-amount">${formatAmt(tx.amount, tx.symbol)}</div></div>
                             </div>
                             <div class="transfer-entity">
-                                <div class="entity-icon ${tx.to.type}">${tx.to.type === 'exchange' ? '🏛️' : '🐋'}</div>
+                                <div class="entity-icon ${tx.to.type}">${toIcon}</div>
                                 <div><div class="entity-name">${tx.to.name}</div><div class="entity-amount">${Format.currency(tx.amount_usd)}</div></div>
                             </div>
                             <div><div class="impact-dot ${tx.impact}"></div></div>
                         </div>
-                    `).join('');
+                    `}).join('');
                 }
             } catch (e) { Toast.error('Failed to load transfers'); }
         }
@@ -277,6 +356,8 @@
             try {
                 const data = await API.get('/whale/sentiment');
                 if (data.ok) {
+                    document.getElementById('sentimentEmoji').textContent = data.sentiment_emoji || '🟡';
+                    document.getElementById('sentimentScore').textContent = data.sentiment_score || '--';
                     document.getElementById('bullishCount').textContent = data.bullish_signals;
                     document.getElementById('bearishCount').textContent = data.bearish_signals;
                     const netM = (data.net_flow_usd / 1e6).toFixed(1);
