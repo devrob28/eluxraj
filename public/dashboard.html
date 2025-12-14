@@ -33,13 +33,14 @@
         .market-change{font-size:.85rem;font-weight:600}
         .market-change.up{color:var(--green)}.market-change.down{color:var(--red)}
         .section-title{font-size:.85rem;color:var(--gray500);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
-        .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:40px}
+        .feature-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:40px}
         @media(max-width:900px){.feature-grid{grid-template-columns:1fr}}
         .feature-card{background:var(--card);border:1px solid rgba(124,58,237,0.15);border-radius:16px;padding:24px;text-decoration:none;color:var(--white);transition:all .2s}
         .feature-card:hover{border-color:var(--purple);transform:translateY(-4px);box-shadow:0 10px 40px rgba(124,58,237,0.2)}
         .feature-card.oracle{background:linear-gradient(135deg,rgba(124,58,237,0.2),rgba(6,182,212,0.1));border-color:var(--purple)}
         .feature-card.chart{background:linear-gradient(135deg,rgba(16,185,129,0.2),rgba(6,182,212,0.1));border-color:var(--green)}
         .feature-card.gotham{background:linear-gradient(135deg,rgba(6,182,212,0.2),rgba(124,58,237,0.1));border-color:var(--cyan)}
+        .feature-card.paper{background:linear-gradient(135deg,rgba(245,158,11,0.2),rgba(16,185,129,0.1));border-color:var(--yellow)}
         .feature-icon{font-size:2.5rem;margin-bottom:12px}
         .feature-name{font-size:1.1rem;font-weight:700;margin-bottom:4px}
         .feature-desc{font-size:.85rem;color:var(--gray400);line-height:1.5}
@@ -114,6 +115,15 @@
                 <div class="feature-stats">
                     <div class="feature-stat">Patterns: <span>15+</span></div>
                     <div class="feature-stat">Speed: <span>< 3s</span></div>
+                </div>
+            </a>
+            <a href="/paper-trading.html" class="feature-card paper">
+                <div class="feature-icon">📈</div>
+                <div class="feature-name">PAPER TRADE <span class="feature-badge new">New</span></div>
+                <div class="feature-desc">Practice trading with $100K virtual portfolio. Track performance, test ORACLE signals risk-free</div>
+                <div class="feature-stats">
+                    <div class="feature-stat">Balance: <span>$100K</span></div>
+                    <div class="feature-stat">Risk: <span>None</span></div>
                 </div>
             </a>
         </div>
