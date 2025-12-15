@@ -1,168 +1,65 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | ELUXRAJ</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root{--bg:#0a0a0f;--bg2:#12121a;--card:#1a1a24;--purple:#7c3aed;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--yellow:#f59e0b;--white:#fff;--gray300:#d1d5db;--gray400:#9ca3af;--gray500:#6b7280}
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);min-height:100vh}
-        .header{display:flex;justify-content:space-between;align-items:center;padding:16px 32px;border-bottom:1px solid rgba(124,58,237,0.2)}
-        .logo{font-size:1.25rem;font-weight:900;background:linear-gradient(135deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .user-info{display:flex;align-items:center;gap:16px}
-        .username{font-weight:600}
-        .tier-badge{font-size:.7rem;font-weight:700;padding:4px 10px;border-radius:20px;text-transform:uppercase}
-        .tier-badge.free{background:rgba(107,114,128,0.2);color:var(--gray400)}
-        .tier-badge.pro{background:rgba(124,58,237,0.2);color:var(--purple)}
-        .tier-badge.elite,.tier-badge.admin{background:linear-gradient(135deg,var(--purple),var(--cyan));color:var(--white)}
-        .logout-btn{background:transparent;border:1px solid rgba(255,255,255,0.1);color:var(--gray400);padding:8px 16px;border-radius:8px;cursor:pointer;font-size:.85rem}
-        .logout-btn:hover{border-color:var(--purple);color:var(--white)}
-        .container{max-width:1200px;margin:0 auto;padding:32px}
-        .upgrade-banner{background:var(--card);border:1px solid var(--purple);border-radius:16px;padding:24px 32px;display:flex;justify-content:space-between;align-items:center;margin-bottom:32px}
-        .upgrade-text h3{font-size:1.1rem;font-weight:700;margin-bottom:4px}
-        .upgrade-text p{color:var(--gray400);font-size:.9rem}
-        .upgrade-btn{background:linear-gradient(135deg,var(--purple),var(--cyan));color:var(--white);font-weight:700;padding:12px 24px;border-radius:10px;text-decoration:none;font-size:.9rem}
-        .market-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:40px}
-        @media(max-width:900px){.market-grid{grid-template-columns:repeat(2,1fr)}}
-        @media(max-width:500px){.market-grid{grid-template-columns:1fr}}
-        .market-card{background:var(--card);border:1px solid rgba(124,58,237,0.15);border-radius:16px;padding:20px}
-        .market-label{font-size:.8rem;color:var(--gray500);margin-bottom:8px}
-        .market-value{font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:700;margin-bottom:4px}
-        .market-change{font-size:.85rem;font-weight:600}
-        .market-change.up{color:var(--green)}.market-change.down{color:var(--red)}
-        .section-title{font-size:.85rem;color:var(--gray500);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
-        .feature-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:40px}
-        @media(max-width:900px){.feature-grid{grid-template-columns:1fr}}
-        .feature-card{background:var(--card);border:1px solid rgba(124,58,237,0.15);border-radius:16px;padding:24px;text-decoration:none;color:var(--white);transition:all .2s}
-        .feature-card:hover{border-color:var(--purple);transform:translateY(-4px);box-shadow:0 10px 40px rgba(124,58,237,0.2)}
-        .feature-card.oracle{background:linear-gradient(135deg,rgba(124,58,237,0.2),rgba(6,182,212,0.1));border-color:var(--purple)}
-        .feature-card.chart{background:linear-gradient(135deg,rgba(16,185,129,0.2),rgba(6,182,212,0.1));border-color:var(--green)}
-        .feature-card.gotham{background:linear-gradient(135deg,rgba(6,182,212,0.2),rgba(124,58,237,0.1));border-color:var(--cyan)}
-        .feature-card.paper{background:linear-gradient(135deg,rgba(245,158,11,0.2),rgba(16,185,129,0.1));border-color:var(--yellow)}
-        .feature-icon{font-size:2.5rem;margin-bottom:12px}
-        .feature-name{font-size:1.1rem;font-weight:700;margin-bottom:4px}
-        .feature-desc{font-size:.85rem;color:var(--gray400);line-height:1.5}
-        .feature-badge{display:inline-block;font-size:.65rem;font-weight:700;padding:3px 8px;border-radius:4px;margin-left:8px;text-transform:uppercase}
-        .feature-badge.elite{background:linear-gradient(135deg,var(--purple),var(--cyan));color:var(--white)}
-        .feature-badge.pro{background:rgba(124,58,237,0.2);color:var(--purple)}
-        .feature-badge.new{background:rgba(239,68,68,0.2);color:var(--red);animation:pulse 2s infinite}
-        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
-        .feature-stats{display:flex;gap:16px;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.1)}
-        .feature-stat{font-size:.75rem;color:var(--gray400)}
-        .feature-stat span{color:var(--green);font-weight:600}
-        .actions-grid{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:40px}
-        .action-btn{background:var(--card);border:1px solid rgba(124,58,237,0.15);border-radius:12px;padding:14px 20px;font-size:.9rem;color:var(--gray300);text-decoration:none}
-        .action-btn:hover{border-color:var(--purple);color:var(--white)}
-        .tools-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-        @media(max-width:800px){.tools-grid{grid-template-columns:repeat(2,1fr)}}
-        .tool-card{background:var(--card);border:1px solid rgba(124,58,237,0.15);border-radius:12px;padding:20px;text-align:center;text-decoration:none;color:var(--white)}
-        .tool-card:hover{border-color:var(--purple)}
-        .tool-icon{font-size:1.5rem;margin-bottom:8px}
-        .tool-name{font-size:.85rem;font-weight:600}
-    </style>
-</head>
-<body>
-    <header class="header">
-        <div class="logo">ELUXRAJ™</div>
-        <div class="user-info">
-            <span class="username" id="username">User</span>
-            <span class="tier-badge free" id="tierBadge">FREE</span>
-            <button class="logout-btn" onclick="logout()">Logout</button>
+
+<!-- Price Alert Modal -->
+<div id="alertModal" class="modal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:1000;align-items:center;justify-content:center;">
+    <div class="modal-content" style="background:#1a1a2e;border-radius:16px;padding:24px;max-width:400px;width:90%;margin:auto;position:relative;top:50%;transform:translateY(-50%);">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+            <h2 style="color:#fff;margin:0;">🔔 Set Price Alert</h2>
+            <button onclick="closeAlertModal()" style="background:none;border:none;color:#888;font-size:24px;cursor:pointer;">&times;</button>
         </div>
-    </header>
-    <main class="container">
-        <div class="upgrade-banner" id="upgradeBanner">
-            <div class="upgrade-text">
-                <h3>🚀 Unlock All AI Features</h3>
-                <p>Upgrade to Elite for ORACLE predictions, whale alerts, and more</p>
-            </div>
-            <a href="/pricing.html" class="upgrade-btn">Upgrade to Elite - $98/mo</a>
+        <div style="margin-bottom:16px;">
+            <label style="color:#888;font-size:12px;display:block;margin-bottom:6px;">Asset</label>
+            <select id="alertAsset" style="width:100%;padding:12px;background:#0d0d1a;border:1px solid #333;border-radius:8px;color:#fff;font-size:16px;">
+                <option value="BTC">BTC - Bitcoin</option>
+                <option value="ETH">ETH - Ethereum</option>
+                <option value="SOL">SOL - Solana</option>
+                <option value="XRP">XRP - Ripple</option>
+                <option value="DOGE">DOGE - Dogecoin</option>
+                <option value="AAPL">AAPL - Apple</option>
+                <option value="TSLA">TSLA - Tesla</option>
+                <option value="NVDA">NVDA - Nvidia</option>
+            </select>
         </div>
-        
-        <div class="market-grid">
-            <div class="market-card"><div class="market-label">₿ Bitcoin</div><div class="market-value" id="btcPrice">$91,400</div><div class="market-change up" id="btcChange">+2.1%</div></div>
-            <div class="market-card"><div class="market-label">Ξ Ethereum</div><div class="market-value" id="ethPrice">$3,420</div><div class="market-change up" id="ethChange">+1.8%</div></div>
-            <div class="market-card"><div class="market-label">◎ Solana</div><div class="market-value" id="solPrice">$198</div><div class="market-change up" id="solChange">+3.2%</div></div>
-            <div class="market-card"><div class="market-label">😱 Fear & Greed</div><div class="market-value" id="fngValue">76</div><div class="market-change" id="fngLabel">Extreme Greed</div></div>
+        <div style="margin-bottom:16px;">
+            <label style="color:#888;font-size:12px;display:block;margin-bottom:6px;">Alert Type</label>
+            <select id="alertType" style="width:100%;padding:12px;background:#0d0d1a;border:1px solid #333;border-radius:8px;color:#fff;font-size:16px;">
+                <option value="price">Price</option>
+                <option value="oracle_score">ORACLE Score</option>
+            </select>
         </div>
-        
-        <div class="section-title">🤖 AI INTELLIGENCE SUITE</div>
-        <div class="feature-grid">
-            <a href="/oracle.html" class="feature-card oracle">
-                <div class="feature-icon">🔮</div>
-                <div class="feature-name">ORACLE <span class="feature-badge elite">Elite</span></div>
-                <div class="feature-desc">AI-powered predictions with whale tracking, liquidation zones, and smart entry points</div>
-                <div class="feature-stats">
-                    <div class="feature-stat">Accuracy: <span>78%</span></div>
-                    <div class="feature-stat">Signals: <span>Live</span></div>
-                </div>
-            </a>
-            <a href="/whale-intel.html" class="feature-card gotham">
-                <div class="feature-icon">🦇</div>
-                <div class="feature-name">GOTHAM INTEL <span class="feature-badge new">New</span></div>
-                <div class="feature-desc">Real-time whale tracking, exchange flows, and smart money sentiment analysis</div>
-                <div class="feature-stats">
-                    <div class="feature-stat">Transfers: <span>Live</span></div>
-                    <div class="feature-stat">Exchanges: <span>6+</span></div>
-                </div>
-            </a>
-            <a href="/chart-analysis.html" class="feature-card chart">
-                <div class="feature-icon">📊</div>
-                <div class="feature-name">CHART AI <span class="feature-badge pro">Pro</span></div>
-                <div class="feature-desc">Upload any chart and get instant AI pattern analysis with entry/exit signals</div>
-                <div class="feature-stats">
-                    <div class="feature-stat">Patterns: <span>15+</span></div>
-                    <div class="feature-stat">Speed: <span>< 3s</span></div>
-                </div>
-            </a>
-            <a href="/paper-trading.html" class="feature-card paper">
-                <div class="feature-icon">📈</div>
-                <div class="feature-name">PAPER TRADE <span class="feature-badge new">New</span></div>
-                <div class="feature-desc">Practice trading with $100K virtual portfolio. Track performance, test ORACLE signals risk-free</div>
-                <div class="feature-stats">
-                    <div class="feature-stat">Balance: <span>$100K</span></div>
-                    <div class="feature-stat">Risk: <span>None</span></div>
-                </div>
-            </a>
+        <div style="margin-bottom:16px;">
+            <label style="color:#888;font-size:12px;display:block;margin-bottom:6px;">Condition</label>
+            <select id="alertCondition" style="width:100%;padding:12px;background:#0d0d1a;border:1px solid #333;border-radius:8px;color:#fff;font-size:16px;">
+                <option value="above">Goes Above</option>
+                <option value="below">Goes Below</option>
+            </select>
         </div>
-        
-        <div class="section-title">⚡ QUICK ACTIONS</div>
-        <div class="actions-grid">
-            <a href="#" class="action-btn">🔗 Connect Brokerage</a>
-            <a href="#" class="action-btn">🔔 Set Price Alert</a>
-            <a href="#" class="action-btn">🪄 Portfolio Wizard</a>
+        <div style="margin-bottom:20px;">
+            <label style="color:#888;font-size:12px;display:block;margin-bottom:6px;">Threshold</label>
+            <input type="number" id="alertThreshold" placeholder="e.g. 100000" style="width:100%;padding:12px;background:#0d0d1a;border:1px solid #333;border-radius:8px;color:#fff;font-size:16px;box-sizing:border-box;">
         </div>
-        
-        <div class="section-title">✨ PRO TOOLS</div>
-        <div class="tools-grid">
-            <a href="/signals.html" class="tool-card"><div class="tool-icon">📡</div><div class="tool-name">Signals</div></a>
-            <a href="/track" class="tool-card"><div class="tool-icon">📈</div><div class="tool-name">Track Record</div></a>
-            <a href="/screener.html" class="tool-card"><div class="tool-icon">🔍</div><div class="tool-name">Screener</div></a>
-            <a href="/watchlist.html" class="tool-card"><div class="tool-icon">👁️</div><div class="tool-name">Watchlist</div></a>
-        </div>
-    </main>
-    <script>
-        const API='https://eluxraj-api-production.up.railway.app/api/v1';
-        const token=localStorage.getItem('token');
-        
-        if(!token){
-            window.location.href='/login.html';
-        } else {
-            fetch(`${API}/auth/me`,{headers:{'Authorization':`Bearer ${token}`}})
-            .then(res=>{if(!res.ok)throw new Error();return res.json();})
-            .then(user=>{
-                document.getElementById('username').textContent=user.full_name||user.email;
-                const tier=user.subscription_tier||'free';
-                document.getElementById('tierBadge').textContent=tier.toUpperCase();
-                document.getElementById('tierBadge').className='tier-badge '+tier;
-                if(tier==='elite'||tier==='admin')document.getElementById('upgradeBanner').style.display='none';
-            })
-            .catch(()=>{localStorage.removeItem('token');window.location.href='/login.html';});
-        }
-        
-        function logout(){localStorage.removeItem('token');window.location.href='/login.html';}
-    </script>
+        <button onclick="createAlert()" style="width:100%;padding:14px;background:linear-gradient(135deg,#00d4aa,#00a080);border:none;border-radius:8px;color:#fff;font-size:16px;font-weight:600;cursor:pointer;">Create Alert</button>
+        <div id="alertMessage" style="margin-top:12px;text-align:center;font-size:14px;"></div>
+    </div>
+</div>
+
+<script>
+function openAlertModal(){document.getElementById('alertModal').style.display='flex';}
+function closeAlertModal(){document.getElementById('alertModal').style.display='none';document.getElementById('alertMessage').textContent='';}
+async function createAlert(){
+    const asset=document.getElementById('alertAsset').value;
+    const type=document.getElementById('alertType').value;
+    const condition=document.getElementById('alertCondition').value;
+    const threshold=parseFloat(document.getElementById('alertThreshold').value);
+    const msg=document.getElementById('alertMessage');
+    if(!threshold){msg.style.color='#ff6b6b';msg.textContent='Please enter a threshold';return;}
+    try{
+        const res=await fetch(API+'/alerts/rules',{method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},body:JSON.stringify({name:asset+' '+type+' '+condition+' '+threshold,asset:asset,asset_type:['BTC','ETH','SOL','XRP','DOGE'].includes(asset)?'crypto':'stock',trigger_type:type,condition:condition,threshold:threshold})});
+        const data=await res.json();
+        if(data.ok){msg.style.color='#00d4aa';msg.textContent='✓ Alert created!';setTimeout(closeAlertModal,1500);}
+        else{msg.style.color='#ff6b6b';msg.textContent=data.detail||'Failed to create alert';}
+    }catch(e){msg.style.color='#ff6b6b';msg.textContent='Error creating alert';}
+}
+document.getElementById('alertModal').addEventListener('click',function(e){if(e.target===this)closeAlertModal();});
+</script>
 </body>
 </html>
