@@ -81,6 +81,45 @@
             <a href="/pricing.html" class="upgrade-btn">Upgrade to Elite - $98/mo</a>
         </div>
         
+
+        <!-- Daily Brief Ritual -->
+        <div class="section-title">📊 TODAY'S MARKET BIAS</div>
+        <div id="dailyBrief" class="daily-brief" style="background:var(--card);border:1px solid rgba(124,58,237,0.2);border-radius:16px;padding:24px;margin-bottom:32px;">
+            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
+                <div style="display:flex;align-items:center;gap:12px;">
+                    <span id="sessionEmoji" style="font-size:1.5rem;">🌎</span>
+                    <div>
+                        <div style="font-weight:700;" id="sessionName">New York Session</div>
+                        <div style="font-size:.8rem;color:var(--gray400);" id="briefDate">Loading...</div>
+                    </div>
+                </div>
+                <div style="text-align:right;">
+                    <div style="font-size:.8rem;color:var(--gray400);">Overall Bias</div>
+                    <div style="font-size:1.5rem;font-weight:700;" id="overallBias">🟡 Neutral</div>
+                </div>
+            </div>
+            <div id="assetBiases" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
+                <div style="background:var(--bg);padding:16px;border-radius:12px;text-align:center;">
+                    <div style="font-weight:600;margin-bottom:4px;">BTC</div>
+                    <div style="font-size:1.25rem;">🟡</div>
+                    <div style="font-size:.8rem;color:var(--gray400);">Loading...</div>
+                </div>
+                <div style="background:var(--bg);padding:16px;border-radius:12px;text-align:center;">
+                    <div style="font-weight:600;margin-bottom:4px;">ETH</div>
+                    <div style="font-size:1.25rem;">🟡</div>
+                    <div style="font-size:.8rem;color:var(--gray400);">Loading...</div>
+                </div>
+                <div style="background:var(--bg);padding:16px;border-radius:12px;text-align:center;">
+                    <div style="font-weight:600;margin-bottom:4px;">SOL</div>
+                    <div style="font-size:1.25rem;">🟡</div>
+                    <div style="font-size:.8rem;color:var(--gray400);">Loading...</div>
+                </div>
+            </div>
+            <div id="aiReasoning" style="margin-top:16px;padding:16px;background:rgba(124,58,237,0.1);border-radius:12px;font-size:.9rem;color:var(--gray300);line-height:1.6;">
+                <strong>🤖 AI Insight:</strong> <span id="reasoningText">Loading market analysis...</span>
+            </div>
+        </div>
+
         <div class="market-grid">
             <div class="market-card"><div class="market-label">₿ Bitcoin</div><div class="market-value" id="btcPrice">$91,400</div><div class="market-change up" id="btcChange">+2.1%</div></div>
             <div class="market-card"><div class="market-label">Ξ Ethereum</div><div class="market-value" id="ethPrice">$3,420</div><div class="market-change up" id="ethChange">+1.8%</div></div>
@@ -166,6 +205,32 @@
 async function loadAlerts(){try{const r=await fetch(API+'/alerts/rules',{headers:{'Authorization':'Bearer '+token}});const d=await r.json();const el=document.getElementById('alertsList');if(d.ok&&d.rules.length>0){el.innerHTML=d.rules.map(a=>'<div style="background:#1a1a24;border-radius:8px;padding:12px 16px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;"><div><span style="font-weight:600;">'+a.asset+'</span> <span style="color:#888;">'+a.condition+' $'+a.threshold.toLocaleString()+'</span></div><button onclick="deleteAlert('+a.id+')" style="background:#ef4444;border:none;color:#fff;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:12px;">Delete</button></div>').join('');}else{el.innerHTML='<div style="color:#888;padding:20px;text-align:center;">No alerts yet</div>';}}catch(e){console.error(e);}}
 async function deleteAlert(id){try{await fetch(API+'/alerts/rules/'+id,{method:'DELETE',headers:{'Authorization':'Bearer '+token}});loadAlerts();}catch(e){console.error(e);}}
 loadAlerts();
+
+async function loadDailyBrief(){
+    try{
+        const r=await fetch(API+"/daily-brief",{headers:{"Authorization":"Bearer "+token}});
+        const d=await r.json();
+        if(d.ok){
+            document.getElementById("sessionEmoji").textContent=d.session.emoji;
+            document.getElementById("sessionName").textContent=d.session.name+" Session";
+            document.getElementById("briefDate").textContent=d.date;
+            document.getElementById("overallBias").textContent=d.overall_bias.emoji+" "+d.overall_bias.bias;
+            const assets=d.assets||[];
+            if(assets.length>0){
+                document.getElementById("assetBiases").innerHTML=assets.slice(0,3).map(a=>
+                    "<div style=\"background:var(--bg);padding:16px;border-radius:12px;text-align:center;\">"+
+                    "<div style=\"font-weight:600;margin-bottom:4px;\">"+a.symbol+"</div>"+
+                    "<div style=\"font-size:1.25rem;\">"+a.bias.emoji+"</div>"+
+                    "<div style=\"font-size:.8rem;color:var(--gray400);\">"+a.bias.bias+"</div>"+
+                    "<div style=\"font-size:.75rem;color:"+(a.change_24h>=0?"var(--green)":"var(--red)")+";margin-top:4px;\">"+(a.change_24h>=0?"+":"")+a.change_24h.toFixed(1)+"%</div>"+
+                    "</div>"
+                ).join("");
+                document.getElementById("reasoningText").textContent=assets[0].reasoning;
+            }
+        }
+    }catch(e){console.error("Daily brief error:",e);}
+}
+loadDailyBrief();
     </script>
 <!-- Alert Modal --><div id="alertModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:1000;"><div style="background:#1a1a2e;border-radius:16px;padding:24px;max-width:400px;width:90%;margin:100px auto;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;"><h2 style="color:#fff;margin:0;">🔔 Set Price Alert</h2><button onclick="closeAlertModal()" style="background:none;border:none;color:#888;font-size:24px;cursor:pointer;">&times;</button></div><div style="margin-bottom:16px;"><label style="color:#888;font-size:12px;display:block;margin-bottom:6px;">Asset</label><select id="alertAsset" style="width:100%;padding:12px;background:#0d0d1a;border:1px solid #333;border-radius:8px;color:#fff;font-size:16px;"><option value="BTC">BTC - Bitcoin</option><option value="ETH">ETH - Ethereum</option><option value="SOL">SOL - Solana</option><option value="AAPL">AAPL - Apple</option><option value="TSLA">TSLA - Tesla</option><option value="NVDA">NVDA - Nvidia</option></select></div><div style="margin-bottom:16px;"><label style="color:#888;font-size:12px;display:block;margin-bottom:6px;">Condition</label><select id="alertCondition" style="width:100%;padding:12px;background:#0d0d1a;border:1px solid #333;border-radius:8px;color:#fff;font-size:16px;"><option value="above">Price Goes Above</option><option value="below">Price Goes Below</option></select></div><div style="margin-bottom:20px;"><label style="color:#888;font-size:12px;display:block;margin-bottom:6px;">Price ($)</label><input type="number" id="alertThreshold" placeholder="e.g. 100000" style="width:100%;padding:12px;background:#0d0d1a;border:1px solid #333;border-radius:8px;color:#fff;font-size:16px;box-sizing:border-box;"></div><button onclick="createAlert()" style="width:100%;padding:14px;background:linear-gradient(135deg,#00d4aa,#00a080);border:none;border-radius:8px;color:#fff;font-size:16px;font-weight:600;cursor:pointer;">Create Alert</button><div id="alertMsg" style="margin-top:12px;text-align:center;font-size:14px;"></div></div></div><script>function openAlertModal(){document.getElementById("alertModal").style.display="block";}function closeAlertModal(){document.getElementById("alertModal").style.display="none";}async function createAlert(){var a=document.getElementById("alertAsset").value,c=document.getElementById("alertCondition").value,t=parseFloat(document.getElementById("alertThreshold").value),m=document.getElementById("alertMsg");if(!t){m.style.color="#ff6b6b";m.textContent="Enter a price";return;}try{var r=await fetch(API+"/alerts/rules",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},body:JSON.stringify({name:a+" price "+c+" "+t,asset:a,asset_type:["BTC","ETH","SOL"].includes(a)?"crypto":"stock",trigger_type:"price",condition:c,threshold:t})});var d=await r.json();if(d.ok){m.style.color="#00d4aa";m.textContent="Alert created!";setTimeout(closeAlertModal,1500);}else{m.style.color="#ff6b6b";m.textContent=d.detail;}}catch(e){m.style.color="#ff6b6b";m.textContent="Error";}}</script></body>
 </html>
