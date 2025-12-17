@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Screener | ELUXRAJ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root{--bg:#0a0a0f;--card:#1a1a24;--purple:#7c3aed;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--white:#fff;--gray400:#9ca3af;--gray500:#6b7280}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);min-height:100vh}
+        .header{display:flex;justify-content:space-between;align-items:center;padding:16px 32px;border-bottom:1px solid rgba(124,58,237,0.2)}
+        .logo{font-size:1.25rem;font-weight:900;background:linear-gradient(135deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none}
+        .nav{display:flex;gap:24px;align-items:center}
+        .nav a{color:var(--gray400);text-decoration:none;font-size:.9rem}
+        .nav a:hover{color:var(--white)}
+        .container{max-width:1200px;margin:0 auto;padding:40px 20px}
+        .page-header{margin-bottom:32px}
+        .page-header h1{font-size:1.75rem;margin-bottom:8px}
+        .page-header p{color:var(--gray400)}
+        
+        /* Filters */
+        .filters{background:var(--card);border:1px solid rgba(124,58,237,0.15);border-radius:16px;padding:24px;margin-bottom:32px;display:flex;flex-wrap:wrap;gap:16px;align-items:flex-end}
+        .filter-group{flex:1;min-width:150px}
+        .filter-group label{display:block;font-size:.75rem;color:var(--gray500);margin-bottom:6px;text-transform:uppercase}
+        .filter-group select{width:100%;padding:10px 12px;background:var(--bg);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:var(--white);font-size:.9rem}
+        .filter-group select:focus{outline:none;border-color:var(--purple)}
+        .filter-btn{background:linear-gradient(135deg,var(--purple),var(--cyan));color:var(--white);border:none;padding:10px 24px;border-radius:8px;font-weight:600;cursor:pointer}
+        .filter-btn:hover{opacity:0.9}
+        
+        /* Table */
+        .table-container{background:var(--card);border:1px solid rgba(124,58,237,0.15);border-radius:16px;overflow:hidden}
+        table{width:100%;border-collapse:collapse}
+        th{background:var(--bg);text-align:left;padding:16px 20px;font-size:.75rem;color:var(--gray500);text-transform:uppercase;letter-spacing:1px;cursor:pointer}
+        th:hover{color:var(--white)}
+        th.sorted{color:var(--purple)}
+        td{padding:16px 20px;border-top:1px solid rgba(255,255,255,0.05)}
+        tr:hover{background:rgba(124,58,237,0.05)}
+        .asset-cell{display:flex;align-items:center;gap:12px}
+        .asset-icon{width:32px;height:32px;border-radius:50%;background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:1rem}
+        .asset-name{font-weight:600}
+        .asset-symbol{font-size:.8rem;color:var(--gray500)}
+        .price{font-family:'JetBrains Mono',monospace;font-weight:600}
+        .change{font-family:'JetBrains Mono',monospace;font-weight:600;padding:4px 10px;border-radius:6px;font-size:.85rem}
+        .change.up{color:var(--green);background:rgba(16,185,129,0.1)}
+        .change.down{color:var(--red);background:rgba(239,68,68,0.1)}
+        .volume,.mcap{font-family:'JetBrains Mono',monospace;color:var(--gray400);font-size:.9rem}
+        .action-btn{background:transparent;border:1px solid var(--purple);color:var(--purple);padding:6px 12px;border-radius:6px;cursor:pointer;font-size:.8rem;transition:all .2s}
+        .action-btn:hover{background:var(--purple);color:var(--white)}
+        .loading{text-align:center;padding:60px;color:var(--gray400)}
+        
+        @media(max-width:800px){
+            .filters{flex-direction:column}
+            .filter-group{width:100%}
+            .table-container{overflow-x:auto}
+            table{min-width:700px}
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="/dashboard.html" class="logo">ELUXRAJ™</a>
+        <nav class="nav">
+            <a href="/dashboard.html">Dashboard</a>
+            <a href="/watchlist.html">Watchlist</a>
+            <a href="/oracle.html">Oracle</a>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <div class="page-header">
+            <h1>🔍 Market Screener</h1>
+            <p>Filter and sort crypto assets by key metrics</p>
+        </div>
+        
+        <div class="filters">
+            <div class="filter-group">
+                <label>Market Cap</label>
+                <select id="filterCap">
+                    <option value="all">All</option>
+                    <option value="large">Large Cap (>$10B)</option>
+                    <option value="mid">Mid Cap ($1B-$10B)</option>
+                    <option value="small">Small Cap (<$1B)</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>24h Change</label>
+                <select id="filterChange">
+                    <option value="all">All</option>
+                    <option value="gainers">Gainers (>0%)</option>
+                    <option value="losers">Losers (<0%)</option>
+                    <option value="movers">Big Movers (>5%)</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Sort By</label>
+                <select id="sortBy">
+                    <option value="market_cap">Market Cap</option>
+                    <option value="price_change_24h">24h Change</option>
+                    <option value="volume">Volume</option>
+                    <option value="price">Price</option>
+                </select>
+            </div>
+            <div class="filter-group">
+                <label>Order</label>
+                <select id="sortOrder">
+                    <option value="desc">Descending</option>
+                    <option value="asc">Ascending</option>
+                </select>
+            </div>
+            <button class="filter-btn" onclick="applyFilters()">Apply Filters</button>
+        </div>
+        
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th onclick="sortTable('rank')">#</th>
+                        <th onclick="sortTable('name')">Asset</th>
+                        <th onclick="sortTable('price')">Price</th>
+                        <th onclick="sortTable('change')">24h Change</th>
+                        <th onclick="sortTable('volume')">Volume</th>
+                        <th onclick="sortTable('mcap')">Market Cap</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <tr><td colspan="7" class="loading">Loading market data...</td></tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+    <script>
+        const API='https://eluxraj-api-production.up.railway.app/api/v1';
+        const COINGECKO='https://api.coingecko.com/api/v3';
+        const token=localStorage.getItem('token');
+        if(!token){window.location.href='/login.html';}
+        
+        let allAssets=[];
+        
+        const icons={
+            bitcoin:'₿',ethereum:'Ξ',solana:'◎',ripple:'✕',dogecoin:'Ð',cardano:'₳',
+            'avalanche-2':'🔺',chainlink:'⬡',polkadot:'●',polygon:'⬡',litecoin:'Ł',
+            'shiba-inu':'🐕',tron:'◈',uniswap:'🦄','wrapped-bitcoin':'₿'
+        };
+        
+        function formatNumber(n){
+            if(n>=1e12)return'$'+(n/1e12).toFixed(2)+'T';
+            if(n>=1e9)return'$'+(n/1e9).toFixed(2)+'B';
+            if(n>=1e6)return'$'+(n/1e6).toFixed(2)+'M';
+            if(n>=1e3)return'$'+(n/1e3).toFixed(2)+'K';
+            return'$'+n.toFixed(2);
+        }
+        
+        async function loadMarketData(){
+            try{
+                const r=await fetch(COINGECKO+'/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=50&page=1&sparkline=false');
+                allAssets=await r.json();
+                renderTable(allAssets);
+            }catch(e){
+                console.error(e);
+                document.getElementById('tableBody').innerHTML='<tr><td colspan="7" class="loading">Error loading data. Please refresh.</td></tr>';
+            }
+        }
+        
+        function renderTable(assets){
+            if(!assets.length){
+                document.getElementById('tableBody').innerHTML='<tr><td colspan="7" class="loading">No assets match your filters.</td></tr>';
+                return;
+            }
+            
+            const html=assets.map((a,i)=>{
+                const change=a.price_change_percentage_24h||0;
+                const changeClass=change>=0?'up':'down';
+                const changeStr=(change>=0?'+':'')+change.toFixed(2)+'%';
+                const icon=icons[a.id]||'🪙';
+                
+                return`
+                    <tr>
+                        <td>${i+1}</td>
+                        <td>
+                            <div class="asset-cell">
+                                <div class="asset-icon">${icon}</div>
+                                <div>
+                                    <div class="asset-name">${a.name}</div>
+                                    <div class="asset-symbol">${a.symbol.toUpperCase()}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td class="price">$${a.current_price.toLocaleString(undefined,{minimumFractionDigits:2,maximumFractionDigits:a.current_price<1?6:2})}</td>
+                        <td><span class="change ${changeClass}">${changeStr}</span></td>
+                        <td class="volume">${formatNumber(a.total_volume)}</td>
+                        <td class="mcap">${formatNumber(a.market_cap)}</td>
+                        <td><button class="action-btn" onclick="addToWatchlist('${a.symbol.toUpperCase()}')">+ Watch</button></td>
+                    </tr>
+                `;
+            }).join('');
+            
+            document.getElementById('tableBody').innerHTML=html;
+        }
+        
+        function applyFilters(){
+            let filtered=[...allAssets];
+            
+            const cap=document.getElementById('filterCap').value;
+            if(cap==='large')filtered=filtered.filter(a=>a.market_cap>=10e9);
+            else if(cap==='mid')filtered=filtered.filter(a=>a.market_cap>=1e9&&a.market_cap<10e9);
+            else if(cap==='small')filtered=filtered.filter(a=>a.market_cap<1e9);
+            
+            const change=document.getElementById('filterChange').value;
+            if(change==='gainers')filtered=filtered.filter(a=>(a.price_change_percentage_24h||0)>0);
+            else if(change==='losers')filtered=filtered.filter(a=>(a.price_change_percentage_24h||0)<0);
+            else if(change==='movers')filtered=filtered.filter(a=>Math.abs(a.price_change_percentage_24h||0)>5);
+            
+            const sortBy=document.getElementById('sortBy').value;
+            const order=document.getElementById('sortOrder').value;
+            
+            filtered.sort((a,b)=>{
+                let va,vb;
+                if(sortBy==='market_cap'){va=a.market_cap;vb=b.market_cap;}
+                else if(sortBy==='price_change_24h'){va=a.price_change_percentage_24h||0;vb=b.price_change_percentage_24h||0;}
+                else if(sortBy==='volume'){va=a.total_volume;vb=b.total_volume;}
+                else if(sortBy==='price'){va=a.current_price;vb=b.current_price;}
+                return order==='desc'?vb-va:va-vb;
+            });
+            
+            renderTable(filtered);
+        }
+        
+        async function addToWatchlist(symbol){
+            try{
+                const r=await fetch(API+'/watchlist',{
+                    method:'POST',
+                    headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},
+                    body:JSON.stringify({asset:symbol,asset_type:'crypto'})
+                });
+                const d=await r.json();
+                if(d.ok){
+                    alert(symbol+' added to watchlist!');
+                }else{
+                    alert(d.detail||'Already in watchlist');
+                }
+            }catch(e){alert('Error adding to watchlist');}
+        }
+        
+        loadMarketData();
+    </script>
+</body>
+</html>
