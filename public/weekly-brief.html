@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weekly AI Brief | ELUXRAJ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root{--bg:#0a0a0f;--card:#1a1a24;--purple:#7c3aed;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--white:#fff;--gray400:#9ca3af}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);min-height:100vh}
+        .header{display:flex;justify-content:space-between;align-items:center;padding:16px 32px;border-bottom:1px solid rgba(124,58,237,0.2)}
+        .logo{font-size:1.25rem;font-weight:900;background:linear-gradient(135deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none}
+        .nav{display:flex;gap:24px;align-items:center}
+        .nav a{color:var(--gray400);text-decoration:none;font-size:.9rem}
+        .nav a:hover{color:var(--white)}
+        .container{max-width:900px;margin:0 auto;padding:40px 20px}
+        .brief-header{text-align:center;margin-bottom:40px}
+        .brief-header h1{font-size:2rem;margin-bottom:8px}
+        .brief-header .date{color:var(--gray400);font-size:.9rem}
+        .brief-card{background:var(--card);border:1px solid rgba(124,58,237,0.2);border-radius:16px;padding:32px;margin-bottom:24px}
+        .brief-card h2{font-size:1.2rem;margin-bottom:16px;display:flex;align-items:center;gap:10px}
+        .brief-card p{color:var(--gray400);line-height:1.7}
+        .performers{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:16px}
+        .performer-list h3{font-size:.9rem;color:var(--gray400);margin-bottom:12px}
+        .performer-item{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
+        .performer-item:last-child{border:none}
+        .change.up{color:var(--green)}.change.down{color:var(--red)}
+        .scenarios{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+        @media(max-width:700px){.scenarios,.performers{grid-template-columns:1fr}}
+        .scenario{background:var(--bg);padding:20px;border-radius:12px}
+        .scenario h4{font-size:.85rem;margin-bottom:8px}
+        .scenario.bull h4{color:var(--green)}.scenario.bear h4{color:var(--red)}.scenario.base h4{color:var(--cyan)}
+        .scenario p{font-size:.85rem;color:var(--gray400);line-height:1.5}
+        .locked-overlay{text-align:center;padding:60px 20px}
+        .locked-overlay h2{margin-bottom:16px}
+        .locked-overlay p{color:var(--gray400);margin-bottom:24px}
+        .upgrade-btn{background:linear-gradient(135deg,var(--purple),var(--cyan));color:var(--white);padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:700;display:inline-block}
+        .key-events{list-style:none;margin-top:12px}
+        .key-events li{padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--gray400)}
+        .key-events li::before{content:"•";color:var(--purple);margin-right:10px}
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="/dashboard.html" class="logo">ELUXRAJ™</a>
+        <nav class="nav">
+            <a href="/dashboard.html">Dashboard</a>
+            <a href="/oracle.html">Oracle</a>
+            <a href="/pricing.html">Pricing</a>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <div class="brief-header">
+            <h1>📊 Weekly AI Brief</h1>
+            <div class="date" id="briefDate">Loading...</div>
+        </div>
+        
+        <div id="briefContent">
+            <div style="text-align:center;padding:60px;color:var(--gray400);">Loading weekly brief...</div>
+        </div>
+    </div>
+    
+    <script>
+        const API='https://eluxraj-api-production.up.railway.app/api/v1';
+        const token=localStorage.getItem('token');
+        
+        if(!token){window.location.href='/login.html';}
+        
+        async function loadBrief(){
+            try{
+                const r=await fetch(API+'/weekly-brief',{headers:{'Authorization':'Bearer '+token}});
+                const d=await r.json();
+                
+                if(!d.ok||!d.brief){
+                    document.getElementById('briefContent').innerHTML='<div style="text-align:center;padding:60px;color:var(--gray400);">No weekly brief available yet. Check back soon!</div>';
+                    return;
+                }
+                
+                const b=d.brief;
+                
+                if(b.locked){
+                    document.getElementById('briefDate').textContent=b.title;
+                    document.getElementById('briefContent').innerHTML=`
+                        <div class="locked-overlay">
+                            <h2>🔒 Upgrade to Unlock</h2>
+                            <p>${b.summary}</p>
+                            <p style="margin-bottom:24px;">${b.message}</p>
+                            <a href="/pricing.html" class="upgrade-btn">Upgrade to ${b.required_tier.toUpperCase()}</a>
+                        </div>`;
+                    return;
+                }
+                
+                document.getElementById('briefDate').textContent=b.title;
+                
+                const topHtml=b.top_performers.map(p=>`<div class="performer-item"><span>${p.symbol}</span><span class="change up">+${p.change.toFixed(1)}%</span></div>`).join('');
+                const worstHtml=b.worst_performers.map(p=>`<div class="performer-item"><span>${p.symbol}</span><span class="change ${p.change>=0?'up':'down'}">${p.change>=0?'+':''}${p.change.toFixed(1)}%</span></div>`).join('');
+                const eventsHtml=b.key_events.map(e=>`<li>${e}</li>`).join('');
+                
+                document.getElementById('briefContent').innerHTML=`
+                    <div class="brief-card">
+                        <h2>📝 Summary</h2>
+                        <p>${b.summary}</p>
+                    </div>
+                    
+                    <div class="brief-card">
+                        <h2>📈 Market Overview</h2>
+                        <p style="white-space:pre-line;">${b.market_overview}</p>
+                        <div class="performers">
+                            <div class="performer-list">
+                                <h3>🏆 Top Performers</h3>
+                                ${topHtml}
+                            </div>
+                            <div class="performer-list">
+                                <h3>📉 Underperformers</h3>
+                                ${worstHtml}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="brief-card">
+                        <h2>🎯 Key Events</h2>
+                        <ul class="key-events">${eventsHtml}</ul>
+                    </div>
+                    
+                    <div class="brief-card">
+                        <h2>🔮 Outlook & Scenarios</h2>
+                        <p style="margin-bottom:20px;">${b.outlook}</p>
+                        <div class="scenarios">
+                            <div class="scenario bull">
+                                <h4>🟢 Bull Case</h4>
+                                <p>${b.bull_case}</p>
+                            </div>
+                            <div class="scenario base">
+                                <h4>🟡 Base Case</h4>
+                                <p>${b.base_case}</p>
+                            </div>
+                            <div class="scenario bear">
+                                <h4>🔴 Bear Case</h4>
+                                <p>${b.bear_case}</p>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }catch(e){
+                console.error(e);
+                document.getElementById('briefContent').innerHTML='<div style="text-align:center;padding:60px;color:var(--gray400);">Error loading brief. Please try again.</div>';
+            }
+        }
+        
+        loadBrief();
+    </script>
+</body>
+</html>
