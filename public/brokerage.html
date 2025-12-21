@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Connect Brokerage | ELUXRAJ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <style>
+        :root{--bg:#0a0a0f;--card:#1a1a24;--purple:#7c3aed;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--yellow:#f59e0b;--white:#fff;--gray400:#9ca3af;--gray500:#6b7280}
+        *{margin:0;padding:0;box-sizing:border-box}
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);min-height:100vh}
+        .header{display:flex;justify-content:space-between;align-items:center;padding:16px 32px;border-bottom:1px solid rgba(124,58,237,0.2)}
+        .logo{font-size:1.25rem;font-weight:900;background:linear-gradient(135deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none}
+        .nav{display:flex;gap:24px;align-items:center}
+        .nav a{color:var(--gray400);text-decoration:none;font-size:.9rem}
+        .nav a:hover{color:var(--white)}
+        .container{max-width:900px;margin:0 auto;padding:40px 20px}
+        .page-header{margin-bottom:32px}
+        .page-header h1{font-size:1.75rem;margin-bottom:8px}
+        .page-header p{color:var(--gray400)}
+        
+        .warning-box{background:rgba(245,158,11,0.1);border:1px solid var(--yellow);border-radius:12px;padding:20px;margin-bottom:32px}
+        .warning-box h3{color:var(--yellow);margin-bottom:8px;font-size:1rem}
+        .warning-box p{color:var(--gray400);font-size:.9rem;line-height:1.6}
+        
+        .brokerages{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:40px}
+        @media(max-width:700px){.brokerages{grid-template-columns:1fr}}
+        
+        .broker-card{background:var(--card);border:1px solid rgba(124,58,237,0.15);border-radius:16px;padding:28px;transition:all .2s}
+        .broker-card:hover{border-color:var(--purple)}
+        .broker-card.connected{border-color:var(--green)}
+        .broker-header{display:flex;align-items:center;gap:16px;margin-bottom:20px}
+        .broker-icon{font-size:2.5rem}
+        .broker-info h3{font-size:1.2rem;margin-bottom:4px}
+        .broker-info p{color:var(--gray400);font-size:.85rem}
+        .broker-status{display:flex;align-items:center;gap:8px;margin-bottom:20px}
+        .status-dot{width:10px;height:10px;border-radius:50%}
+        .status-dot.connected{background:var(--green)}
+        .status-dot.disconnected{background:var(--gray500)}
+        .status-text{font-size:.85rem;color:var(--gray400)}
+        
+        .broker-form{display:none}
+        .broker-form.active{display:block}
+        .form-group{margin-bottom:16px}
+        .form-group label{display:block;font-size:.8rem;color:var(--gray500);margin-bottom:6px}
+        .form-group input,.form-group select{width:100%;padding:12px;background:var(--bg);border:1px solid rgba(255,255,255,0.1);border-radius:8px;color:var(--white);font-size:.9rem}
+        .form-group input:focus{outline:none;border-color:var(--purple)}
+        .checkbox-group{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+        .checkbox-group input{width:auto}
+        .checkbox-group label{font-size:.85rem;color:var(--gray400)}
+        
+        .btn{padding:12px 24px;border-radius:8px;font-weight:600;cursor:pointer;font-size:.9rem;border:none;transition:all .2s}
+        .btn-primary{background:linear-gradient(135deg,var(--purple),var(--cyan));color:var(--white)}
+        .btn-secondary{background:transparent;border:1px solid rgba(255,255,255,0.1);color:var(--gray400)}
+        .btn-danger{background:transparent;border:1px solid var(--red);color:var(--red)}
+        .btn:hover{opacity:0.9}
+        .btn-group{display:flex;gap:12px;margin-top:20px}
+        
+        .account-info{background:var(--bg);border-radius:12px;padding:20px;margin-top:20px}
+        .account-row{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
+        .account-row:last-child{border:none}
+        .account-label{color:var(--gray500);font-size:.85rem}
+        .account-value{font-family:'JetBrains Mono',monospace;font-weight:600}
+        .account-value.positive{color:var(--green)}
+        .account-value.negative{color:var(--red)}
+        
+        .positions-list{margin-top:16px}
+        .position-item{display:flex;justify-content:space-between;align-items:center;padding:12px;background:var(--bg);border-radius:8px;margin-bottom:8px}
+        .position-symbol{font-weight:700}
+        .position-details{font-size:.85rem;color:var(--gray400)}
+        .position-pnl{font-family:'JetBrains Mono',monospace;font-weight:600}
+        
+        .help-text{font-size:.8rem;color:var(--gray500);margin-top:8px}
+        .help-text a{color:var(--purple)}
+    </style>
+</head>
+<body>
+    <header class="header">
+        <a href="/dashboard.html" class="logo">ELUXRAJ™</a>
+        <nav class="nav">
+            <a href="/dashboard.html">Dashboard</a>
+            <a href="/watchlist.html">Watchlist</a>
+            <a href="/oracle.html">Oracle</a>
+        </nav>
+    </header>
+    
+    <div class="container">
+        <div class="page-header">
+            <h1>🔗 Connect Brokerage</h1>
+            <p>Link your trading accounts to execute trades directly from ELUXRAJ</p>
+        </div>
+        
+        <div class="warning-box">
+            <h3>⚠️ Important Security Notice</h3>
+            <p>Your API keys are stored securely and only used to execute trades you approve. We recommend using read-only keys first, or starting with paper trading. Never share your API keys with anyone.</p>
+        </div>
+        
+        <div class="brokerages">
+            <!-- Alpaca Card -->
+            <div class="broker-card" id="alpacaCard">
+                <div class="broker-header">
+                    <div class="broker-icon">🦙</div>
+                    <div class="broker-info">
+                        <h3>Alpaca</h3>
+                        <p>US Stocks • Commission-Free</p>
+                    </div>
+                </div>
+                <div class="broker-status">
+                    <div class="status-dot disconnected" id="alpacaStatus"></div>
+                    <span class="status-text" id="alpacaStatusText">Not Connected</span>
+                </div>
+                
+                <div class="broker-form" id="alpacaForm">
+                    <div class="form-group">
+                        <label>API Key</label>
+                        <input type="text" id="alpacaKey" placeholder="PK...">
+                    </div>
+                    <div class="form-group">
+                        <label>API Secret</label>
+                        <input type="password" id="alpacaSecret" placeholder="Your secret key">
+                    </div>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="alpacaPaper" checked>
+                        <label for="alpacaPaper">Paper Trading (Recommended for testing)</label>
+                    </div>
+                    <p class="help-text">Get your API keys from <a href="https://app.alpaca.markets/paper/dashboard/overview" target="_blank">Alpaca Dashboard</a></p>
+                </div>
+                
+                <div class="account-info" id="alpacaAccount" style="display:none;">
+                    <div class="account-row">
+                        <span class="account-label">Portfolio Value</span>
+                        <span class="account-value" id="alpacaPortfolio">$0.00</span>
+                    </div>
+                    <div class="account-row">
+                        <span class="account-label">Buying Power</span>
+                        <span class="account-value" id="alpacaBuyingPower">$0.00</span>
+                    </div>
+                    <div class="account-row">
+                        <span class="account-label">Cash</span>
+                        <span class="account-value" id="alpacaCash">$0.00</span>
+                    </div>
+                    <div class="positions-list" id="alpacaPositions"></div>
+                </div>
+                
+                <div class="btn-group">
+                    <button class="btn btn-primary" id="alpacaConnectBtn" onclick="connectAlpaca()">Connect Alpaca</button>
+                    <button class="btn btn-danger" id="alpacaDisconnectBtn" style="display:none;" onclick="disconnectBrokerage('alpaca')">Disconnect</button>
+                </div>
+            </div>
+            
+            <!-- Coinbase Card -->
+            <div class="broker-card" id="coinbaseCard">
+                <div class="broker-header">
+                    <div class="broker-icon">🪙</div>
+                    <div class="broker-info">
+                        <h3>Coinbase</h3>
+                        <p>Crypto • Advanced Trade</p>
+                    </div>
+                </div>
+                <div class="broker-status">
+                    <div class="status-dot disconnected" id="coinbaseStatus"></div>
+                    <span class="status-text" id="coinbaseStatusText">Not Connected</span>
+                </div>
+                
+                <div class="broker-form" id="coinbaseForm">
+                    <div class="form-group">
+                        <label>API Key</label>
+                        <input type="text" id="coinbaseKey" placeholder="Your API key">
+                    </div>
+                    <div class="form-group">
+                        <label>API Secret</label>
+                        <input type="password" id="coinbaseSecret" placeholder="Your secret key">
+                    </div>
+                    <p class="help-text">Get your API keys from <a href="https://www.coinbase.com/settings/api" target="_blank">Coinbase Settings</a>. Enable "Trade" permission.</p>
+                </div>
+                
+                <div class="account-info" id="coinbaseAccount" style="display:none;">
+                    <div class="account-row">
+                        <span class="account-label">Portfolio Value</span>
+                        <span class="account-value" id="coinbasePortfolio">$0.00</span>
+                    </div>
+                    <div class="positions-list" id="coinbaseHoldings"></div>
+                </div>
+                
+                <div class="btn-group">
+                    <button class="btn btn-primary" id="coinbaseConnectBtn" onclick="connectCoinbase()">Connect Coinbase</button>
+                    <button class="btn btn-danger" id="coinbaseDisconnectBtn" style="display:none;" onclick="disconnectBrokerage('coinbase')">Disconnect</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        const API='https://eluxraj-api-production.up.railway.app/api/v1';
+        const token=localStorage.getItem('token');
+        if(!token){window.location.href='/login.html';}
+        
+        async function loadConnections(){
+            try{
+                const r=await fetch(API+'/brokerage/connections',{headers:{'Authorization':'Bearer '+token}});
+                const d=await r.json();
+                
+                if(d.ok){
+                    for(const c of d.connections){
+                        if(c.brokerage==='alpaca'){
+                            showAlpacaConnected();
+                            loadAlpacaAccount();
+                        }else if(c.brokerage==='coinbase'){
+                            showCoinbaseConnected();
+                            loadCoinbaseAccount();
+                        }
+                    }
+                }
+            }catch(e){console.error(e);}
+        }
+        
+        function showAlpacaConnected(){
+            document.getElementById('alpacaCard').classList.add('connected');
+            document.getElementById('alpacaStatus').classList.remove('disconnected');
+            document.getElementById('alpacaStatus').classList.add('connected');
+            document.getElementById('alpacaStatusText').textContent='Connected';
+            document.getElementById('alpacaForm').style.display='none';
+            document.getElementById('alpacaAccount').style.display='block';
+            document.getElementById('alpacaConnectBtn').style.display='none';
+            document.getElementById('alpacaDisconnectBtn').style.display='block';
+        }
+        
+        function showCoinbaseConnected(){
+            document.getElementById('coinbaseCard').classList.add('connected');
+            document.getElementById('coinbaseStatus').classList.remove('disconnected');
+            document.getElementById('coinbaseStatus').classList.add('connected');
+            document.getElementById('coinbaseStatusText').textContent='Connected';
+            document.getElementById('coinbaseForm').style.display='none';
+            document.getElementById('coinbaseAccount').style.display='block';
+            document.getElementById('coinbaseConnectBtn').style.display='none';
+            document.getElementById('coinbaseDisconnectBtn').style.display='block';
+        }
+        
+        async function connectAlpaca(){
+            const key=document.getElementById('alpacaKey').value;
+            const secret=document.getElementById('alpacaSecret').value;
+            const paper=document.getElementById('alpacaPaper').checked;
+            
+            if(!key||!secret){alert('Please enter API credentials');return;}
+            
+            document.getElementById('alpacaConnectBtn').textContent='Connecting...';
+            
+            try{
+                const r=await fetch(API+'/brokerage/connect',{
+                    method:'POST',
+                    headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},
+                    body:JSON.stringify({brokerage:'alpaca',api_key:key,api_secret:secret,paper_trading:paper})
+                });
+                const d=await r.json();
+                
+                if(d.ok){
+                    showAlpacaConnected();
+                    loadAlpacaAccount();
+                }else{
+                    alert(d.detail||'Failed to connect');
+                }
+            }catch(e){alert('Connection error');}
+            
+            document.getElementById('alpacaConnectBtn').textContent='Connect Alpaca';
+        }
+        
+        async function connectCoinbase(){
+            const key=document.getElementById('coinbaseKey').value;
+            const secret=document.getElementById('coinbaseSecret').value;
+            
+            if(!key||!secret){alert('Please enter API credentials');return;}
+            
+            document.getElementById('coinbaseConnectBtn').textContent='Connecting...';
+            
+            try{
+                const r=await fetch(API+'/brokerage/connect',{
+                    method:'POST',
+                    headers:{'Authorization':'Bearer '+token,'Content-Type':'application/json'},
+                    body:JSON.stringify({brokerage:'coinbase',api_key:key,api_secret:secret,paper_trading:false})
+                });
+                const d=await r.json();
+                
+                if(d.ok){
+                    showCoinbaseConnected();
+                    loadCoinbaseAccount();
+                }else{
+                    alert(d.detail||'Failed to connect');
+                }
+            }catch(e){alert('Connection error');}
+            
+            document.getElementById('coinbaseConnectBtn').textContent='Connect Coinbase';
+        }
+        
+        async function disconnectBrokerage(brokerage){
+            if(!confirm('Disconnect '+brokerage+'? You will need to re-enter API keys to reconnect.'))return;
+            
+            try{
+                await fetch(API+'/brokerage/disconnect/'+brokerage,{
+                    method:'DELETE',
+                    headers:{'Authorization':'Bearer '+token}
+                });
+                location.reload();
+            }catch(e){alert('Error disconnecting');}
+        }
+        
+        async function loadAlpacaAccount(){
+            try{
+                const r=await fetch(API+'/brokerage/account/alpaca',{headers:{'Authorization':'Bearer '+token}});
+                const d=await r.json();
+                
+                if(d.ok&&d.account){
+                    document.getElementById('alpacaPortfolio').textContent='$'+d.account.portfolio_value.toLocaleString(undefined,{minimumFractionDigits:2});
+                    document.getElementById('alpacaBuyingPower').textContent='$'+d.account.buying_power.toLocaleString(undefined,{minimumFractionDigits:2});
+                    document.getElementById('alpacaCash').textContent='$'+d.account.cash.toLocaleString(undefined,{minimumFractionDigits:2});
+                    
+                    if(d.positions&&d.positions.length>0){
+                        document.getElementById('alpacaPositions').innerHTML='<div style="font-size:.85rem;color:var(--gray500);margin-bottom:8px;margin-top:16px;">Positions</div>'+
+                            d.positions.map(p=>`
+                                <div class="position-item">
+                                    <div>
+                                        <div class="position-symbol">${p.symbol}</div>
+                                        <div class="position-details">${p.qty} shares @ $${p.avg_entry.toFixed(2)}</div>
+                                    </div>
+                                    <div class="position-pnl ${p.unrealized_pl>=0?'positive':'negative'}">
+                                        ${p.unrealized_pl>=0?'+':''}$${p.unrealized_pl.toFixed(2)}
+                                    </div>
+                                </div>
+                            `).join('');
+                    }
+                }
+            }catch(e){console.error(e);}
+        }
+        
+        async function loadCoinbaseAccount(){
+            try{
+                const r=await fetch(API+'/brokerage/account/coinbase',{headers:{'Authorization':'Bearer '+token}});
+                const d=await r.json();
+                
+                if(d.ok&&d.portfolio){
+                    document.getElementById('coinbasePortfolio').textContent='$'+d.portfolio.total_usd.toLocaleString(undefined,{minimumFractionDigits:2});
+                    
+                    if(d.portfolio.holdings&&d.portfolio.holdings.length>0){
+                        document.getElementById('coinbaseHoldings').innerHTML='<div style="font-size:.85rem;color:var(--gray500);margin-bottom:8px;margin-top:16px;">Holdings</div>'+
+                            d.portfolio.holdings.map(h=>`
+                                <div class="position-item">
+                                    <div>
+                                        <div class="position-symbol">${h.currency}</div>
+                                        <div class="position-details">${h.amount.toFixed(h.currency==='USD'?2:6)}</div>
+                                    </div>
+                                    <div class="position-pnl">$${h.usd_value.toFixed(2)}</div>
+                                </div>
+                            `).join('');
+                    }
+                }
+            }catch(e){console.error(e);}
+        }
+        
+        // Show forms by default if not connected
+        document.getElementById('alpacaForm').classList.add('active');
+        document.getElementById('coinbaseForm').classList.add('active');
+        
+        loadConnections();
+    </script>
+</body>
+</html>
