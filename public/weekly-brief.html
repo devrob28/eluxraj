@@ -3,150 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weekly AI Brief | ELUXRAJ</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <title>Weekly AI Brief - ELUXRAJ</title>
+    <link rel="stylesheet" href="styles.css">
     <style>
-        :root{--bg:#0a0a0f;--card:#1a1a24;--purple:#7c3aed;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--white:#fff;--gray400:#9ca3af}
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);min-height:100vh}
-        .header{display:flex;justify-content:space-between;align-items:center;padding:16px 32px;border-bottom:1px solid rgba(124,58,237,0.2)}
-        .logo{font-size:1.25rem;font-weight:900;background:linear-gradient(135deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none}
-        .nav{display:flex;gap:24px;align-items:center}
-        .nav a{color:var(--gray400);text-decoration:none;font-size:.9rem}
-        .nav a:hover{color:var(--white)}
-        .container{max-width:900px;margin:0 auto;padding:40px 20px}
-        .brief-header{text-align:center;margin-bottom:40px}
-        .brief-header h1{font-size:2rem;margin-bottom:8px}
-        .brief-header .date{color:var(--gray400);font-size:.9rem}
-        .brief-card{background:var(--card);border:1px solid rgba(124,58,237,0.2);border-radius:16px;padding:32px;margin-bottom:24px}
-        .brief-card h2{font-size:1.2rem;margin-bottom:16px;display:flex;align-items:center;gap:10px}
-        .brief-card p{color:var(--gray400);line-height:1.7}
-        .performers{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:16px}
-        .performer-list h3{font-size:.9rem;color:var(--gray400);margin-bottom:12px}
-        .performer-item{display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
-        .performer-item:last-child{border:none}
-        .change.up{color:var(--green)}.change.down{color:var(--red)}
-        .scenarios{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
-        @media(max-width:700px){.scenarios,.performers{grid-template-columns:1fr}}
-        .scenario{background:var(--bg);padding:20px;border-radius:12px}
-        .scenario h4{font-size:.85rem;margin-bottom:8px}
-        .scenario.bull h4{color:var(--green)}.scenario.bear h4{color:var(--red)}.scenario.base h4{color:var(--cyan)}
-        .scenario p{font-size:.85rem;color:var(--gray400);line-height:1.5}
-        .locked-overlay{text-align:center;padding:60px 20px}
-        .locked-overlay h2{margin-bottom:16px}
-        .locked-overlay p{color:var(--gray400);margin-bottom:24px}
-        .upgrade-btn{background:linear-gradient(135deg,var(--purple),var(--cyan));color:var(--white);padding:14px 28px;border-radius:10px;text-decoration:none;font-weight:700;display:inline-block}
-        .key-events{list-style:none;margin-top:12px}
-        .key-events li{padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);color:var(--gray400)}
-        .key-events li::before{content:"•";color:var(--purple);margin-right:10px}
+        .brief-container { max-width: 900px; margin: 0 auto; padding: 20px; }
+        .brief-header { text-align: center; margin-bottom: 30px; }
+        .brief-card { background: rgba(124, 58, 237, 0.1); border: 1px solid rgba(124, 58, 237, 0.3); border-radius: 12px; padding: 24px; margin-bottom: 20px; }
+        .brief-card h3 { color: #7c3aed; margin-top: 0; }
+        .performers-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 16px; }
+        .performer-section h4 { margin: 0 0 12px 0; font-size: 14px; color: #9ca3af; }
+        .performer-item { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .performer-item:last-child { border-bottom: none; }
+        .change-positive { color: #10b981; }
+        .change-negative { color: #ef4444; }
+        .scenario-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+        .scenario-card { background: rgba(0,0,0,0.3); border-radius: 8px; padding: 16px; }
+        .scenario-card.bull { border-left: 3px solid #10b981; }
+        .scenario-card.bear { border-left: 3px solid #ef4444; }
+        .scenario-card.base { border-left: 3px solid #f59e0b; }
+        .scenario-card h4 { margin: 0 0 12px 0; }
+        .scenario-card pre { white-space: pre-wrap; font-family: inherit; margin: 0; font-size: 13px; color: #d1d5db; }
+        .events-list { list-style: none; padding: 0; }
+        .events-list li { padding: 8px 0; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .events-list li:before { content: "•"; color: #7c3aed; margin-right: 8px; }
+        .locked-overlay { text-align: center; padding: 40px; background: rgba(0,0,0,0.5); border-radius: 12px; }
+        .asset-type-badge { font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 8px; }
+        .badge-crypto { background: #f59e0b; color: black; }
+        .badge-stock { background: #3b82f6; color: white; }
+        .badge-etf { background: #8b5cf6; color: white; }
+        @media (max-width: 768px) {
+            .performers-grid, .scenario-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
-    <header class="header">
-        <a href="/dashboard.html" class="logo">ELUXRAJ™</a>
-        <nav class="nav">
-            <a href="/dashboard.html">Dashboard</a>
-            <a href="/oracle.html">Oracle</a>
-            <a href="/pricing.html">Pricing</a>
-        </nav>
-    </header>
-    
-    <div class="container">
+    <nav class="nav-bar">
+        <a href="index.html" class="nav-logo">💎 ELUXRAJ</a>
+        <div class="nav-links">
+            <a href="dashboard.html">Dashboard</a>
+            <a href="weekly-brief.html" class="active">Weekly Brief</a>
+        </div>
+    </nav>
+
+    <main class="brief-container">
         <div class="brief-header">
             <h1>📊 Weekly AI Brief</h1>
-            <div class="date" id="briefDate">Loading...</div>
+            <p id="briefTitle" style="color: #9ca3af;">Loading...</p>
         </div>
-        
+
         <div id="briefContent">
-            <div style="text-align:center;padding:60px;color:var(--gray400);">Loading weekly brief...</div>
+            <!-- Summary -->
+            <div class="brief-card">
+                <h3>📝 Summary</h3>
+                <p id="briefSummary"></p>
+            </div>
+
+            <!-- Market Overview -->
+            <div class="brief-card">
+                <h3>📈 Market Overview</h3>
+                <p id="marketOverview" style="white-space: pre-line;"></p>
+                
+                <!-- Crypto Performers -->
+                <h4 style="margin-top: 24px; color: #f59e0b;">🪙 Crypto Performance</h4>
+                <div class="performers-grid">
+                    <div class="performer-section">
+                        <h4>🏆 Top Performers</h4>
+                        <div id="cryptoTopPerformers"></div>
+                    </div>
+                    <div class="performer-section">
+                        <h4>📉 Underperformers</h4>
+                        <div id="cryptoWorstPerformers"></div>
+                    </div>
+                </div>
+                
+                <!-- Stock Performers -->
+                <h4 style="margin-top: 24px; color: #3b82f6;">📊 Stock & ETF Performance</h4>
+                <div class="performers-grid">
+                    <div class="performer-section">
+                        <h4>🏆 Top Performers</h4>
+                        <div id="stockTopPerformers"></div>
+                    </div>
+                    <div class="performer-section">
+                        <h4>📉 Underperformers</h4>
+                        <div id="stockWorstPerformers"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Events -->
+            <div class="brief-card">
+                <h3>🎯 Key Events</h3>
+                <ul id="keyEvents" class="events-list"></ul>
+            </div>
+
+            <!-- Scenarios -->
+            <div class="brief-card">
+                <h3>🔮 Market Scenarios</h3>
+                <div class="scenario-grid">
+                    <div class="scenario-card bull">
+                        <h4>🟢 Bull Case</h4>
+                        <pre id="bullCase"></pre>
+                    </div>
+                    <div class="scenario-card bear">
+                        <h4>🔴 Bear Case</h4>
+                        <pre id="bearCase"></pre>
+                    </div>
+                    <div class="scenario-card base">
+                        <h4>🟡 Base Case</h4>
+                        <pre id="baseCase"></pre>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
-    
+
+        <div id="lockedContent" style="display: none;">
+            <div class="locked-overlay">
+                <h2>🔒 Premium Content</h2>
+                <p>Weekly AI Brief requires Pro or Elite subscription</p>
+                <a href="pricing.html" class="btn btn-primary" style="margin-top: 16px;">Upgrade Now</a>
+            </div>
+        </div>
+        
+        <div id="noBrief" style="display: none; text-align: center; padding: 40px;">
+            <h2>📭 No Brief Available</h2>
+            <p>Weekly brief will be generated soon.</p>
+        </div>
+    </main>
+
     <script>
-        const API='https://eluxraj-api-production.up.railway.app/api/v1';
-        const token=localStorage.getItem('token');
+        const API_BASE = 'https://eluxraj-backend-production.up.railway.app';
         
-        if(!token){window.location.href='/login.html';}
-        
-        async function loadBrief(){
-            try{
-                const r=await fetch(API+'/weekly-brief',{headers:{'Authorization':'Bearer '+token}});
-                const d=await r.json();
+        async function loadBrief() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+            
+            try {
+                const res = await fetch(`${API_BASE}/api/v1/weekly-brief`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
                 
-                if(!d.ok||!d.brief){
-                    document.getElementById('briefContent').innerHTML='<div style="text-align:center;padding:60px;color:var(--gray400);">No weekly brief available yet. Check back soon!</div>';
+                if (!res.ok) throw new Error('Failed to load brief');
+                
+                const data = await res.json();
+                
+                if (!data.brief) {
+                    document.getElementById('briefContent').style.display = 'none';
+                    document.getElementById('noBrief').style.display = 'block';
                     return;
                 }
                 
-                const b=d.brief;
+                const brief = data.brief;
                 
-                if(b.locked){
-                    document.getElementById('briefDate').textContent=b.title;
-                    document.getElementById('briefContent').innerHTML=`
-                        <div class="locked-overlay">
-                            <h2>🔒 Upgrade to Unlock</h2>
-                            <p>${b.summary}</p>
-                            <p style="margin-bottom:24px;">${b.message}</p>
-                            <a href="/pricing.html" class="upgrade-btn">Upgrade to ${b.required_tier.toUpperCase()}</a>
-                        </div>`;
+                if (brief.locked) {
+                    document.getElementById('briefContent').style.display = 'none';
+                    document.getElementById('lockedContent').style.display = 'block';
+                    document.getElementById('briefTitle').textContent = brief.title;
                     return;
                 }
                 
-                document.getElementById('briefDate').textContent=b.title;
+                document.getElementById('briefTitle').textContent = brief.title;
+                document.getElementById('briefSummary').textContent = brief.summary;
+                document.getElementById('marketOverview').textContent = brief.market_overview;
                 
-                const topHtml=b.top_performers.map(p=>`<div class="performer-item"><span>${p.symbol}</span><span class="change up">+${p.change.toFixed(1)}%</span></div>`).join('');
-                const worstHtml=b.worst_performers.map(p=>`<div class="performer-item"><span>${p.symbol}</span><span class="change ${p.change>=0?'up':'down'}">${p.change>=0?'+':''}${p.change.toFixed(1)}%</span></div>`).join('');
-                const eventsHtml=b.key_events.map(e=>`<li>${e}</li>`).join('');
+                // Crypto performers
+                renderPerformers('cryptoTopPerformers', brief.crypto_top_performers || [], 'crypto');
+                renderPerformers('cryptoWorstPerformers', brief.crypto_worst_performers || [], 'crypto');
                 
-                document.getElementById('briefContent').innerHTML=`
-                    <div class="brief-card">
-                        <h2>📝 Summary</h2>
-                        <p>${b.summary}</p>
-                    </div>
-                    
-                    <div class="brief-card">
-                        <h2>📈 Market Overview</h2>
-                        <p style="white-space:pre-line;">${b.market_overview}</p>
-                        <div class="performers">
-                            <div class="performer-list">
-                                <h3>🏆 Top Performers</h3>
-                                ${topHtml}
-                            </div>
-                            <div class="performer-list">
-                                <h3>📉 Underperformers</h3>
-                                ${worstHtml}
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="brief-card">
-                        <h2>🎯 Key Events</h2>
-                        <ul class="key-events">${eventsHtml}</ul>
-                    </div>
-                    
-                    <div class="brief-card">
-                        <h2>🔮 Outlook & Scenarios</h2>
-                        <p style="margin-bottom:20px;">${b.outlook}</p>
-                        <div class="scenarios">
-                            <div class="scenario bull">
-                                <h4>🟢 Bull Case</h4>
-                                <p>${b.bull_case}</p>
-                            </div>
-                            <div class="scenario base">
-                                <h4>🟡 Base Case</h4>
-                                <p>${b.base_case}</p>
-                            </div>
-                            <div class="scenario bear">
-                                <h4>🔴 Bear Case</h4>
-                                <p>${b.bear_case}</p>
-                            </div>
-                        </div>
+                // Stock performers
+                renderPerformers('stockTopPerformers', brief.stock_top_performers || [], 'stock');
+                renderPerformers('stockWorstPerformers', brief.stock_worst_performers || [], 'stock');
+                
+                // Key events
+                const eventsList = document.getElementById('keyEvents');
+                eventsList.innerHTML = (brief.key_events || []).map(e => `<li>${e}</li>`).join('');
+                
+                // Scenarios
+                document.getElementById('bullCase').textContent = brief.bull_case;
+                document.getElementById('bearCase').textContent = brief.bear_case;
+                document.getElementById('baseCase').textContent = brief.base_case;
+                
+            } catch (err) {
+                console.error(err);
+                document.getElementById('briefContent').style.display = 'none';
+                document.getElementById('noBrief').style.display = 'block';
+            }
+        }
+        
+        function renderPerformers(elementId, performers, defaultType) {
+            const container = document.getElementById(elementId);
+            if (!performers || performers.length === 0) {
+                container.innerHTML = '<p style="color: #6b7280; font-size: 13px;">No data available</p>';
+                return;
+            }
+            
+            container.innerHTML = performers.map(p => {
+                const change = p.change_7d || p.change || 0;
+                const changeClass = change >= 0 ? 'change-positive' : 'change-negative';
+                const changePrefix = change >= 0 ? '+' : '';
+                const type = p.type || defaultType;
+                const badgeClass = type === 'crypto' ? 'badge-crypto' : type === 'etf' ? 'badge-etf' : 'badge-stock';
+                
+                return `
+                    <div class="performer-item">
+                        <span>
+                            ${p.symbol}
+                            <span class="asset-type-badge ${badgeClass}">${type.toUpperCase()}</span>
+                        </span>
+                        <span class="${changeClass}">${changePrefix}${change.toFixed(1)}%</span>
                     </div>
                 `;
-            }catch(e){
-                console.error(e);
-                document.getElementById('briefContent').innerHTML='<div style="text-align:center;padding:60px;color:var(--gray400);">Error loading brief. Please try again.</div>';
-            }
+            }).join('');
         }
         
         loadBrief();
