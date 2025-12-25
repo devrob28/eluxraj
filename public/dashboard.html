@@ -235,8 +235,10 @@ loadDailyBrief();
 // Fetch live crypto prices from Binance
 async function fetchCryptoPrices() {
     try {
-        const response = await fetch("https://api.binance.com/api/v3/ticker/24hr?symbols=["BTCUSDT","ETHUSDT","SOLUSDT"]");
-        const data = await response.json();
+        const symbols = ['BTCUSDT', 'ETHUSDT', 'SOLUSDT'];
+        const data = await Promise.all(
+            symbols.map(s => fetch('https://api.binance.com/api/v3/ticker/24hr?symbol=' + s).then(r => r.json()))
+        );
         data.forEach(ticker => {
             const price = parseFloat(ticker.lastPrice);
             const change = parseFloat(ticker.priceChangePercent);
@@ -257,6 +259,7 @@ async function fetchCryptoPrices() {
             }
         });
     } catch (e) { console.error("Price fetch error:", e); }
+}
 }
 async function fetchFearGreed() {
     try {
