@@ -1,52 +1,22 @@
-const CACHE_NAME = 'eluxraj-v1';
-const ASSETS_TO_CACHE = [
-  '/',
-  '/dashboard.html',
-  '/login.html',
-  '/register.html',
-  '/magician.html',
-  '/pricing.html',
-  '/manifest.json'
-];
-
-// Install - cache assets
-self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS_TO_CACHE);
-    })
-  );
-  self.skipWaiting();
+self.addEventListener('push', function(event) {
+    const data = event.data ? event.data.json() : {};
+    const title = data.title || 'ELUXRAJ Alert';
+    const options = {
+        body: data.body || 'You have a new alert',
+        icon: data.icon || '/icon-192.png',
+        badge: data.badge || '/badge-72.png',
+        data: { url: data.url || '/dashboard.html' },
+        requireInteraction: true,
+        actions: [
+            { action: 'open', title: 'View' },
+            { action: 'dismiss', title: 'Dismiss' }
+        ]
+    };
+    event.waitUntil(self.registration.showNotification(title, options));
 });
 
-// Activate - clean old caches
-self.addEventListener('activate', (event) => {
-  event.waitUntil(
-    caches.keys().then((keys) => {
-      return Promise.all(
-        keys.filter((key) => key !== CACHE_NAME).map((key) => caches.delete(key))
-      );
-    })
-  );
-  self.clients.claim();
-});
-
-// Fetch - serve from cache, fallback to network
-self.addEventListener('fetch', (event) => {
-  if (event.request.method !== 'GET') return;
-  
-  event.respondWith(
-    caches.match(event.request).then((cached) => {
-      const networked = fetch(event.request)
-        .then((response) => {
-          const cacheCopy = response.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, cacheCopy);
-          });
-          return response;
-        })
-        .catch(() => cached);
-      return cached || networked;
-    })
-  );
+self.addEventListener('notificationclick', function(event) {
+    event.notification.close();
+    if (event.action === 'dismiss') return;
+    event.waitUntil(clients.openWindow(event.notification.data.url || '/dashboard.html'));
 });
