@@ -3,366 +3,510 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ORACLE v3.0 | ELUXRAJ</title>
-    <link rel="stylesheet" href="/css/theme.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <title>ORACLE | ELUXRAJ</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
+        :root{--bg:#131722;--bg2:#1e222d;--bg3:#2a2e39;--border:#363a45;--text:#d1d4dc;--text2:#787b86;--accent:#2962ff;--green:#26a69a;--red:#ef5350;--purple:#7c3aed;--cyan:#06b6d4}
         *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);height:100vh;overflow:hidden}
         
-        .header{display:flex;justify-content:space-between;align-items:center;padding:16px 24px;border-bottom:1px solid var(--border);background:rgba(5,5,8,0.95);backdrop-filter:blur(10px);position:sticky;top:0;z-index:100}
-        .logo{font-size:1.1rem;font-weight:900;background:linear-gradient(135deg,#7c3aed,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none}
-        .nav{display:flex;gap:6px}
-        .nav a{padding:8px 16px;color:#9ca3af;text-decoration:none;font-size:.85rem;font-weight:600;border-radius:8px;transition:all .2s}
-        .nav a:hover{color:#fff;background:rgba(255,255,255,0.05)}
-        .nav a.active{color:#fff;background:linear-gradient(135deg,rgba(124,58,237,0.2),rgba(6,182,212,0.1));border:1px solid rgba(124,58,237,0.2)}
+        /* Top Header */
+        .top-header{height:48px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 12px;gap:12px}
+        .logo{font-weight:700;font-size:16px;color:#fff;display:flex;align-items:center;gap:8px}
+        .logo span{background:linear-gradient(135deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .search-box{flex:1;max-width:400px;position:relative}
+        .search-box input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:4px;padding:8px 12px 8px 36px;color:var(--text);font-size:13px}
+        .search-box input:focus{outline:none;border-color:var(--accent)}
+        .search-box::before{content:"🔍";position:absolute;left:10px;top:50%;transform:translateY(-50%);font-size:14px}
+        .header-actions{display:flex;gap:8px;margin-left:auto}
+        .header-btn{background:var(--bg3);border:1px solid var(--border);border-radius:4px;padding:6px 12px;color:var(--text);font-size:12px;cursor:pointer;display:flex;align-items:center;gap:6px}
+        .header-btn:hover{background:var(--border)}
+        .header-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
         
-        .container{max-width:1400px;margin:0 auto;padding:24px}
+        /* Main Layout */
+        .main-layout{display:flex;height:calc(100vh - 48px)}
         
-        .version-badge{display:inline-flex;align-items:center;gap:6px;background:linear-gradient(135deg,rgba(124,58,237,0.2),rgba(6,182,212,0.1));border:1px solid rgba(124,58,237,0.2);border-radius:20px;padding:6px 14px;font-size:.75rem;font-weight:700;color:#06b6d4;margin-bottom:16px}
-        .version-badge .dot{width:6px;height:6px;background:#10b981;border-radius:50%;animation:pulse 2s infinite}
-        @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.5}}
+        /* Left Sidebar - Watchlist */
+        .left-sidebar{width:280px;background:var(--bg2);border-right:1px solid var(--border);display:flex;flex-direction:column}
+        .sidebar-header{padding:12px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+        .sidebar-title{font-size:12px;font-weight:600;text-transform:uppercase;color:var(--text2)}
+        .sidebar-actions{display:flex;gap:4px}
+        .sidebar-btn{background:none;border:none;color:var(--text2);cursor:pointer;padding:4px;font-size:14px}
+        .sidebar-btn:hover{color:var(--text)}
         
-        .asset-section{margin-bottom:16px}
-        .asset-label{font-size:.7rem;color:#6b7280;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;font-weight:600}
-        .token-bar{display:flex;gap:8px;flex-wrap:wrap}
-        .token-btn{padding:10px 16px;background:#12121a;border:1px solid rgba(255,255,255,0.08);border-radius:10px;color:#9ca3af;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s}
-        .token-btn:hover{border-color:#7c3aed;color:#fff}
-        .token-btn.active{background:linear-gradient(135deg,#7c3aed,#06b6d4);border-color:transparent;color:#fff}
-        .token-btn:disabled{opacity:0.5;cursor:not-allowed}
-        .token-btn.crypto{border-left:3px solid #f59e0b}
-        .token-btn.stock{border-left:3px solid #10b981}
+        .watchlist{flex:1;overflow-y:auto}
+        .watchlist-section{padding:8px 0}
+        .section-header{padding:4px 12px;font-size:11px;font-weight:600;color:var(--text2);text-transform:uppercase;display:flex;align-items:center;gap:6px}
+        .watchlist-item{display:grid;grid-template-columns:1fr auto auto;gap:8px;padding:8px 12px;cursor:pointer;border-left:2px solid transparent}
+        .watchlist-item:hover{background:var(--bg3)}
+        .watchlist-item.active{background:var(--bg3);border-left-color:var(--accent)}
+        .item-symbol{font-weight:600;font-size:13px}
+        .item-name{font-size:11px;color:var(--text2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+        .item-price{font-family:'JetBrains Mono',monospace;font-size:13px;text-align:right}
+        .item-change{font-family:'JetBrains Mono',monospace;font-size:12px;text-align:right;padding:2px 6px;border-radius:3px}
+        .item-change.up{background:rgba(38,166,154,0.2);color:var(--green)}
+        .item-change.down{background:rgba(239,83,80,0.2);color:var(--red)}
         
-        .main-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:24px}
-        @media(max-width:1000px){.main-grid{grid-template-columns:1fr}}
+        /* Center Content */
+        .center-content{flex:1;display:flex;flex-direction:column;overflow:hidden}
         
-        .score-card{background:#12121a;border:1px solid rgba(124,58,237,0.2);border-radius:20px;padding:32px;text-align:center;position:relative;overflow:hidden}
-        .score-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#7c3aed,#06b6d4)}
-        .score-card.bullish{border-color:rgba(16,185,129,0.3)}
-        .score-card.bullish::before{background:linear-gradient(90deg,#10b981,#06b6d4)}
-        .score-card.bearish{border-color:rgba(239,68,68,0.3)}
-        .score-card.bearish::before{background:linear-gradient(90deg,#ef4444,#f59e0b)}
-        .score-label{font-size:.7rem;color:#9ca3af;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:8px}
-        .score-value{font-family:'JetBrains Mono',monospace;font-size:4.5rem;font-weight:900;line-height:1;margin-bottom:8px}
-        .score-value.bullish{background:linear-gradient(135deg,#10b981,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .score-value.bearish{background:linear-gradient(135deg,#ef4444,#f59e0b);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .score-value.neutral{background:linear-gradient(135deg,#f59e0b,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .score-signal{display:inline-block;font-size:1rem;font-weight:800;text-transform:uppercase;padding:8px 20px;border-radius:8px;margin-bottom:16px}
-        .score-signal.bullish{background:rgba(16,185,129,0.15);color:#10b981}
-        .score-signal.bearish{background:rgba(239,68,68,0.15);color:#ef4444}
-        .score-signal.neutral{background:rgba(245,158,11,0.15);color:#f59e0b}
-        .score-meta{display:flex;justify-content:center;gap:24px;margin-top:16px}
-        .score-meta-item{text-align:center}
-        .score-meta-label{font-size:.65rem;color:#6b7280;text-transform:uppercase}
-        .score-meta-value{font-family:'JetBrains Mono',monospace;font-size:1.1rem;font-weight:700}
-        .score-meta-value.up{color:#10b981}
-        .score-meta-value.down{color:#ef4444}
+        /* Toolbar */
+        .toolbar{height:40px;background:var(--bg2);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 12px;gap:8px}
+        .toolbar-group{display:flex;align-items:center;gap:4px;padding:0 8px;border-right:1px solid var(--border)}
+        .toolbar-group:last-child{border-right:none}
+        .toolbar-btn{background:none;border:none;color:var(--text2);padding:6px 10px;font-size:12px;cursor:pointer;border-radius:4px}
+        .toolbar-btn:hover{background:var(--bg3);color:var(--text)}
+        .toolbar-btn.active{background:var(--accent);color:#fff}
+        .toolbar-select{background:var(--bg);border:1px solid var(--border);color:var(--text);padding:4px 8px;font-size:12px;border-radius:4px;cursor:pointer}
         
-        .info-card{background:#12121a;border:1px solid rgba(124,58,237,0.2);border-radius:20px;padding:24px}
-        .info-header{display:flex;align-items:center;gap:10px;margin-bottom:20px}
-        .info-title{font-size:.85rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#06b6d4}
-        .info-badge{font-size:.6rem;font-weight:700;padding:4px 8px;border-radius:4px;background:rgba(124,58,237,0.2);color:#7c3aed}
+        /* Feed Area */
+        .feed-area{flex:1;overflow-y:auto;padding:16px}
+        .feed-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}
+        .feed-title{font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px}
+        .feed-title .badge{background:var(--green);color:#fff;font-size:10px;padding:2px 6px;border-radius:10px}
+        .feed-filters{display:flex;gap:8px}
+        .filter-chip{background:var(--bg2);border:1px solid var(--border);padding:4px 12px;border-radius:20px;font-size:11px;cursor:pointer}
+        .filter-chip:hover,.filter-chip.active{background:var(--accent);border-color:var(--accent);color:#fff}
         
-        .factor-list{display:flex;flex-direction:column;gap:10px}
-        .factor-item{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:rgba(255,255,255,0.02);border-radius:8px}
-        .factor-name{font-size:.8rem;color:#9ca3af}
-        .factor-value{font-family:'JetBrains Mono',monospace;font-size:.85rem;font-weight:600}
-        .factor-value.high{color:#10b981}
-        .factor-value.medium{color:#f59e0b}
-        .factor-value.low{color:#ef4444}
+        /* Signal Cards */
+        .signal-card{background:var(--bg2);border:1px solid var(--border);border-radius:8px;margin-bottom:12px;overflow:hidden}
+        .signal-header{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-bottom:1px solid var(--border)}
+        .signal-asset{display:flex;align-items:center;gap:10px}
+        .asset-icon{width:32px;height:32px;background:var(--bg3);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px}
+        .asset-info h3{font-size:15px;font-weight:600;margin-bottom:2px}
+        .asset-info span{font-size:12px;color:var(--text2)}
+        .signal-bias{padding:6px 14px;border-radius:4px;font-size:12px;font-weight:600}
+        .signal-bias.bullish{background:rgba(38,166,154,0.2);color:var(--green)}
+        .signal-bias.bearish{background:rgba(239,83,80,0.2);color:var(--red)}
+        .signal-bias.neutral{background:rgba(120,123,134,0.2);color:var(--text2)}
         
-        .section-title{font-size:.75rem;font-weight:800;text-transform:uppercase;letter-spacing:1.5px;color:#6b7280;margin-bottom:16px;display:flex;align-items:center;gap:8px}
-        .section-title::after{content:'';flex:1;height:1px;background:rgba(255,255,255,0.06)}
+        .signal-body{padding:16px}
+        .signal-metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+        .metric{background:var(--bg);border-radius:6px;padding:10px;text-align:center}
+        .metric-label{font-size:10px;color:var(--text2);text-transform:uppercase;margin-bottom:4px}
+        .metric-value{font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:600}
+        .metric-value.green{color:var(--green)}
+        .metric-value.red{color:var(--red)}
+        .metric-value.purple{color:var(--purple)}
         
-        .metrics-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:24px}
-        @media(max-width:900px){.metrics-grid{grid-template-columns:repeat(2,1fr)}}
-        .metric-card{background:#12121a;border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:16px}
-        .metric-icon{font-size:1.3rem;margin-bottom:6px}
-        .metric-label{font-size:.65rem;color:#6b7280;text-transform:uppercase;letter-spacing:.5px;margin-bottom:2px}
-        .metric-value{font-family:'JetBrains Mono',monospace;font-size:1.2rem;font-weight:700}
-        .metric-sub{font-size:.7rem;color:#6b7280;margin-top:2px}
+        .signal-levels{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:16px}
+        .level{text-align:center;padding:8px;background:var(--bg);border-radius:4px}
+        .level-label{font-size:9px;color:var(--text2);text-transform:uppercase;margin-bottom:4px}
+        .level-value{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:500}
+        .level-value.entry{color:var(--accent)}
+        .level-value.sl{color:var(--red)}
+        .level-value.tp{color:var(--green)}
         
-        .reasoning-card{background:#12121a;border:1px solid rgba(124,58,237,0.2);border-radius:16px;padding:24px;margin-bottom:24px}
-        .reasoning-title{font-size:.8rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:#06b6d4;margin-bottom:12px}
-        .reasoning-text{font-size:.95rem;color:#d1d5db;line-height:1.6}
-        .reasoning-bullets{margin-top:12px;display:flex;flex-direction:column;gap:8px}
-        .reasoning-bullet{display:flex;align-items:flex-start;gap:8px;font-size:.85rem;color:#9ca3af}
-        .reasoning-bullet::before{content:'→';color:#06b6d4}
+        .signal-scenarios{margin-top:16px}
+        .scenarios-header{font-size:12px;font-weight:600;margin-bottom:8px;color:var(--text2)}
+        .scenario{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--bg);border-radius:4px;margin-bottom:6px;border-left:3px solid}
+        .scenario.bull{border-color:var(--green)}
+        .scenario.bear{border-color:var(--red)}
+        .scenario-name{flex:1;font-size:12px}
+        .scenario-prob{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:600}
+        .scenario-prob.bull{color:var(--green)}
+        .scenario-prob.bear{color:var(--red)}
         
-        .skeleton{background:linear-gradient(90deg,#12121a 25%,rgba(124,58,237,0.1) 50%,#12121a 75%);background-size:200% 100%;animation:shimmer 1.5s infinite;border-radius:8px}
-        @keyframes shimmer{0%{background-position:200% 0}100%{background-position:-200% 0}}
+        .signal-footer{display:flex;justify-content:space-between;align-items:center;padding:12px 16px;border-top:1px solid var(--border);background:var(--bg)}
+        .signal-time{font-size:11px;color:var(--text2)}
+        .signal-actions{display:flex;gap:8px}
+        .action-btn{background:var(--bg2);border:1px solid var(--border);padding:6px 12px;border-radius:4px;font-size:11px;color:var(--text);cursor:pointer}
+        .action-btn:hover{border-color:var(--accent);color:var(--accent)}
+        .action-btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
         
-        .error-state{text-align:center;padding:60px 20px}
-        .error-state .icon{font-size:3rem;margin-bottom:16px}
-        .error-state .title{font-size:1.2rem;font-weight:700;margin-bottom:8px}
-        .error-state .message{color:#9ca3af;margin-bottom:16px}
-        .error-state .retry-btn{padding:12px 24px;background:#7c3aed;border:none;border-radius:10px;color:#fff;font-weight:600;cursor:pointer}
+        /* Right Sidebar */
+        .right-sidebar{width:300px;background:var(--bg2);border-left:1px solid var(--border);display:flex;flex-direction:column}
+        .widget{border-bottom:1px solid var(--border)}
+        .widget-header{padding:12px;font-size:12px;font-weight:600;text-transform:uppercase;color:var(--text2);border-bottom:1px solid var(--border)}
+        .widget-content{padding:12px}
         
-        .upgrade-state{text-align:center;padding:60px 20px;background:#12121a;border:1px solid rgba(124,58,237,0.2);border-radius:20px}
-        .upgrade-state .icon{font-size:3rem;margin-bottom:16px}
-        .upgrade-state .title{font-size:1.5rem;font-weight:800;margin-bottom:8px}
-        .upgrade-state .message{color:#9ca3af;margin-bottom:20px;max-width:400px;margin-left:auto;margin-right:auto}
-        .upgrade-state .upgrade-btn{display:inline-block;padding:14px 28px;background:linear-gradient(135deg,#7c3aed,#06b6d4);border:none;border-radius:12px;color:#fff;font-weight:700;text-decoration:none}
+        .stat-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--border)}
+        .stat-row:last-child{border-bottom:none}
+        .stat-label{font-size:12px;color:var(--text2)}
+        .stat-value{font-family:'JetBrains Mono',monospace;font-size:12px;font-weight:500}
         
-        .last-updated{text-align:center;padding:16px;color:#6b7280;font-size:.75rem}
-        .disclaimer{background:rgba(239,68,68,0.05);border:1px solid rgba(239,68,68,0.2);border-radius:12px;padding:16px;font-size:.75rem;color:#6b7280;margin-top:24px}
-        .disclaimer strong{color:#ef4444}
+        .fear-greed{text-align:center;padding:16px}
+        .fear-greed-value{font-size:48px;font-weight:700;margin-bottom:8px}
+        .fear-greed-label{font-size:14px;font-weight:600}
+        .fear-greed-bar{height:8px;background:linear-gradient(90deg,var(--red),#f59e0b,var(--green));border-radius:4px;margin-top:12px;position:relative}
+        .fear-greed-indicator{position:absolute;width:12px;height:12px;background:#fff;border-radius:50%;top:-2px;transform:translateX(-50%);box-shadow:0 2px 4px rgba(0,0,0,0.3)}
+        
+        .news-item{padding:10px 0;border-bottom:1px solid var(--border)}
+        .news-item:last-child{border-bottom:none}
+        .news-time{font-size:10px;color:var(--text2);margin-bottom:4px}
+        .news-title{font-size:12px;line-height:1.4}
+        
+        /* Loading */
+        .loading{display:flex;align-items:center;justify-content:center;padding:40px;color:var(--text2)}
+        .spinner{width:24px;height:24px;border:2px solid var(--border);border-top-color:var(--accent);border-radius:50%;animation:spin 1s linear infinite;margin-right:12px}
+        @keyframes spin{to{transform:rotate(360deg)}}
+        
+        /* Responsive */
+        @media(max-width:1200px){.right-sidebar{display:none}}
+        @media(max-width:900px){.left-sidebar{width:200px}}
+        @media(max-width:700px){.left-sidebar{display:none}}
     </style>
 </head>
 <body>
-    <header class="header">
-        <a href="/dashboard.html" class="logo">ELUXRAJ™</a>
-        <nav class="nav">
-            <a href="/dashboard.html">Dashboard</a>
-            <a href="/oracle.html" class="active">Oracle</a>
-            <a href="/whale-intel.html">Gotham Intel</a>
-            <a href="/chart-analysis.html">Chart AI</a>
-            <a href="/paper-trading.html">Paper Trade</a>
-        </nav>
+    <header class="top-header">
+        <div class="logo">🔮 <span>ORACLE</span></div>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search symbol... BTC, ETH, AAPL">
+        </div>
+        <div class="header-actions">
+            <button class="header-btn" onclick="location.href='/playbooks.html'">📋 Playbooks</button>
+            <button class="header-btn" onclick="location.href='/chart-analysis.html'">📊 Chart AI</button>
+            <button class="header-btn" onclick="location.href='/dashboard.html'">Dashboard</button>
+            <button class="header-btn primary" onclick="generateSignal()">+ New Signal</button>
+        </div>
     </header>
     
-    <main class="container">
-        <div class="version-badge">
-            <span class="dot"></span>
-            ORACLE v3.0 — Institutional Grade
-        </div>
-        
-        <!-- Crypto Assets -->
-        <div class="asset-section">
-            <div class="asset-label">🪙 Crypto</div>
-            <div class="token-bar" id="cryptoBar">
-                <button class="token-btn crypto active" data-symbol="BTC" data-type="crypto">₿ BTC</button>
-                <button class="token-btn crypto" data-symbol="ETH" data-type="crypto">Ξ ETH</button>
-                
+    <div class="main-layout">
+        <!-- Left Sidebar - Watchlist -->
+        <aside class="left-sidebar">
+            <div class="sidebar-header">
+                <span class="sidebar-title">Watchlist</span>
+                <div class="sidebar-actions">
+                    <button class="sidebar-btn" title="Add Symbol">+</button>
+                    <button class="sidebar-btn" title="Settings">⚙</button>
+                </div>
             </div>
-        </div>
-        
-        <!-- Stock Assets -->
-        <div class="asset-section">
-            <div class="asset-label">📈 Top Stocks</div>
-            <div class="token-bar" id="stockBar">
-                <button class="token-btn stock" data-symbol="AAPL" data-type="stock">AAPL</button>
-                <button class="token-btn stock" data-symbol="MSFT" data-type="stock">MSFT</button>
-                <button class="token-btn stock" data-symbol="NVDA" data-type="stock">NVDA</button>
-                <button class="token-btn stock" data-symbol="TSLA" data-type="stock">TSLA</button>
-                <button class="token-btn stock" data-symbol="GOOGL" data-type="stock">GOOGL</button>
-                <button class="token-btn stock" data-symbol="AMZN" data-type="stock">AMZN</button>
-                <button class="token-btn stock" data-symbol="META" data-type="stock">META</button>
-                <button class="token-btn stock" data-symbol="AMD" data-type="stock">AMD</button>
-                <button class="token-btn stock" data-symbol="NFLX" data-type="stock">NFLX</button>
-                <button class="token-btn stock" data-symbol="JPM" data-type="stock">JPM</button>
-                <button class="token-btn stock" data-symbol="V" data-type="stock">V</button>
-                <button class="token-btn stock" data-symbol="JNJ" data-type="stock">JNJ</button>
-                <button class="token-btn stock" data-symbol="WMT" data-type="stock">WMT</button>
-                <button class="token-btn stock" data-symbol="PG" data-type="stock">PG</button>
-                <button class="token-btn stock" data-symbol="MA" data-type="stock">MA</button>
-                <button class="token-btn stock" data-symbol="UNH" data-type="stock">UNH</button>
-                <button class="token-btn stock" data-symbol="HD" data-type="stock">HD</button>
-                <button class="token-btn stock" data-symbol="DIS" data-type="stock">DIS</button>
-                <button class="token-btn stock" data-symbol="BAC" data-type="stock">BAC</button>
-                <button class="token-btn stock" data-symbol="XOM" data-type="stock">XOM</button>
-                <button class="token-btn stock" data-symbol="KO" data-type="stock">KO</button>
-                <button class="token-btn stock" data-symbol="PFE" data-type="stock">PFE</button>
-                <button class="token-btn stock" data-symbol="INTC" data-type="stock">INTC</button>
-                <button class="token-btn stock" data-symbol="CSCO" data-type="stock">CSCO</button>
-                <button class="token-btn stock" data-symbol="VZ" data-type="stock">VZ</button>
+            <div class="watchlist" id="watchlist">
+                <div class="watchlist-section">
+                    <div class="section-header">📈 Crypto</div>
+                    <div class="watchlist-item active" data-symbol="BTC">
+                        <div><div class="item-symbol">BTC</div><div class="item-name">Bitcoin</div></div>
+                        <div class="item-price" id="wl-btc-price">--</div>
+                        <div class="item-change up" id="wl-btc-change">--</div>
+                    </div>
+                    <div class="watchlist-item" data-symbol="ETH">
+                        <div><div class="item-symbol">ETH</div><div class="item-name">Ethereum</div></div>
+                        <div class="item-price" id="wl-eth-price">--</div>
+                        <div class="item-change up" id="wl-eth-change">--</div>
+                    </div>
+                    <div class="watchlist-item" data-symbol="SOL">
+                        <div><div class="item-symbol">SOL</div><div class="item-name">Solana</div></div>
+                        <div class="item-price" id="wl-sol-price">--</div>
+                        <div class="item-change down" id="wl-sol-change">--</div>
+                    </div>
+                    <div class="watchlist-item" data-symbol="XRP">
+                        <div><div class="item-symbol">XRP</div><div class="item-name">Ripple</div></div>
+                        <div class="item-price" id="wl-xrp-price">--</div>
+                        <div class="item-change up" id="wl-xrp-change">--</div>
+                    </div>
+                </div>
+                <div class="watchlist-section">
+                    <div class="section-header">📊 Stocks</div>
+                    <div class="watchlist-item" data-symbol="AAPL">
+                        <div><div class="item-symbol">AAPL</div><div class="item-name">Apple Inc</div></div>
+                        <div class="item-price">$254.32</div>
+                        <div class="item-change up">+1.2%</div>
+                    </div>
+                    <div class="watchlist-item" data-symbol="NVDA">
+                        <div><div class="item-symbol">NVDA</div><div class="item-name">NVIDIA</div></div>
+                        <div class="item-price">$134.89</div>
+                        <div class="item-change up">+3.4%</div>
+                    </div>
+                    <div class="watchlist-item" data-symbol="TSLA">
+                        <div><div class="item-symbol">TSLA</div><div class="item-name">Tesla Inc</div></div>
+                        <div class="item-price">$421.06</div>
+                        <div class="item-change down">-0.8%</div>
+                    </div>
+                </div>
+                <div class="watchlist-section">
+                    <div class="section-header">💱 Indices</div>
+                    <div class="watchlist-item" data-symbol="SPY">
+                        <div><div class="item-symbol">SPY</div><div class="item-name">S&P 500 ETF</div></div>
+                        <div class="item-price">$596.54</div>
+                        <div class="item-change up">+0.5%</div>
+                    </div>
+                    <div class="watchlist-item" data-symbol="QQQ">
+                        <div><div class="item-symbol">QQQ</div><div class="item-name">Nasdaq 100</div></div>
+                        <div class="item-price">$521.23</div>
+                        <div class="item-change up">+0.8%</div>
+                    </div>
+                </div>
             </div>
-        </div>
+        </aside>
         
-        <div id="content">
-            <div class="main-grid">
-                <div class="score-card"><div class="skeleton" style="height:280px"></div></div>
-                <div class="info-card"><div class="skeleton" style="height:280px"></div></div>
+        <!-- Center Content -->
+        <main class="center-content">
+            <div class="toolbar">
+                <div class="toolbar-group">
+                    <button class="toolbar-btn active">All</button>
+                    <button class="toolbar-btn">Crypto</button>
+                    <button class="toolbar-btn">Stocks</button>
+                    <button class="toolbar-btn">Forex</button>
+                </div>
+                <div class="toolbar-group">
+                    <select class="toolbar-select" id="timeframeSelect">
+                        <option value="15m">15m</option>
+                        <option value="1h">1H</option>
+                        <option value="4h" selected>4H</option>
+                        <option value="1d">1D</option>
+                        <option value="1w">1W</option>
+                    </select>
+                </div>
+                <div class="toolbar-group">
+                    <button class="toolbar-btn">🔔 Alerts</button>
+                    <button class="toolbar-btn">📊 Stats</button>
+                </div>
             </div>
-        </div>
+            
+            <div class="feed-area" id="feedArea">
+                <div class="feed-header">
+                    <div class="feed-title">Live Signals <span class="badge">LIVE</span></div>
+                    <div class="feed-filters">
+                        <span class="filter-chip active">Latest</span>
+                        <span class="filter-chip">Bullish</span>
+                        <span class="filter-chip">Bearish</span>
+                        <span class="filter-chip">High Conf</span>
+                    </div>
+                </div>
+                <div id="signalsFeed">
+                    <div class="loading"><div class="spinner"></div>Loading signals...</div>
+                </div>
+            </div>
+        </main>
         
-        <div class="last-updated" id="lastUpdated"></div>
-        
-        <div class="disclaimer">
-            <strong>⚠️ Not Financial Advice:</strong> ORACLE signals are for informational purposes only. Past performance does not guarantee future results. Always do your own research and consult a financial advisor.
-        </div>
-    </main>
-    
-    <script src="/js/eluxraj-utils.js"></script>
+        <!-- Right Sidebar -->
+        <aside class="right-sidebar">
+            <div class="widget">
+                <div class="widget-header">Market Sentiment</div>
+                <div class="widget-content">
+                    <div class="fear-greed">
+                        <div class="fear-greed-value" id="fgValue">--</div>
+                        <div class="fear-greed-label" id="fgLabel">Loading...</div>
+                        <div class="fear-greed-bar"><div class="fear-greed-indicator" id="fgIndicator" style="left:50%"></div></div>
+                    </div>
+                </div>
+            </div>
+            <div class="widget">
+                <div class="widget-header">Market Stats</div>
+                <div class="widget-content">
+                    <div class="stat-row">
+                        <span class="stat-label">BTC Dominance</span>
+                        <span class="stat-value" id="btcDom">--</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Total Market Cap</span>
+                        <span class="stat-value" id="totalMcap">--</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">24h Volume</span>
+                        <span class="stat-value" id="totalVol">--</span>
+                    </div>
+                    <div class="stat-row">
+                        <span class="stat-label">Active Signals</span>
+                        <span class="stat-value" id="activeSignals">--</span>
+                    </div>
+                </div>
+            </div>
+            <div class="widget" style="flex:1;overflow:hidden">
+                <div class="widget-header">Latest News</div>
+                <div class="widget-content" style="overflow-y:auto;max-height:300px" id="newsWidget">
+                    <div class="news-item">
+                        <div class="news-time">2 min ago</div>
+                        <div class="news-title">BTC tests key resistance at $89K amid holiday trading</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-time">15 min ago</div>
+                        <div class="news-title">Ethereum staking deposits reach all-time high</div>
+                    </div>
+                    <div class="news-item">
+                        <div class="news-time">1 hour ago</div>
+                        <div class="news-title">Fed signals fewer rate cuts in 2025</div>
+                    </div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
     <script>
-        let currentSymbol = 'BTC';
-        let currentType = 'crypto';
-        let isLoading = false;
+        const API = 'https://eluxraj-api-production.up.railway.app/api/v1';
+        const token = localStorage.getItem('token');
         
-        // Initialize
-        (async () => {
+        if (!token) window.location.href = '/login.html';
+        
+        // Fetch live prices
+        async function fetchPrices() {
             try {
-                const user = await Auth.check();
-                if (!user) return;
-                
-                if (user.subscription_tier === 'free') {
-                    showUpgradePrompt();
-                    return;
-                }
-                
-                loadOracle(currentSymbol, currentType);
-            } catch (err) {
-                console.error('Init error:', err);
-                showError('Please login again');
-            }
-        })();
-        
-        // Click handlers for both bars
-        document.querySelectorAll('.token-btn').forEach(btn => {
-            btn.onclick = () => {
-                if (isLoading) return;
-                document.querySelectorAll('.token-btn').forEach(b => b.classList.remove('active'));
-                btn.classList.add('active');
-                currentSymbol = btn.dataset.symbol;
-                currentType = btn.dataset.type;
-                loadOracle(currentSymbol, currentType);
-            };
-        });
-        
-        function showUpgradePrompt() {
-            document.getElementById('content').innerHTML = `
-                <div class="upgrade-state">
-                    <div class="icon">🔒</div>
-                    <div class="title">ORACLE v3.0 - Elite Feature</div>
-                    <div class="message">Unlock AI-powered signals for crypto and top stocks.</div>
-                    <a href="/pricing.html" class="upgrade-btn">Upgrade to Elite — $98/mo</a>
-                </div>`;
+                const r = await fetch(`${API}/prices/crypto`);
+                const data = await r.json();
+                data.forEach(coin => {
+                    const sym = coin.symbol.replace('USDT','').toLowerCase();
+                    const priceEl = document.getElementById(`wl-${sym}-price`);
+                    const changeEl = document.getElementById(`wl-${sym}-change`);
+                    if (priceEl) {
+                        const price = parseFloat(coin.lastPrice);
+                        priceEl.textContent = price < 10 ? `$${price.toFixed(4)}` : `$${price.toLocaleString(undefined,{maximumFractionDigits:2})}`;
+                    }
+                    if (changeEl) {
+                        const change = parseFloat(coin.priceChangePercent);
+                        changeEl.textContent = `${change >= 0 ? '+' : ''}${change.toFixed(2)}%`;
+                        changeEl.className = `item-change ${change >= 0 ? 'up' : 'down'}`;
+                    }
+                });
+            } catch (e) { console.error('Price fetch error:', e); }
         }
         
-        function showError(message) {
-            document.getElementById('content').innerHTML = `
-                <div class="error-state">
-                    <div class="icon">⚠️</div>
-                    <div class="title">Could not analyze ${currentSymbol}</div>
-                    <div class="message">${message}</div>
-                    <button class="retry-btn" onclick="loadOracle('${currentSymbol}', '${currentType}')">Retry</button>
-                </div>`;
+        // Fetch Fear & Greed
+        async function fetchFearGreed() {
+            try {
+                const r = await fetch('https://api.alternative.me/fng/');
+                const data = await r.json();
+                const fg = data.data[0];
+                document.getElementById('fgValue').textContent = fg.value;
+                document.getElementById('fgLabel').textContent = fg.value_classification;
+                document.getElementById('fgIndicator').style.left = `${fg.value}%`;
+            } catch (e) { console.error('FG error:', e); }
         }
         
-        async function loadOracle(symbol, type) {
-            if (isLoading) return;
-            isLoading = true;
+        // Generate signal for selected asset
+        async function generateSignal(asset = 'BTC') {
+            const feed = document.getElementById('signalsFeed');
+            feed.innerHTML = '<div class="loading"><div class="spinner"></div>Generating AI signal...</div>';
             
-            document.querySelectorAll('.token-btn').forEach(b => b.disabled = true);
-            document.getElementById('content').innerHTML = `
-                <div class="main-grid">
-                    <div class="score-card"><div class="skeleton" style="height:280px"></div></div>
-                    <div class="info-card"><div class="skeleton" style="height:280px"></div></div>
-                </div>`;
+            const timeframe = document.getElementById('timeframeSelect').value;
             
             try {
-                const endpoint = type === 'stock' ? '/oracle/stock/' + symbol : '/oracle/score/' + symbol;
-                const response = await API.get(endpoint);
-                const data = response.data || response;
+                const r = await fetch(`${API}/playbooks/generate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ asset, asset_type: 'crypto', timeframe })
+                });
                 
-                if (!data || data.oracle_score === undefined) {
-                    throw new Error('Invalid response');
-                }
+                const data = await r.json();
+                if (!r.ok) throw new Error(data.detail || 'Failed');
                 
-                renderOracle(data, type);
-                document.getElementById('lastUpdated').textContent = 'Last updated: ' + new Date().toLocaleTimeString();
-                
-            } catch (err) {
-                console.error('Oracle error:', err);
-                showError(err.message || 'Failed to load');
-            } finally {
-                isLoading = false;
-                document.querySelectorAll('.token-btn').forEach(b => b.disabled = false);
+                renderSignal(data);
+            } catch (e) {
+                feed.innerHTML = `<div class="signal-card" style="padding:20px;text-align:center;color:var(--red)">Error: ${e.message}</div>`;
             }
         }
         
-        function renderOracle(data, type) {
-            const score = data.oracle_score || 50;
-            const signal = (data.signal_type || 'hold').replace(/_/g, ' ').toUpperCase();
-            const cls = score >= 55 ? 'bullish' : score <= 45 ? 'bearish' : 'neutral';
-            const price = data.entry_price || data.price || 0;
-            const priceChange = data.price_change_24h || data.change_percent || 0;
-            const factors = (data.factor_breakdown || []).slice(0, 6);
-            const assetIcon = type === 'stock' ? '📈' : '🪙';
+        function renderSignal(s) {
+            const biasClass = s.market_bias === 'bullish' ? 'bullish' : s.market_bias === 'bearish' ? 'bearish' : 'neutral';
+            const entryLow = s.entry_zone?.low || 0;
+            const entryHigh = s.entry_zone?.high || 0;
+            const sl = s.stop_loss?.price || s.stop_loss || 0;
+            const tps = s.take_profits || [];
             
-            document.getElementById('content').innerHTML = `
-                <div class="main-grid">
-                    <div class="score-card ${cls}">
-                        <div class="score-label">${assetIcon} ${currentSymbol} ORACLE Score</div>
-                        <div class="score-value ${cls}">${score}</div>
-                        <div class="score-signal ${cls}">${signal}</div>
-                        <div class="score-meta">
-                            <div class="score-meta-item">
-                                <div class="score-meta-label">Price</div>
-                                <div class="score-meta-value">${Format.currency(price)}</div>
-                            </div>
-                            <div class="score-meta-item">
-                                <div class="score-meta-label">24h</div>
-                                <div class="score-meta-value ${priceChange >= 0 ? 'up' : 'down'}">${Format.percent(priceChange)}</div>
-                            </div>
-                            <div class="score-meta-item">
-                                <div class="score-meta-label">Confidence</div>
-                                <div class="score-meta-value">${(data.confidence || 'medium').toUpperCase()}</div>
+            const html = `
+                <div class="signal-card">
+                    <div class="signal-header">
+                        <div class="signal-asset">
+                            <div class="asset-icon">${s.asset === 'BTC' ? '₿' : s.asset === 'ETH' ? 'Ξ' : '📈'}</div>
+                            <div class="asset-info">
+                                <h3>${s.asset}/USD</h3>
+                                <span>${s.timeframe} • ${s.asset_type}</span>
                             </div>
                         </div>
+                        <div class="signal-bias ${biasClass}">${s.market_bias?.toUpperCase()} ${s.bias_strength}%</div>
                     </div>
-                    
-                    <div class="info-card">
-                        <div class="info-header">
-                            <span class="info-title">📊 Factor Breakdown</span>
-                            <span class="info-badge">${factors.length} Signals</span>
+                    <div class="signal-body">
+                        <div class="signal-metrics">
+                            <div class="metric">
+                                <div class="metric-label">Confidence</div>
+                                <div class="metric-value">${s.confidence_score}%</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">Probability</div>
+                                <div class="metric-value">${s.probability_score}%</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">Risk/Reward</div>
+                                <div class="metric-value green">${s.risk_reward_ratio?.toFixed(2) || '--'}</div>
+                            </div>
+                            <div class="metric">
+                                <div class="metric-label">Pattern</div>
+                                <div class="metric-value purple" style="font-size:11px">${s.pattern_detected || 'None'}</div>
+                            </div>
                         </div>
-                        <div class="factor-list">
-                            ${factors.length ? factors.map(f => `
-                                <div class="factor-item">
-                                    <span class="factor-name">${formatFactorName(f.name)}</span>
-                                    <span class="factor-value ${getScoreClass(f.score)}">${f.score}/100</span>
+                        <div class="signal-levels">
+                            <div class="level">
+                                <div class="level-label">Entry Low</div>
+                                <div class="level-value entry">$${formatPrice(entryLow)}</div>
+                            </div>
+                            <div class="level">
+                                <div class="level-label">Entry High</div>
+                                <div class="level-value entry">$${formatPrice(entryHigh)}</div>
+                            </div>
+                            <div class="level">
+                                <div class="level-label">Stop Loss</div>
+                                <div class="level-value sl">$${formatPrice(sl)}</div>
+                            </div>
+                            <div class="level">
+                                <div class="level-label">TP1</div>
+                                <div class="level-value tp">$${formatPrice(tps[0]?.price || 0)}</div>
+                            </div>
+                            <div class="level">
+                                <div class="level-label">TP2</div>
+                                <div class="level-value tp">$${formatPrice(tps[1]?.price || 0)}</div>
+                            </div>
+                        </div>
+                        <div class="signal-scenarios">
+                            <div class="scenarios-header">📈 Bullish Scenarios</div>
+                            ${(s.bullish_scenarios || []).slice(0,2).map(sc => `
+                                <div class="scenario bull">
+                                    <span class="scenario-name">${sc.name}</span>
+                                    <span class="scenario-prob bull">${sc.probability}%</span>
                                 </div>
-                            `).join('') : '<div class="factor-item"><span class="factor-name">Analysis in progress...</span></div>'}
+                            `).join('')}
+                            <div class="scenarios-header" style="margin-top:12px">📉 Bearish Scenarios</div>
+                            ${(s.bearish_scenarios || []).slice(0,2).map(sc => `
+                                <div class="scenario bear">
+                                    <span class="scenario-name">${sc.name}</span>
+                                    <span class="scenario-prob bear">${sc.probability}%</span>
+                                </div>
+                            `).join('')}
                         </div>
                     </div>
-                </div>
-                
-                <div class="section-title">🎯 Trade Setup</div>
-                <div class="metrics-grid">
-                    <div class="metric-card">
-                        <div class="metric-icon">📍</div>
-                        <div class="metric-label">Entry</div>
-                        <div class="metric-value">${Format.currency(data.entry_price || price)}</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-icon">🎯</div>
-                        <div class="metric-label">Target</div>
-                        <div class="metric-value" style="color:#10b981">${Format.currency(data.target_price)}</div>
-                        <div class="metric-sub">+${data.target_pct || 3}%</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-icon">🛑</div>
-                        <div class="metric-label">Stop Loss</div>
-                        <div class="metric-value" style="color:#ef4444">${Format.currency(data.stop_loss)}</div>
-                        <div class="metric-sub">-${data.stop_pct || 3}%</div>
-                    </div>
-                    <div class="metric-card">
-                        <div class="metric-icon">⚖️</div>
-                        <div class="metric-label">Risk/Reward</div>
-                        <div class="metric-value">${data.risk_reward_ratio || 1}:1</div>
-                    </div>
-                </div>
-                
-                <div class="reasoning-card">
-                    <div class="reasoning-title">🤖 AI Analysis</div>
-                    <div class="reasoning-text">${data.reasoning_summary || 'Analysis complete for ' + currentSymbol}</div>
-                    <div class="reasoning-bullets">
-                        ${(data.reasoning_bullets || []).map(b => `<div class="reasoning-bullet">${b}</div>`).join('')}
+                    <div class="signal-footer">
+                        <span class="signal-time">Generated ${new Date().toLocaleTimeString()}</span>
+                        <div class="signal-actions">
+                            <button class="action-btn" onclick="location.href='/playbooks.html'">Full Playbook</button>
+                            <button class="action-btn primary">🔔 Set Alert</button>
+                        </div>
                     </div>
                 </div>
             `;
+            
+            document.getElementById('signalsFeed').innerHTML = html;
         }
         
-        function formatFactorName(name) {
-            return name.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+        function formatPrice(p) {
+            if (!p) return '0';
+            if (p < 1) return p.toFixed(6);
+            if (p < 100) return p.toFixed(2);
+            return p.toLocaleString(undefined, {maximumFractionDigits:2});
         }
         
-        function getScoreClass(score) {
-            if (score >= 60) return 'high';
-            if (score >= 40) return 'medium';
-            return 'low';
-        }
+        // Watchlist click
+        document.querySelectorAll('.watchlist-item').forEach(item => {
+            item.addEventListener('click', () => {
+                document.querySelectorAll('.watchlist-item').forEach(i => i.classList.remove('active'));
+                item.classList.add('active');
+                generateSignal(item.dataset.symbol);
+            });
+        });
+        
+        // Init
+        fetchPrices();
+        fetchFearGreed();
+        generateSignal('BTC');
+        
+        // Refresh prices every 30s
+        setInterval(fetchPrices, 30000);
+        
+        // Market stats (mock for now)
+        document.getElementById('btcDom').textContent = '57.2%';
+        document.getElementById('totalMcap').textContent = '$3.12T';
+        document.getElementById('totalVol').textContent = '$142B';
+        document.getElementById('activeSignals').textContent = '12';
     </script>
 </body>
 </html>
