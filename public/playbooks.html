@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Trade Playbooks | ELUXRAJ</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        :root { --bg: #0a0a0f; --card: #12121a; --border: #1e1e2e; --accent: #7c3aed; --green: #10b981; --red: #ef4444; --yellow: #f59e0b; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: #fff; min-height: 100vh; }
+        .container { max-width: 1400px; margin: 0 auto; padding: 24px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
+        .header h1 { font-size: 28px; background: linear-gradient(135deg, #7c3aed, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .generate-form { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 32px; }
+        .form-row { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 16px; align-items: end; }
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .form-group label { font-size: 12px; color: #9ca3af; text-transform: uppercase; }
+        .form-group input, .form-group select { padding: 12px 16px; background: var(--bg); border: 1px solid var(--border); border-radius: 8px; color: #fff; font-size: 16px; }
+        .btn-generate { padding: 12px 32px; background: linear-gradient(135deg, #7c3aed, #06b6d4); border: none; border-radius: 8px; color: #fff; font-weight: 600; cursor: pointer; font-size: 16px; }
+        .btn-generate:hover { opacity: 0.9; }
+        .btn-generate:disabled { opacity: 0.5; cursor: not-allowed; }
+        .playbook-card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 24px; }
+        .playbook-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 16px; border-bottom: 1px solid var(--border); }
+        .asset-info { display: flex; align-items: center; gap: 16px; }
+        .asset-name { font-size: 24px; font-weight: 700; }
+        .asset-meta { display: flex; gap: 12px; }
+        .meta-tag { padding: 4px 12px; background: var(--bg); border-radius: 20px; font-size: 12px; color: #9ca3af; }
+        .bias-badge { padding: 8px 16px; border-radius: 8px; font-weight: 600; }
+        .bias-bullish { background: rgba(16, 185, 129, 0.2); color: var(--green); }
+        .bias-bearish { background: rgba(239, 68, 68, 0.2); color: var(--red); }
+        .bias-neutral { background: rgba(245, 158, 11, 0.2); color: var(--yellow); }
+        .metrics-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+        .metric-box { background: var(--bg); border-radius: 12px; padding: 16px; text-align: center; }
+        .metric-label { font-size: 11px; color: #6b7280; text-transform: uppercase; margin-bottom: 8px; }
+        .metric-value { font-size: 24px; font-weight: 700; }
+        .metric-value.green { color: var(--green); }
+        .metric-value.red { color: var(--red); }
+        .trade-setup { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 24px; }
+        .setup-item { background: var(--bg); border-radius: 8px; padding: 12px; text-align: center; }
+        .setup-label { font-size: 10px; color: #6b7280; text-transform: uppercase; }
+        .setup-value { font-size: 18px; font-weight: 600; margin-top: 4px; }
+        .setup-value.entry { color: var(--accent); }
+        .setup-value.sl { color: var(--red); }
+        .setup-value.tp { color: var(--green); }
+        .scenarios-section { margin-bottom: 24px; }
+        .scenarios-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+        .scenarios-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+        .scenario-card { background: var(--bg); border-radius: 12px; padding: 16px; border-left: 3px solid; }
+        .scenario-card.bullish { border-color: var(--green); }
+        .scenario-card.bearish { border-color: var(--red); }
+        .scenario-header { display: flex; justify-content: space-between; margin-bottom: 8px; }
+        .scenario-name { font-weight: 600; font-size: 14px; }
+        .scenario-prob { font-size: 14px; font-weight: 700; }
+        .scenario-prob.bullish { color: var(--green); }
+        .scenario-prob.bearish { color: var(--red); }
+        .scenario-trigger { font-size: 12px; color: #9ca3af; margin-bottom: 8px; }
+        .scenario-explanation { font-size: 13px; color: #d1d5db; line-height: 1.5; }
+        .invalidation { background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); border-radius: 12px; padding: 16px; margin-bottom: 24px; }
+        .invalidation-title { font-size: 12px; color: var(--red); text-transform: uppercase; margin-bottom: 8px; font-weight: 600; }
+        .invalidation-list { list-style: none; }
+        .invalidation-list li { font-size: 14px; color: #d1d5db; padding: 4px 0; padding-left: 20px; position: relative; }
+        .invalidation-list li::before { content: "⚠"; position: absolute; left: 0; }
+        .reasoning { background: var(--bg); border-radius: 12px; padding: 16px; }
+        .reasoning-title { font-size: 12px; color: #9ca3af; text-transform: uppercase; margin-bottom: 8px; }
+        .reasoning-text { font-size: 14px; color: #d1d5db; line-height: 1.6; }
+        .disclaimer { font-size: 11px; color: #6b7280; text-align: center; margin-top: 24px; padding: 16px; background: var(--card); border-radius: 8px; }
+        .loading { text-align: center; padding: 60px; color: #9ca3af; }
+        .spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 16px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        @media (max-width: 768px) {
+            .form-row { grid-template-columns: 1fr; }
+            .metrics-grid { grid-template-columns: repeat(2, 1fr); }
+            .trade-setup { grid-template-columns: repeat(3, 1fr); }
+            .scenarios-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📊 AI Trade Playbooks</h1>
+            <a href="/dashboard.html" style="color: #9ca3af; text-decoration: none;">← Back to Dashboard</a>
+        </div>
+        
+        <div class="generate-form">
+            <div class="form-row">
+                <div class="form-group">
+                    <label>Asset</label>
+                    <input type="text" id="asset" placeholder="BTC, ETH, AAPL, TSLA..." value="BTC">
+                </div>
+                <div class="form-group">
+                    <label>Asset Type</label>
+                    <select id="assetType">
+                        <option value="crypto">Crypto</option>
+                        <option value="stock">Stock</option>
+                        <option value="forex">Forex</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Timeframe</label>
+                    <select id="timeframe">
+                        <option value="15m">15 Minutes</option>
+                        <option value="1h">1 Hour</option>
+                        <option value="4h" selected>4 Hours</option>
+                        <option value="1d">Daily</option>
+                        <option value="1w">Weekly</option>
+                    </select>
+                </div>
+                <button class="btn-generate" id="generateBtn" onclick="generatePlaybook()">Generate Playbook</button>
+            </div>
+        </div>
+        
+        <div id="playbookResult"></div>
+        
+        <div class="disclaimer">
+            ⚠️ ELUXRAJ provides AI-powered decision intelligence for informational purposes only. This is NOT financial advice. All trading involves substantial risk of loss. Past performance does not guarantee future results.
+        </div>
+    </div>
+
+    <script>
+        const API = 'https://eluxraj-api-production.up.railway.app/api/v1';
+        const token = localStorage.getItem('token');
+        
+        if (!token) {
+            window.location.href = '/login.html';
+        }
+        
+        async function generatePlaybook() {
+            const asset = document.getElementById('asset').value.trim();
+            const assetType = document.getElementById('assetType').value;
+            const timeframe = document.getElementById('timeframe').value;
+            const btn = document.getElementById('generateBtn');
+            const result = document.getElementById('playbookResult');
+            
+            if (!asset) { alert('Enter an asset'); return; }
+            
+            btn.disabled = true;
+            btn.textContent = 'Generating...';
+            result.innerHTML = '<div class="loading"><div class="spinner"></div>AI is analyzing market conditions...</div>';
+            
+            try {
+                const response = await fetch(`${API}/playbooks/generate`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ asset, asset_type: assetType, timeframe })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(data.detail || 'Failed to generate playbook');
+                }
+                
+                renderPlaybook(data);
+            } catch (error) {
+                result.innerHTML = `<div class="playbook-card" style="text-align:center;color:var(--red);">Error: ${error.message}</div>`;
+            } finally {
+                btn.disabled = false;
+                btn.textContent = 'Generate Playbook';
+            }
+        }
+        
+        function renderPlaybook(p) {
+            const biasClass = p.market_bias === 'bullish' ? 'bias-bullish' : p.market_bias === 'bearish' ? 'bias-bearish' : 'bias-neutral';
+            const entryLow = p.entry_zone?.low || 0;
+            const entryHigh = p.entry_zone?.high || 0;
+            const sl = p.stop_loss?.price || p.stop_loss || 0;
+            const tps = p.take_profits || [];
+            
+            let html = `
+                <div class="playbook-card">
+                    <div class="playbook-header">
+                        <div class="asset-info">
+                            <span class="asset-name">${p.asset}</span>
+                            <div class="asset-meta">
+                                <span class="meta-tag">${p.asset_type}</span>
+                                <span class="meta-tag">${p.timeframe}</span>
+                                <span class="meta-tag">$${p.current_price?.toLocaleString() || 'N/A'}</span>
+                            </div>
+                        </div>
+                        <span class="bias-badge ${biasClass}">${p.market_bias?.toUpperCase()} ${p.bias_strength}%</span>
+                    </div>
+                    
+                    <div class="metrics-grid">
+                        <div class="metric-box">
+                            <div class="metric-label">Confidence</div>
+                            <div class="metric-value">${p.confidence_score || 0}%</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-label">Probability</div>
+                            <div class="metric-value">${p.probability_score || 0}%</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-label">Risk/Reward</div>
+                            <div class="metric-value green">${p.risk_reward_ratio?.toFixed(2) || 'N/A'}</div>
+                        </div>
+                        <div class="metric-box">
+                            <div class="metric-label">Pattern</div>
+                            <div class="metric-value" style="font-size:14px">${p.pattern_detected || 'None'}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="trade-setup">
+                        <div class="setup-item">
+                            <div class="setup-label">Entry Low</div>
+                            <div class="setup-value entry">$${formatPrice(entryLow)}</div>
+                        </div>
+                        <div class="setup-item">
+                            <div class="setup-label">Entry High</div>
+                            <div class="setup-value entry">$${formatPrice(entryHigh)}</div>
+                        </div>
+                        <div class="setup-item">
+                            <div class="setup-label">Stop Loss</div>
+                            <div class="setup-value sl">$${formatPrice(sl)}</div>
+                        </div>
+                        <div class="setup-item">
+                            <div class="setup-label">TP1</div>
+                            <div class="setup-value tp">$${formatPrice(tps[0]?.price || tps[0] || 0)}</div>
+                        </div>
+                        <div class="setup-item">
+                            <div class="setup-label">TP2</div>
+                            <div class="setup-value tp">$${formatPrice(tps[1]?.price || tps[1] || 0)}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="scenarios-section">
+                        <div class="scenarios-title">📈 Bullish Scenarios</div>
+                        <div class="scenarios-grid">
+                            ${(p.bullish_scenarios || []).map(s => `
+                                <div class="scenario-card bullish">
+                                    <div class="scenario-header">
+                                        <span class="scenario-name">${s.name}</span>
+                                        <span class="scenario-prob bullish">${s.probability}%</span>
+                                    </div>
+                                    <div class="scenario-trigger">Trigger: ${s.trigger}</div>
+                                    <div class="scenario-explanation">${s.explanation}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="scenarios-section">
+                        <div class="scenarios-title">📉 Bearish Scenarios</div>
+                        <div class="scenarios-grid">
+                            ${(p.bearish_scenarios || []).map(s => `
+                                <div class="scenario-card bearish">
+                                    <div class="scenario-header">
+                                        <span class="scenario-name">${s.name}</span>
+                                        <span class="scenario-prob bearish">${s.probability}%</span>
+                                    </div>
+                                    <div class="scenario-trigger">Trigger: ${s.trigger}</div>
+                                    <div class="scenario-explanation">${s.explanation}</div>
+                                </div>
+                            `).join('')}
+                        </div>
+                    </div>
+                    
+                    <div class="invalidation">
+                        <div class="invalidation-title">⛔ Invalidation Conditions</div>
+                        <ul class="invalidation-list">
+                            ${(p.invalidation_conditions || []).map(c => `<li>${c}</li>`).join('')}
+                            ${p.invalidation_price ? `<li>Price breaks: $${formatPrice(p.invalidation_price)}</li>` : ''}
+                        </ul>
+                    </div>
+                    
+                    ${p.reasoning ? `
+                    <div class="reasoning">
+                        <div class="reasoning-title">AI Analysis</div>
+                        <div class="reasoning-text">${p.reasoning}</div>
+                    </div>
+                    ` : ''}
+                </div>
+            `;
+            
+            document.getElementById('playbookResult').innerHTML = html;
+        }
+        
+        function formatPrice(price) {
+            if (!price) return '0';
+            if (price < 1) return price.toFixed(6);
+            if (price < 100) return price.toFixed(2);
+            return price.toLocaleString(undefined, {maximumFractionDigits: 2});
+        }
+    </script>
+</body>
+</html>
