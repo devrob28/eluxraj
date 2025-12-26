@@ -499,7 +499,23 @@
         fetchFearGreed();
         generateSignal('BTC');
         
-        // Refresh prices every 30s
+        // Filter buttons
+document.querySelectorAll(".toolbar-group .toolbar-btn").forEach(btn => {
+    btn.addEventListener("click", function() {
+        this.parentElement.querySelectorAll(".toolbar-btn").forEach(b => b.classList.remove("active"));
+        this.classList.add("active");
+        const filter = this.textContent.trim().toLowerCase();
+        document.querySelectorAll(".watchlist-section").forEach(section => {
+            const header = section.querySelector(".section-header").textContent.toLowerCase();
+            if (filter === "all") { section.style.display = "block"; }
+            else if (filter === "crypto" && header.includes("crypto")) { section.style.display = "block"; }
+            else if (filter === "stocks" && header.includes("stock")) { section.style.display = "block"; }
+            else { section.style.display = "none"; }
+        });
+    });
+});
+
+// Refresh prices every 30s
         setInterval(fetchPrices, 30000);
         
         // Market stats (mock for now)
@@ -510,3 +526,33 @@
     </script>
 </body>
 </html>
+<script>
+// Filter buttons functionality
+document.querySelectorAll('.toolbar-group .toolbar-btn').forEach(btn => {
+    btn.addEventListener('click', function() {
+        // Update active state
+        this.parentElement.querySelectorAll('.toolbar-btn').forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        
+        const filter = this.textContent.trim().toLowerCase();
+        
+        // Filter watchlist sections
+        document.querySelectorAll('.watchlist-section').forEach(section => {
+            const header = section.querySelector('.section-header').textContent.toLowerCase();
+            if (filter === 'all') {
+                section.style.display = 'block';
+            } else if (filter === 'crypto' && header.includes('crypto')) {
+                section.style.display = 'block';
+            } else if (filter === 'stocks' && header.includes('stock')) {
+                section.style.display = 'block';
+            } else if (filter === 'forex' && header.includes('forex')) {
+                section.style.display = 'block';
+            } else if (filter === 'indices' && header.includes('indic')) {
+                section.style.display = 'block';
+            } else {
+                section.style.display = filter === 'all' ? 'block' : 'none';
+            }
+        });
+    });
+});
+</script>
