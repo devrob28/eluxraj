@@ -4,14 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Trade Playbooks | ELUXRAJ</title>
-    <link rel="stylesheet" href="/css/style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
         :root { --bg: #0a0a0f; --card: #12121a; --border: #1e1e2e; --accent: #7c3aed; --green: #10b981; --red: #ef4444; --yellow: #f59e0b; }
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Inter', -apple-system, sans-serif; background: var(--bg); color: #fff; min-height: 100vh; }
         .container { max-width: 1400px; margin: 0 auto; padding: 24px; }
-        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 32px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; }
         .header h1 { font-size: 28px; background: linear-gradient(135deg, #7c3aed, #06b6d4); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .tabs { display: flex; gap: 0; margin-bottom: 24px; border-bottom: 1px solid var(--border); }
+        .tab-btn { background: none; border: none; padding: 14px 28px; color: #6b7280; font-weight: 600; cursor: pointer; border-bottom: 2px solid transparent; font-size: 15px; transition: all 0.2s; }
+        .tab-btn:hover { color: #9ca3af; }
+        .tab-btn.active { color: #fff; border-bottom-color: var(--accent); }
         .generate-form { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 24px; margin-bottom: 32px; }
         .form-row { display: grid; grid-template-columns: 1fr 1fr 1fr auto; gap: 16px; align-items: end; }
         .form-group { display: flex; flex-direction: column; gap: 8px; }
@@ -35,7 +39,6 @@
         .metric-label { font-size: 11px; color: #6b7280; text-transform: uppercase; margin-bottom: 8px; }
         .metric-value { font-size: 24px; font-weight: 700; }
         .metric-value.green { color: var(--green); }
-        .metric-value.red { color: var(--red); }
         .trade-setup { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 24px; }
         .setup-item { background: var(--bg); border-radius: 8px; padding: 12px; text-align: center; }
         .setup-label { font-size: 10px; color: #6b7280; text-transform: uppercase; }
@@ -68,6 +71,11 @@
         .loading { text-align: center; padding: 60px; color: #9ca3af; }
         .spinner { width: 40px; height: 40px; border: 3px solid var(--border); border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 16px; }
         @keyframes spin { to { transform: rotate(360deg); } }
+        .history-item { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 16px; cursor: pointer; transition: all 0.2s; }
+        .history-item:hover { border-color: var(--accent); transform: translateY(-2px); }
+        .history-grid { display: grid; gap: 12px; }
+        .history-header { display: flex; justify-content: space-between; align-items: center; }
+        .history-meta { display: flex; gap: 16px; margin-top: 8px; font-size: 13px; color: #9ca3af; }
         @media (max-width: 768px) {
             .form-row { grid-template-columns: 1fr; }
             .metrics-grid { grid-template-columns: repeat(2, 1fr); }
@@ -83,38 +91,50 @@
             <a href="/dashboard.html" style="color: #9ca3af; text-decoration: none;">← Back to Dashboard</a>
         </div>
         
-        <div class="generate-form">
-            <div class="form-row">
-                <div class="form-group">
-                    <label>Asset</label>
-                    <input type="text" id="asset" placeholder="BTC, ETH, AAPL, TSLA..." value="BTC">
+        <div class="tabs">
+            <button class="tab-btn active" id="tab-generate" onclick="showTab('generate')">Generate New</button>
+            <button class="tab-btn" id="tab-history" onclick="showTab('history')">History</button>
+        </div>
+        
+        <div id="generate-section">
+            <div class="generate-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Asset</label>
+                        <input type="text" id="asset" placeholder="BTC, ETH, AAPL, TSLA..." value="BTC">
+                    </div>
+                    <div class="form-group">
+                        <label>Asset Type</label>
+                        <select id="assetType">
+                            <option value="crypto">Crypto</option>
+                            <option value="stock">Stock</option>
+                            <option value="forex">Forex</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Timeframe</label>
+                        <select id="timeframe">
+                            <option value="15m">15 Minutes</option>
+                            <option value="1h">1 Hour</option>
+                            <option value="4h" selected>4 Hours</option>
+                            <option value="1d">Daily</option>
+                            <option value="1w">Weekly</option>
+                        </select>
+                    </div>
+                    <button class="btn-generate" id="generateBtn" onclick="generatePlaybook()">Generate Playbook</button>
                 </div>
-                <div class="form-group">
-                    <label>Asset Type</label>
-                    <select id="assetType">
-                        <option value="crypto">Crypto</option>
-                        <option value="stock">Stock</option>
-                        <option value="forex">Forex</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Timeframe</label>
-                    <select id="timeframe">
-                        <option value="15m">15 Minutes</option>
-                        <option value="1h">1 Hour</option>
-                        <option value="4h" selected>4 Hours</option>
-                        <option value="1d">Daily</option>
-                        <option value="1w">Weekly</option>
-                    </select>
-                </div>
-                <button class="btn-generate" id="generateBtn" onclick="generatePlaybook()">Generate Playbook</button>
+            </div>
+            <div id="playbookResult"></div>
+        </div>
+        
+        <div id="history-section" style="display: none;">
+            <div class="history-grid" id="historyList">
+                <div class="loading"><div class="spinner"></div>Loading history...</div>
             </div>
         </div>
         
-        <div id="playbookResult"></div>
-        
         <div class="disclaimer">
-            ⚠️ ELUXRAJ provides AI-powered decision intelligence for informational purposes only. This is NOT financial advice. All trading involves substantial risk of loss. Past performance does not guarantee future results.
+            ⚠️ ELUXRAJ provides AI-powered decision intelligence for informational purposes only. This is NOT financial advice. All trading involves substantial risk of loss.
         </div>
     </div>
 
@@ -122,8 +142,50 @@
         const API = 'https://eluxraj-api-production.up.railway.app/api/v1';
         const token = localStorage.getItem('token');
         
-        if (!token) {
-            window.location.href = '/login.html';
+        if (!token) window.location.href = '/login.html';
+        
+        function showTab(tab) {
+            document.getElementById('generate-section').style.display = tab === 'generate' ? 'block' : 'none';
+            document.getElementById('history-section').style.display = tab === 'history' ? 'block' : 'none';
+            document.getElementById('tab-generate').classList.toggle('active', tab === 'generate');
+            document.getElementById('tab-history').classList.toggle('active', tab === 'history');
+            if (tab === 'history') loadHistory();
+        }
+        
+        async function loadHistory() {
+            const list = document.getElementById('historyList');
+            list.innerHTML = '<div class="loading"><div class="spinner"></div>Loading history...</div>';
+            
+            try {
+                const r = await fetch(`${API}/playbooks/history`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                const data = await r.json();
+                
+                if (!data.playbooks || data.playbooks.length === 0) {
+                    list.innerHTML = '<div style="text-align:center;padding:60px;color:#6b7280">No playbooks yet. Generate your first one!</div>';
+                    return;
+                }
+                
+                list.innerHTML = data.playbooks.map(p => `
+                    <div class="history-item" onclick='renderPlaybook(${JSON.stringify(p)})'>
+                        <div class="history-header">
+                            <div>
+                                <span style="font-weight:700;font-size:1.1rem">${p.asset}</span>
+                                <span style="color:#6b7280;font-size:0.85rem;margin-left:8px">${p.asset_type} • ${p.timeframe}</span>
+                            </div>
+                            <span style="padding:4px 12px;border-radius:20px;font-size:0.75rem;font-weight:600;background:${p.market_bias==='bullish'?'rgba(16,185,129,0.2)':p.market_bias==='bearish'?'rgba(239,68,68,0.2)':'rgba(107,114,128,0.2)'};color:${p.market_bias==='bullish'?'#10b981':p.market_bias==='bearish'?'#ef4444':'#6b7280'}">${(p.market_bias || 'neutral').toUpperCase()}</span>
+                        </div>
+                        <div class="history-meta">
+                            <span>Confidence: ${p.confidence_score || 0}%</span>
+                            <span>R:R: ${p.risk_reward_ratio?.toFixed(1) || '0'}</span>
+                            <span>${new Date(p.created_at).toLocaleDateString()} ${new Date(p.created_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</span>
+                        </div>
+                    </div>
+                `).join('');
+            } catch (e) {
+                list.innerHTML = '<div style="text-align:center;padding:60px;color:#ef4444">Error loading history</div>';
+            }
         }
         
         async function generatePlaybook() {
@@ -150,11 +212,7 @@
                 });
                 
                 const data = await response.json();
-                
-                if (!response.ok) {
-                    throw new Error(data.detail || 'Failed to generate playbook');
-                }
-                
+                if (!response.ok) throw new Error(data.detail || 'Failed to generate playbook');
                 renderPlaybook(data);
             } catch (error) {
                 result.innerHTML = `<div class="playbook-card" style="text-align:center;color:var(--red);">Error: ${error.message}</div>`;
@@ -165,13 +223,14 @@
         }
         
         function renderPlaybook(p) {
+            showTab('generate');
             const biasClass = p.market_bias === 'bullish' ? 'bias-bullish' : p.market_bias === 'bearish' ? 'bias-bearish' : 'bias-neutral';
             const entryLow = p.entry_zone?.low || 0;
             const entryHigh = p.entry_zone?.high || 0;
             const sl = p.stop_loss?.price || p.stop_loss || 0;
             const tps = p.take_profits || [];
             
-            let html = `
+            document.getElementById('playbookResult').innerHTML = `
                 <div class="playbook-card">
                     <div class="playbook-header">
                         <div class="asset-info">
@@ -179,10 +238,10 @@
                             <div class="asset-meta">
                                 <span class="meta-tag">${p.asset_type}</span>
                                 <span class="meta-tag">${p.timeframe}</span>
-                                <span class="meta-tag">$${p.current_price?.toLocaleString() || 'N/A'}</span>
+                                ${p.current_price ? `<span class="meta-tag">$${p.current_price.toLocaleString()}</span>` : ''}
                             </div>
                         </div>
-                        <span class="bias-badge ${biasClass}">${p.market_bias?.toUpperCase()} ${p.bias_strength}%</span>
+                        <span class="bias-badge ${biasClass}">${(p.market_bias || 'neutral').toUpperCase()} ${p.bias_strength || 50}%</span>
                     </div>
                     
                     <div class="metrics-grid">
@@ -259,31 +318,31 @@
                         </div>
                     </div>
                     
-                    <div class="invalidation">
-                        <div class="invalidation-title">⛔ Invalidation Conditions</div>
-                        <ul class="invalidation-list">
-                            ${(p.invalidation_conditions || []).map(c => `<li>${c}</li>`).join('')}
-                            ${p.invalidation_price ? `<li>Price breaks: $${formatPrice(p.invalidation_price)}</li>` : ''}
-                        </ul>
-                    </div>
+                    ${p.invalidation_conditions && p.invalidation_conditions.length > 0 ? `
+                        <div class="invalidation">
+                            <div class="invalidation-title">⛔ Invalidation Conditions</div>
+                            <ul class="invalidation-list">
+                                ${p.invalidation_conditions.map(c => `<li>${c}</li>`).join('')}
+                            </ul>
+                            ${p.invalidation_price ? `<div style="margin-top:8px;font-size:14px;color:#ef4444">Invalidation Price: $${formatPrice(p.invalidation_price)}</div>` : ''}
+                        </div>
+                    ` : ''}
                     
                     ${p.reasoning ? `
-                    <div class="reasoning">
-                        <div class="reasoning-title">AI Analysis</div>
-                        <div class="reasoning-text">${p.reasoning}</div>
-                    </div>
+                        <div class="reasoning">
+                            <div class="reasoning-title">🧠 AI Reasoning</div>
+                            <div class="reasoning-text">${p.reasoning}</div>
+                        </div>
                     ` : ''}
                 </div>
             `;
-            
-            document.getElementById('playbookResult').innerHTML = html;
         }
         
-        function formatPrice(price) {
-            if (!price) return '0';
-            if (price < 1) return price.toFixed(6);
-            if (price < 100) return price.toFixed(2);
-            return price.toLocaleString(undefined, {maximumFractionDigits: 2});
+        function formatPrice(p) {
+            if (!p || p === 0) return '0';
+            if (p < 1) return p.toFixed(6);
+            if (p < 100) return p.toFixed(2);
+            return p.toLocaleString(undefined, {maximumFractionDigits: 2});
         }
     </script>
 </body>
