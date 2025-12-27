@@ -4,272 +4,418 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | ELUXRAJ</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        :root{--bg:#0a0a0f;--bg2:#12121a;--card:#1a1a24;--purple:#7c3aed;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--yellow:#f59e0b;--white:#fff;--gray300:#d1d5db;--gray400:#9ca3af;--gray500:#6b7280}
+        :root{--bg:#0a0a0f;--card:#12121a;--border:#1e1e2e;--purple:#7c3aed;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--yellow:#f59e0b;--white:#fff;--gray300:#d1d5db;--gray400:#9ca3af;--gray500:#6b7280}
         *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--white);min-height:100vh}
-        .header{display:flex;justify-content:space-between;align-items:center;padding:16px 32px;border-bottom:1px solid rgba(124,58,237,0.2)}
-        .logo{font-size:1.25rem;font-weight:900;background:linear-gradient(135deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .user-info{display:flex;align-items:center;gap:16px}
-        .username{font-weight:600}
-        .tier-badge{font-size:.7rem;font-weight:700;padding:4px 10px;border-radius:20px;text-transform:uppercase}
-        .tier-badge.free{background:rgba(107,114,128,0.2);color:var(--gray400)}
-        .tier-badge.pro{background:rgba(124,58,237,0.2);color:var(--purple)}
+        body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--white);min-height:100vh}
+        .container{max-width:1200px;margin:0 auto;padding:24px}
+        .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
+        .logo{font-weight:800;font-size:1.5rem;background:linear-gradient(135deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+        .user-info{display:flex;align-items:center;gap:12px}
+        .tier-badge{padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:600;background:var(--gray500);color:var(--white)}
+        .tier-badge.pro{background:var(--yellow);color:#000}
         .tier-badge.elite,.tier-badge.admin{background:linear-gradient(135deg,var(--purple),var(--cyan));color:var(--white)}
-        .logout-btn{background:transparent;border:1px solid rgba(255,255,255,0.1);color:var(--gray400);padding:8px 16px;border-radius:8px;cursor:pointer;font-size:.85rem}
+        .logout-btn{background:none;border:1px solid var(--border);color:var(--gray400);padding:8px 16px;border-radius:8px;cursor:pointer;font-size:.85rem}
         .logout-btn:hover{border-color:var(--purple);color:var(--white)}
-        .container{max-width:1200px;margin:0 auto;padding:32px}
-        .upgrade-banner{background:var(--card);border:1px solid var(--purple);border-radius:16px;padding:24px 32px;display:flex;justify-content:space-between;align-items:center;margin-bottom:32px}
-        .upgrade-text h3{font-size:1.1rem;font-weight:700;margin-bottom:4px}
-        .upgrade-text p{color:var(--gray400);font-size:.9rem}
-        .upgrade-btn{background:linear-gradient(135deg,var(--purple),var(--cyan));color:var(--white);font-weight:700;padding:12px 24px;border-radius:10px;text-decoration:none;font-size:.9rem}
-        .market-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:40px}
-        @media(max-width:900px){.market-grid{grid-template-columns:repeat(2,1fr)}}
-        @media(max-width:500px){.market-grid{grid-template-columns:1fr}}
-        .market-card{background:var(--card);border:1px solid rgba(124,58,237,0.15);border-radius:16px;padding:20px}
-        .market-label{font-size:.8rem;color:var(--gray500);margin-bottom:8px}
-        .market-value{font-family:'JetBrains Mono',monospace;font-size:1.5rem;font-weight:700;margin-bottom:4px}
-        .market-change{font-size:.85rem;font-weight:600}
-        .market-change.up{color:var(--green)}.market-change.down{color:var(--red)}
-        .section-title{font-size:.85rem;color:var(--gray500);text-transform:uppercase;letter-spacing:1px;margin-bottom:16px}
-        .feature-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:40px}
-        @media(max-width:900px){.feature-grid{grid-template-columns:1fr}}
-        .feature-card{background:var(--card);border:1px solid rgba(124,58,237,0.15);border-radius:16px;padding:24px;text-decoration:none;color:var(--white);transition:all .2s}
-        .feature-card:hover{border-color:var(--purple);transform:translateY(-4px);box-shadow:0 10px 40px rgba(124,58,237,0.2)}
-        .feature-card.oracle{background:linear-gradient(135deg,rgba(124,58,237,0.2),rgba(6,182,212,0.1));border-color:var(--purple)}
-        .feature-card.chart{background:linear-gradient(135deg,rgba(16,185,129,0.2),rgba(6,182,212,0.1));border-color:var(--green)}
-        .feature-card.gotham{background:linear-gradient(135deg,rgba(6,182,212,0.2),rgba(124,58,237,0.1));border-color:var(--cyan)}
-        .feature-card.paper{background:linear-gradient(135deg,rgba(245,158,11,0.2),rgba(16,185,129,0.1));border-color:var(--yellow)}
-        .feature-icon{font-size:2.5rem;margin-bottom:12px}
-        .feature-name{font-size:1.1rem;font-weight:700;margin-bottom:4px}
-        .feature-desc{font-size:.85rem;color:var(--gray400);line-height:1.5}
-        .feature-badge{display:inline-block;font-size:.65rem;font-weight:700;padding:3px 8px;border-radius:4px;margin-left:8px;text-transform:uppercase}
+        .welcome{margin-bottom:24px}
+        .welcome h1{font-size:1.75rem;margin-bottom:4px}
+        .welcome p{color:var(--gray400)}
+        .upgrade-banner{background:linear-gradient(135deg,rgba(124,58,237,0.2),rgba(6,182,212,0.1));border:1px solid rgba(124,58,237,0.3);border-radius:12px;padding:20px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center}
+        .upgrade-banner h3{margin-bottom:4px}
+        .upgrade-banner p{color:var(--gray400);font-size:.9rem}
+        .upgrade-btn{background:linear-gradient(135deg,var(--purple),var(--cyan));color:var(--white);padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:600;font-size:.9rem}
+        .section-title{font-size:1rem;font-weight:600;color:var(--gray400);margin:24px 0 16px;text-transform:uppercase;letter-spacing:.5px}
+        .market-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
+        .market-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center}
+        .market-label{font-size:.8rem;color:var(--gray400);margin-bottom:8px}
+        .market-value{font-family:'JetBrains Mono',monospace;font-size:1.25rem;font-weight:600}
+        .market-change{font-size:.85rem;margin-top:4px}
+        .market-change.up{color:var(--green)}
+        .market-change.down{color:var(--red)}
+        .feature-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:16px;margin-bottom:24px}
+        .feature-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;text-decoration:none;color:var(--white);transition:all .2s;position:relative;overflow:hidden}
+        .feature-card:hover{border-color:var(--purple);transform:translateY(-2px)}
+        .feature-card.locked{opacity:0.6;pointer-events:none}
+        .feature-card.locked::after{content:'🔒 UPGRADE';position:absolute;top:12px;right:12px;background:rgba(0,0,0,0.8);padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;color:var(--yellow)}
+        .feature-card.available{border-color:var(--green);border-width:2px}
+        .feature-icon{font-size:2rem;margin-bottom:12px}
+        .feature-name{font-weight:700;font-size:1rem;margin-bottom:8px;display:flex;align-items:center;gap:8px}
+        .feature-badge{padding:2px 8px;border-radius:10px;font-size:.65rem;font-weight:600}
         .feature-badge.elite{background:linear-gradient(135deg,var(--purple),var(--cyan));color:var(--white)}
-        .feature-badge.pro{background:rgba(124,58,237,0.2);color:var(--purple)}
-        .feature-badge.new{background:rgba(239,68,68,0.2);color:var(--red);animation:pulse 2s infinite}
-        @keyframes pulse{0%,100%{opacity:1}50%{opacity:.6}}
-        .feature-stats{display:flex;gap:16px;margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.1)}
-        .feature-stat{font-size:.75rem;color:var(--gray400)}
-        .feature-stat span{color:var(--green);font-weight:600}
-        .actions-grid{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:40px}
-        .action-btn{background:var(--card);border:1px solid rgba(124,58,237,0.15);border-radius:12px;padding:14px 20px;font-size:.9rem;color:var(--gray300);text-decoration:none}
-        .action-btn:hover{border-color:var(--purple);color:var(--white)}
+        .feature-badge.pro{background:var(--yellow);color:#000}
+        .feature-badge.lite{background:var(--green);color:#000}
+        .feature-badge.new{background:var(--green);color:#000}
+        .feature-desc{font-size:.85rem;color:var(--gray400);line-height:1.5;margin-bottom:12px}
+        .feature-stats{display:flex;gap:16px}
+        .feature-stat{font-size:.8rem;color:var(--gray500)}
+        .feature-stat span{color:var(--cyan);font-weight:600}
+        .lite-section{background:linear-gradient(135deg,rgba(16,185,129,0.1),rgba(6,182,212,0.05));border:1px solid rgba(16,185,129,0.3);border-radius:16px;padding:20px;margin-bottom:24px}
+        .lite-section h3{color:var(--green);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+        .lite-features{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+        .lite-feature{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;text-decoration:none;color:var(--white);transition:all .2s}
+        .lite-feature:hover{border-color:var(--green);transform:translateY(-2px)}
+        .lite-feature .icon{font-size:1.5rem;margin-bottom:8px}
+        .lite-feature .name{font-weight:600;font-size:.9rem;margin-bottom:4px}
+        .lite-feature .desc{font-size:.75rem;color:var(--gray400)}
+        .actions-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
+        .action-btn{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center;text-decoration:none;color:var(--white);font-size:.9rem;transition:all .2s}
+        .action-btn:hover{border-color:var(--purple)}
         .tools-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-        @media(max-width:800px){.tools-grid{grid-template-columns:repeat(2,1fr)}}
-        .tool-card{background:var(--card);border:1px solid rgba(124,58,237,0.15);border-radius:12px;padding:20px;text-align:center;text-decoration:none;color:var(--white)}
+        .tool-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;text-decoration:none;color:var(--white);transition:all .2s}
         .tool-card:hover{border-color:var(--purple)}
         .tool-icon{font-size:1.5rem;margin-bottom:8px}
-        .tool-name{font-size:.85rem;font-weight:600}
+        .tool-name{font-size:.85rem;color:var(--gray400)}
+        @media(max-width:768px){
+            .market-grid{grid-template-columns:repeat(2,1fr)}
+            .feature-grid{grid-template-columns:1fr}
+            .lite-features{grid-template-columns:1fr}
+            .actions-grid{grid-template-columns:1fr}
+            .tools-grid{grid-template-columns:repeat(2,1fr)}
+            .upgrade-banner{flex-direction:column;text-align:center;gap:16px}
+        }
     </style>
 </head>
 <body>
-    <header class="header">
-        <div class="logo">ELUXRAJ™</div>
-        <div class="user-info">
-            <span class="username" id="username">User</span>
-            <span class="tier-badge lite" id="tierBadge">LITE</span>
-            <button class="logout-btn" onclick="logout()">Logout</button>
-        </div>
-    </header>
-    <main class="container">
-        <div class="upgrade-banner" id="upgradeBanner">
-            <div class="upgrade-text">
-                <h3>🚀 Unlock All AI Features</h3>
-                <p>Upgrade to Elite for ORACLE predictions, whale alerts, and more</p>
+    <div class="container">
+        <div class="header">
+            <div class="logo">ELUXRAJ™</div>
+            <div class="user-info">
+                <span class="tier-badge lite" id="tierBadge">LITE</span>
+                <button class="logout-btn" onclick="logout()">Logout</button>
             </div>
-            <a href="/pricing.html" class="upgrade-btn">Upgrade to Elite - $98/mo</a>
         </div>
         
+        <div class="welcome">
+            <h1>Welcome back, <span id="userName">Trader</span></h1>
+            <p id="welcomeMsg">Your AI-powered trading dashboard</p>
+        </div>
+        
+        <div class="upgrade-banner" id="upgradeBanner">
+            <div>
+                <h3>🚀 Unlock Full AI Power</h3>
+                <p>Upgrade to Pro for AI Playbooks & Chart Analysis, or Elite for unlimited access</p>
+            </div>
+            <a href="/pricing.html" class="upgrade-btn">View Plans</a>
+        </div>
 
-        <!-- Daily Brief Ritual -->
-        <div class="section-title">📊 TODAY'S MARKET BIAS</div>
-        <div id="dailyBrief" class="daily-brief" style="background:var(--card);border:1px solid rgba(124,58,237,0.2);border-radius:16px;padding:24px;margin-bottom:32px;">
-            <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;">
-                <div style="display:flex;align-items:center;gap:12px;">
-                    <span id="sessionEmoji" style="font-size:1.5rem;">🌎</span>
-                    <div>
-                        <div style="font-weight:700;" id="sessionName">New York Session</div>
-                        <div style="font-size:.8rem;color:var(--gray400);" id="briefDate">Loading...</div>
-                    </div>
-                </div>
-                <div style="text-align:right;">
-                    <div style="font-size:.8rem;color:var(--gray400);">Overall Bias</div>
-                    <div style="font-size:1.5rem;font-weight:700;" id="overallBias">🟡 Neutral</div>
-                </div>
+        <div class="section-title">📊 LIVE MARKET DATA</div>
+        <div class="market-grid">
+            <div class="market-card">
+                <div class="market-label">₿ Bitcoin</div>
+                <div class="market-value" id="btcPrice">$--</div>
+                <div class="market-change" id="btcChange">--%</div>
             </div>
-            <div id="assetBiases" style="display:grid;grid-template-columns:repeat(3,1fr);gap:16px;">
-                <div style="background:var(--bg);padding:16px;border-radius:12px;text-align:center;">
-                    <div style="font-weight:600;margin-bottom:4px;">BTC</div>
-                    <div style="font-size:1.25rem;">🟡</div>
-                    <div style="font-size:.8rem;color:var(--gray400);">Loading...</div>
-                </div>
-                <div style="background:var(--bg);padding:16px;border-radius:12px;text-align:center;">
-                    <div style="font-weight:600;margin-bottom:4px;">ETH</div>
-                    <div style="font-size:1.25rem;">🟡</div>
-                    <div style="font-size:.8rem;color:var(--gray400);">Loading...</div>
-                </div>
-                <div style="background:var(--bg);padding:16px;border-radius:12px;text-align:center;">
-                    <div style="font-weight:600;margin-bottom:4px;">SOL</div>
-                    <div style="font-size:1.25rem;">🟡</div>
-                    <div style="font-size:.8rem;color:var(--gray400);">Loading...</div>
-                </div>
+            <div class="market-card">
+                <div class="market-label">Ξ Ethereum</div>
+                <div class="market-value" id="ethPrice">$--</div>
+                <div class="market-change" id="ethChange">--%</div>
             </div>
-            <div id="aiReasoning" style="margin-top:16px;padding:16px;background:rgba(124,58,237,0.1);border-radius:12px;font-size:.9rem;color:var(--gray300);line-height:1.6;">
-                <strong>🤖 AI Insight:</strong> <span id="reasoningText">Loading market analysis...</span>
+            <div class="market-card">
+                <div class="market-label">◎ Solana</div>
+                <div class="market-value" id="solPrice">$--</div>
+                <div class="market-change" id="solChange">--%</div>
+            </div>
+            <div class="market-card">
+                <div class="market-label">😱 Fear & Greed</div>
+                <div class="market-value" id="fngValue">--</div>
+                <div class="market-change" id="fngLabel">Loading...</div>
             </div>
         </div>
 
-        <div class="market-grid">
-            <div class="market-card"><div class="market-label">₿ Bitcoin</div><div class="market-value" id="btcPrice">$91,400</div><div class="market-change up" id="btcChange">+2.1%</div></div>
-            <div class="market-card"><div class="market-label">Ξ Ethereum</div><div class="market-value" id="ethPrice">$3,420</div><div class="market-change up" id="ethChange">+1.8%</div></div>
-            <div class="market-card"><div class="market-label">◎ Solana</div><div class="market-value" id="solPrice">$198</div><div class="market-change up" id="solChange">+3.2%</div></div>
-            <div class="market-card"><div class="market-label">😱 Fear & Greed</div><div class="market-value" id="fngValue">76</div><div class="market-change" id="fngLabel">Extreme Greed</div></div>
+        <div class="lite-section" id="liteSection">
+            <h3>✅ Your Included Features</h3>
+            <div class="lite-features">
+                <a href="/daily-brief.html" class="lite-feature">
+                    <div class="icon">📰</div>
+                    <div class="name">Daily Brief</div>
+                    <div class="desc">AI market summary</div>
+                </a>
+                <a href="/weekly-brief.html" class="lite-feature">
+                    <div class="icon">📊</div>
+                    <div class="name">Weekly Brief</div>
+                    <div class="desc">Weekly analysis</div>
+                </a>
+                <a href="#" class="lite-feature" onclick="openAlertModal();return false;">
+                    <div class="icon">🔔</div>
+                    <div class="name">Price Alerts</div>
+                    <div class="desc">Email notifications</div>
+                </a>
+            </div>
         </div>
         
         <div class="section-title">🤖 AI INTELLIGENCE SUITE</div>
-        <div class="feature-grid">
-            <a href="/oracle.html" class="feature-card oracle">
-                <div class="feature-icon">🔮</div>
-                <div class="feature-name">ORACLE <span class="feature-badge elite">Elite</span></div>
-                <div class="feature-desc">AI-powered predictions with whale tracking, liquidation zones, and smart entry points</div>
+        <div class="feature-grid" id="featureGrid">
+            <a href="/playbooks.html" class="feature-card" id="playbooksCard">
+                <div class="feature-icon">📋</div>
+                <div class="feature-name">AI PLAYBOOKS <span class="feature-badge pro">Pro</span></div>
+                <div class="feature-desc">Complete trade setups with entry zones, targets, stop losses, and 6 scenario analysis</div>
                 <div class="feature-stats">
-                    <div class="feature-stat">Accuracy: <span>78%</span></div>
-                    <div class="feature-stat">Signals: <span>Live</span></div>
+                    <div class="feature-stat">R:R: <span>2.5+</span></div>
+                    <div class="feature-stat">Scenarios: <span>6</span></div>
                 </div>
             </a>
-            <a href="/whale-intel.html" class="feature-card gotham">
-                <div class="feature-icon">🦇</div>
-                <div class="feature-name">GOTHAM INTEL <span class="feature-badge new">New</span></div>
-                <div class="feature-desc">Real-time whale tracking, exchange flows, and smart money sentiment analysis</div>
-                <div class="feature-stats">
-                    <div class="feature-stat">Transfers: <span>Live</span></div>
-                    <div class="feature-stat">Exchanges: <span>6+</span></div>
-                </div>
-            </a>
-            <a href="/chart-analysis.html" class="feature-card chart">
+            <a href="/chart-analysis.html" class="feature-card" id="chartCard">
                 <div class="feature-icon">📊</div>
                 <div class="feature-name">CHART AI <span class="feature-badge pro">Pro</span></div>
                 <div class="feature-desc">Upload any chart and get instant AI pattern analysis with entry/exit signals</div>
                 <div class="feature-stats">
                     <div class="feature-stat">Patterns: <span>15+</span></div>
-                    <div class="feature-stat">Speed: <span>< 3s</span></div>
+                    <div class="feature-stat">Speed: <span>< 5s</span></div>
                 </div>
             </a>
-            <a href="/playbooks.html" class="feature-card oracle">
-                <div class="feature-icon">📋</div>
-                <div class="feature-name">PLAYBOOKS <span class="feature-badge elite">Elite</span></div>
-                <div class="feature-desc">AI-generated trade setups with entry zones, targets, stop losses, and scenario analysis</div>
+            <a href="/oracle.html" class="feature-card" id="oracleCard">
+                <div class="feature-icon">🔮</div>
+                <div class="feature-name">ORACLE <span class="feature-badge elite">Elite</span></div>
+                <div class="feature-desc">Real-time AI signal feed with TradingView-style interface and live watchlist</div>
                 <div class="feature-stats">
-                    <div class="feature-stat">R:R: <span>2.5+</span></div>
-                    <div class="feature-stat">Scenarios: <span>6</span></div>
+                    <div class="feature-stat">Assets: <span>50+</span></div>
+                    <div class="feature-stat">Updates: <span>Live</span></div>
+                </div>
+            </a>
+            <a href="/whale-intel.html" class="feature-card" id="whaleCard">
+                <div class="feature-icon">🐳</div>
+                <div class="feature-name">WHALE INTEL <span class="feature-badge elite">Elite</span></div>
+                <div class="feature-desc">Track whale movements, exchange flows, and smart money activity</div>
+                <div class="feature-stats">
+                    <div class="feature-stat">Wallets: <span>1000+</span></div>
+                    <div class="feature-stat">Exchanges: <span>6+</span></div>
                 </div>
             </a>
         </div>
         
         <div class="section-title">⚡ QUICK ACTIONS</div>
         <div class="actions-grid">
-            <a href="/brokerage.html" class="action-btn">🔗 Connect Brokerage</a>
+            <a href="/pricing.html" class="action-btn">💎 Upgrade Plan</a>
             <a href="#" class="action-btn" onclick="openAlertModal();return false;">🔔 Set Price Alert</a>
-            <a href="/weekly-brief.html" class="action-btn">📊 Weekly AI Brief</a>
+            <a href="/settings.html" class="action-btn">⚙️ Settings</a>
         </div>
-        
-        <div class="section-title">🔔 MY ALERTS</div><div id="alertsList" style="margin-bottom:24px;"><div style="color:#888;padding:20px;text-align:center;">Loading alerts...</div></div><div class="section-title">✨ PRO TOOLS</div>
-        <div class="tools-grid">
-            <a href="/signals.html" class="tool-card"><div class="tool-icon">📡</div><div class="tool-name">Signals</div></a>
-            <a href="/performance-tracker.html" class="tool-card"><div class="tool-icon">📈</div><div class="tool-name">Performance</div></a>
-            <a href="/screener.html" class="tool-card"><div class="tool-icon">🔍</div><div class="tool-name">Screener</div></a>
-            <a href="/watchlist.html" class="tool-card"><div class="tool-icon">👁️</div><div class="tool-name">Watchlist</div></a>
+
+        <div class="section-title">🔔 MY ALERTS</div>
+        <div id="alertsList" style="margin-bottom:24px;">
+            <div style="color:var(--gray500);padding:20px;text-align:center;background:var(--card);border-radius:12px;">Loading alerts...</div>
         </div>
-    </main>
+    </div>
+
+    <div id="alertModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:100;align-items:center;justify-content:center">
+        <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;max-width:400px;width:90%">
+            <h3 style="margin-bottom:16px">🔔 Set Price Alert</h3>
+            <div style="margin-bottom:12px">
+                <label style="display:block;font-size:.85rem;color:var(--gray400);margin-bottom:4px">Asset</label>
+                <select id="alertAsset" style="width:100%;padding:10px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--white)">
+                    <option value="BTC">Bitcoin (BTC)</option>
+                    <option value="ETH">Ethereum (ETH)</option>
+                    <option value="SOL">Solana (SOL)</option>
+                </select>
+            </div>
+            <div style="margin-bottom:12px">
+                <label style="display:block;font-size:.85rem;color:var(--gray400);margin-bottom:4px">Target Price ($)</label>
+                <input type="number" id="alertPrice" style="width:100%;padding:10px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--white)" placeholder="100000">
+            </div>
+            <div style="margin-bottom:16px">
+                <label style="display:block;font-size:.85rem;color:var(--gray400);margin-bottom:4px">Condition</label>
+                <select id="alertCondition" style="width:100%;padding:10px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--white)">
+                    <option value="above">Price goes above</option>
+                    <option value="below">Price goes below</option>
+                </select>
+            </div>
+            <div style="display:flex;gap:12px">
+                <button onclick="closeAlertModal()" style="flex:1;padding:10px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--white);cursor:pointer">Cancel</button>
+                <button onclick="createAlert()" style="flex:1;padding:10px;background:linear-gradient(135deg,var(--purple),var(--cyan));border:none;border-radius:8px;color:var(--white);cursor:pointer;font-weight:600">Create Alert</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        const API='https://eluxraj-api-production.up.railway.app/api/v1';
-        const token=localStorage.getItem('token');
+        const API = 'https://eluxraj-api-production.up.railway.app/api/v1';
+        const token = localStorage.getItem('token');
+        let userTier = 'lite';
         
-        if(!token){
-            window.location.href='/login.html';
-        } else {
-            fetch(`${API}/auth/me`,{headers:{'Authorization':`Bearer ${token}`}})
-            .then(res=>{if(!res.ok)throw new Error();return res.json();})
-            .then(user=>{
-                document.getElementById('username').textContent=user.full_name||user.email;
-                const tier=user.subscription_tier||'free';
-                document.getElementById('tierBadge').textContent=tier.toUpperCase();
-                document.getElementById('tierBadge').className='tier-badge '+tier;
-                if(tier==='elite'||tier==='admin')document.getElementById('upgradeBanner').style.display='none';
-            })
-            .catch(()=>{localStorage.removeItem('token');window.location.href='/login.html';});
-        }
+        if (!token) window.location.href = '/login.html';
         
-        function logout(){localStorage.removeItem('token');window.location.href='/login.html';}
-async function loadAlerts(){try{const r=await fetch(API+'/alerts/rules',{headers:{'Authorization':'Bearer '+token}});const d=await r.json();const el=document.getElementById('alertsList');if(d.ok&&d.rules.length>0){el.innerHTML=d.rules.map(a=>'<div style="background:#1a1a24;border-radius:8px;padding:12px 16px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;"><div><span style="font-weight:600;">'+a.asset+'</span> <span style="color:#888;">'+a.condition+' $'+a.threshold.toLocaleString()+'</span></div><button onclick="deleteAlert('+a.id+')" style="background:#ef4444;border:none;color:#fff;padding:6px 12px;border-radius:6px;cursor:pointer;font-size:12px;">Delete</button></div>').join('');}else{el.innerHTML='<div style="color:#888;padding:20px;text-align:center;">No alerts yet</div>';}}catch(e){console.error(e);}}
-async function deleteAlert(id){try{await fetch(API+'/alerts/rules/'+id,{method:'DELETE',headers:{'Authorization':'Bearer '+token}});loadAlerts();}catch(e){console.error(e);}}
-loadAlerts();
-
-async function loadDailyBrief(){
-    try{
-        const r=await fetch(API+"/daily-brief",{headers:{"Authorization":"Bearer "+token}});
-        const d=await r.json();
-        if(d.ok){
-            document.getElementById("sessionEmoji").textContent=d.session.emoji;
-            document.getElementById("sessionName").textContent=d.session.name+" Session";
-            document.getElementById("briefDate").textContent=d.date;
-            document.getElementById("overallBias").textContent=d.overall_bias.emoji+" "+d.overall_bias.bias;
-            const assets=d.assets||[];
-            if(assets.length>0){
-                document.getElementById("assetBiases").innerHTML=assets.slice(0,3).map(a=>
-                    "<div style=\"background:var(--bg);padding:16px;border-radius:12px;text-align:center;\">"+
-                    "<div style=\"font-weight:600;margin-bottom:4px;\">"+a.symbol+"</div>"+
-                    "<div style=\"font-size:1.25rem;\">"+a.bias.emoji+"</div>"+
-                    "<div style=\"font-size:.8rem;color:var(--gray400);\">"+a.bias.bias+"</div>"+
-                    "<div style=\"font-size:.75rem;color:"+(a.change_24h>=0?"var(--green)":"var(--red)")+";margin-top:4px;\">"+(a.change_24h>=0?"+":"")+a.change_24h.toFixed(1)+"%</div>"+
-                    "</div>"
-                ).join("");
-                document.getElementById("reasoningText").textContent=assets[0].reasoning;
+        // Load user data
+        async function loadUser() {
+            try {
+                const r = await fetch(`${API}/auth/me`, { headers: { 'Authorization': `Bearer ${token}` } });
+                if (!r.ok) throw new Error('Session expired');
+                const user = await r.json();
+                
+                document.getElementById('userName').textContent = user.email.split('@')[0];
+                userTier = user.subscription_tier || 'lite';
+                
+                const badge = document.getElementById('tierBadge');
+                badge.textContent = userTier.toUpperCase();
+                badge.className = `tier-badge ${userTier}`;
+                
+                // Update UI based on tier
+                updateTierAccess(userTier);
+                
+            } catch (e) {
+                console.error('Auth error:', e);
+                localStorage.removeItem('token');
+                window.location.href = '/login.html';
             }
         }
-    }catch(e){console.error("Daily brief error:",e);}
-}
-loadDailyBrief();
-
-// Fetch live crypto prices from backend proxy
-async function fetchCryptoPrices() {
-    try {
-        const response = await fetch('https://eluxraj-api-production.up.railway.app/api/v1/prices/crypto');
-        const data = await response.json();
-        data.forEach(ticker => {
-            const price = parseFloat(ticker.lastPrice);
-            const change = parseFloat(ticker.priceChangePercent);
-            const changeClass = change >= 0 ? "up" : "down";
-            const changeSign = change >= 0 ? "+" : "";
-            if (ticker.symbol === "BTCUSDT") {
-                document.getElementById("btcPrice").textContent = "$" + price.toLocaleString("en-US", {maximumFractionDigits: 0});
-                document.getElementById("btcChange").textContent = changeSign + change.toFixed(1) + "%";
-                document.getElementById("btcChange").className = "market-change " + changeClass;
-            } else if (ticker.symbol === "ETHUSDT") {
-                document.getElementById("ethPrice").textContent = "$" + price.toLocaleString("en-US", {maximumFractionDigits: 0});
-                document.getElementById("ethChange").textContent = changeSign + change.toFixed(1) + "%";
-                document.getElementById("ethChange").className = "market-change " + changeClass;
-            } else if (ticker.symbol === "SOLUSDT") {
-                document.getElementById("solPrice").textContent = "$" + price.toLocaleString("en-US", {maximumFractionDigits: 0});
-                document.getElementById("solChange").textContent = changeSign + change.toFixed(1) + "%";
-                document.getElementById("solChange").className = "market-change " + changeClass;
+        
+        function updateTierAccess(tier) {
+            const isLite = tier === 'lite' || tier === 'free';
+            const isPro = tier === 'pro';
+            const isElite = tier === 'elite' || tier === 'admin';
+            
+            // Hide upgrade banner for Elite
+            if (isElite) {
+                document.getElementById('upgradeBanner').style.display = 'none';
+            } else if (isPro) {
+                document.querySelector('#upgradeBanner h3').textContent = '🚀 Unlock Unlimited Access';
+                document.querySelector('#upgradeBanner p').textContent = 'Upgrade to Elite for unlimited playbooks, whale intelligence, and more';
             }
-        });
-    } catch (e) { console.error("Price fetch error:", e); }
-}
-async function fetchFearGreed() {
-    try {
-        const response = await fetch("https://api.alternative.me/fng/?limit=1");
-        const data = await response.json();
-        if (data.data && data.data[0]) {
-            document.getElementById("fngValue").textContent = data.data[0].value;
-            document.getElementById("fngLabel").textContent = data.data[0].value_classification;
+            
+            // Show Lite section only for Lite users
+            document.getElementById('liteSection').style.display = isLite ? 'block' : 'none';
+            
+            // Lock/unlock feature cards
+            const playbooksCard = document.getElementById('playbooksCard');
+            const chartCard = document.getElementById('chartCard');
+            const oracleCard = document.getElementById('oracleCard');
+            const whaleCard = document.getElementById('whaleCard');
+            
+            if (isLite) {
+                playbooksCard.classList.add('locked');
+                chartCard.classList.add('locked');
+                oracleCard.classList.add('locked');
+                whaleCard.classList.add('locked');
+            } else if (isPro) {
+                playbooksCard.classList.remove('locked');
+                chartCard.classList.remove('locked');
+                oracleCard.classList.add('locked');
+                whaleCard.classList.add('locked');
+            } else if (isElite) {
+                playbooksCard.classList.remove('locked');
+                chartCard.classList.remove('locked');
+                oracleCard.classList.remove('locked');
+                whaleCard.classList.remove('locked');
+                // Mark all as available
+                document.querySelectorAll('.feature-card').forEach(c => c.classList.add('available'));
+            }
         }
-    } catch (e) { console.error("FnG error:", e); }
-}
-fetchCryptoPrices(); fetchFearGreed();
-setInterval(fetchCryptoPrices, 30000); setInterval(fetchFearGreed, 60000);
+        
+        // Load market data
+        async function loadMarketData() {
+            try {
+                const r = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd&include_24hr_change=true');
+                const data = await r.json();
+                
+                const format = (p) => p >= 1000 ? `$${(p/1000).toFixed(1)}K` : `$${p.toFixed(2)}`;
+                
+                document.getElementById('btcPrice').textContent = `$${data.bitcoin.usd.toLocaleString()}`;
+                document.getElementById('btcChange').textContent = `${data.bitcoin.usd_24h_change >= 0 ? '+' : ''}${data.bitcoin.usd_24h_change.toFixed(1)}%`;
+                document.getElementById('btcChange').className = `market-change ${data.bitcoin.usd_24h_change >= 0 ? 'up' : 'down'}`;
+                
+                document.getElementById('ethPrice').textContent = `$${data.ethereum.usd.toLocaleString()}`;
+                document.getElementById('ethChange').textContent = `${data.ethereum.usd_24h_change >= 0 ? '+' : ''}${data.ethereum.usd_24h_change.toFixed(1)}%`;
+                document.getElementById('ethChange').className = `market-change ${data.ethereum.usd_24h_change >= 0 ? 'up' : 'down'}`;
+                
+                document.getElementById('solPrice').textContent = `$${data.solana.usd.toLocaleString()}`;
+                document.getElementById('solChange').textContent = `${data.solana.usd_24h_change >= 0 ? '+' : ''}${data.solana.usd_24h_change.toFixed(1)}%`;
+                document.getElementById('solChange').className = `market-change ${data.solana.usd_24h_change >= 0 ? 'up' : 'down'}`;
+            } catch (e) {
+                console.error('Market data error:', e);
+            }
+        }
+        
+        // Load Fear & Greed
+        async function loadFearGreed() {
+            try {
+                const r = await fetch('https://api.alternative.me/fng/');
+                const data = await r.json();
+                const fng = data.data[0];
+                document.getElementById('fngValue').textContent = fng.value;
+                document.getElementById('fngLabel').textContent = fng.value_classification;
+            } catch (e) {
+                console.error('FNG error:', e);
+            }
+        }
+        
+        // Load alerts
+        async function loadAlerts() {
+            try {
+                const r = await fetch(`${API}/alerts/`, { headers: { 'Authorization': `Bearer ${token}` } });
+                const data = await r.json();
+                const list = document.getElementById('alertsList');
+                
+                if (!data.alerts || data.alerts.length === 0) {
+                    list.innerHTML = '<div style="color:var(--gray500);padding:20px;text-align:center;background:var(--card);border-radius:12px;">No alerts set. Create one above!</div>';
+                    return;
+                }
+                
+                list.innerHTML = data.alerts.map(a => `
+                    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center">
+                        <div>
+                            <span style="font-weight:600">${a.asset}</span>
+                            <span style="color:var(--gray400);margin-left:8px">${a.condition} $${a.target_price.toLocaleString()}</span>
+                        </div>
+                        <button onclick="deleteAlert(${a.id})" style="background:none;border:none;color:var(--red);cursor:pointer">✕</button>
+                    </div>
+                `).join('');
+            } catch (e) {
+                console.error('Alerts error:', e);
+            }
+        }
+        
+        function openAlertModal() { document.getElementById('alertModal').style.display = 'flex'; }
+        function closeAlertModal() { document.getElementById('alertModal').style.display = 'none'; }
+        
+        async function createAlert() {
+            const asset = document.getElementById('alertAsset').value;
+            const price = parseFloat(document.getElementById('alertPrice').value);
+            const condition = document.getElementById('alertCondition').value;
+            
+            if (!price) { alert('Enter a price'); return; }
+            
+            try {
+                const r = await fetch(`${API}/alerts/`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({ asset, target_price: price, condition })
+                });
+                
+                if (r.ok) {
+                    closeAlertModal();
+                    loadAlerts();
+                } else {
+                    const data = await r.json();
+                    alert(data.detail || 'Failed to create alert');
+                }
+            } catch (e) {
+                alert('Error creating alert');
+            }
+        }
+        
+        async function deleteAlert(id) {
+            try {
+                await fetch(`${API}/alerts/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                loadAlerts();
+            } catch (e) {
+                console.error('Delete error:', e);
+            }
+        }
+        
+        function logout() {
+            localStorage.removeItem('token');
+            window.location.href = '/login.html';
+        }
+        
+        // Initialize
+        loadUser();
+        loadMarketData();
+        loadFearGreed();
+        loadAlerts();
+        
+        // Refresh prices every 30s
+        setInterval(loadMarketData, 30000);
     </script>
-<!-- Alert Modal --><div id="alertModal" style="display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:1000;"><div style="background:#1a1a2e;border-radius:16px;padding:24px;max-width:400px;width:90%;margin:100px auto;"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;"><h2 style="color:#fff;margin:0;">🔔 Set Price Alert</h2><button onclick="closeAlertModal()" style="background:none;border:none;color:#888;font-size:24px;cursor:pointer;">&times;</button></div><div style="margin-bottom:16px;"><label style="color:#888;font-size:12px;display:block;margin-bottom:6px;">Asset</label><select id="alertAsset" style="width:100%;padding:12px;background:#0d0d1a;border:1px solid #333;border-radius:8px;color:#fff;font-size:16px;"><option value="BTC">BTC - Bitcoin</option><option value="ETH">ETH - Ethereum</option><option value="SOL">SOL - Solana</option><option value="AAPL">AAPL - Apple</option><option value="TSLA">TSLA - Tesla</option><option value="NVDA">NVDA - Nvidia</option></select></div><div style="margin-bottom:16px;"><label style="color:#888;font-size:12px;display:block;margin-bottom:6px;">Condition</label><select id="alertCondition" style="width:100%;padding:12px;background:#0d0d1a;border:1px solid #333;border-radius:8px;color:#fff;font-size:16px;"><option value="above">Price Goes Above</option><option value="below">Price Goes Below</option></select></div><div style="margin-bottom:20px;"><label style="color:#888;font-size:12px;display:block;margin-bottom:6px;">Price ($)</label><input type="number" id="alertThreshold" placeholder="e.g. 100000" style="width:100%;padding:12px;background:#0d0d1a;border:1px solid #333;border-radius:8px;color:#fff;font-size:16px;box-sizing:border-box;"></div><button onclick="createAlert()" style="width:100%;padding:14px;background:linear-gradient(135deg,#00d4aa,#00a080);border:none;border-radius:8px;color:#fff;font-size:16px;font-weight:600;cursor:pointer;">Create Alert</button><div id="alertMsg" style="margin-top:12px;text-align:center;font-size:14px;"></div></div></div><script>function openAlertModal(){document.getElementById("alertModal").style.display="block";}function closeAlertModal(){document.getElementById("alertModal").style.display="none";}async function createAlert(){var a=document.getElementById("alertAsset").value,c=document.getElementById("alertCondition").value,t=parseFloat(document.getElementById("alertThreshold").value),m=document.getElementById("alertMsg");if(!t){m.style.color="#ff6b6b";m.textContent="Enter a price";return;}try{var r=await fetch(API+"/alerts/rules",{method:"POST",headers:{"Content-Type":"application/json","Authorization":"Bearer "+token},body:JSON.stringify({name:a+" price "+c+" "+t,asset:a,asset_type:["BTC","ETH","SOL"].includes(a)?"crypto":"stock",trigger_type:"price",condition:c,threshold:t})});var d=await r.json();if(d.ok){m.style.color="#00d4aa";m.textContent="Alert created!";setTimeout(closeAlertModal,1500);}else{m.style.color="#ff6b6b";m.textContent=d.detail;}}catch(e){m.style.color="#ff6b6b";m.textContent="Error";}}</script><script src="/js/push.js"></script></body>
+</body>
 </html>
