@@ -91,7 +91,8 @@
             <a href="/dashboard.html" style="color: #9ca3af; text-decoration: none;">← Back to Dashboard</a>
         </div>
         
-        <div class="tabs">
+        <div id="usageBar" style="display:none;background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px 16px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center"><div><span style="color:#9ca3af;font-size:13px">Today's Usage:</span> <span id="usagePlaybook" style="margin-left:8px;font-weight:600">-</span></div><div id="usageTier" style="font-size:12px;color:#6b7280"></div></div>
+    <div class="tabs">
             <button class="tab-btn active" id="tab-generate" onclick="showTab('generate')">Generate New</button>
             <button class="tab-btn" id="tab-history" onclick="showTab('history')">History</button>
         </div>
@@ -142,7 +143,19 @@
         const API = 'https://eluxraj-api-production.up.railway.app/api/v1';
         const token = localStorage.getItem('token');
         
-        if (!token) window.location.href = '/login.html';
+        async function loadUsage() {
+        try {
+            const r = await fetch(`${API}/usage/`, { headers: { "Authorization": `Bearer ${token}` } });
+            const data = await r.json();
+            document.getElementById("usageBar").style.display = "flex";
+            const pb = data.usage.playbook;
+            document.getElementById("usagePlaybook").innerHTML = `Playbooks: <span style="color:${pb.limit === "unlimited" ? "#10b981" : pb.remaining <= 1 ? "#ef4444" : "#f59e0b"}">${pb.used}/${pb.limit}</span>`;
+            document.getElementById("usageTier").textContent = `${data.tier.toUpperCase()} tier`;
+        } catch(e) { console.log("Usage load failed"); }
+    }
+    loadUsage();
+
+    if (!token) window.location.href = '/login.html';
         
         function showTab(tab) {
             document.getElementById('generate-section').style.display = tab === 'generate' ? 'block' : 'none';
