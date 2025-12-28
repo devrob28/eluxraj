@@ -145,7 +145,7 @@
     
     <script src="/js/eluxraj-utils.js"></script>
     <script>
-        const API = 'https://eluxraj-api-production.up.railway.app/api/v1';
+        const WHALE_API = 'https://eluxraj-api-production.up.railway.app/api/v1';
         let allTransactions = [];
         let currentFilter = 'all';
         
@@ -169,9 +169,9 @@
                 
                 // Load all data in parallel
                 const [feedRes, flowsRes, insightsRes] = await Promise.all([
-                    fetch(`${API}/whale/feed?limit=50`, { headers }),
-                    fetch(`${API}/whale/flows`, { headers }),
-                    fetch(`${API}/whale/insights`, { headers })
+                    fetch(`${WHALE_API}/whale/feed?limit=50`, { headers }),
+                    fetch(`${WHALE_API}/whale/flows`, { headers }),
+                    fetch(`${WHALE_API}/whale/insights`, { headers })
                 ]);
                 
                 const feed = await feedRes.json();
