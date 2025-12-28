@@ -30,6 +30,32 @@
         
         .grid{display:grid;grid-template-columns:1fr 1fr;gap:20px;max-width:1400px;margin:0 auto}
         @media(max-width:900px){.grid{grid-template-columns:1fr}}
+        @media(max-width:600px){
+            body{padding:10px}
+            .header{padding:10px 12px;margin:-10px -10px 15px;flex-wrap:wrap;gap:10px}
+            .logo{font-size:1rem}
+            .nav{gap:4px;flex-wrap:wrap;justify-content:center;width:100%}
+            .nav a{padding:6px 10px;font-size:.75rem}
+            h1{font-size:1.5rem}
+            .subtitle{font-size:.85rem;margin-bottom:16px}
+            .tabs{flex-wrap:wrap;gap:6px}
+            .tab{padding:8px 16px;font-size:.8rem}
+            .stats-row{gap:8px}
+            .stat-card{min-width:calc(50% - 8px);padding:12px 8px}
+            .stat-value{font-size:1.2rem}
+            .stat-label{font-size:.65rem}
+            .card{padding:14px}
+            .card h2{font-size:.75rem}
+            .tx{padding:10px;gap:8px}
+            .tx-icon{font-size:1.2rem}
+            .tx-title{font-size:.8rem}
+            .tx-meta{font-size:.65rem}
+            .tag{font-size:.55rem;padding:2px 5px}
+            .tx-value{font-size:.85rem}
+            .insight{padding:10px}
+            .insight-title{font-size:.8rem}
+            .insight-desc{font-size:.7rem}
+        }
         
         .card{background:#12121a;border:1px solid #1e1e2e;border-radius:12px;padding:20px}
         .card h2{font-size:.85rem;color:#06b6d4;margin-bottom:16px;text-transform:uppercase;letter-spacing:1px;display:flex;align-items:center;gap:8px}
