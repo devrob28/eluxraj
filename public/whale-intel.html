@@ -147,6 +147,17 @@
     <script>
         const WHALE_API = 'https://eluxraj-api-production.up.railway.app/api/v1';
         let allTransactions = [];
+        
+        function cleanName(name) {
+            if (!name) return "Unknown";
+            return name
+                .replace(/\s*\([0-9]+\)\s*/g, "") // Remove CIK numbers
+                .replace(/\s*\(Reporting\)\s*/gi, "")
+                .replace(/\s*\(Issuer\)\s*/gi, "")
+                .replace(/, Inc\.?/gi, "")
+                .replace(/\s+/g, " ")
+                .trim();
+        }
         let currentFilter = 'all';
         
         // Tab switching
@@ -260,7 +271,7 @@
                     <div class="tx">
                         <div class="tx-icon">${icon}</div>
                         <div class="tx-info">
-                            <div class="tx-title">${tx.whale_name || 'Unknown'}</div>
+                            <div class="tx-title">${cleanName(tx.whale_name) || 'Unknown'}</div>
                             <div class="tx-meta">
                                 <span class="tag ${typeTag}">${isCrypto ? 'Crypto' : 'Stock'}</span>
                                 ${actionTag ? `<span class="tag ${actionTag}">${actionTag}</span>` : ''}
