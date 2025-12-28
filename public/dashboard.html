@@ -164,15 +164,6 @@
                     <div class="feature-stat">Speed: <span>< 5s</span></div>
                 </div>
             </a>
-            <a href="/oracle.html" class="feature-card" id="oracleCard">
-                <div class="feature-icon">🔮</div>
-                <div class="feature-name">ORACLE <span class="feature-badge elite">Elite</span></div>
-                <div class="feature-desc">Real-time AI signal feed with TradingView-style interface and live watchlist</div>
-                <div class="feature-stats">
-                    <div class="feature-stat">Assets: <span>50+</span></div>
-                    <div class="feature-stat">Updates: <span>Live</span></div>
-                </div>
-            </a>
             <a href="/whale-intel.html" class="feature-card" id="whaleCard">
                 <div class="feature-icon">🐳</div>
                 <div class="feature-name">WHALE INTEL <span class="feature-badge elite">Elite</span></div>
@@ -276,23 +267,19 @@
             // Lock/unlock feature cards
             const playbooksCard = document.getElementById('playbooksCard');
             const chartCard = document.getElementById('chartCard');
-            const oracleCard = document.getElementById('oracleCard');
             const whaleCard = document.getElementById('whaleCard');
             
             if (isLite) {
                 playbooksCard.classList.add('locked');
                 chartCard.classList.add('locked');
-                oracleCard.classList.add('locked');
                 whaleCard.classList.add('locked');
             } else if (isPro) {
                 playbooksCard.classList.remove('locked');
                 chartCard.classList.remove('locked');
-                oracleCard.classList.add('locked');
                 whaleCard.classList.add('locked');
             } else if (isElite) {
                 playbooksCard.classList.remove('locked');
                 chartCard.classList.remove('locked');
-                oracleCard.classList.remove('locked');
                 whaleCard.classList.remove('locked');
                 // Mark all as available
                 document.querySelectorAll('.feature-card').forEach(c => c.classList.add('available'));
