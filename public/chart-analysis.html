@@ -321,7 +321,7 @@
         
         function formatNum(n) {
             if (!n) return '0';
-            if (n < 1) return n.toFixed(6);
+            n = parseFloat(n) || 0; if (n < 1) return n.toFixed(6);
             if (n < 100) return n.toFixed(2);
             return n.toLocaleString();
         }
