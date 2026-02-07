@@ -115,11 +115,11 @@
   
   <script>
     // Update local storage with new tier (will be refreshed on next login)
-    const user = JSON.parse(localStorage.getItem('eluxraj_user') || '{}');
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
     const urlParams = new URLSearchParams(window.location.search);
     
     // Refetch user data to get updated tier
-    const token = localStorage.getItem('eluxraj_token');
+    const token = localStorage.getItem('token');
     if (token) {
       fetch('/api/auth/me', {
         headers: { 'Authorization': 'Bearer ' + token }

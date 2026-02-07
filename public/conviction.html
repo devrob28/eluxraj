@@ -439,8 +439,8 @@
   </div>
   
   <script>
-    const token = localStorage.getItem('eluxraj_token');
-    const user = JSON.parse(localStorage.getItem('eluxraj_user') || '{}');
+    const token = localStorage.getItem('token');
+    const user = JSON.parse(localStorage.getItem('user') || '{}');
     
     if (!token) window.location.href = '/login.html';
     

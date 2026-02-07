@@ -201,7 +201,7 @@
                 const user = await Auth.check();
                 if (!user) return;
                 
-                const token = localStorage.getItem('eluxraj_token');
+                const token = localStorage.getItem('token');
                 const headers = { 'Authorization': `Bearer ${token}` };
                 
                 // Load all data in parallel
