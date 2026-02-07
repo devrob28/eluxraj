@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Live Signals | ELUXRAJ</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0a0a0f 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+        
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: rgba(0,0,0,0.3);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .nav-links a {
+            color: #888;
+            text-decoration: none;
+            margin-left: 2rem;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover, .nav-links a.active {
+            color: #fff;
+        }
+        
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, #00f260 0%, #0575e6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .header p {
+            color: #888;
+            font-size: 1.1rem;
+        }
+        
+        .stats-bar {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        
+        .stat-card .value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #00f260;
+        }
+        
+        .stat-card .label {
+            color: #888;
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+        
+        .signals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 1.5rem;
+        }
+        
+        .signal-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 16px;
+            padding: 1.5rem;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .signal-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(102, 126, 234, 0.5);
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.2);
+        }
+        
+        .signal-card.buy {
+            border-left: 4px solid #00f260;
+        }
+        
+        .signal-card.sell {
+            border-left: 4px solid #ff4757;
+        }
+        
+        .signal-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 1rem;
+        }
+        
+        .signal-symbol {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .signal-type {
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+        }
+        
+        .signal-type.buy {
+            background: rgba(0, 242, 96, 0.2);
+            color: #00f260;
+        }
+        
+        .signal-type.sell {
+            background: rgba(255, 71, 87, 0.2);
+            color: #ff4757;
+        }
+        
+        .signal-confidence {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .confidence-bar {
+            flex: 1;
+            height: 8px;
+            background: rgba(255,255,255,0.1);
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        
+        .confidence-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.5s ease;
+        }
+        
+        .confidence-fill.high { background: linear-gradient(90deg, #00f260, #0575e6); }
+        .confidence-fill.medium { background: linear-gradient(90deg, #f7971e, #ffd200); }
+        .confidence-fill.low { background: linear-gradient(90deg, #ff4757, #ff6b81); }
+        
+        .confidence-value {
+            font-weight: 700;
+            min-width: 45px;
+            text-align: right;
+        }
+        
+        .signal-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            padding: 1rem;
+            background: rgba(0,0,0,0.2);
+            border-radius: 10px;
+        }
+        
+        .detail-item {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .detail-label {
+            font-size: 0.75rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .detail-value {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #fff;
+        }
+        
+        .detail-value.green { color: #00f260; }
+        .detail-value.red { color: #ff4757; }
+        
+        .signal-pattern {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 0.75rem;
+            background: rgba(102, 126, 234, 0.1);
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .signal-pattern i {
+            color: #667eea;
+        }
+        
+        .signal-reasoning {
+            font-size: 0.9rem;
+            color: #aaa;
+            line-height: 1.5;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            padding-top: 1rem;
+        }
+        
+        .signal-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+            font-size: 0.8rem;
+            color: #666;
+        }
+        
+        .urgency-badge {
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            text-transform: uppercase;
+            font-weight: 600;
+        }
+        
+        .urgency-badge.high {
+            background: rgba(255, 71, 87, 0.2);
+            color: #ff4757;
+        }
+        
+        .urgency-badge.medium {
+            background: rgba(247, 151, 30, 0.2);
+            color: #f7971e;
+        }
+        
+        .urgency-badge.low {
+            background: rgba(102, 126, 234, 0.2);
+            color: #667eea;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 4rem;
+            color: #888;
+        }
+        
+        .loading i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .empty-state {
+            text-align: center;
+            padding: 4rem;
+            color: #666;
+        }
+        
+        .empty-state i {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+        
+        .refresh-btn {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+            box-shadow: 0 4px 20px rgba(102, 126, 234, 0.4);
+            transition: all 0.3s;
+        }
+        
+        .refresh-btn:hover {
+            transform: scale(1.1);
+        }
+        
+        .refresh-btn.spinning i {
+            animation: spin 1s linear infinite;
+        }
+        
+        .tier-lock {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.8);
+            backdrop-filter: blur(5px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 16px;
+            z-index: 10;
+        }
+        
+        .tier-lock i {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            color: #667eea;
+        }
+        
+        .tier-lock span {
+            color: #888;
+            font-size: 0.9rem;
+        }
+        
+        .upgrade-btn {
+            margin-top: 1rem;
+            padding: 0.5rem 1.5rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 20px;
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+        }
+        
+        @media (max-width: 768px) {
+            .signals-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .stats-bar {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="logo">ELUXRAJ</div>
+        <div class="nav-links">
+            <a href="/dashboard.html">Dashboard</a>
+            <a href="/playbook.html">Playbooks</a>
+            <a href="/signals.html" class="active">Signals</a>
+            <a href="/chart-analysis.html">Chart AI</a>
+        </div>
+    </nav>
+    
+    <div class="container">
+        <div class="header">
+            <h1>🎯 Live Trading Signals</h1>
+            <p>AI-powered signals scanning 50 stocks every 15 minutes</p>
+        </div>
+        
+        <div class="stats-bar" id="stats-bar">
+            <div class="stat-card">
+                <div class="value" id="total-signals">-</div>
+                <div class="label">Total Signals</div>
+            </div>
+            <div class="stat-card">
+                <div class="value" id="active-signals">-</div>
+                <div class="label">Active Now</div>
+            </div>
+            <div class="stat-card">
+                <div class="value" id="today-signals">-</div>
+                <div class="label">Today</div>
+            </div>
+            <div class="stat-card">
+                <div class="value" id="win-rate">-</div>
+                <div class="label">Win Rate</div>
+            </div>
+        </div>
+        
+        <div class="signals-grid" id="signals-container">
+            <div class="loading">
+                <i class="fas fa-spinner"></i>
+                <p>Loading signals...</p>
+            </div>
+        </div>
+    </div>
+    
+    <button class="refresh-btn" onclick="loadSignals()" title="Refresh">
+        <i class="fas fa-sync-alt"></i>
+    </button>
+    
+    <script>
+        const API_URL = 'https://eluxraj-api-production.up.railway.app';
+        let userTier = 'lite';
+        
+        function getToken() {
+            return localStorage.getItem('access_token');
+        }
+        
+        async function loadStats() {
+            const token = getToken();
+            if (!token) return;
+            
+            try {
+                const response = await fetch(`${API_URL}/api/v1/signals/stats`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    document.getElementById('total-signals').textContent = data.total_signals;
+                    document.getElementById('active-signals').textContent = data.active_signals;
+                    document.getElementById('today-signals').textContent = data.signals_today;
+                    document.getElementById('win-rate').textContent = data.win_rate + '%';
+                }
+            } catch (error) {
+                console.error('Error loading stats:', error);
+            }
+        }
+        
+        async function loadUserTier() {
+            const token = getToken();
+            if (!token) return;
+            
+            try {
+                const response = await fetch(`${API_URL}/api/v1/auth/me`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    userTier = data.subscription_tier || 'lite';
+                }
+            } catch (error) {
+                console.error('Error loading user:', error);
+            }
+        }
+        
+        async function loadSignals() {
+            const token = getToken();
+            const container = document.getElementById('signals-container');
+            const refreshBtn = document.querySelector('.refresh-btn');
+            
+            if (!token) {
+                container.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <i class="fas fa-lock"></i>
+                        <h3>Login Required</h3>
+                        <p>Please login to view signals</p>
+                        <a href="/login.html" class="upgrade-btn">Login</a>
+                    </div>
+                `;
+                return;
+            }
+            
+            refreshBtn.classList.add('spinning');
+            
+            try {
+                const response = await fetch(`${API_URL}/api/v1/signals/active?limit=20`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (response.ok) {
+                    const data = await response.json();
+                    renderSignals(data.signals);
+                } else {
+                    throw new Error('Failed to load signals');
+                }
+            } catch (error) {
+                console.error('Error loading signals:', error);
+                container.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <i class="fas fa-exclamation-triangle"></i>
+                        <h3>Error Loading Signals</h3>
+                        <p>Please try again</p>
+                    </div>
+                `;
+            } finally {
+                refreshBtn.classList.remove('spinning');
+            }
+        }
+        
+        function renderSignals(signals) {
+            const container = document.getElementById('signals-container');
+            
+            if (!signals || signals.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state" style="grid-column: 1 / -1;">
+                        <i class="fas fa-chart-line"></i>
+                        <h3>No Active Signals</h3>
+                        <p>Check back soon - we scan every 15 minutes</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            container.innerHTML = signals.map(signal => {
+                const isBuy = signal.signal_type.toLowerCase() === 'buy';
+                const confidence = signal.confidence || signal.oracle_score || 0;
+                const confidenceClass = confidence >= 75 ? 'high' : confidence >= 60 ? 'medium' : 'low';
+                const hasDetails = signal.entry_price !== undefined;
+                
+                return `
+                    <div class="signal-card ${isBuy ? 'buy' : 'sell'}">
+                        ${!hasDetails && userTier === 'lite' ? `
+                            <div class="tier-lock">
+                                <i class="fas fa-lock"></i>
+                                <span>Pro/Elite Only</span>
+                                <a href="/pricing.html" class="upgrade-btn">Upgrade</a>
+                            </div>
+                        ` : ''}
+                        
+                        <div class="signal-header">
+                            <div class="signal-symbol">${signal.symbol}</div>
+                            <span class="signal-type ${isBuy ? 'buy' : 'sell'}">
+                                <i class="fas fa-${isBuy ? 'arrow-up' : 'arrow-down'}"></i>
+                                ${signal.signal_type.toUpperCase()}
+                            </span>
+                        </div>
+                        
+                        <div class="signal-confidence">
+                            <span style="color: #888; font-size: 0.85rem;">Confidence</span>
+                            <div class="confidence-bar">
+                                <div class="confidence-fill ${confidenceClass}" style="width: ${confidence}%"></div>
+                            </div>
+                            <span class="confidence-value">${confidence}%</span>
+                        </div>
+                        
+                        ${hasDetails ? `
+                            <div class="signal-details">
+                                <div class="detail-item">
+                                    <span class="detail-label">Entry</span>
+                                    <span class="detail-value">$${formatPrice(signal.entry_price)}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Stop Loss</span>
+                                    <span class="detail-value red">$${formatPrice(signal.stop_loss)}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Target 1</span>
+                                    <span class="detail-value green">$${formatPrice(signal.target_1)}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Target 2</span>
+                                    <span class="detail-value green">$${formatPrice(signal.target_2)}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Risk/Reward</span>
+                                    <span class="detail-value">${signal.risk_reward ? signal.risk_reward.toFixed(1) + ':1' : '-'}</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Timeframe</span>
+                                    <span class="detail-value">${signal.timeframe}</span>
+                                </div>
+                            </div>
+                            
+                            ${signal.pattern ? `
+                                <div class="signal-pattern">
+                                    <i class="fas fa-chart-area"></i>
+                                    <span>${signal.pattern}</span>
+                                </div>
+                            ` : ''}
+                            
+                            ${signal.reasoning ? `
+                                <div class="signal-reasoning">
+                                    ${signal.reasoning}
+                                </div>
+                            ` : ''}
+                        ` : `
+                            <div class="signal-details" style="filter: blur(5px);">
+                                <div class="detail-item">
+                                    <span class="detail-label">Entry</span>
+                                    <span class="detail-value">$XXX.XX</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Stop Loss</span>
+                                    <span class="detail-value red">$XXX.XX</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Target 1</span>
+                                    <span class="detail-value green">$XXX.XX</span>
+                                </div>
+                                <div class="detail-item">
+                                    <span class="detail-label">Target 2</span>
+                                    <span class="detail-value green">$XXX.XX</span>
+                                </div>
+                            </div>
+                        `}
+                        
+                        <div class="signal-meta">
+                            <span>${timeAgo(signal.created_at)}</span>
+                            ${signal.urgency ? `
+                                <span class="urgency-badge ${signal.urgency}">${signal.urgency}</span>
+                            ` : ''}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+        
+        function formatPrice(price) {
+            if (!price) return '-';
+            price = parseFloat(price);
+            if (price < 1) return price.toFixed(4);
+            if (price < 100) return price.toFixed(2);
+            return price.toFixed(2);
+        }
+        
+        function timeAgo(dateString) {
+            if (!dateString) return '';
+            const date = new Date(dateString);
+            const now = new Date();
+            const seconds = Math.floor((now - date) / 1000);
+            
+            if (seconds < 60) return 'Just now';
+            if (seconds < 3600) return Math.floor(seconds / 60) + 'm ago';
+            if (seconds < 86400) return Math.floor(seconds / 3600) + 'h ago';
+            return Math.floor(seconds / 86400) + 'd ago';
+        }
+        
+        // Auto-refresh every 60 seconds
+        setInterval(() => {
+            loadSignals();
+            loadStats();
+        }, 60000);
+        
+        // Initial load
+        loadUserTier().then(() => {
+            loadSignals();
+            loadStats();
+        });
+    </script>
+</body>
+</html>
