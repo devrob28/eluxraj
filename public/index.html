@@ -182,6 +182,23 @@
             .footer-content{grid-template-columns:1fr}
             .footer-bottom{flex-direction:column;gap:16px;text-align:center}
         }
+
+        /* Live Signals Section */
+        .signals-showcase{max-width:1000px;margin:0 auto}
+        .signal-features{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-bottom:40px}
+        .signal-feature{background:#12121a;border:1px solid #1e1e2e;border-radius:16px;padding:24px;text-align:center;transition:all 0.3s}
+        .signal-feature:hover{border-color:rgba(124,58,237,0.4);transform:translateY(-4px)}
+        .sf-icon{font-size:2rem;margin-bottom:12px}
+        .signal-feature h4{font-size:1rem;font-weight:700;margin-bottom:8px}
+        .signal-feature p{font-size:0.85rem;color:#9ca3af}
+        .stock-universe{background:#12121a;border:1px solid #1e1e2e;border-radius:16px;padding:24px;text-align:center;margin-bottom:32px}
+        .stock-universe h4{font-size:1rem;font-weight:700;margin-bottom:16px;color:#9ca3af}
+        .stock-tags{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
+        .stock-tag{background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.3);color:#a78bfa;padding:6px 14px;border-radius:20px;font-size:0.85rem;font-weight:600;font-family:'JetBrains Mono',monospace}
+        .stock-tag.more{background:rgba(6,182,212,0.1);border-color:rgba(6,182,212,0.3);color:#22d3ee}
+        .signals-cta{text-align:center}
+        @media(max-width:900px){.signal-features{grid-template-columns:repeat(2,1fr)}}
+        @media(max-width:600px){.signal-features{grid-template-columns:1fr}}
     </style>
 </head>
 <body>
@@ -201,12 +218,12 @@
 <!-- Hero Section -->
 <section class="hero">
     <div class="hero-inner">
-        <h1><span class="highlight">AI-Powered Trade Intelligence</span> That Reveals What to Buy, When to Buy, and Exactly Why</h1>
-        <p class="hero-subtitle">Institutional-grade playbooks with entry zones, stop losses, take-profit targets, and 6 scenario analyses. Every decision explained with probabilities and invalidation rules.</p>
+        <h1><span class="highlight">AI Scans 50 Stocks Every 15 Minutes</span> So You Never Miss a High-Probability Trade</h1>
+        <p class="hero-subtitle">Get real-time AI signals with exact entry prices, stop losses, and profit targets. Every signal includes pattern detection, confidence scores, and clear reasoning.</p>
         <div class="hero-risk">⚠️ Decision intelligence only — not financial advice — trading involves risk</div>
         <div class="hero-cta">
-            <a href="/register.html" class="btn btn-primary">Start Free Trial →</a>
-            <a href="/playbooks.html" class="btn btn-secondary">View Demo Playbook</a>
+            <a href="/register.html" class="btn btn-primary">See Live Signals →</a>
+            <a href="/signals.html" class="btn btn-secondary">View Live Signals</a>
         </div>
     </div>
 </section>
@@ -322,6 +339,57 @@
                 <h4>Probability Scoring</h4>
                 <p>3 bullish + 3 bearish scenarios per trade</p>
             </div>
+        </div>
+    </div>
+</section>
+
+<!-- Live Signals Section -->
+<section class="section">
+    <div class="section-header">
+        <h2>🎯 <span>Live AI Signals</span> Running 24/7</h2>
+        <p>Our AI scans 50 top stocks every 15 minutes, delivering high-confidence trade setups</p>
+    </div>
+    <div class="signals-showcase">
+        <div class="signal-features">
+            <div class="signal-feature">
+                <div class="sf-icon">⚡</div>
+                <h4>Real-Time Scanning</h4>
+                <p>50 stocks analyzed every 15 minutes across multiple timeframes</p>
+            </div>
+            <div class="signal-feature">
+                <div class="sf-icon">🎯</div>
+                <h4>High Confidence Only</h4>
+                <p>Only signals with 70%+ AI confidence are published</p>
+            </div>
+            <div class="signal-feature">
+                <div class="sf-icon">📊</div>
+                <h4>Complete Trade Setup</h4>
+                <p>Entry price, stop loss, 2 profit targets, and risk/reward ratio</p>
+            </div>
+            <div class="signal-feature">
+                <div class="sf-icon">🧠</div>
+                <h4>Pattern Detection</h4>
+                <p>AI identifies chart patterns like ascending triangles, flags, and more</p>
+            </div>
+        </div>
+        <div class="stock-universe">
+            <h4>Stock Universe</h4>
+            <div class="stock-tags">
+                <span class="stock-tag">AAPL</span>
+                <span class="stock-tag">MSFT</span>
+                <span class="stock-tag">GOOGL</span>
+                <span class="stock-tag">AMZN</span>
+                <span class="stock-tag">NVDA</span>
+                <span class="stock-tag">TSLA</span>
+                <span class="stock-tag">META</span>
+                <span class="stock-tag">AMD</span>
+                <span class="stock-tag">JPM</span>
+                <span class="stock-tag">V</span>
+                <span class="stock-tag more">+40 more</span>
+            </div>
+        </div>
+        <div class="signals-cta">
+            <a href="/signals.html" class="btn btn-primary">View Live Signals →</a>
         </div>
     </div>
 </section>
@@ -482,7 +550,7 @@
     <p>Join traders using AI-powered decision intelligence to make better, more informed trades.</p>
     <div class="cta-risk">⚠️ Trading involves substantial risk. Only trade with capital you can afford to lose.</div>
     <div class="cta-buttons">
-        <a href="/register.html" class="btn btn-primary">Start Free Trial →</a>
+        <a href="/register.html" class="btn btn-primary">See Live Signals →</a>
         <a href="/pricing.html" class="btn btn-secondary">View Pricing</a>
     </div>
 </section>
