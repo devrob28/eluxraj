@@ -4,149 +4,261 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard | ELUXRAJ</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <style>
-        :root{--bg:#0a0a0f;--card:#12121a;--border:#1e1e2e;--purple:#7c3aed;--cyan:#06b6d4;--green:#10b981;--red:#ef4444;--yellow:#f59e0b;--white:#fff;--gray300:#d1d5db;--gray400:#9ca3af;--gray500:#6b7280}
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Inter',-apple-system,sans-serif;background:var(--bg);color:var(--white);min-height:100vh}
-        .container{max-width:1200px;margin:0 auto;padding:24px}
-        .header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px}
-        .logo{font-weight:800;font-size:1.5rem;background:linear-gradient(135deg,var(--purple),var(--cyan));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .user-info{display:flex;align-items:center;gap:12px}
-        .tier-badge{padding:4px 12px;border-radius:20px;font-size:.75rem;font-weight:600;background:var(--gray500);color:var(--white)}
-        .tier-badge.pro{background:var(--yellow);color:#000}
-        .tier-badge.elite,.tier-badge.admin{background:linear-gradient(135deg,var(--purple),var(--cyan));color:var(--white)}
-        .logout-btn{background:none;border:1px solid var(--border);color:var(--gray400);padding:8px 16px;border-radius:8px;cursor:pointer;font-size:.85rem}
-        .logout-btn:hover{border-color:var(--purple);color:var(--white)}
-        .welcome{margin-bottom:24px}
-        .welcome h1{font-size:1.75rem;margin-bottom:4px}
-        .welcome p{color:var(--gray400)}
-        .upgrade-banner{background:linear-gradient(135deg,rgba(124,58,237,0.2),rgba(6,182,212,0.1));border:1px solid rgba(124,58,237,0.3);border-radius:12px;padding:20px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center}
-        .upgrade-banner h3{margin-bottom:4px}
-        .upgrade-banner p{color:var(--gray400);font-size:.9rem}
-        .upgrade-btn{background:linear-gradient(135deg,var(--purple),var(--cyan));color:var(--white);padding:10px 20px;border-radius:8px;text-decoration:none;font-weight:600;font-size:.9rem}
-        .section-title{font-size:1rem;font-weight:600;color:var(--gray400);margin:24px 0 16px;text-transform:uppercase;letter-spacing:.5px}
-        .market-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px}
-        .market-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center}
-        .market-label{font-size:.8rem;color:var(--gray400);margin-bottom:8px}
-        .market-value{font-family:'JetBrains Mono',monospace;font-size:1.25rem;font-weight:600}
-        .market-change{font-size:.85rem;margin-top:4px}
-        .market-change.up{color:var(--green)}
-        .market-change.down{color:var(--red)}
-        .feature-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:24px}
-        .feature-card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:20px;text-decoration:none;color:var(--white);transition:all .2s;position:relative;overflow:hidden}
-        .feature-card:hover{border-color:var(--purple);transform:translateY(-2px)}
-        .feature-card.locked{opacity:0.6;pointer-events:none}
-        .feature-card.locked::after{content:'🔒 UPGRADE';position:absolute;top:12px;right:12px;background:rgba(0,0,0,0.8);padding:4px 10px;border-radius:12px;font-size:11px;font-weight:600;color:var(--yellow)}
-        .feature-card.available{border-color:var(--green);border-width:2px}
-        .feature-icon{font-size:2rem;margin-bottom:12px}
-        .feature-name{font-weight:700;font-size:1rem;margin-bottom:8px;display:flex;align-items:center;gap:8px}
-        .feature-badge{padding:2px 8px;border-radius:10px;font-size:.65rem;font-weight:600}
-        .feature-badge.elite{background:linear-gradient(135deg,var(--purple),var(--cyan));color:var(--white)}
-        .feature-badge.pro{background:var(--yellow);color:#000}
-        .feature-badge.lite{background:var(--green);color:#000}
-        .feature-badge.new{background:var(--green);color:#000}
-        .feature-desc{font-size:.85rem;color:var(--gray400);line-height:1.5;margin-bottom:12px}
-        .feature-stats{display:flex;gap:16px}
-        .feature-stat{font-size:.8rem;color:var(--gray500)}
-        .feature-stat span{color:var(--cyan);font-weight:600}
-        .lite-section{background:linear-gradient(135deg,rgba(16,185,129,0.1),rgba(6,182,212,0.05));border:1px solid rgba(16,185,129,0.3);border-radius:16px;padding:20px;margin-bottom:24px}
-        .lite-section h3{color:var(--green);margin-bottom:12px;display:flex;align-items:center;gap:8px}
-        .lite-features{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
-        .lite-feature{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;text-decoration:none;color:var(--white);transition:all .2s}
-        .lite-feature:hover{border-color:var(--green);transform:translateY(-2px)}
-        .lite-feature .icon{font-size:1.5rem;margin-bottom:8px}
-        .lite-feature .name{font-weight:600;font-size:.9rem;margin-bottom:4px}
-        .lite-feature .desc{font-size:.75rem;color:var(--gray400)}
-        .actions-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:24px}
-        .action-btn{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:12px;text-align:center;text-decoration:none;color:var(--white);font-size:.9rem;transition:all .2s}
-        .action-btn:hover{border-color:var(--purple)}
-        .tools-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
-        .tool-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;text-align:center;text-decoration:none;color:var(--white);transition:all .2s}
-        .tool-card:hover{border-color:var(--purple)}
-        .tool-icon{font-size:1.5rem;margin-bottom:8px}
-        .tool-name{font-size:.85rem;color:var(--gray400)}
-        @media(max-width:768px){
-            body{padding:10px}
-            .header{padding:10px 12px;flex-wrap:wrap;gap:10px}
-            .nav{gap:4px;flex-wrap:wrap;justify-content:center;width:100%}
-            .nav a{padding:6px 10px;font-size:.75rem}
-            h1{font-size:1.4rem}
-            .container{padding:12px}
-            .market-grid{grid-template-columns:repeat(2,1fr)}
-            .feature-grid{grid-template-columns:1fr}
-            .lite-features{grid-template-columns:1fr}
-            .actions-grid{grid-template-columns:1fr}
-            .tools-grid{grid-template-columns:repeat(2,1fr)}
-            .upgrade-banner{flex-direction:column;text-align:center;gap:16px}
+        :root {
+            --bg: #0a0a0f;
+            --card: rgba(255,255,255,0.03);
+            --border: rgba(255,255,255,0.1);
+            --white: #fff;
+            --gray400: #888;
+            --gray500: #666;
+            --purple: #667eea;
+            --cyan: #00f260;
+            --green: #00f260;
+            --red: #ff4757;
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #0a0a0f 0%, #1a1a2e 50%, #0a0a0f 100%);
+            min-height: 100vh;
+            color: var(--white);
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            background: rgba(0,0,0,0.3);
+            border-bottom: 1px solid var(--border);
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+        .tier-badge {
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+        .tier-badge.elite {
+            background: linear-gradient(135deg, #667eea, #764ba2);
+        }
+        .tier-badge.pro {
+            background: linear-gradient(135deg, #00f260, #0575e6);
+        }
+        .tier-badge.lite {
+            background: rgba(255,255,255,0.1);
+        }
+        .logout-btn {
+            padding: 0.5rem 1rem;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            color: var(--white);
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .welcome {
+            margin-bottom: 2rem;
+        }
+        .welcome h1 {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        .welcome p {
+            color: var(--gray400);
+        }
+        .section-title {
+            font-size: 0.9rem;
+            color: var(--gray400);
+            margin-bottom: 1rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .market-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .market-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+        }
+        .market-card .name {
+            color: var(--gray400);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+        .market-card .price {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        .market-card .change {
+            font-size: 0.9rem;
+            margin-top: 0.25rem;
+        }
+        .market-card .change.positive { color: var(--green); }
+        .market-card .change.negative { color: var(--red); }
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .feature-card {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-decoration: none;
+            color: var(--white);
+            transition: all 0.3s;
+        }
+        .feature-card:hover {
+            border-color: var(--purple);
+            transform: translateY(-4px);
+        }
+        .feature-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        .feature-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+        .feature-badge {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            margin-left: 0.5rem;
+        }
+        .feature-badge.pro { background: rgba(0,242,96,0.2); color: var(--green); }
+        .feature-badge.elite { background: rgba(102,126,234,0.2); color: var(--purple); }
+        .feature-desc {
+            color: var(--gray400);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+        .feature-stats {
+            display: flex;
+            gap: 1rem;
+            font-size: 0.85rem;
+        }
+        .feature-stat span {
+            color: var(--cyan);
+            font-weight: 600;
+        }
+        .actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+        .action-btn {
+            display: block;
+            padding: 1rem;
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--white);
+            text-decoration: none;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        .action-btn:hover {
+            border-color: var(--purple);
+        }
+        #liteSection { display: none; }
+        #upgradeBanner {
+            background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(0,242,96,0.1));
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        #upgradeBanner h3 { margin-bottom: 0.5rem; }
+        #upgradeBanner p { color: var(--gray400); margin-bottom: 1rem; }
+        #upgradeBanner a {
+            display: inline-block;
+            padding: 0.75rem 2rem;
+            background: linear-gradient(135deg, var(--purple), var(--cyan));
+            border-radius: 8px;
+            color: var(--white);
+            text-decoration: none;
+            font-weight: 600;
+        }
+        .loading {
+            text-align: center;
+            padding: 2rem;
+            color: var(--gray400);
         }
     </style>
 </head>
 <body>
+    <nav class="navbar">
+        <div class="logo">ELUXRAJ™</div>
+        <div class="nav-right">
+            <span class="tier-badge lite" id="tierBadge">LITE</span>
+            <a href="#" class="logout-btn" onclick="logout()">Logout</a>
+        </div>
+    </nav>
+    
     <div class="container">
-        <div class="header">
-            <div class="logo">ELUXRAJ™</div>
-            <div class="user-info">
-                <span class="tier-badge lite" id="tierBadge">LITE</span>
-                <button class="logout-btn" onclick="logout()">Logout</button>
-            </div>
-        </div>
-        
         <div class="welcome">
-            <h1>Welcome back, <span id="userName">Trader</span></h1>
-            <p id="welcomeMsg">Your AI-powered trading dashboard</p>
+            <h1>Welcome back, <span id="userName">trader</span></h1>
+            <p>Your AI-powered trading dashboard</p>
         </div>
         
-        <div class="upgrade-banner" id="upgradeBanner">
-            <div>
-                <h3>🚀 Unlock Full AI Power</h3>
-                <p>Upgrade to Pro for AI Playbooks & Chart Analysis, or Elite for unlimited access</p>
-            </div>
-            <a href="/pricing.html" class="upgrade-btn">View Plans</a>
+        <div id="upgradeBanner">
+            <h3>🚀 Upgrade to Pro</h3>
+            <p>Get access to AI Playbooks, Chart Analysis, and more</p>
+            <a href="/pricing.html">View Plans</a>
         </div>
-
+        
         <div class="section-title">📊 LIVE MARKET DATA</div>
-        <div class="market-grid">
+        <div class="market-grid" id="marketGrid">
             <div class="market-card">
-                <div class="market-label">₿ Bitcoin</div>
-                <div class="market-value" id="btcPrice">$--</div>
-                <div class="market-change" id="btcChange">--%</div>
+                <div class="name">₿ Bitcoin</div>
+                <div class="price" id="btcPrice">$--</div>
+                <div class="change" id="btcChange">--%</div>
             </div>
             <div class="market-card">
-                <div class="market-label">Ξ Ethereum</div>
-                <div class="market-value" id="ethPrice">$--</div>
-                <div class="market-change" id="ethChange">--%</div>
+                <div class="name">Ξ Ethereum</div>
+                <div class="price" id="ethPrice">$--</div>
+                <div class="change" id="ethChange">--%</div>
             </div>
             <div class="market-card">
-                <div class="market-label">◎ Solana</div>
-                <div class="market-value" id="solPrice">$--</div>
-                <div class="market-change" id="solChange">--%</div>
+                <div class="name">◎ Solana</div>
+                <div class="price" id="solPrice">$--</div>
+                <div class="change" id="solChange">--%</div>
             </div>
             <div class="market-card">
-                <div class="market-label">😱 Fear & Greed</div>
-                <div class="market-value" id="fngValue">--</div>
-                <div class="market-change" id="fngLabel">Loading...</div>
-            </div>
-        </div>
-
-        <div class="lite-section" id="liteSection">
-            <h3>✅ Your Included Features</h3>
-            <div class="lite-features">
-                <a href="/daily-brief.html" class="lite-feature">
-                    <div class="icon">📰</div>
-                    <div class="name">Daily Brief</div>
-                    <div class="desc">AI market summary</div>
-                </a>
-                <a href="/weekly-brief.html" class="lite-feature">
-                    <div class="icon">📊</div>
-                    <div class="name">Weekly Brief</div>
-                    <div class="desc">Weekly analysis</div>
-                </a>
-                <a href="#" class="lite-feature" onclick="openAlertModal();return false;">
-                    <div class="icon">🔔</div>
-                    <div class="name">Price Alerts</div>
-                    <div class="desc">Email notifications</div>
-                </a>
+                <div class="name">😱 Fear & Greed</div>
+                <div class="price" id="fngValue">--</div>
+                <div class="change" id="fngLabel">Loading...</div>
             </div>
         </div>
         
@@ -184,42 +296,12 @@
         <div class="section-title">⚡ QUICK ACTIONS</div>
         <div class="actions-grid">
             <a href="/pricing.html" class="action-btn">💎 Upgrade Plan</a>
-            <a href="#" class="action-btn" onclick="openAlertModal();return false;">🔔 Set Price Alert</a>
             <a href="/settings.html" class="action-btn">⚙️ Settings</a>
         </div>
-
-        <div class="section-title">🔔 MY ALERTS</div>
-        <div id="alertsList" style="margin-bottom:24px;">
-            <div style="color:var(--gray500);padding:20px;text-align:center;background:var(--card);border-radius:12px;">Loading alerts...</div>
-        </div>
-    </div>
-
-    <div id="alertModal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.8);z-index:100;align-items:center;justify-content:center">
-        <div style="background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;max-width:400px;width:90%">
-            <h3 style="margin-bottom:16px">🔔 Set Price Alert</h3>
-            <div style="margin-bottom:12px">
-                <label style="display:block;font-size:.85rem;color:var(--gray400);margin-bottom:4px">Asset</label>
-                <select id="alertAsset" style="width:100%;padding:10px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--white)">
-                    <option value="BTC">Bitcoin (BTC)</option>
-                    <option value="ETH">Ethereum (ETH)</option>
-                    <option value="SOL">Solana (SOL)</option>
-                </select>
-            </div>
-            <div style="margin-bottom:12px">
-                <label style="display:block;font-size:.85rem;color:var(--gray400);margin-bottom:4px">Target Price ($)</label>
-                <input type="number" id="alertPrice" style="width:100%;padding:10px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--white)" placeholder="100000">
-            </div>
-            <div style="margin-bottom:16px">
-                <label style="display:block;font-size:.85rem;color:var(--gray400);margin-bottom:4px">Condition</label>
-                <select id="alertCondition" style="width:100%;padding:10px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--white)">
-                    <option value="above">Price goes above</option>
-                    <option value="below">Price goes below</option>
-                </select>
-            </div>
-            <div style="display:flex;gap:12px">
-                <button onclick="closeAlertModal()" style="flex:1;padding:10px;background:var(--bg);border:1px solid var(--border);border-radius:8px;color:var(--white);cursor:pointer">Cancel</button>
-                <button onclick="createAlert()" style="flex:1;padding:10px;background:linear-gradient(135deg,var(--purple),var(--cyan));border:none;border-radius:8px;color:var(--white);cursor:pointer;font-weight:600">Create Alert</button>
-            </div>
+        
+        <div id="liteSection">
+            <div class="section-title">🔒 LOCKED FEATURES</div>
+            <p style="color:var(--gray400);margin-bottom:2rem;">Upgrade to Pro or Elite to unlock all AI trading features.</p>
         </div>
     </div>
 
@@ -228,23 +310,42 @@
         const token = localStorage.getItem('token');
         let userTier = 'lite';
         
-        if (!token) window.location.href = '/login.html';
+        console.log('Dashboard loaded, token:', token ? 'exists' : 'missing');
+        
+        if (!token) {
+            console.log('No token, redirecting to login');
+            window.location.href = '/login.html';
+        }
         
         // Load user data
         async function loadUser() {
+            console.log('loadUser called');
             try {
-                const r = await fetch(`${API}/auth/me`, { headers: { 'Authorization': `Bearer ${token}` } });
-                if (!r.ok) throw new Error('Session expired');
+                const url = API + '/auth/me';
+                console.log('Fetching:', url);
+                
+                const r = await fetch(url, { 
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                
+                console.log('Response status:', r.status);
+                
+                if (!r.ok) {
+                    const text = await r.text();
+                    console.log('Error response:', text);
+                    throw new Error('Session expired');
+                }
+                
                 const user = await r.json();
+                console.log('User loaded:', user);
                 
                 document.getElementById('userName').textContent = user.email.split('@')[0];
                 userTier = user.subscription_tier || 'lite';
                 
                 const badge = document.getElementById('tierBadge');
                 badge.textContent = userTier.toUpperCase();
-                badge.className = `tier-badge ${userTier}`;
+                badge.className = 'tier-badge ' + userTier;
                 
-                // Update UI based on tier
                 updateTierAccess(userTier);
                 
             } catch (e) {
@@ -255,144 +356,54 @@
         }
         
         function updateTierAccess(tier) {
-            const isLite = tier === 'lite' || tier === 'free';
-            const isPro = tier === 'pro';
             const isElite = tier === 'elite' || tier === 'admin';
+            const isPro = tier === 'pro';
             
-            // Hide upgrade banner for Elite
-            if (isElite) {
+            if (isElite || isPro) {
                 document.getElementById('upgradeBanner').style.display = 'none';
-            } else if (isPro) {
-                document.querySelector('#upgradeBanner h3').textContent = '🚀 Unlock Unlimited Access';
-                document.querySelector('#upgradeBanner p').textContent = 'Upgrade to Elite for unlimited playbooks, whale intelligence, and more';
             }
             
-            // Show Lite section only for Lite users
-            document.getElementById('liteSection').style.display = isLite ? 'block' : 'none';
-            
-            // Lock/unlock feature cards
-            const playbooksCard = document.getElementById('playbooksCard');
-            const chartCard = document.getElementById('chartCard');
-            const whaleCard = document.getElementById('whaleCard');
-            
-            if (isLite) {
-                playbooksCard.classList.add('locked');
-                chartCard.classList.add('locked');
-                whaleCard.classList.add('locked');
-            } else if (isPro) {
-                playbooksCard.classList.remove('locked');
-                chartCard.classList.remove('locked');
-                whaleCard.classList.add('locked');
-            } else if (isElite) {
-                playbooksCard.classList.remove('locked');
-                chartCard.classList.remove('locked');
-                whaleCard.classList.remove('locked');
-                // Mark all as available
-                document.querySelectorAll('.feature-card').forEach(c => c.classList.add('available'));
-            }
+            document.getElementById('liteSection').style.display = (tier === 'lite' || tier === 'free') ? 'block' : 'none';
         }
         
-        // Load market data
         async function loadMarketData() {
             try {
                 const r = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=bitcoin,ethereum,solana&vs_currencies=usd&include_24hr_change=true');
                 const data = await r.json();
                 
-                const format = (p) => p >= 1000 ? `$${(p/1000).toFixed(1)}K` : `$${p.toFixed(2)}`;
-                
-                document.getElementById('btcPrice').textContent = `$${data.bitcoin.usd.toLocaleString()}`;
-                document.getElementById('btcChange').textContent = `${data.bitcoin.usd_24h_change >= 0 ? '+' : ''}${data.bitcoin.usd_24h_change.toFixed(1)}%`;
-                document.getElementById('btcChange').className = `market-change ${data.bitcoin.usd_24h_change >= 0 ? 'up' : 'down'}`;
-                
-                document.getElementById('ethPrice').textContent = `$${data.ethereum.usd.toLocaleString()}`;
-                document.getElementById('ethChange').textContent = `${data.ethereum.usd_24h_change >= 0 ? '+' : ''}${data.ethereum.usd_24h_change.toFixed(1)}%`;
-                document.getElementById('ethChange').className = `market-change ${data.ethereum.usd_24h_change >= 0 ? 'up' : 'down'}`;
-                
-                document.getElementById('solPrice').textContent = `$${data.solana.usd.toLocaleString()}`;
-                document.getElementById('solChange').textContent = `${data.solana.usd_24h_change >= 0 ? '+' : ''}${data.solana.usd_24h_change.toFixed(1)}%`;
-                document.getElementById('solChange').className = `market-change ${data.solana.usd_24h_change >= 0 ? 'up' : 'down'}`;
+                if (data.bitcoin) {
+                    document.getElementById('btcPrice').textContent = '$' + data.bitcoin.usd.toLocaleString();
+                    const btcChange = data.bitcoin.usd_24h_change.toFixed(1);
+                    document.getElementById('btcChange').textContent = btcChange + '%';
+                    document.getElementById('btcChange').className = 'change ' + (btcChange >= 0 ? 'positive' : 'negative');
+                }
+                if (data.ethereum) {
+                    document.getElementById('ethPrice').textContent = '$' + data.ethereum.usd.toLocaleString();
+                    const ethChange = data.ethereum.usd_24h_change.toFixed(1);
+                    document.getElementById('ethChange').textContent = ethChange + '%';
+                    document.getElementById('ethChange').className = 'change ' + (ethChange >= 0 ? 'positive' : 'negative');
+                }
+                if (data.solana) {
+                    document.getElementById('solPrice').textContent = '$' + data.solana.usd.toLocaleString();
+                    const solChange = data.solana.usd_24h_change.toFixed(1);
+                    document.getElementById('solChange').textContent = solChange + '%';
+                    document.getElementById('solChange').className = 'change ' + (solChange >= 0 ? 'positive' : 'negative');
+                }
             } catch (e) {
                 console.error('Market data error:', e);
             }
         }
         
-        // Load Fear & Greed
         async function loadFearGreed() {
             try {
                 const r = await fetch('https://api.alternative.me/fng/');
                 const data = await r.json();
-                const fng = data.data[0];
-                document.getElementById('fngValue').textContent = fng.value;
-                document.getElementById('fngLabel').textContent = fng.value_classification;
+                if (data.data && data.data[0]) {
+                    document.getElementById('fngValue').textContent = data.data[0].value;
+                    document.getElementById('fngLabel').textContent = data.data[0].value_classification;
+                }
             } catch (e) {
                 console.error('FNG error:', e);
-            }
-        }
-        
-        // Load alerts
-        async function loadAlerts() {
-            try {
-                const r = await fetch(`${API}/alerts/`, { headers: { 'Authorization': `Bearer ${token}` } });
-                const data = await r.json();
-                const list = document.getElementById('alertsList');
-                
-                if (!data.alerts || data.alerts.length === 0) {
-                    list.innerHTML = '<div style="color:var(--gray500);padding:20px;text-align:center;background:var(--card);border-radius:12px;">No alerts set. Create one above!</div>';
-                    return;
-                }
-                
-                list.innerHTML = data.alerts.map(a => `
-                    <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px;margin-bottom:8px;display:flex;justify-content:space-between;align-items:center">
-                        <div>
-                            <span style="font-weight:600">${a.asset}</span>
-                            <span style="color:var(--gray400);margin-left:8px">${a.condition} $${a.target_price.toLocaleString()}</span>
-                        </div>
-                        <button onclick="deleteAlert(${a.id})" style="background:none;border:none;color:var(--red);cursor:pointer">✕</button>
-                    </div>
-                `).join('');
-            } catch (e) {
-                console.error('Alerts error:', e);
-            }
-        }
-        
-        function openAlertModal() { document.getElementById('alertModal').style.display = 'flex'; }
-        function closeAlertModal() { document.getElementById('alertModal').style.display = 'none'; }
-        
-        async function createAlert() {
-            const asset = document.getElementById('alertAsset').value;
-            const price = parseFloat(document.getElementById('alertPrice').value);
-            const condition = document.getElementById('alertCondition').value;
-            
-            if (!price) { alert('Enter a price'); return; }
-            
-            try {
-                const r = await fetch(`${API}/alerts/`, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                    body: JSON.stringify({ asset, target_price: price, condition })
-                });
-                
-                if (r.ok) {
-                    closeAlertModal();
-                    loadAlerts();
-                } else {
-                    const data = await r.json();
-                    alert(data.detail || 'Failed to create alert');
-                }
-            } catch (e) {
-                alert('Error creating alert');
-            }
-        }
-        
-        async function deleteAlert(id) {
-            try {
-                await fetch(`${API}/alerts/${id}`, {
-                    method: 'DELETE',
-                    headers: { 'Authorization': `Bearer ${token}` }
-                });
-                loadAlerts();
-            } catch (e) {
-                console.error('Delete error:', e);
             }
         }
         
@@ -402,13 +413,10 @@
         }
         
         // Initialize
+        console.log('Starting initialization...');
         loadUser();
         loadMarketData();
         loadFearGreed();
-        loadAlerts();
-        
-        // Refresh prices every 30s
-        setInterval(loadMarketData, 30000);
     </script>
 </body>
 </html>
