@@ -225,7 +225,7 @@
                         </div>
                         <div class="detection-box">
                             <div class="detection-label">Market Structure</div>
-                            <div class="detection-value">${a.market_structure || 'Unclear'}</div>
+                            <div class="detection-value">${typeof a.market_structure === 'object' ? a.market_structure.trend || 'Unclear' : a.market_structure || 'Unclear'}</div>
                         </div>
                         <div class="detection-box">
                             <div class="detection-label">Recommendation</div>
