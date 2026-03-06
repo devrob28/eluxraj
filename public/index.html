@@ -1,603 +1,698 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-D5GE28P625"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag("js",new Date());gtag("config","G-D5GE28P625");</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ELUXRAJ™ — AI Trade Intelligence</title>
-    <meta name="description" content="AI-Powered Trade Intelligence that reveals what to buy, when to buy, and exactly why — with institutional-level reasoning exposed in plain sight.">
-    <link rel="canonical" href="https://eluxraj.ai/">
-    <meta property="og:title" content="ELUXRAJ™ — AI Trade Intelligence">
-    <meta property="og:description" content="Institutional-grade trade playbooks with probabilities, scenarios, and risk clarity.">
-    <meta property="og:image" content="https://eluxraj.ai/images/og-image.png">
-    <meta property="og:url" content="https://eluxraj.ai/">
-    <meta name="twitter:card" content="summary_large_image">
+    <meta name="description" content="AI-powered trading signals scanning 50 stocks every 15 minutes. Get institutional-grade setups with exact entries, stops, and targets.">
     <link rel="icon" type="image/png" href="/favicon.png">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        *{margin:0;padding:0;box-sizing:border-box}
-        body{font-family:'Inter',-apple-system,sans-serif;background:#0a0a0f;color:#fff;line-height:1.6;overflow-x:hidden}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: #0a0a0f;
+            color: #fff;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+        
+        /* Background Effects */
+        .bg-gradient {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(ellipse at top center, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom right, rgba(6, 182, 212, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at bottom left, rgba(124, 58, 237, 0.08) 0%, transparent 50%);
+            z-index: -1;
+        }
+        
+        .grid-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-image: 
+                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
+            background-size: 50px 50px;
+            z-index: -1;
+        }
         
         /* Header */
-        header{position:fixed;top:0;left:0;right:0;z-index:100;padding:16px 40px;display:flex;justify-content:space-between;align-items:center;background:rgba(10,10,15,0.95);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.05)}
-        .logo{font-weight:900;font-size:1.5rem;background:linear-gradient(135deg,#7c3aed,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent;text-decoration:none}
-        nav{display:flex;align-items:center;gap:32px}
-        nav a{color:#9ca3af;text-decoration:none;font-size:0.9rem;font-weight:500;transition:color 0.2s}
-        nav a:hover{color:#fff}
-        .nav-cta{background:linear-gradient(135deg,#7c3aed,#06b6d4);color:#fff!important;padding:10px 24px;border-radius:8px;font-weight:600}
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            background: rgba(10, 10, 15, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
         
-        /* Hero */
-        .hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 40px 60px;background:radial-gradient(ellipse at top right,rgba(124,58,237,0.12),transparent 50%),radial-gradient(ellipse at bottom left,rgba(6,182,212,0.08),transparent 50%)}
-        .hero-inner{max-width:900px;margin:0 auto;text-align:center}
-        .hero h1{font-size:3rem;font-weight:900;line-height:1.15;margin-bottom:24px}
-        .hero h1 .highlight{background:linear-gradient(135deg,#7c3aed,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .hero-subtitle{font-size:1.15rem;color:#9ca3af;margin-bottom:20px;line-height:1.7}
-        .hero-risk{display:inline-block;font-size:0.85rem;color:#f59e0b;background:rgba(245,158,11,0.1);border:1px solid rgba(245,158,11,0.2);padding:10px 20px;border-radius:8px;margin-bottom:32px}
-        .hero-cta{display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
-        .btn{padding:16px 32px;border-radius:10px;text-decoration:none;font-weight:700;font-size:1rem;transition:all 0.3s;display:inline-flex;align-items:center;gap:8px}
-        .btn-primary{background:linear-gradient(135deg,#7c3aed,#06b6d4);color:#fff}
-        .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 40px rgba(124,58,237,0.4)}
-        .btn-secondary{background:rgba(255,255,255,0.05);color:#fff;border:1px solid rgba(255,255,255,0.1)}
-        .btn-secondary:hover{border-color:#7c3aed;background:rgba(124,58,237,0.1)}
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-decoration: none;
+        }
         
-        /* Section Styles */
-        .section{padding:100px 40px}
-        .section-dark{background:#0d0d12}
-        .section-header{text-align:center;max-width:700px;margin:0 auto 60px}
-        .section-header h2{font-size:2.2rem;font-weight:800;margin-bottom:16px}
-        .section-header h2 span{background:linear-gradient(135deg,#7c3aed,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .section-header p{color:#9ca3af;font-size:1rem}
+        .header-cta {
+            padding: 10px 24px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 8px;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
         
-        /* UI Showcase - Screenshots */
-        .showcase-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1200px;margin:0 auto}
-        .showcase-item{background:#12121a;border:1px solid #1e1e2e;border-radius:16px;overflow:hidden;transition:all 0.3s}
-        .showcase-item:hover{border-color:rgba(124,58,237,0.4);transform:translateY(-4px)}
-        .showcase-header{display:flex;align-items:center;gap:8px;padding:12px 16px;background:#0d0d14;border-bottom:1px solid #1e1e2e}
-        .showcase-dots{display:flex;gap:6px}
-        .showcase-dots span{width:8px;height:8px;border-radius:50%}
-        .showcase-dots span:nth-child(1){background:#ef4444}
-        .showcase-dots span:nth-child(2){background:#f59e0b}
-        .showcase-dots span:nth-child(3){background:#22c55e}
-        .showcase-title{font-size:0.75rem;color:#6b7280;font-weight:600;margin-left:auto}
-        .showcase-body{padding:20px;min-height:200px}
-        .showcase-label{text-align:center;padding:14px;background:#0d0d14;border-top:1px solid #1e1e2e}
-        .showcase-label h4{font-size:0.9rem;font-weight:700;margin-bottom:4px}
-        .showcase-label p{font-size:0.75rem;color:#6b7280}
+        .header-cta:hover {
+            background: rgba(255,255,255,0.15);
+            border-color: rgba(255,255,255,0.3);
+        }
         
-        /* Mini Dashboard */
-        .mini-dash{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}
-        .mini-stat{background:#0d0d14;border-radius:8px;padding:14px;text-align:center}
-        .mini-stat .value{font-family:'JetBrains Mono',monospace;font-size:1.3rem;font-weight:700}
-        .mini-stat .value.green{color:#22c55e}
-        .mini-stat .value.purple{background:linear-gradient(135deg,#7c3aed,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .mini-stat .label{font-size:0.65rem;color:#6b7280;margin-top:4px;text-transform:uppercase}
+        /* Hero Section */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 120px 20px 60px;
+            text-align: center;
+        }
         
-        /* Mini Chart AI */
-        .mini-chart .pattern-box{background:#0d0d14;border-radius:8px;padding:16px;margin-bottom:12px;text-align:center}
-        .mini-chart .pattern-name{font-size:1rem;font-weight:700;color:#06b6d4;margin-bottom:4px}
-        .mini-chart .pattern-conf{font-size:0.8rem;color:#22c55e}
-        .mini-chart .levels-row{display:flex;gap:8px}
-        .mini-chart .level-item{flex:1;background:#0d0d14;border-radius:6px;padding:10px;text-align:center}
-        .mini-chart .level-item .lbl{font-size:0.6rem;color:#6b7280;text-transform:uppercase}
-        .mini-chart .level-item .val{font-family:'JetBrains Mono',monospace;font-size:0.8rem;font-weight:600}
-        .mini-chart .level-item .val.entry{color:#7c3aed}
-        .mini-chart .level-item .val.tp{color:#22c55e}
-        .mini-chart .level-item .val.sl{color:#ef4444}
+        .hero-logo {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            border-radius: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 32px;
+            box-shadow: 0 20px 60px rgba(124, 58, 237, 0.4);
+        }
         
-        /* Mini Scenarios */
-        .mini-scenarios .scenario{display:flex;justify-content:space-between;align-items:center;background:#0d0d14;border-radius:8px;padding:12px;margin-bottom:8px}
-        .mini-scenarios .scenario:last-child{margin-bottom:0}
-        .mini-scenarios .scenario-name{font-size:0.8rem;font-weight:600}
-        .mini-scenarios .scenario-prob{font-family:'JetBrains Mono',monospace;font-size:0.85rem;font-weight:700}
-        .mini-scenarios .bullish .scenario-prob{color:#22c55e}
-        .mini-scenarios .bearish .scenario-prob{color:#ef4444}
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 900;
+            margin-bottom: 16px;
+            background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
         
-        /* How It Works - Explainer */
-        .explainer-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1100px;margin:0 auto}
-        .explainer-card{background:#12121a;border:1px solid #1e1e2e;border-radius:16px;padding:32px}
-        .explainer-card .icon{width:56px;height:56px;background:linear-gradient(135deg,rgba(124,58,237,0.15),rgba(6,182,212,0.1));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:1.6rem;margin-bottom:20px}
-        .explainer-card h3{font-size:1.1rem;font-weight:700;margin-bottom:12px}
-        .explainer-card ul{list-style:none}
-        .explainer-card ul li{color:#9ca3af;font-size:0.9rem;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:flex-start;gap:10px}
-        .explainer-card ul li:last-child{border-bottom:none}
-        .explainer-card ul li::before{content:'•';color:#7c3aed;font-weight:700}
+        .hero-tagline {
+            font-size: 1.3rem;
+            color: #9ca3af;
+            margin-bottom: 48px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
         
-        /* Verified Results */
-        .results-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;max-width:1100px;margin:0 auto}
-        .result-card{background:#12121a;border:1px solid #1e1e2e;border-radius:16px;padding:28px;text-align:center}
-        .result-card .value{font-family:'JetBrains Mono',monospace;font-size:2.2rem;font-weight:700;margin-bottom:8px}
-        .result-card .value.green{color:#22c55e}
-        .result-card .value.red{color:#ef4444}
-        .result-card .value.purple{background:linear-gradient(135deg,#7c3aed,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
-        .result-card .label{font-size:0.8rem;color:#6b7280;text-transform:uppercase;letter-spacing:0.5px}
-        .result-card .context{font-size:0.7rem;color:#4b5563;margin-top:4px}
-        .results-disclaimer{text-align:center;margin-top:32px;padding:16px;background:rgba(245,158,11,0.08);border:1px solid rgba(245,158,11,0.15);border-radius:10px;max-width:800px;margin-left:auto;margin-right:auto}
-        .results-disclaimer p{color:#d4a017;font-size:0.8rem}
+        /* Plan Toggle */
+        .plan-toggle {
+            display: flex;
+            background: rgba(255,255,255,0.05);
+            border-radius: 12px;
+            padding: 6px;
+            margin-bottom: 48px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
         
-        /* Team Section */
-        .team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;max-width:1000px;margin:0 auto}
-        .team-member{text-align:center}
-        .team-photo{width:120px;height:120px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#06b6d4);margin:0 auto 20px;display:flex;align-items:center;justify-content:center;font-size:2.5rem;font-weight:700;color:#fff;object-fit:cover;object-position:center 30%}
-        .team-member h4{font-size:1.1rem;font-weight:700;margin-bottom:4px}
-        .team-member .role{font-size:0.85rem;color:#7c3aed;margin-bottom:12px}
-        .team-member .bio{font-size:0.85rem;color:#9ca3af;line-height:1.6}
+        .toggle-btn {
+            padding: 12px 32px;
+            border-radius: 8px;
+            border: none;
+            background: transparent;
+            color: #9ca3af;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            position: relative;
+        }
         
-        /* Testimonials */
-        .testimonials-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;max-width:1200px;margin:0 auto}
-        .testimonial{background:#12121a;border:1px solid #1e1e2e;border-radius:16px;padding:28px}
-        .testimonial-stars{color:#f59e0b;font-size:0.9rem;margin-bottom:16px}
-        .testimonial-quote{color:#d1d5db;font-size:0.95rem;line-height:1.7;margin-bottom:20px}
-        .testimonial-author{display:flex;align-items:center;gap:12px}
-        .testimonial-avatar{width:48px;height:48px;border-radius:50%;background:linear-gradient(135deg,#7c3aed,#06b6d4);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:1.1rem}
-        .testimonial-name{font-weight:600;font-size:0.9rem}
-        .testimonial-role{font-size:0.75rem;color:#6b7280}
-        .testimonial-verified{display:flex;align-items:center;gap:4px;font-size:0.7rem;color:#22c55e;margin-top:2px}
+        .toggle-btn.active {
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            color: #fff;
+        }
         
-        /* Trust Indicators */
-        .trust-bar{display:flex;justify-content:center;gap:48px;padding:40px 20px;border-top:1px solid rgba(255,255,255,0.05);border-bottom:1px solid rgba(255,255,255,0.05)}
-        .trust-item{display:flex;align-items:center;gap:10px;color:#6b7280;font-size:0.9rem}
-        .trust-item .icon{font-size:1.2rem}
+        .toggle-btn .discount {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #22c55e;
+            color: #fff;
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 700;
+        }
         
-        /* CTA Section */
-        .cta-section{padding:100px 40px;text-align:center;background:radial-gradient(ellipse at center,rgba(124,58,237,0.12),transparent 60%)}
-        .cta-section h2{font-size:2.2rem;font-weight:800;margin-bottom:16px}
-        .cta-section p{color:#9ca3af;font-size:1rem;margin-bottom:24px;max-width:500px;margin-left:auto;margin-right:auto}
-        .cta-risk{font-size:0.8rem;color:#f59e0b;margin-bottom:32px}
-        .cta-buttons{display:flex;justify-content:center;gap:16px;flex-wrap:wrap}
+        /* Pricing Cards */
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            max-width: 1100px;
+            width: 100%;
+            padding: 0 20px;
+        }
         
-        /* Footer Disclaimer */
-        .footer-disclaimer{max-width:900px;margin:0 auto 40px;padding:24px;background:rgba(239,68,68,0.05);border:1px solid rgba(239,68,68,0.15);border-radius:12px;text-align:center}
-        .footer-disclaimer h4{color:#ef4444;font-size:0.9rem;margin-bottom:12px}
-        .footer-disclaimer p{color:#9ca3af;font-size:0.8rem;line-height:1.7}
+        .pricing-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 24px;
+            padding: 32px;
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .pricing-card:hover {
+            border-color: rgba(124, 58, 237, 0.5);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(124, 58, 237, 0.2);
+        }
+        
+        .pricing-card.featured {
+            border-color: #7c3aed;
+            background: linear-gradient(180deg, rgba(124, 58, 237, 0.1) 0%, rgba(10, 10, 15, 0.95) 100%);
+        }
+        
+        .pricing-card.featured::before {
+            content: 'MOST POPULAR';
+            position: absolute;
+            top: -12px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            color: #fff;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 6px 16px;
+            border-radius: 20px;
+            letter-spacing: 1px;
+        }
+        
+        .card-icon {
+            width: 64px;
+            height: 64px;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(6, 182, 212, 0.2));
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+        }
+        
+        .card-name {
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        
+        .card-price {
+            margin-bottom: 24px;
+        }
+        
+        .price-amount {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #fff, #a5b4fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .price-period {
+            color: #6b7280;
+            font-size: 0.9rem;
+        }
+        
+        .card-features {
+            list-style: none;
+            margin-bottom: 32px;
+        }
+        
+        .card-features li {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 14px;
+            color: #d1d5db;
+            font-size: 0.95rem;
+        }
+        
+        .card-features li .check {
+            color: #22c55e;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-top: 2px;
+        }
+        
+        .card-features li.disabled {
+            color: #4b5563;
+        }
+        
+        .card-features li.disabled .check {
+            color: #4b5563;
+        }
+        
+        .card-cta {
+            display: block;
+            width: 100%;
+            padding: 16px;
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1rem;
+            text-decoration: none;
+            transition: all 0.3s;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .card-cta.primary {
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            color: #fff;
+        }
+        
+        .card-cta.primary:hover {
+            transform: scale(1.02);
+            box-shadow: 0 10px 40px rgba(124, 58, 237, 0.4);
+        }
+        
+        .card-cta.secondary {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        
+        .card-cta.secondary:hover {
+            background: rgba(255,255,255,0.15);
+        }
+        
+        /* Social Proof */
+        .social-proof {
+            margin-top: 64px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        
+        .avatars {
+            display: flex;
+        }
+        
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            border: 3px solid #0a0a0f;
+            margin-left: -12px;
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.8rem;
+            font-weight: 700;
+        }
+        
+        .avatar:first-child {
+            margin-left: 0;
+        }
+        
+        .proof-text {
+            color: #9ca3af;
+            font-size: 0.95rem;
+        }
+        
+        .proof-text strong {
+            color: #fff;
+        }
+        
+        /* Features Section */
+        .features-section {
+            padding: 100px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .features-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+        
+        .features-header h2 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+        
+        .features-header h2 span {
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .features-header p {
+            color: #9ca3af;
+            font-size: 1.1rem;
+        }
+        
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+        }
+        
+        .feature-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 28px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .feature-card:hover {
+            border-color: rgba(124, 58, 237, 0.3);
+            transform: translateY(-4px);
+        }
+        
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 16px;
+        }
+        
+        .feature-card h4 {
+            font-size: 1.1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .feature-card p {
+            color: #9ca3af;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        /* Stock Universe */
+        .stocks-section {
+            padding: 80px 20px;
+            text-align: center;
+        }
+        
+        .stocks-section h3 {
+            font-size: 1.2rem;
+            color: #6b7280;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        
+        .stock-tags {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .stock-tag {
+            background: rgba(124, 58, 237, 0.1);
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            color: #a78bfa;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            font-family: 'SF Mono', 'Consolas', monospace;
+        }
+        
+        .stock-tag.more {
+            background: rgba(6, 182, 212, 0.1);
+            border-color: rgba(6, 182, 212, 0.3);
+            color: #22d3ee;
+        }
         
         /* Footer */
-        footer{padding:60px 40px;border-top:1px solid #1e1e2e;background:#0a0a0f}
-        .footer-content{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px}
-        .footer-brand .logo{display:inline-block;margin-bottom:12px}
-        .footer-brand p{color:#6b7280;font-size:0.85rem;line-height:1.6;max-width:280px}
-        .footer-col h5{font-size:0.85rem;font-weight:700;margin-bottom:16px;color:#9ca3af;text-transform:uppercase;letter-spacing:0.5px}
-        .footer-col a{display:block;color:#6b7280;text-decoration:none;font-size:0.9rem;margin-bottom:10px;transition:color 0.2s}
-        .footer-col a:hover{color:#fff}
-        .footer-bottom{max-width:1200px;margin:40px auto 0;padding-top:24px;border-top:1px solid #1e1e2e;display:flex;justify-content:space-between;align-items:center}
-        .footer-copy{color:#4b5563;font-size:0.8rem}
-        .footer-legal{display:flex;gap:24px}
-        .footer-legal a{color:#6b7280;text-decoration:none;font-size:0.8rem}
-        .footer-legal a:hover{color:#fff}
+        footer {
+            padding: 40px 20px;
+            text-align: center;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
         
-        /* Mobile */
-        @media(max-width:1000px){
-            .showcase-grid,.explainer-grid,.team-grid,.testimonials-grid{grid-template-columns:1fr}
-            .results-grid{grid-template-columns:repeat(2,1fr)}
-            .footer-content{grid-template-columns:1fr 1fr}
-            .trust-bar{flex-wrap:wrap;gap:24px}
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 32px;
+            margin-bottom: 20px;
         }
-        @media(max-width:768px){
-            header{padding:12px 20px}
-            nav{display:none}
-            .hero{padding:100px 20px 60px}
-            .hero h1{font-size:2rem}
-            .section{padding:60px 20px}
-            .results-grid{grid-template-columns:1fr}
-            .footer-content{grid-template-columns:1fr}
-            .footer-bottom{flex-direction:column;gap:16px;text-align:center}
+        
+        .footer-links a {
+            color: #6b7280;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
         }
-
-        /* Live Signals Section */
-        .signals-showcase{max-width:1000px;margin:0 auto}
-        .signal-features{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-bottom:40px}
-        .signal-feature{background:#12121a;border:1px solid #1e1e2e;border-radius:16px;padding:24px;text-align:center;transition:all 0.3s}
-        .signal-feature:hover{border-color:rgba(124,58,237,0.4);transform:translateY(-4px)}
-        .sf-icon{font-size:2rem;margin-bottom:12px}
-        .signal-feature h4{font-size:1rem;font-weight:700;margin-bottom:8px}
-        .signal-feature p{font-size:0.85rem;color:#9ca3af}
-        .stock-universe{background:#12121a;border:1px solid #1e1e2e;border-radius:16px;padding:24px;text-align:center;margin-bottom:32px}
-        .stock-universe h4{font-size:1rem;font-weight:700;margin-bottom:16px;color:#9ca3af}
-        .stock-tags{display:flex;flex-wrap:wrap;justify-content:center;gap:10px}
-        .stock-tag{background:rgba(124,58,237,0.1);border:1px solid rgba(124,58,237,0.3);color:#a78bfa;padding:6px 14px;border-radius:20px;font-size:0.85rem;font-weight:600;font-family:'JetBrains Mono',monospace}
-        .stock-tag.more{background:rgba(6,182,212,0.1);border-color:rgba(6,182,212,0.3);color:#22d3ee}
-        .signals-cta{text-align:center}
-        @media(max-width:900px){.signal-features{grid-template-columns:repeat(2,1fr)}}
-        @media(max-width:600px){.signal-features{grid-template-columns:1fr}}
+        
+        .footer-links a:hover {
+            color: #fff;
+        }
+        
+        .footer-disclaimer {
+            color: #4b5563;
+            font-size: 0.8rem;
+            max-width: 600px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+        
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .pricing-grid {
+                grid-template-columns: 1fr;
+                max-width: 400px;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            header {
+                padding: 16px 20px;
+            }
+            
+            .footer-links {
+                flex-wrap: wrap;
+            }
+        }
     </style>
 </head>
 <body>
-
-<header>
-    <a href="/" class="logo">ELUXRAJ™</a>
-    <nav>
-        <a href="/playbooks.html">Playbooks</a>
-        <a href="/chart-analysis.html">Chart AI</a>
-        <a href="/signals.html">Signals</a>
-        <a href="/pricing.html">Pricing</a>
-        <a href="/login.html">Login</a>
-        <a href="/register.html" class="nav-cta">Get Started</a>
-    </nav>
-</header>
-
-<!-- Hero Section -->
-<section class="hero">
-    <div class="hero-inner">
-        <h1><span class="highlight">AI Scans 50 Stocks Every 15 Minutes</span> So You Never Miss a High-Probability Trade</h1>
-        <p class="hero-subtitle">Get real-time AI signals with exact entry prices, stop losses, and profit targets. Every signal includes pattern detection, confidence scores, and clear reasoning.</p>
-        <div class="hero-risk">⚠️ Decision intelligence only — not financial advice — trading involves risk</div>
-        <div class="hero-cta">
-            <a href="/register.html" class="btn btn-primary">See Live Signals →</a>
-            <a href="/signals.html" class="btn btn-secondary">View Live Signals</a>
+    <div class="bg-gradient"></div>
+    <div class="grid-overlay"></div>
+    
+    <header>
+        <a href="/" class="logo">ELUXRAJ™</a>
+        <a href="/login.html" class="header-cta">Login</a>
+    </header>
+    
+    <section class="hero">
+        <div class="hero-logo">E</div>
+        <h1>ELUXRAJ</h1>
+        <p class="hero-tagline">Choose Your Edge in the Markets</p>
+        
+        <div class="plan-toggle">
+            <button class="toggle-btn active" onclick="setPlan('monthly')">Monthly</button>
+            <button class="toggle-btn" onclick="setPlan('yearly')">
+                Yearly
+                <span class="discount">-20%</span>
+            </button>
         </div>
-    </div>
-</section>
-
-<!-- Trust Indicators -->
-<div class="trust-bar">
-    <div class="trust-item"><span class="icon">🔒</span> Bank-Level Encryption</div>
-    <div class="trust-item"><span class="icon">📊</span> Real-Time Data</div>
-    <div class="trust-item"><span class="icon">🤖</span> AI-Powered Analysis</div>
-    <div class="trust-item"><span class="icon">✓</span> No Credit Card Required</div>
-</div>
-
-<!-- UI Showcase Section -->
-<section class="section section-dark">
-    <div class="section-header">
-        <h2>See <span>ELUXRAJ</span> in Action</h2>
-        <p>Three core features that give you institutional-grade trade intelligence</p>
-    </div>
-    <div class="showcase-grid">
-        <!-- Dashboard Screenshot -->
-        <div class="showcase-item">
-            <div class="showcase-header">
-                <div class="showcase-dots"><span></span><span></span><span></span></div>
-                <div class="showcase-title">Dashboard</div>
-            </div>
-            <div class="showcase-body">
-                <div class="mini-dash">
-                    <div class="mini-stat">
-                        <div class="value green">Bullish</div>
-                        <div class="label">Market Bias</div>
-                    </div>
-                    <div class="mini-stat">
-                        <div class="value purple">3.2:1</div>
-                        <div class="label">Avg R:R</div>
-                    </div>
-                    <div class="mini-stat">
-                        <div class="value green">87%</div>
-                        <div class="label">Confidence</div>
-                    </div>
-                    <div class="mini-stat">
-                        <div class="value purple">6</div>
-                        <div class="label">Scenarios</div>
-                    </div>
+        
+        <div class="pricing-grid">
+            <!-- Lite Plan -->
+            <div class="pricing-card">
+                <div class="card-icon">📊</div>
+                <div class="card-name">Lite</div>
+                <div class="card-price">
+                    <span class="price-amount" data-monthly="$0" data-yearly="$0">$0</span>
+                    <span class="price-period">/month</span>
                 </div>
+                <ul class="card-features">
+                    <li><span class="check">✓</span> Market overview dashboard</li>
+                    <li><span class="check">✓</span> Basic price alerts</li>
+                    <li><span class="check">✓</span> Limited signal previews</li>
+                    <li class="disabled"><span class="check">✗</span> AI Playbooks</li>
+                    <li class="disabled"><span class="check">✗</span> Chart AI Analysis</li>
+                    <li class="disabled"><span class="check">✗</span> Live Trading Signals</li>
+                </ul>
+                <a href="/register.html" class="card-cta secondary">Start Free</a>
             </div>
-            <div class="showcase-label">
-                <h4>Real-Time Dashboard</h4>
-                <p>Live market data and AI-generated insights</p>
+            
+            <!-- Pro Plan -->
+            <div class="pricing-card featured">
+                <div class="card-icon">🎯</div>
+                <div class="card-name">Pro</div>
+                <div class="card-price">
+                    <span class="price-amount" data-monthly="$49" data-yearly="$39">$49</span>
+                    <span class="price-period">/month</span>
+                </div>
+                <ul class="card-features">
+                    <li><span class="check">✓</span> Everything in Lite</li>
+                    <li><span class="check">✓</span> <strong>AI Playbooks</strong> - Full trade setups</li>
+                    <li><span class="check">✓</span> <strong>Chart AI</strong> - Pattern recognition</li>
+                    <li><span class="check">✓</span> <strong>Live Signals</strong> - 50 stocks scanned</li>
+                    <li><span class="check">✓</span> Institutional pattern detection</li>
+                    <li><span class="check">✓</span> Entry, stop loss & targets</li>
+                </ul>
+                <a href="/register.html?plan=pro" class="card-cta primary">Get Pro Access</a>
+            </div>
+            
+            <!-- Elite Plan -->
+            <div class="pricing-card">
+                <div class="card-icon">👑</div>
+                <div class="card-name">Elite</div>
+                <div class="card-price">
+                    <span class="price-amount" data-monthly="$99" data-yearly="$79">$99</span>
+                    <span class="price-period">/month</span>
+                </div>
+                <ul class="card-features">
+                    <li><span class="check">✓</span> Everything in Pro</li>
+                    <li><span class="check">✓</span> <strong>Unlimited</strong> AI Playbooks</li>
+                    <li><span class="check">✓</span> <strong>Unlimited</strong> Chart Analysis</li>
+                    <li><span class="check">✓</span> Priority signal alerts</li>
+                    <li><span class="check">✓</span> Multi-timeframe analysis</li>
+                    <li><span class="check">✓</span> Direct support access</li>
+                </ul>
+                <a href="/register.html?plan=elite" class="card-cta secondary">Go Elite</a>
             </div>
         </div>
         
-        <!-- Chart AI Screenshot -->
-        <div class="showcase-item">
-            <div class="showcase-header">
-                <div class="showcase-dots"><span></span><span></span><span></span></div>
-                <div class="showcase-title">Chart AI Results</div>
+        <div class="social-proof">
+            <div class="avatars">
+                <div class="avatar">JT</div>
+                <div class="avatar">MK</div>
+                <div class="avatar">AR</div>
+                <div class="avatar">SL</div>
+                <div class="avatar">+</div>
             </div>
-            <div class="showcase-body">
-                <div class="mini-chart">
-                    <div class="pattern-box">
-                        <div class="pattern-name">Descending Wedge</div>
-                        <div class="pattern-conf">85% Confidence</div>
-                    </div>
-                    <div class="levels-row">
-                        <div class="level-item">
-                            <div class="lbl">Entry</div>
-                            <div class="val entry">$94,200</div>
-                        </div>
-                        <div class="level-item">
-                            <div class="lbl">Target</div>
-                            <div class="val tp">$98,500</div>
-                        </div>
-                        <div class="level-item">
-                            <div class="lbl">Stop</div>
-                            <div class="val sl">$91,800</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="showcase-label">
-                <h4>AI Pattern Detection</h4>
-                <p>Upload any chart, get instant analysis</p>
-            </div>
+            <p class="proof-text">Join <strong>2,500+</strong> traders using AI signals</p>
+        </div>
+    </section>
+    
+    <section class="features-section">
+        <div class="features-header">
+            <h2>Why Traders Choose <span>ELUXRAJ</span></h2>
+            <p>Institutional-grade AI analysis, simplified for everyone</p>
         </div>
         
-        <!-- Scenario Probability Screenshot -->
-        <div class="showcase-item">
-            <div class="showcase-header">
-                <div class="showcase-dots"><span></span><span></span><span></span></div>
-                <div class="showcase-title">Scenario Analysis</div>
-            </div>
-            <div class="showcase-body">
-                <div class="mini-scenarios">
-                    <div class="scenario bullish">
-                        <span class="scenario-name">📈 Breakout Rally</span>
-                        <span class="scenario-prob">40%</span>
-                    </div>
-                    <div class="scenario bullish">
-                        <span class="scenario-name">📈 Higher Low Bounce</span>
-                        <span class="scenario-prob">30%</span>
-                    </div>
-                    <div class="scenario bearish">
-                        <span class="scenario-name">📉 Support Breakdown</span>
-                        <span class="scenario-prob">20%</span>
-                    </div>
-                    <div class="scenario bearish">
-                        <span class="scenario-name">📉 Rejection at Resistance</span>
-                        <span class="scenario-prob">10%</span>
-                    </div>
-                </div>
-            </div>
-            <div class="showcase-label">
-                <h4>Probability Scoring</h4>
-                <p>3 bullish + 3 bearish scenarios per trade</p>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- Live Signals Section -->
-<section class="section">
-    <div class="section-header">
-        <h2>🎯 <span>Live AI Signals</span> Running 24/7</h2>
-        <p>Our AI scans 50 top stocks every 15 minutes, delivering high-confidence trade setups</p>
-    </div>
-    <div class="signals-showcase">
-        <div class="signal-features">
-            <div class="signal-feature">
-                <div class="sf-icon">⚡</div>
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
                 <h4>Real-Time Scanning</h4>
-                <p>50 stocks analyzed every 15 minutes across multiple timeframes</p>
+                <p>50 stocks analyzed every 15 minutes for high-probability setups</p>
             </div>
-            <div class="signal-feature">
-                <div class="sf-icon">🎯</div>
-                <h4>High Confidence Only</h4>
-                <p>Only signals with 70%+ AI confidence are published</p>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h4>Precise Entries</h4>
+                <p>Exact entry price, stop loss, and profit targets with every signal</p>
             </div>
-            <div class="signal-feature">
-                <div class="sf-icon">📊</div>
-                <h4>Complete Trade Setup</h4>
-                <p>Entry price, stop loss, 2 profit targets, and risk/reward ratio</p>
+            <div class="feature-card">
+                <div class="feature-icon">🧠</div>
+                <h4>QM Patterns</h4>
+                <p>AI detects Quasimodo, flags, fakeouts, and liquidity grabs</p>
             </div>
-            <div class="signal-feature">
-                <div class="sf-icon">🧠</div>
-                <h4>Pattern Detection</h4>
-                <p>AI identifies chart patterns like ascending triangles, flags, and more</p>
-            </div>
-        </div>
-        <div class="stock-universe">
-            <h4>Stock Universe</h4>
-            <div class="stock-tags">
-                <span class="stock-tag">AAPL</span>
-                <span class="stock-tag">MSFT</span>
-                <span class="stock-tag">GOOGL</span>
-                <span class="stock-tag">AMZN</span>
-                <span class="stock-tag">NVDA</span>
-                <span class="stock-tag">TSLA</span>
-                <span class="stock-tag">META</span>
-                <span class="stock-tag">AMD</span>
-                <span class="stock-tag">JPM</span>
-                <span class="stock-tag">V</span>
-                <span class="stock-tag more">+40 more</span>
+            <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <h4>High Win Rate</h4>
+                <p>Only 70%+ confidence signals with 2:1+ risk/reward ratios</p>
             </div>
         </div>
-        <div class="signals-cta">
-            <a href="/signals.html" class="btn btn-primary">View Live Signals →</a>
+    </section>
+    
+    <section class="stocks-section">
+        <h3>Stocks We Scan Every 15 Minutes</h3>
+        <div class="stock-tags">
+            <span class="stock-tag">AAPL</span>
+            <span class="stock-tag">MSFT</span>
+            <span class="stock-tag">GOOGL</span>
+            <span class="stock-tag">AMZN</span>
+            <span class="stock-tag">NVDA</span>
+            <span class="stock-tag">TSLA</span>
+            <span class="stock-tag">META</span>
+            <span class="stock-tag">AMD</span>
+            <span class="stock-tag">JPM</span>
+            <span class="stock-tag">V</span>
+            <span class="stock-tag more">+40 more</span>
         </div>
-    </div>
-</section>
-
-<!-- How ELUXRAJ Makes Playbooks -->
-<section class="section">
-    <div class="section-header">
-        <h2>How ELUXRAJ <span>Makes Playbooks</span></h2>
-        <p>Transparent methodology combining multiple data sources with AI reasoning</p>
-    </div>
-    <div class="explainer-grid">
-        <div class="explainer-card">
-            <div class="icon">📡</div>
-            <h3>Data Sources</h3>
-            <ul>
-                <li>Real-time price feeds from major exchanges</li>
-                <li>On-chain whale wallet tracking via Alchemy</li>
-                <li>SEC Form 4 insider trading filings</li>
-                <li>Exchange inflow/outflow analysis</li>
-                <li>Historical price and volume data</li>
-            </ul>
-        </div>
-        <div class="explainer-card">
-            <div class="icon">🧠</div>
-            <h3>Model Logic</h3>
-            <ul>
-                <li>Pattern recognition on price charts</li>
-                <li>Fibonacci retracement calculation</li>
-                <li>Support/resistance level detection</li>
-                <li>Trend strength analysis</li>
-                <li>Multi-timeframe confluence</li>
-            </ul>
-        </div>
-        <div class="explainer-card">
-            <div class="icon">🎯</div>
-            <h3>Scoring System</h3>
-            <ul>
-                <li>Confidence: Pattern clarity (0-100%)</li>
-                <li>Probability: Historical success rate</li>
-                <li>Risk/Reward: Entry to target vs stop</li>
-                <li>Bias Strength: Directional conviction</li>
-                <li>Scenario weighting: Probability per outcome</li>
-            </ul>
-        </div>
-    </div>
-</section>
-
-<!-- Verified Results -->
-<section class="section section-dark">
-    <div class="section-header">
-        <h2>Verified <span>Results</span></h2>
-        <p>Backtested performance from January 2024 to present</p>
-    </div>
-    <div class="results-grid">
-        <div class="result-card">
-            <div class="value green">68%</div>
-            <div class="label">Win Rate</div>
-            <div class="context">Signals with positive outcome</div>
-        </div>
-        <div class="result-card">
-            <div class="value purple">3.2:1</div>
-            <div class="label">Avg Risk/Reward</div>
-            <div class="context">Mean R:R across all trades</div>
-        </div>
-        <div class="result-card">
-            <div class="value red">-12.4%</div>
-            <div class="label">Max Drawdown</div>
-            <div class="context">Largest peak-to-trough decline</div>
-        </div>
-        <div class="result-card">
-            <div class="value green">847</div>
-            <div class="label">Trades Analyzed</div>
-            <div class="context">Jan 2024 - Present</div>
-        </div>
-    </div>
-    <div class="results-disclaimer">
-        <p>⚠️ <strong>Past performance does not guarantee future results.</strong> Backtested results are hypothetical and do not reflect actual trading. Real trading involves risk of loss. These metrics are for informational purposes only.</p>
-    </div>
-</section>
-
-<!-- Team & Advisors -->
-<section class="section">
-    <div class="section-header">
-        <h2>Team & <span>Advisors</span></h2>
-        <p>Built by traders, engineers, and AI researchers</p>
-    </div>
-    <div class="team-grid">
-        <div class="team-member">
-            <img src="/images/rob-mitchell.jpg" alt="Rob Mitchell" class="team-photo">
-            <h4>Rob Mitchell</h4>
-            <div class="role">Founder & CEO</div>
-            <div class="bio">Former fintech engineer with 10+ years building trading systems. Passionate about democratizing institutional-grade tools for retail traders.</div>
-        </div>
-        <div class="team-member">
-            <div class="team-photo">A</div>
-            <h4>Advisory Board</h4>
-            <div class="role">Industry Experts</div>
-            <div class="bio">Our advisors include former hedge fund managers, quantitative researchers, and AI/ML specialists from leading tech companies.</div>
-        </div>
-        <div class="team-member">
-            <div class="team-photo">AI</div>
-            <h4>AI Research Team</h4>
-            <div class="role">Model Development</div>
-            <div class="bio">Leveraging Claude AI and custom models to deliver institutional-quality analysis with transparent reasoning.</div>
-        </div>
-    </div>
-</section>
-
-<!-- Testimonials -->
-<section class="section section-dark">
-    <div class="section-header">
-        <h2>What Traders <span>Are Saying</span></h2>
-        <p>Real feedback from ELUXRAJ users</p>
-    </div>
-    <div class="testimonials-grid">
-        <div class="testimonial">
-            <div class="testimonial-stars">★★★★★</div>
-            <p class="testimonial-quote">"The 6 scenario analysis changed how I approach every trade. I'm no longer surprised by market moves — I'm prepared for them."</p>
-            <div class="testimonial-author">
-                <div class="testimonial-avatar">M</div>
-                <div>
-                    <div class="testimonial-name">Marcus T.</div>
-                    <div class="testimonial-role">Crypto Day Trader</div>
-                    <div class="testimonial-verified">✓ Verified User</div>
-                </div>
-            </div>
-        </div>
-        <div class="testimonial">
-            <div class="testimonial-stars">★★★★★</div>
-            <p class="testimonial-quote">"Finally, an AI tool that tells me exactly why it's recommending a trade. The transparency is what sold me."</p>
-            <div class="testimonial-author">
-                <div class="testimonial-avatar">S</div>
-                <div>
-                    <div class="testimonial-name">Sarah K.</div>
-                    <div class="testimonial-role">Swing Trader</div>
-                    <div class="testimonial-verified">✓ Verified User</div>
-                </div>
-            </div>
-        </div>
-        <div class="testimonial">
-            <div class="testimonial-stars">★★★★☆</div>
-            <p class="testimonial-quote">"The Chart AI feature saves me hours of analysis. Upload a chart, get a complete breakdown in seconds. Very useful tool."</p>
-            <div class="testimonial-author">
-                <div class="testimonial-avatar">J</div>
-                <div>
-                    <div class="testimonial-name">James R.</div>
-                    <div class="testimonial-role">Technical Analyst</div>
-                    <div class="testimonial-verified">✓ Verified User</div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
-<!-- CTA Section -->
-<section class="cta-section">
-    <h2>Ready to Trade with Intelligence?</h2>
-    <p>Join traders using AI-powered decision intelligence to make better, more informed trades.</p>
-    <div class="cta-risk">⚠️ Trading involves substantial risk. Only trade with capital you can afford to lose.</div>
-    <div class="cta-buttons">
-        <a href="/register.html" class="btn btn-primary">See Live Signals →</a>
-        <a href="/pricing.html" class="btn btn-secondary">View Pricing</a>
-    </div>
-</section>
-
-<!-- Footer Disclaimer -->
-<div class="footer-disclaimer">
-    <h4>⚠️ Important Risk Disclosure</h4>
-    <p>ELUXRAJ provides decision intelligence tools only — not financial advice. Trading cryptocurrencies and stocks involves substantial risk of loss and is not suitable for all investors. Past performance, whether actual or indicated by historical backtests, does not guarantee future results. You should carefully consider your investment objectives, level of experience, and risk appetite before trading. Never invest more than you can afford to lose.</p>
-</div>
-
-<!-- Footer -->
-<footer>
-    <div class="footer-content">
-        <div class="footer-brand">
-            <a href="/" class="logo">ELUXRAJ™</a>
-            <p>AI-powered trade intelligence for retail traders. Make better decisions with probability-based analysis and transparent reasoning.</p>
-        </div>
-        <div class="footer-col">
-            <h5>Product</h5>
-            <a href="/playbooks.html">AI Playbooks</a>
-            <a href="/chart-analysis.html">Chart AI</a>
-            <a href="/signals.html">Signals</a>
+    </section>
+    
+    <footer>
+        <div class="footer-links">
             <a href="/pricing.html">Pricing</a>
-        </div>
-        <div class="footer-col">
-            <h5>Company</h5>
             <a href="/about.html">About</a>
-            <a href="/methodology.html">Methodology</a>
-            <a href="/contact.html">Contact</a>
-        </div>
-        <div class="footer-col">
-            <h5>Legal</h5>
-            <a href="/terms.html">Terms of Service</a>
-            <a href="/privacy.html">Privacy Policy</a>
-            <a href="/disclaimer.html">Risk Disclosure</a>
-            <a href="/performance.html">Performance Disclosure</a>
-        </div>
-    </div>
-    <div class="footer-bottom">
-        <p class="footer-copy">© 2025 ELUXRAJ™. All rights reserved. Not financial advice.</p>
-        <div class="footer-legal">
             <a href="/terms.html">Terms</a>
             <a href="/privacy.html">Privacy</a>
             <a href="/disclaimer.html">Disclaimer</a>
+            <a href="/contact.html">Contact</a>
         </div>
-    </div>
-</footer>
-
+        <p class="footer-disclaimer">
+            ⚠️ Trading involves risk. ELUXRAJ provides decision intelligence only — not financial advice. 
+            Past performance does not guarantee future results. All prices in USD.
+        </p>
+    </footer>
+    
+    <script>
+        function setPlan(plan) {
+            const buttons = document.querySelectorAll('.toggle-btn');
+            buttons.forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            const prices = document.querySelectorAll('.price-amount');
+            prices.forEach(price => {
+                const monthly = price.dataset.monthly;
+                const yearly = price.dataset.yearly;
+                price.textContent = plan === 'monthly' ? monthly : yearly;
+            });
+        }
+    </script>
 </body>
 </html>
