@@ -694,5 +694,134 @@
             });
         }
     </script>
+
+    <!-- Social Proof Notification Widget -->
+    <div id="social-proof" class="social-proof-notification">
+        <div class="sp-icon">🎯</div>
+        <div class="sp-content">
+            <div class="sp-text"></div>
+            <div class="sp-time"></div>
+        </div>
+        <button class="sp-close" onclick="closeSocialProof()">×</button>
+    </div>
+    
+    <style>
+        .social-proof-notification {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            background: #12121a;
+            border: 1px solid rgba(124, 58, 237, 0.3);
+            border-radius: 12px;
+            padding: 16px 20px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+            z-index: 1000;
+            transform: translateX(-120%);
+            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            max-width: 340px;
+        }
+        
+        .social-proof-notification.show {
+            transform: translateX(0);
+        }
+        
+        .sp-icon {
+            font-size: 1.8rem;
+            flex-shrink: 0;
+        }
+        
+        .sp-content {
+            flex: 1;
+        }
+        
+        .sp-text {
+            font-size: 0.9rem;
+            color: #fff;
+            font-weight: 500;
+            line-height: 1.4;
+        }
+        
+        .sp-text strong {
+            color: #22c55e;
+        }
+        
+        .sp-time {
+            font-size: 0.75rem;
+            color: #6b7280;
+            margin-top: 4px;
+        }
+        
+        .sp-close {
+            background: none;
+            border: none;
+            color: #6b7280;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 4px;
+            line-height: 1;
+        }
+        
+        .sp-close:hover {
+            color: #fff;
+        }
+        
+        @media (max-width: 480px) {
+            .social-proof-notification {
+                left: 12px;
+                right: 12px;
+                max-width: none;
+            }
+        }
+    </style>
+    
+    <script>
+        const socialProofMessages = [
+            { icon: '🎯', text: '<strong>Jake T.</strong> from Texas just made <strong>+$2,840</strong> on NVDA signal', time: '2 minutes ago' },
+            { icon: '🚀', text: '<strong>Sarah M.</strong> upgraded to <strong>Pro</strong>', time: '4 minutes ago' },
+            { icon: '💰', text: '<strong>TSLA BUY</strong> signal hit Target 1 — <strong>+4.2%</strong>', time: '7 minutes ago' },
+            { icon: '🔥', text: '<strong>Mike K.</strong> from Florida joined ELUXRAJ', time: '9 minutes ago' },
+            { icon: '🎯', text: '<strong>AMD SELL</strong> signal hit Target 2 — <strong>+7.8%</strong>', time: '12 minutes ago' },
+            { icon: '💎', text: '<strong>Chris R.</strong> upgraded to <strong>Elite</strong>', time: '15 minutes ago' },
+            { icon: '🚀', text: '<strong>Emily W.</strong> from California just signed up', time: '18 minutes ago' },
+            { icon: '💰', text: '<strong>MSFT BUY</strong> signal hit Target 1 — <strong>+3.6%</strong>', time: '21 minutes ago' },
+            { icon: '🎯', text: '<strong>David L.</strong> made <strong>+$1,950</strong> on GOOGL signal', time: '24 minutes ago' },
+            { icon: '🔥', text: '<strong>12 traders</strong> joined in the last hour', time: '27 minutes ago' },
+            { icon: '💎', text: '<strong>NVDA BUY</strong> signal hit Target 2 — <strong>+8.4%</strong>', time: '31 minutes ago' },
+            { icon: '🚀', text: '<strong>Anna S.</strong> from New York upgraded to <strong>Pro</strong>', time: '35 minutes ago' },
+        ];
+        
+        let currentIndex = 0;
+        let proofTimeout;
+        
+        function showSocialProof() {
+            const el = document.getElementById('social-proof');
+            const msg = socialProofMessages[currentIndex];
+            
+            el.querySelector('.sp-icon').textContent = msg.icon;
+            el.querySelector('.sp-text').innerHTML = msg.text;
+            el.querySelector('.sp-time').textContent = msg.time;
+            
+            el.classList.add('show');
+            
+            proofTimeout = setTimeout(() => {
+                el.classList.remove('show');
+                currentIndex = (currentIndex + 1) % socialProofMessages.length;
+                setTimeout(showSocialProof, 3000 + Math.random() * 5000);
+            }, 5000);
+        }
+        
+        function closeSocialProof() {
+            const el = document.getElementById('social-proof');
+            el.classList.remove('show');
+            clearTimeout(proofTimeout);
+            setTimeout(showSocialProof, 15000);
+        }
+        
+        // Start after 3 seconds
+        setTimeout(showSocialProof, 3000);
+    </script>
 </body>
 </html>
