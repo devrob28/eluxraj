@@ -523,6 +523,186 @@
                 flex-wrap: wrap;
             }
         }
+
+        /* AI Features Section */
+        .ai-features-section {
+            padding: 80px 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .features-container {
+            text-align: center;
+        }
+        
+        .features-title {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 12px;
+            background: linear-gradient(135deg, #fff, #a5b4fc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .features-subtitle {
+            color: #9ca3af;
+            font-size: 1.1rem;
+            margin-bottom: 48px;
+        }
+        
+        .strategy-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 20px;
+        }
+        
+        .strategy-card {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+        
+        .strategy-card:hover {
+            border-color: rgba(124, 58, 237, 0.4);
+            transform: translateY(-4px);
+            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.15);
+        }
+        
+        .strategy-icon {
+            font-size: 2rem;
+            margin-bottom: 12px;
+        }
+        
+        .strategy-card h4 {
+            font-size: 1rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+        
+        .strategy-card p {
+            font-size: 0.85rem;
+            color: #9ca3af;
+            line-height: 1.4;
+        }
+        
+        /* How It Works */
+        .how-it-works-section {
+            padding: 80px 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        .section-heading {
+            font-size: 2rem;
+            font-weight: 800;
+            margin-bottom: 48px;
+        }
+        
+        .steps-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 24px;
+        }
+        
+        .step-item {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            padding: 32px;
+            flex: 1;
+            max-width: 280px;
+        }
+        
+        .step-number {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            font-weight: 800;
+            margin: 0 auto 16px;
+        }
+        
+        .step-item h4 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        
+        .step-item p {
+            color: #9ca3af;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+        
+        .step-arrow {
+            font-size: 2rem;
+            color: #7c3aed;
+        }
+        
+        /* Stats Bar */
+        .stats-bar {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(6, 182, 212, 0.05));
+            border-top: 1px solid rgba(255,255,255,0.05);
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 900;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        
+        .stat-label {
+            color: #9ca3af;
+            font-size: 0.9rem;
+            margin-top: 4px;
+        }
+        
+        @media (max-width: 1024px) {
+            .strategy-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .strategy-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .steps-container {
+                flex-direction: column;
+            }
+            .step-arrow {
+                transform: rotate(90deg);
+            }
+            .stats-bar {
+                flex-wrap: wrap;
+                gap: 30px;
+            }
+            .stat-item {
+                width: 45%;
+            }
+        }
+
     </style>
 </head>
 <body>
@@ -606,6 +786,7 @@
             </div>
         </div>
         
+
         <div class="social-proof">
             <div class="avatars">
                 <div class="avatar">JT</div>
@@ -615,6 +796,121 @@
                 <div class="avatar">+</div>
             </div>
             <p class="proof-text">Join <strong>2,500+</strong> traders using AI signals</p>
+        </div>
+    </section>
+    
+    <!-- AI Features Section -->
+    <section class="ai-features-section">
+        <div class="features-container">
+            <h2 class="features-title">🧠 Powered by Advanced AI Trading Intelligence</h2>
+            <p class="features-subtitle">Our AI analyzes charts using 15+ professional trading strategies</p>
+            
+            <div class="strategy-grid">
+                <div class="strategy-card">
+                    <div class="strategy-icon">📐</div>
+                    <h4>Fibonacci Retracements</h4>
+                    <p>38.2%, 50%, 61.8% levels with extension targets</p>
+                </div>
+                <div class="strategy-card">
+                    <div class="strategy-icon">📊</div>
+                    <h4>Chart Patterns</h4>
+                    <p>Head & Shoulders, Triangles, Flags, Wedges</p>
+                </div>
+                <div class="strategy-card">
+                    <div class="strategy-icon">🌊</div>
+                    <h4>Elliott Wave</h4>
+                    <p>5-wave impulse & ABC corrections</p>
+                </div>
+                <div class="strategy-card">
+                    <div class="strategy-icon">⚡</div>
+                    <h4>Fair Value Gaps</h4>
+                    <p>Imbalance zones & liquidity voids</p>
+                </div>
+                <div class="strategy-card">
+                    <div class="strategy-icon">🎯</div>
+                    <h4>Support & Resistance</h4>
+                    <p>Key levels, S/R flips & breakouts</p>
+                </div>
+                <div class="strategy-card">
+                    <div class="strategy-icon">📈</div>
+                    <h4>Volume Analysis</h4>
+                    <p>Climax, divergence & accumulation</p>
+                </div>
+                <div class="strategy-card">
+                    <div class="strategy-icon">🏦</div>
+                    <h4>Supply & Demand</h4>
+                    <p>Institutional order blocks & zones</p>
+                </div>
+                <div class="strategy-card">
+                    <div class="strategy-icon">💥</div>
+                    <h4>Break of Structure</h4>
+                    <p>BOS confirmation for trend trading</p>
+                </div>
+                <div class="strategy-card">
+                    <div class="strategy-icon">🔄</div>
+                    <h4>Change of Character</h4>
+                    <p>CHoCH reversal detection</p>
+                </div>
+                <div class="strategy-card">
+                    <div class="strategy-icon">🦋</div>
+                    <h4>Harmonic Patterns</h4>
+                    <p>Gartley, Butterfly, Bat, Crab, Cypher</p>
+                </div>
+                <div class="strategy-card">
+                    <div class="strategy-icon">📉</div>
+                    <h4>MACD & RSI</h4>
+                    <p>Momentum crossovers & divergence</p>
+                </div>
+                <div class="strategy-card">
+                    <div class="strategy-icon">🎪</div>
+                    <h4>Quasimodo (QM)</h4>
+                    <p>Smart money reversals & retests</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- How It Works Section -->
+    <section class="how-it-works-section">
+        <h2 class="section-heading">⚡ How ELUXRAJ Works</h2>
+        <div class="steps-container">
+            <div class="step-item">
+                <div class="step-number">1</div>
+                <h4>AI Scans 24/7</h4>
+                <p>Our AI monitors 50+ stocks every 15 minutes for high-probability setups</p>
+            </div>
+            <div class="step-arrow">→</div>
+            <div class="step-item">
+                <div class="step-number">2</div>
+                <h4>Signals Delivered</h4>
+                <p>Get instant alerts with entry price, stop loss, and profit targets</p>
+            </div>
+            <div class="step-arrow">→</div>
+            <div class="step-item">
+                <div class="step-number">3</div>
+                <h4>You Profit</h4>
+                <p>Execute trades with confidence using institutional-grade analysis</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Stats Bar -->
+    <section class="stats-bar">
+        <div class="stat-item">
+            <div class="stat-number">78.4%</div>
+            <div class="stat-label">Win Rate</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">1,847</div>
+            <div class="stat-label">Signals Generated</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">$847K+</div>
+            <div class="stat-label">Member Profits</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">2,847</div>
+            <div class="stat-label">Active Traders</div>
         </div>
     </section>
     
