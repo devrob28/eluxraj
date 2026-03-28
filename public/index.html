@@ -703,9 +703,176 @@
             }
         }
 
+
+        /* FOMO Banner */
+        .fomo-banner {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            padding: 12px 20px;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .fomo-banner .fomo-text {
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        
+        .fomo-banner .fomo-text strong {
+            color: #fef08a;
+        }
+        
+        .countdown {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .countdown-item {
+            background: rgba(0,0,0,0.3);
+            padding: 6px 10px;
+            border-radius: 6px;
+            text-align: center;
+            min-width: 45px;
+        }
+        
+        .countdown-number {
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 800;
+            display: block;
+        }
+        
+        .countdown-label {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+        }
+        
+        .fomo-cta {
+            background: #fff;
+            color: #dc2626;
+            padding: 8px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.85rem;
+            transition: transform 0.2s;
+        }
+        
+        .fomo-cta:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Adjust header for FOMO banner */
+        header {
+            top: 52px !important;
+        }
+        
+        .hero {
+            padding-top: 180px !important;
+        }
+        
+        /* Spots Remaining Badge */
+        .spots-remaining {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            padding: 16px 24px;
+            border-radius: 16px;
+            z-index: 150;
+            box-shadow: 0 10px 40px rgba(124, 58, 237, 0.4);
+            animation: pulse-glow 2s infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 10px 40px rgba(124, 58, 237, 0.4); }
+            50% { box-shadow: 0 10px 60px rgba(124, 58, 237, 0.6); }
+        }
+        
+        .spots-remaining .spots-number {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #fff;
+            display: block;
+            text-align: center;
+        }
+        
+        .spots-remaining .spots-label {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.8rem;
+            text-align: center;
+        }
+        
+        .spots-remaining .spots-urgency {
+            color: #fef08a;
+            font-size: 0.75rem;
+            margin-top: 8px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 768px) {
+            .fomo-banner {
+                padding: 10px 12px;
+                font-size: 0.85rem;
+            }
+            .countdown-item {
+                padding: 4px 6px;
+                min-width: 36px;
+            }
+            .countdown-number {
+                font-size: 0.95rem;
+            }
+            .spots-remaining {
+                bottom: 80px;
+                right: 12px;
+                padding: 12px 16px;
+            }
+            .spots-remaining .spots-number {
+                font-size: 1.5rem;
+            }
+        }
+
     </style>
 </head>
 <body>
+    <!-- FOMO Banner -->
+    <div class="fomo-banner">
+        <span class="fomo-text">🔥 <strong>March Special:</strong> 40% OFF Pro Plan ends in</span>
+        <div class="countdown">
+            <div class="countdown-item">
+                <span class="countdown-number" id="hours">23</span>
+                <span class="countdown-label">Hours</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="minutes">47</span>
+                <span class="countdown-label">Mins</span>
+            </div>
+            <div class="countdown-item">
+                <span class="countdown-number" id="seconds">32</span>
+                <span class="countdown-label">Secs</span>
+            </div>
+        </div>
+        <a href="/register.html" class="fomo-cta">Claim Offer →</a>
+    </div>
+    
+    <!-- Spots Remaining Badge -->
+    <div class="spots-remaining">
+        <span class="spots-number" id="spots-count">23</span>
+        <span class="spots-label">Pro spots left</span>
+        <div class="spots-urgency">⚠️ At this price</div>
+    </div>
+    
     <div class="bg-gradient"></div>
     <div class="grid-overlay"></div>
     
@@ -1071,6 +1238,146 @@
                 max-width: none;
             }
         }
+
+        /* FOMO Banner */
+        .fomo-banner {
+            background: linear-gradient(135deg, #dc2626, #b91c1c);
+            padding: 12px 20px;
+            text-align: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 200;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .fomo-banner .fomo-text {
+            color: #fff;
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+        
+        .fomo-banner .fomo-text strong {
+            color: #fef08a;
+        }
+        
+        .countdown {
+            display: flex;
+            gap: 8px;
+        }
+        
+        .countdown-item {
+            background: rgba(0,0,0,0.3);
+            padding: 6px 10px;
+            border-radius: 6px;
+            text-align: center;
+            min-width: 45px;
+        }
+        
+        .countdown-number {
+            color: #fff;
+            font-size: 1.1rem;
+            font-weight: 800;
+            display: block;
+        }
+        
+        .countdown-label {
+            color: rgba(255,255,255,0.7);
+            font-size: 0.65rem;
+            text-transform: uppercase;
+        }
+        
+        .fomo-cta {
+            background: #fff;
+            color: #dc2626;
+            padding: 8px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.85rem;
+            transition: transform 0.2s;
+        }
+        
+        .fomo-cta:hover {
+            transform: scale(1.05);
+        }
+        
+        /* Adjust header for FOMO banner */
+        header {
+            top: 52px !important;
+        }
+        
+        .hero {
+            padding-top: 180px !important;
+        }
+        
+        /* Spots Remaining Badge */
+        .spots-remaining {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            padding: 16px 24px;
+            border-radius: 16px;
+            z-index: 150;
+            box-shadow: 0 10px 40px rgba(124, 58, 237, 0.4);
+            animation: pulse-glow 2s infinite;
+        }
+        
+        @keyframes pulse-glow {
+            0%, 100% { box-shadow: 0 10px 40px rgba(124, 58, 237, 0.4); }
+            50% { box-shadow: 0 10px 60px rgba(124, 58, 237, 0.6); }
+        }
+        
+        .spots-remaining .spots-number {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #fff;
+            display: block;
+            text-align: center;
+        }
+        
+        .spots-remaining .spots-label {
+            color: rgba(255,255,255,0.9);
+            font-size: 0.8rem;
+            text-align: center;
+        }
+        
+        .spots-remaining .spots-urgency {
+            color: #fef08a;
+            font-size: 0.75rem;
+            margin-top: 8px;
+            text-align: center;
+            font-weight: 600;
+        }
+        
+        @media (max-width: 768px) {
+            .fomo-banner {
+                padding: 10px 12px;
+                font-size: 0.85rem;
+            }
+            .countdown-item {
+                padding: 4px 6px;
+                min-width: 36px;
+            }
+            .countdown-number {
+                font-size: 0.95rem;
+            }
+            .spots-remaining {
+                bottom: 80px;
+                right: 12px;
+                padding: 12px 16px;
+            }
+            .spots-remaining .spots-number {
+                font-size: 1.5rem;
+            }
+        }
+
     </style>
     
     <script>
@@ -1119,5 +1426,41 @@
         // Start after 3 seconds
         setTimeout(showSocialProof, 3000);
     </script>
+
+    <script>
+        // Countdown Timer
+        function updateCountdown() {
+            const now = new Date();
+            const midnight = new Date();
+            midnight.setHours(24, 0, 0, 0);
+            const diff = midnight - now;
+            
+            const hours = Math.floor(diff / (1000 * 60 * 60));
+            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            
+            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
+            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
+            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+        }
+        
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+        
+        // Spots remaining - decreases randomly
+        let spots = 23;
+        function updateSpots() {
+            const spotsEl = document.getElementById('spots-count');
+            if (spots > 5 && Math.random() < 0.3) {
+                spots--;
+                spotsEl.textContent = spots;
+                spotsEl.style.transform = 'scale(1.2)';
+                setTimeout(() => spotsEl.style.transform = 'scale(1)', 200);
+            }
+        }
+        
+        setInterval(updateSpots, 30000 + Math.random() * 60000);
+    </script>
+
 </body>
 </html>
