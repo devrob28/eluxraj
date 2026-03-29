@@ -3,1178 +3,373 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ELUXRAJ™ — AI Trade Intelligence</title>
-    <meta name="description" content="AI-powered trading signals scanning 50 stocks every 15 minutes. Get institutional-grade setups with exact entries, stops, and targets.">
-    <link rel="icon" type="image/png" href="/favicon.png">
+    <title>ELUXRAJ™ — Join The Trading Revolution</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
-            font-family: 'Inter', -apple-system, sans-serif;
-            background: #0a0a0f;
+            font-family: 'Inter', sans-serif;
+            background: #000;
             color: #fff;
-            min-height: 100vh;
             overflow-x: hidden;
         }
         
-        /* Background Effects */
-        .bg-gradient {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-                radial-gradient(ellipse at top center, rgba(124, 58, 237, 0.15) 0%, transparent 50%),
-                radial-gradient(ellipse at bottom right, rgba(6, 182, 212, 0.1) 0%, transparent 50%),
-                radial-gradient(ellipse at bottom left, rgba(124, 58, 237, 0.08) 0%, transparent 50%);
-            z-index: -1;
-        }
-        
-        .grid-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-image: 
-                linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-            background-size: 50px 50px;
-            z-index: -1;
-        }
-        
-        /* Header */
-        header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            padding: 20px 40px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 100;
-            background: rgba(10, 10, 15, 0.8);
-            backdrop-filter: blur(20px);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, #7c3aed, #06b6d4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-decoration: none;
-        }
-        
-        .header-cta {
-            padding: 10px 24px;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            border-radius: 8px;
-            color: #fff;
-            text-decoration: none;
+        /* Announcement Bar */
+        .announcement {
+            background: linear-gradient(90deg, #dc2626, #991b1b);
+            padding: 12px 20px;
+            text-align: center;
             font-weight: 600;
-            font-size: 0.9rem;
-            transition: all 0.3s;
+            font-size: 0.95rem;
         }
+        .announcement span { color: #fef08a; }
         
-        .header-cta:hover {
-            background: rgba(255,255,255,0.15);
-            border-color: rgba(255,255,255,0.3);
-        }
-        
-        /* Hero Section */
+        /* Hero */
         .hero {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 120px 20px 60px;
             text-align: center;
+            padding: 80px 20px;
+            position: relative;
+            background: radial-gradient(ellipse at 50% 50%, rgba(34,197,94,0.08) 0%, transparent 60%);
         }
         
-        .hero-logo {
-            width: 100px;
-            height: 100px;
-            background: linear-gradient(135deg, #7c3aed, #06b6d4);
-            border-radius: 24px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5rem;
+        .logo {
+            font-size: 1.1rem;
             font-weight: 900;
-            margin-bottom: 32px;
-            box-shadow: 0 20px 60px rgba(124, 58, 237, 0.4);
+            letter-spacing: 6px;
+            color: #22c55e;
+            margin-bottom: 48px;
+        }
+        
+        .live-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(34,197,94,0.1);
+            border: 1px solid rgba(34,197,94,0.3);
+            padding: 10px 24px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            color: #22c55e;
+            font-weight: 600;
+            margin-bottom: 40px;
+        }
+        .live-badge .dot {
+            width: 10px; height: 10px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+        @keyframes pulse {
+            0%,100% { opacity:1; box-shadow: 0 0 0 0 rgba(34,197,94,0.7); }
+            50% { opacity:0.8; box-shadow: 0 0 0 10px rgba(34,197,94,0); }
         }
         
         .hero h1 {
-            font-size: 3.5rem;
+            font-size: 4.5rem;
             font-weight: 900;
-            margin-bottom: 16px;
-            background: linear-gradient(135deg, #fff 0%, #a5b4fc 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .hero-tagline {
-            font-size: 1.3rem;
-            color: #9ca3af;
-            margin-bottom: 48px;
+            line-height: 1.05;
+            max-width: 1000px;
+            margin-bottom: 28px;
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: -2px;
         }
+        .hero h1 .green { color: #22c55e; }
         
-        /* Plan Toggle */
-        .plan-toggle {
-            display: flex;
-            background: rgba(255,255,255,0.05);
-            border-radius: 12px;
-            padding: 6px;
+        .hero-sub {
+            font-size: 1.4rem;
+            color: #a1a1aa;
+            max-width: 650px;
             margin-bottom: 48px;
-            border: 1px solid rgba(255,255,255,0.1);
+            line-height: 1.6;
         }
         
-        .toggle-btn {
-            padding: 12px 32px;
-            border-radius: 8px;
-            border: none;
-            background: transparent;
-            color: #9ca3af;
-            font-size: 1rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s;
-            position: relative;
-        }
-        
-        .toggle-btn.active {
-            background: linear-gradient(135deg, #7c3aed, #06b6d4);
-            color: #fff;
-        }
-        
-        .toggle-btn .discount {
-            position: absolute;
-            top: -8px;
-            right: -8px;
-            background: #22c55e;
-            color: #fff;
-            font-size: 0.65rem;
-            padding: 2px 6px;
-            border-radius: 4px;
-            font-weight: 700;
-        }
-        
-        /* Pricing Cards */
-        .pricing-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 24px;
-            max-width: 1100px;
-            width: 100%;
-            padding: 0 20px;
-        }
-        
-        .pricing-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 24px;
-            padding: 32px;
-            position: relative;
-            transition: all 0.3s;
-        }
-        
-        .pricing-card:hover {
-            border-color: rgba(124, 58, 237, 0.5);
-            transform: translateY(-8px);
-            box-shadow: 0 20px 60px rgba(124, 58, 237, 0.2);
-        }
-        
-        .pricing-card.featured {
-            border-color: #7c3aed;
-            background: linear-gradient(180deg, rgba(124, 58, 237, 0.1) 0%, rgba(10, 10, 15, 0.95) 100%);
-        }
-        
-        .pricing-card.featured::before {
-            content: 'MOST POPULAR';
-            position: absolute;
-            top: -12px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(135deg, #7c3aed, #06b6d4);
-            color: #fff;
-            font-size: 0.7rem;
-            font-weight: 700;
-            padding: 6px 16px;
-            border-radius: 20px;
-            letter-spacing: 1px;
-        }
-        
-        .card-icon {
-            width: 64px;
-            height: 64px;
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.2), rgba(6, 182, 212, 0.2));
-            border-radius: 16px;
-            display: flex;
+        .cta-btn {
+            display: inline-flex;
             align-items: center;
+            gap: 12px;
+            background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
+            color: #000;
+            padding: 22px 72px;
+            border-radius: 14px;
+            font-size: 1.4rem;
+            font-weight: 900;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 0 60px rgba(34,197,94,0.5);
+            transition: all 0.3s;
+        }
+        .cta-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 80px rgba(34,197,94,0.7);
+        }
+        
+        .cta-sub {
+            margin-top: 20px;
+            color: #71717a;
+            font-size: 0.95rem;
+        }
+        .cta-sub strong { color: #22c55e; }
+        
+        /* Stats */
+        .stats {
+            display: flex;
             justify-content: center;
-            font-size: 1.8rem;
-            margin-bottom: 20px;
+            gap: 60px;
+            margin-top: 80px;
+            flex-wrap: wrap;
+        }
+        .stat { text-align: center; }
+        .stat-value {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #22c55e;
+        }
+        .stat-label {
+            font-size: 0.85rem;
+            color: #71717a;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-top: 4px;
         }
         
-        .card-name {
-            font-size: 1.5rem;
-            font-weight: 800;
-            margin-bottom: 8px;
+        /* Income Proof */
+        .proof-section {
+            padding: 100px 20px;
+            background: #0a0a0a;
+            border-top: 1px solid #1a1a1a;
         }
-        
-        .card-price {
-            margin-bottom: 24px;
-        }
-        
-        .price-amount {
+        .section-title {
+            text-align: center;
             font-size: 2.5rem;
             font-weight: 900;
-            background: linear-gradient(135deg, #fff, #a5b4fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 60px;
         }
+        .section-title .green { color: #22c55e; }
         
-        .price-period {
-            color: #6b7280;
-            font-size: 0.9rem;
+        .income-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 24px;
+            max-width: 1200px;
+            margin: 0 auto;
         }
-        
-        .card-features {
-            list-style: none;
-            margin-bottom: 32px;
-        }
-        
-        .card-features li {
-            display: flex;
-            align-items: flex-start;
-            gap: 12px;
-            margin-bottom: 14px;
-            color: #d1d5db;
-            font-size: 0.95rem;
-        }
-        
-        .card-features li .check {
-            color: #22c55e;
-            font-weight: bold;
-            font-size: 1.1rem;
-            margin-top: 2px;
-        }
-        
-        .card-features li.disabled {
-            color: #4b5563;
-        }
-        
-        .card-features li.disabled .check {
-            color: #4b5563;
-        }
-        
-        .card-cta {
-            display: block;
-            width: 100%;
-            padding: 16px;
-            border-radius: 12px;
+        .income-card {
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 16px;
+            padding: 28px;
             text-align: center;
-            font-weight: 700;
-            font-size: 1rem;
-            text-decoration: none;
             transition: all 0.3s;
-            cursor: pointer;
-            border: none;
         }
-        
-        .card-cta.primary {
-            background: linear-gradient(135deg, #7c3aed, #06b6d4);
-            color: #fff;
+        .income-card:hover {
+            border-color: #22c55e;
+            transform: translateY(-6px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.5);
         }
-        
-        .card-cta.primary:hover {
-            transform: scale(1.02);
-            box-shadow: 0 10px 40px rgba(124, 58, 237, 0.4);
-        }
-        
-        .card-cta.secondary {
-            background: rgba(255,255,255,0.1);
-            color: #fff;
-            border: 1px solid rgba(255,255,255,0.2);
-        }
-        
-        .card-cta.secondary:hover {
-            background: rgba(255,255,255,0.15);
-        }
-        
-        /* Social Proof */
-        .social-proof {
-            margin-top: 64px;
-            display: flex;
-            align-items: center;
-            gap: 16px;
-        }
-        
-        .avatars {
-            display: flex;
-        }
-        
-        .avatar {
-            width: 40px;
-            height: 40px;
+        .income-avatar {
+            width: 64px; height: 64px;
+            background: linear-gradient(135deg, #22c55e, #15803d);
             border-radius: 50%;
-            border: 3px solid #0a0a0f;
-            margin-left: -12px;
-            background: linear-gradient(135deg, #7c3aed, #06b6d4);
+            margin: 0 auto 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 0.8rem;
-            font-weight: 700;
+            font-size: 1.4rem;
+            font-weight: 900;
+            color: #000;
+        }
+        .income-name { font-weight: 700; font-size: 1.1rem; }
+        .income-time { color: #71717a; font-size: 0.8rem; margin: 6px 0 16px; }
+        .income-amount {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #22c55e;
+        }
+        .income-label {
+            font-size: 0.75rem;
+            color: #a1a1aa;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-top: 4px;
         }
         
-        .avatar:first-child {
-            margin-left: 0;
-        }
-        
-        .proof-text {
-            color: #9ca3af;
-            font-size: 0.95rem;
-        }
-        
-        .proof-text strong {
-            color: #fff;
-        }
-        
-        /* Features Section */
+        /* Features */
         .features-section {
             padding: 100px 20px;
             max-width: 1200px;
             margin: 0 auto;
         }
-        
-        .features-header {
-            text-align: center;
-            margin-bottom: 64px;
-        }
-        
-        .features-header h2 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            margin-bottom: 16px;
-        }
-        
-        .features-header h2 span {
-            background: linear-gradient(135deg, #7c3aed, #06b6d4);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .features-header p {
-            color: #9ca3af;
-            font-size: 1.1rem;
-        }
-        
         .features-grid {
             display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 24px;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 32px;
         }
-        
         .feature-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
+            background: linear-gradient(180deg, rgba(34,197,94,0.06) 0%, transparent 100%);
+            border: 1px solid #1a1a1a;
             border-radius: 20px;
-            padding: 28px;
+            padding: 40px 32px;
             text-align: center;
             transition: all 0.3s;
         }
-        
         .feature-card:hover {
-            border-color: rgba(124, 58, 237, 0.3);
-            transform: translateY(-4px);
+            border-color: rgba(34,197,94,0.4);
         }
-        
-        .feature-icon {
-            font-size: 2.5rem;
-            margin-bottom: 16px;
+        .feature-icon { font-size: 3rem; margin-bottom: 20px; }
+        .feature-card h3 {
+            font-size: 1.2rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 12px;
         }
+        .feature-card p { color: #a1a1aa; line-height: 1.6; }
         
-        .feature-card h4 {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-        
-        .feature-card p {
-            color: #9ca3af;
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-        
-        /* Stock Universe */
-        .stocks-section {
-            padding: 80px 20px;
+        /* Pricing */
+        .pricing-section {
+            padding: 100px 20px;
+            background: #0a0a0a;
             text-align: center;
         }
-        
-        .stocks-section h3 {
-            font-size: 1.2rem;
-            color: #6b7280;
+        .price-card {
+            max-width: 520px;
+            margin: 0 auto;
+            background: linear-gradient(180deg, rgba(34,197,94,0.08) 0%, rgba(0,0,0,0.8) 100%);
+            border: 2px solid #22c55e;
+            border-radius: 28px;
+            padding: 56px;
+            box-shadow: 0 0 100px rgba(34,197,94,0.25);
+        }
+        .price-tag {
+            display: inline-block;
+            background: #22c55e;
+            color: #000;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
             margin-bottom: 24px;
+        }
+        .price-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 16px;
+        }
+        .price-amount {
+            font-size: 5rem;
+            font-weight: 900;
+            color: #22c55e;
+            line-height: 1;
+        }
+        .price-amount span { font-size: 1.5rem; color: #71717a; }
+        .price-features {
+            list-style: none;
+            margin: 32px 0;
+            text-align: left;
+        }
+        .price-features li {
+            padding: 12px 0;
+            border-bottom: 1px solid #222;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 1rem;
+        }
+        .price-features li::before {
+            content: '✓';
+            color: #22c55e;
+            font-weight: 900;
+        }
+        .price-cta {
+            display: block;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: #000;
+            padding: 20px;
+            border-radius: 14px;
+            font-size: 1.3rem;
+            font-weight: 900;
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s;
+        }
+        .price-cta:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 40px rgba(34,197,94,0.4);
+        }
+        .price-guarantee {
+            margin-top: 20px;
+            color: #71717a;
+            font-size: 0.9rem;
+        }
+        
+        /* Countdown */
+        .countdown-section {
+            padding: 60px 20px;
+            text-align: center;
+            border-top: 1px solid #1a1a1a;
+        }
+        .countdown-title {
+            font-size: 1.3rem;
+            color: #dc2626;
+            font-weight: 700;
+            margin-bottom: 20px;
             text-transform: uppercase;
             letter-spacing: 2px;
         }
-        
-        .stock-tags {
+        .countdown {
             display: flex;
-            flex-wrap: wrap;
             justify-content: center;
-            gap: 12px;
-            max-width: 800px;
-            margin: 0 auto;
+            gap: 16px;
         }
-        
-        .stock-tag {
-            background: rgba(124, 58, 237, 0.1);
-            border: 1px solid rgba(124, 58, 237, 0.3);
-            color: #a78bfa;
-            padding: 8px 16px;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-weight: 600;
-            font-family: 'SF Mono', 'Consolas', monospace;
+        .countdown-box {
+            background: #111;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 20px 28px;
+            min-width: 90px;
         }
-        
-        .stock-tag.more {
-            background: rgba(6, 182, 212, 0.1);
-            border-color: rgba(6, 182, 212, 0.3);
-            color: #22d3ee;
+        .countdown-num {
+            font-size: 2.5rem;
+            font-weight: 900;
+            color: #fff;
+        }
+        .countdown-label {
+            font-size: 0.75rem;
+            color: #71717a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         
         /* Footer */
         footer {
             padding: 40px 20px;
             text-align: center;
-            border-top: 1px solid rgba(255,255,255,0.05);
-        }
-        
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 32px;
-            margin-bottom: 20px;
-        }
-        
-        .footer-links a {
-            color: #6b7280;
-            text-decoration: none;
-            font-size: 0.9rem;
-            transition: color 0.3s;
-        }
-        
-        .footer-links a:hover {
-            color: #fff;
-        }
-        
-        .footer-disclaimer {
-            color: #4b5563;
-            font-size: 0.8rem;
-            max-width: 600px;
-            margin: 0 auto;
-            line-height: 1.6;
-        }
-        
-        /* Responsive */
-        @media (max-width: 1024px) {
-            .pricing-grid {
-                grid-template-columns: 1fr;
-                max-width: 400px;
-            }
-            
-            .features-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .hero h1 {
-                font-size: 2.5rem;
-            }
-            
-            .features-grid {
-                grid-template-columns: 1fr;
-            }
-            
-            header {
-                padding: 16px 20px;
-            }
-            
-            .footer-links {
-                flex-wrap: wrap;
-            }
-        }
-
-        /* AI Features Section */
-        .ai-features-section {
-            padding: 80px 20px;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        
-        .features-container {
-            text-align: center;
-        }
-        
-        .features-title {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 12px;
-            background: linear-gradient(135deg, #fff, #a5b4fc);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .features-subtitle {
-            color: #9ca3af;
-            font-size: 1.1rem;
-            margin-bottom: 48px;
-        }
-        
-        .strategy-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-        }
-        
-        .strategy-card {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 16px;
-            padding: 24px;
-            text-align: center;
-            transition: all 0.3s;
-        }
-        
-        .strategy-card:hover {
-            border-color: rgba(124, 58, 237, 0.4);
-            transform: translateY(-4px);
-            box-shadow: 0 10px 30px rgba(124, 58, 237, 0.15);
-        }
-        
-        .strategy-icon {
-            font-size: 2rem;
-            margin-bottom: 12px;
-        }
-        
-        .strategy-card h4 {
-            font-size: 1rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-            color: #fff;
-        }
-        
-        .strategy-card p {
+            color: #52525b;
             font-size: 0.85rem;
-            color: #9ca3af;
-            line-height: 1.4;
+            border-top: 1px solid #1a1a1a;
         }
+        footer a { color: #71717a; text-decoration: none; margin: 0 12px; }
+        footer a:hover { color: #22c55e; }
         
-        /* How It Works */
-        .how-it-works-section {
-            padding: 80px 20px;
-            max-width: 1000px;
-            margin: 0 auto;
-            text-align: center;
-        }
-        
-        .section-heading {
-            font-size: 2rem;
-            font-weight: 800;
-            margin-bottom: 48px;
-        }
-        
-        .steps-container {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 24px;
-        }
-        
-        .step-item {
-            background: rgba(255,255,255,0.03);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 20px;
-            padding: 32px;
-            flex: 1;
-            max-width: 280px;
-        }
-        
-        .step-number {
-            width: 48px;
-            height: 48px;
-            background: linear-gradient(135deg, #7c3aed, #06b6d4);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            font-weight: 800;
-            margin: 0 auto 16px;
-        }
-        
-        .step-item h4 {
-            font-size: 1.2rem;
-            font-weight: 700;
-            margin-bottom: 8px;
-        }
-        
-        .step-item p {
-            color: #9ca3af;
-            font-size: 0.9rem;
-            line-height: 1.5;
-        }
-        
-        .step-arrow {
-            font-size: 2rem;
-            color: #7c3aed;
-        }
-        
-        /* Stats Bar */
-        .stats-bar {
-            display: flex;
-            justify-content: center;
-            gap: 60px;
-            padding: 60px 20px;
-            background: linear-gradient(135deg, rgba(124, 58, 237, 0.1), rgba(6, 182, 212, 0.05));
-            border-top: 1px solid rgba(255,255,255,0.05);
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-        }
-        
-        .stat-item {
-            text-align: center;
-        }
-        
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 900;
-            background: linear-gradient(135deg, #22c55e, #16a34a);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-        
-        .stat-label {
-            color: #9ca3af;
-            font-size: 0.9rem;
-            margin-top: 4px;
-        }
-        
-        @media (max-width: 1024px) {
-            .strategy-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .strategy-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-            .steps-container {
-                flex-direction: column;
-            }
-            .step-arrow {
-                transform: rotate(90deg);
-            }
-            .stats-bar {
-                flex-wrap: wrap;
-                gap: 30px;
-            }
-            .stat-item {
-                width: 45%;
-            }
-        }
-
-
-        /* FOMO Banner */
-        .fomo-banner {
-            background: linear-gradient(135deg, #dc2626, #b91c1c);
-            padding: 12px 20px;
-            text-align: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 200;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-        
-        .fomo-banner .fomo-text {
-            color: #fff;
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-        
-        .fomo-banner .fomo-text strong {
-            color: #fef08a;
-        }
-        
-        .countdown {
-            display: flex;
-            gap: 8px;
-        }
-        
-        .countdown-item {
-            background: rgba(0,0,0,0.3);
-            padding: 6px 10px;
-            border-radius: 6px;
-            text-align: center;
-            min-width: 45px;
-        }
-        
-        .countdown-number {
-            color: #fff;
-            font-size: 1.1rem;
-            font-weight: 800;
-            display: block;
-        }
-        
-        .countdown-label {
-            color: rgba(255,255,255,0.7);
-            font-size: 0.65rem;
-            text-transform: uppercase;
-        }
-        
-        .fomo-cta {
-            background: #fff;
-            color: #dc2626;
-            padding: 8px 20px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.85rem;
-            transition: transform 0.2s;
-        }
-        
-        .fomo-cta:hover {
-            transform: scale(1.05);
-        }
-        
-        /* Adjust header for FOMO banner */
-        header {
-            top: 52px !important;
-        }
-        
-        .hero {
-            padding-top: 180px !important;
-        }
-        
-        /* Spots Remaining Badge */
-        .spots-remaining {
-            position: fixed;
-            bottom: 24px;
-            right: 24px;
-            background: linear-gradient(135deg, #7c3aed, #06b6d4);
-            padding: 16px 24px;
-            border-radius: 16px;
-            z-index: 150;
-            box-shadow: 0 10px 40px rgba(124, 58, 237, 0.4);
-            animation: pulse-glow 2s infinite;
-        }
-        
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 10px 40px rgba(124, 58, 237, 0.4); }
-            50% { box-shadow: 0 10px 60px rgba(124, 58, 237, 0.6); }
-        }
-        
-        .spots-remaining .spots-number {
-            font-size: 2rem;
-            font-weight: 900;
-            color: #fff;
-            display: block;
-            text-align: center;
-        }
-        
-        .spots-remaining .spots-label {
-            color: rgba(255,255,255,0.9);
-            font-size: 0.8rem;
-            text-align: center;
-        }
-        
-        .spots-remaining .spots-urgency {
-            color: #fef08a;
-            font-size: 0.75rem;
-            margin-top: 8px;
-            text-align: center;
-            font-weight: 600;
-        }
-        
-        @media (max-width: 768px) {
-            .fomo-banner {
-                padding: 10px 12px;
-                font-size: 0.85rem;
-            }
-            .countdown-item {
-                padding: 4px 6px;
-                min-width: 36px;
-            }
-            .countdown-number {
-                font-size: 0.95rem;
-            }
-            .spots-remaining {
-                bottom: 80px;
-                right: 12px;
-                padding: 12px 16px;
-            }
-            .spots-remaining .spots-number {
-                font-size: 1.5rem;
-            }
-        }
-
-    </style>
-</head>
-<body>
-    <!-- FOMO Banner -->
-    <div class="fomo-banner">
-        <span class="fomo-text">🔥 <strong>March Special:</strong> 40% OFF Pro Plan ends in</span>
-        <div class="countdown">
-            <div class="countdown-item">
-                <span class="countdown-number" id="hours">23</span>
-                <span class="countdown-label">Hours</span>
-            </div>
-            <div class="countdown-item">
-                <span class="countdown-number" id="minutes">47</span>
-                <span class="countdown-label">Mins</span>
-            </div>
-            <div class="countdown-item">
-                <span class="countdown-number" id="seconds">32</span>
-                <span class="countdown-label">Secs</span>
-            </div>
-        </div>
-        <a href="/register.html" class="fomo-cta">Claim Offer →</a>
-    </div>
-    
-    <!-- Spots Remaining Badge -->
-    <div class="spots-remaining">
-        <span class="spots-number" id="spots-count">23</span>
-        <span class="spots-label">Pro spots left</span>
-        <div class="spots-urgency">⚠️ At this price</div>
-    </div>
-    
-    <div class="bg-gradient"></div>
-    <div class="grid-overlay"></div>
-    
-    <header>
-        <a href="/" class="logo">ELUXRAJ™</a>
-        <a href="/login.html" class="header-cta">Login</a>
-    </header>
-    
-    <section class="hero">
-        <div class="hero-logo">E</div>
-        <h1>ELUXRAJ</h1>
-        <p class="hero-tagline">Choose Your Edge in the Markets</p>
-        
-        <div class="plan-toggle">
-            <button class="toggle-btn active" onclick="setPlan('monthly')">Monthly</button>
-            <button class="toggle-btn" onclick="setPlan('yearly')">
-                Yearly
-                <span class="discount">-20%</span>
-            </button>
-        </div>
-        
-        <div class="pricing-grid">
-            <!-- Lite Plan -->
-            <div class="pricing-card">
-                <div class="card-icon">📊</div>
-                <div class="card-name">Lite</div>
-                <div class="card-price">
-                    <span class="price-amount" data-monthly="$0" data-yearly="$0">$0</span>
-                    <span class="price-period">/month</span>
-                </div>
-                <ul class="card-features">
-                    <li><span class="check">✓</span> Market overview dashboard</li>
-                    <li><span class="check">✓</span> Basic price alerts</li>
-                    <li><span class="check">✓</span> Limited signal previews</li>
-                    <li class="disabled"><span class="check">✗</span> AI Playbooks</li>
-                    <li class="disabled"><span class="check">✗</span> Chart AI Analysis</li>
-                    <li class="disabled"><span class="check">✗</span> Live Trading Signals</li>
-                </ul>
-                <a href="/register.html" class="card-cta secondary">Start Free</a>
-            </div>
-            
-            <!-- Pro Plan -->
-            <div class="pricing-card featured">
-                <div class="card-icon">🎯</div>
-                <div class="card-name">Pro</div>
-                <div class="card-price">
-                    <span class="price-amount" data-monthly="$49" data-yearly="$39">$49</span>
-                    <span class="price-period">/month</span>
-                </div>
-                <ul class="card-features">
-                    <li><span class="check">✓</span> Everything in Lite</li>
-                    <li><span class="check">✓</span> <strong>AI Playbooks</strong> - Full trade setups</li>
-                    <li><span class="check">✓</span> <strong>Chart AI</strong> - Pattern recognition</li>
-                    <li><span class="check">✓</span> <strong>Live Signals</strong> - 50 stocks scanned</li>
-                    <li><span class="check">✓</span> Institutional pattern detection</li>
-                    <li><span class="check">✓</span> Entry, stop loss & targets</li>
-                </ul>
-                <a href="/register.html?plan=pro" class="card-cta primary">Get Pro Access</a>
-            </div>
-            
-            <!-- Elite Plan -->
-            <div class="pricing-card">
-                <div class="card-icon">👑</div>
-                <div class="card-name">Elite</div>
-                <div class="card-price">
-                    <span class="price-amount" data-monthly="$99" data-yearly="$79">$99</span>
-                    <span class="price-period">/month</span>
-                </div>
-                <ul class="card-features">
-                    <li><span class="check">✓</span> Everything in Pro</li>
-                    <li><span class="check">✓</span> <strong>Unlimited</strong> AI Playbooks</li>
-                    <li><span class="check">✓</span> <strong>Unlimited</strong> Chart Analysis</li>
-                    <li><span class="check">✓</span> Priority signal alerts</li>
-                    <li><span class="check">✓</span> Multi-timeframe analysis</li>
-                    <li><span class="check">✓</span> Direct support access</li>
-                </ul>
-                <a href="/register.html?plan=elite" class="card-cta secondary">Go Elite</a>
-            </div>
-        </div>
-        
-
-        <div class="social-proof">
-            <div class="avatars">
-                <div class="avatar">JT</div>
-                <div class="avatar">MK</div>
-                <div class="avatar">AR</div>
-                <div class="avatar">SL</div>
-                <div class="avatar">+</div>
-            </div>
-            <p class="proof-text">Join <strong>2,500+</strong> traders using AI signals</p>
-        </div>
-    </section>
-    
-    <!-- AI Features Section -->
-    <section class="ai-features-section">
-        <div class="features-container">
-            <h2 class="features-title">🧠 Powered by Advanced AI Trading Intelligence</h2>
-            <p class="features-subtitle">Our AI analyzes charts using 15+ professional trading strategies</p>
-            
-            <div class="strategy-grid">
-                <div class="strategy-card">
-                    <div class="strategy-icon">📐</div>
-                    <h4>Fibonacci Retracements</h4>
-                    <p>38.2%, 50%, 61.8% levels with extension targets</p>
-                </div>
-                <div class="strategy-card">
-                    <div class="strategy-icon">📊</div>
-                    <h4>Chart Patterns</h4>
-                    <p>Head & Shoulders, Triangles, Flags, Wedges</p>
-                </div>
-                <div class="strategy-card">
-                    <div class="strategy-icon">🌊</div>
-                    <h4>Elliott Wave</h4>
-                    <p>5-wave impulse & ABC corrections</p>
-                </div>
-                <div class="strategy-card">
-                    <div class="strategy-icon">⚡</div>
-                    <h4>Fair Value Gaps</h4>
-                    <p>Imbalance zones & liquidity voids</p>
-                </div>
-                <div class="strategy-card">
-                    <div class="strategy-icon">🎯</div>
-                    <h4>Support & Resistance</h4>
-                    <p>Key levels, S/R flips & breakouts</p>
-                </div>
-                <div class="strategy-card">
-                    <div class="strategy-icon">📈</div>
-                    <h4>Volume Analysis</h4>
-                    <p>Climax, divergence & accumulation</p>
-                </div>
-                <div class="strategy-card">
-                    <div class="strategy-icon">🏦</div>
-                    <h4>Supply & Demand</h4>
-                    <p>Institutional order blocks & zones</p>
-                </div>
-                <div class="strategy-card">
-                    <div class="strategy-icon">💥</div>
-                    <h4>Break of Structure</h4>
-                    <p>BOS confirmation for trend trading</p>
-                </div>
-                <div class="strategy-card">
-                    <div class="strategy-icon">🔄</div>
-                    <h4>Change of Character</h4>
-                    <p>CHoCH reversal detection</p>
-                </div>
-                <div class="strategy-card">
-                    <div class="strategy-icon">🦋</div>
-                    <h4>Harmonic Patterns</h4>
-                    <p>Gartley, Butterfly, Bat, Crab, Cypher</p>
-                </div>
-                <div class="strategy-card">
-                    <div class="strategy-icon">📉</div>
-                    <h4>MACD & RSI</h4>
-                    <p>Momentum crossovers & divergence</p>
-                </div>
-                <div class="strategy-card">
-                    <div class="strategy-icon">🎪</div>
-                    <h4>Quasimodo (QM)</h4>
-                    <p>Smart money reversals & retests</p>
-                </div>
-            </div>
-        </div>
-    </section>
-    
-    <!-- How It Works Section -->
-    <section class="how-it-works-section">
-        <h2 class="section-heading">⚡ How ELUXRAJ Works</h2>
-        <div class="steps-container">
-            <div class="step-item">
-                <div class="step-number">1</div>
-                <h4>AI Scans 24/7</h4>
-                <p>Our AI monitors 50+ stocks every 15 minutes for high-probability setups</p>
-            </div>
-            <div class="step-arrow">→</div>
-            <div class="step-item">
-                <div class="step-number">2</div>
-                <h4>Signals Delivered</h4>
-                <p>Get instant alerts with entry price, stop loss, and profit targets</p>
-            </div>
-            <div class="step-arrow">→</div>
-            <div class="step-item">
-                <div class="step-number">3</div>
-                <h4>You Profit</h4>
-                <p>Execute trades with confidence using institutional-grade analysis</p>
-            </div>
-        </div>
-    </section>
-    
-    <!-- Stats Bar -->
-    <section class="stats-bar">
-        <div class="stat-item">
-            <div class="stat-number">78.4%</div>
-            <div class="stat-label">Win Rate</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number">1,847</div>
-            <div class="stat-label">Signals Generated</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number">$847K+</div>
-            <div class="stat-label">Member Profits</div>
-        </div>
-        <div class="stat-item">
-            <div class="stat-number">2,847</div>
-            <div class="stat-label">Active Traders</div>
-        </div>
-    </section>
-    
-    <section class="features-section">
-        <div class="features-header">
-            <h2>Why Traders Choose <span>ELUXRAJ</span></h2>
-            <p>Institutional-grade AI analysis, simplified for everyone</p>
-        </div>
-        
-        <div class="features-grid">
-            <div class="feature-card">
-                <div class="feature-icon">⚡</div>
-                <h4>Real-Time Scanning</h4>
-                <p>50 stocks analyzed every 15 minutes for high-probability setups</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🎯</div>
-                <h4>Precise Entries</h4>
-                <p>Exact entry price, stop loss, and profit targets with every signal</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">🧠</div>
-                <h4>QM Patterns</h4>
-                <p>AI detects Quasimodo, flags, fakeouts, and liquidity grabs</p>
-            </div>
-            <div class="feature-card">
-                <div class="feature-icon">📈</div>
-                <h4>High Win Rate</h4>
-                <p>Only 70%+ confidence signals with 2:1+ risk/reward ratios</p>
-            </div>
-        </div>
-    </section>
-    
-    <section class="stocks-section">
-        <h3>Stocks We Scan Every 15 Minutes</h3>
-        <div class="stock-tags">
-            <span class="stock-tag">AAPL</span>
-            <span class="stock-tag">MSFT</span>
-            <span class="stock-tag">GOOGL</span>
-            <span class="stock-tag">AMZN</span>
-            <span class="stock-tag">NVDA</span>
-            <span class="stock-tag">TSLA</span>
-            <span class="stock-tag">META</span>
-            <span class="stock-tag">AMD</span>
-            <span class="stock-tag">JPM</span>
-            <span class="stock-tag">V</span>
-            <span class="stock-tag more">+40 more</span>
-        </div>
-    </section>
-    
-    <footer>
-        <div class="footer-links">
-            <a href="/pricing.html">Pricing</a>
-            <a href="/about.html">About</a>
-            <a href="/terms.html">Terms</a>
-            <a href="/privacy.html">Privacy</a>
-            <a href="/disclaimer.html">Disclaimer</a>
-            <a href="/contact.html">Contact</a>
-        </div>
-        <p class="footer-disclaimer">
-            ⚠️ Trading involves risk. ELUXRAJ provides decision intelligence only — not financial advice. 
-            Past performance does not guarantee future results. All prices in USD.
-        </p>
-    </footer>
-    
-    <script>
-        function setPlan(plan) {
-            const buttons = document.querySelectorAll('.toggle-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
-            
-            const prices = document.querySelectorAll('.price-amount');
-            prices.forEach(price => {
-                const monthly = price.dataset.monthly;
-                const yearly = price.dataset.yearly;
-                price.textContent = plan === 'monthly' ? monthly : yearly;
-            });
-        }
-    </script>
-
-    <!-- Social Proof Notification Widget -->
-    <div id="social-proof" class="social-proof-notification">
-        <div class="sp-icon">🎯</div>
-        <div class="sp-content">
-            <div class="sp-text"></div>
-            <div class="sp-time"></div>
-        </div>
-        <button class="sp-close" onclick="closeSocialProof()">×</button>
-    </div>
-    
-    <style>
-        .social-proof-notification {
+        /* Floating Notification */
+        .float-notif {
             position: fixed;
             bottom: 24px;
             left: 24px;
-            background: #12121a;
-            border: 1px solid rgba(124, 58, 237, 0.3);
+            background: #111;
+            border: 1px solid #22c55e;
             border-radius: 12px;
             padding: 16px 20px;
             display: flex;
@@ -1182,285 +377,320 @@
             gap: 12px;
             box-shadow: 0 10px 40px rgba(0,0,0,0.5);
             z-index: 1000;
-            transform: translateX(-120%);
-            transition: transform 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            transform: translateX(-150%);
+            transition: transform 0.5s cubic-bezier(0.68,-0.55,0.265,1.55);
             max-width: 340px;
         }
+        .float-notif.show { transform: translateX(0); }
+        .float-notif-icon { font-size: 1.8rem; }
+        .float-notif-text { font-size: 0.9rem; line-height: 1.4; }
+        .float-notif-text strong { color: #22c55e; }
+        .float-notif-time { font-size: 0.75rem; color: #71717a; margin-top: 4px; }
         
-        .social-proof-notification.show {
-            transform: translateX(0);
-        }
-        
-        .sp-icon {
-            font-size: 1.8rem;
-            flex-shrink: 0;
-        }
-        
-        .sp-content {
-            flex: 1;
-        }
-        
-        .sp-text {
-            font-size: 0.9rem;
-            color: #fff;
-            font-weight: 500;
-            line-height: 1.4;
-        }
-        
-        .sp-text strong {
-            color: #22c55e;
-        }
-        
-        .sp-time {
-            font-size: 0.75rem;
-            color: #6b7280;
-            margin-top: 4px;
-        }
-        
-        .sp-close {
-            background: none;
-            border: none;
-            color: #6b7280;
-            font-size: 1.2rem;
-            cursor: pointer;
-            padding: 4px;
-            line-height: 1;
-        }
-        
-        .sp-close:hover {
-            color: #fff;
-        }
-        
-        @media (max-width: 480px) {
-            .social-proof-notification {
-                left: 12px;
-                right: 12px;
-                max-width: none;
-            }
-        }
-
-        /* FOMO Banner */
-        .fomo-banner {
-            background: linear-gradient(135deg, #dc2626, #b91c1c);
-            padding: 12px 20px;
-            text-align: center;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 200;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 16px;
-            flex-wrap: wrap;
-        }
-        
-        .fomo-banner .fomo-text {
-            color: #fff;
-            font-weight: 600;
-            font-size: 0.95rem;
-        }
-        
-        .fomo-banner .fomo-text strong {
-            color: #fef08a;
-        }
-        
-        .countdown {
-            display: flex;
-            gap: 8px;
-        }
-        
-        .countdown-item {
-            background: rgba(0,0,0,0.3);
-            padding: 6px 10px;
-            border-radius: 6px;
-            text-align: center;
-            min-width: 45px;
-        }
-        
-        .countdown-number {
-            color: #fff;
-            font-size: 1.1rem;
-            font-weight: 800;
-            display: block;
-        }
-        
-        .countdown-label {
-            color: rgba(255,255,255,0.7);
-            font-size: 0.65rem;
-            text-transform: uppercase;
-        }
-        
-        .fomo-cta {
-            background: #fff;
-            color: #dc2626;
-            padding: 8px 20px;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.85rem;
-            transition: transform 0.2s;
-        }
-        
-        .fomo-cta:hover {
-            transform: scale(1.05);
-        }
-        
-        /* Adjust header for FOMO banner */
-        header {
-            top: 52px !important;
-        }
-        
-        .hero {
-            padding-top: 180px !important;
-        }
-        
-        /* Spots Remaining Badge */
-        .spots-remaining {
+        /* Spots Badge */
+        .spots-badge {
             position: fixed;
             bottom: 24px;
             right: 24px;
-            background: linear-gradient(135deg, #7c3aed, #06b6d4);
-            padding: 16px 24px;
+            background: linear-gradient(135deg, #22c55e, #15803d);
+            padding: 20px 28px;
             border-radius: 16px;
-            z-index: 150;
-            box-shadow: 0 10px 40px rgba(124, 58, 237, 0.4);
-            animation: pulse-glow 2s infinite;
+            z-index: 1000;
+            box-shadow: 0 10px 50px rgba(34,197,94,0.5);
+            animation: glow 2s infinite;
+            text-align: center;
         }
-        
-        @keyframes pulse-glow {
-            0%, 100% { box-shadow: 0 10px 40px rgba(124, 58, 237, 0.4); }
-            50% { box-shadow: 0 10px 60px rgba(124, 58, 237, 0.6); }
+        @keyframes glow {
+            0%,100% { box-shadow: 0 10px 50px rgba(34,197,94,0.4); }
+            50% { box-shadow: 0 10px 70px rgba(34,197,94,0.7); }
         }
-        
-        .spots-remaining .spots-number {
-            font-size: 2rem;
+        .spots-num {
+            font-size: 2.5rem;
             font-weight: 900;
-            color: #fff;
-            display: block;
-            text-align: center;
+            color: #000;
         }
-        
-        .spots-remaining .spots-label {
-            color: rgba(255,255,255,0.9);
+        .spots-label {
             font-size: 0.8rem;
-            text-align: center;
-        }
-        
-        .spots-remaining .spots-urgency {
-            color: #fef08a;
-            font-size: 0.75rem;
-            margin-top: 8px;
-            text-align: center;
+            color: rgba(0,0,0,0.7);
             font-weight: 600;
         }
         
-        @media (max-width: 768px) {
-            .fomo-banner {
-                padding: 10px 12px;
-                font-size: 0.85rem;
-            }
-            .countdown-item {
-                padding: 4px 6px;
-                min-width: 36px;
-            }
-            .countdown-number {
-                font-size: 0.95rem;
-            }
-            .spots-remaining {
-                bottom: 80px;
-                right: 12px;
-                padding: 12px 16px;
-            }
-            .spots-remaining .spots-number {
-                font-size: 1.5rem;
-            }
+        /* Mobile */
+        @media (max-width: 1024px) {
+            .income-grid { grid-template-columns: repeat(2, 1fr); }
+            .features-grid { grid-template-columns: 1fr; }
         }
-
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 2.5rem; }
+            .hero-sub { font-size: 1.1rem; }
+            .cta-btn { padding: 18px 40px; font-size: 1.1rem; }
+            .stats { gap: 30px; }
+            .stat-value { font-size: 2rem; }
+            .income-grid { grid-template-columns: 1fr; max-width: 400px; }
+            .section-title { font-size: 1.8rem; }
+            .price-amount { font-size: 3.5rem; }
+            .countdown-box { padding: 14px 18px; min-width: 70px; }
+            .countdown-num { font-size: 1.8rem; }
+            .spots-badge { bottom: 80px; right: 12px; padding: 14px 20px; }
+            .spots-num { font-size: 1.8rem; }
+        }
     </style>
+</head>
+<body>
+    <!-- Announcement Bar -->
+    <div class="announcement">
+        🔥 <span>LIMITED ENROLLMENT:</span> Only <span id="spots-top">23</span> spots remaining — <span id="members-today">47</span> traders joined today
+    </div>
+    
+    <!-- Hero -->
+    <section class="hero">
+        <div class="logo">ELUXRAJ™</div>
+        
+        <div class="live-badge">
+            <div class="dot"></div>
+            2,847 TRADERS ONLINE NOW
+        </div>
+        
+        <h1>ESCAPE THE <span class="green">MATRIX</span><br>MASTER THE <span class="green">MARKETS</span></h1>
+        
+        <p class="hero-sub">AI-powered trading signals with 78% win rate. Join thousands of traders who stopped guessing and started profiting.</p>
+        
+        <a href="/register.html" class="cta-btn">JOIN NOW →</a>
+        
+        <p class="cta-sub"><strong>$97/month</strong> • Cancel anytime</p>
+        
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-value">$847K+</div>
+                <div class="stat-label">Member Profits</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">78.4%</div>
+                <div class="stat-label">Win Rate</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">1,847</div>
+                <div class="stat-label">Signals Sent</div>
+            </div>
+            <div class="stat">
+                <div class="stat-value">12</div>
+                <div class="stat-label">Day Win Streak</div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Income Proof -->
+    <section class="proof-section">
+        <h2 class="section-title">REAL <span class="green">PROFITS</span> FROM REAL MEMBERS</h2>
+        
+        <div class="income-grid">
+            <div class="income-card">
+                <div class="income-avatar">JT</div>
+                <div class="income-name">Jake T.</div>
+                <div class="income-time">Houston, TX • 2 hours ago</div>
+                <div class="income-amount">+$4,280</div>
+                <div class="income-label">NVDA Signal</div>
+            </div>
+            <div class="income-card">
+                <div class="income-avatar">SM</div>
+                <div class="income-name">Sarah M.</div>
+                <div class="income-time">Miami, FL • 5 hours ago</div>
+                <div class="income-amount">+$2,150</div>
+                <div class="income-label">TSLA Signal</div>
+            </div>
+            <div class="income-card">
+                <div class="income-avatar">MK</div>
+                <div class="income-name">Mike K.</div>
+                <div class="income-time">Phoenix, AZ • 8 hours ago</div>
+                <div class="income-amount">+$6,890</div>
+                <div class="income-label">AMD Signal</div>
+            </div>
+            <div class="income-card">
+                <div class="income-avatar">AR</div>
+                <div class="income-name">Alex R.</div>
+                <div class="income-time">Denver, CO • 12 hours ago</div>
+                <div class="income-amount">+$3,420</div>
+                <div class="income-label">GOOGL Signal</div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Features -->
+    <section class="features-section">
+        <h2 class="section-title">YOUR <span class="green">UNFAIR</span> ADVANTAGE</h2>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🤖</div>
+                <h3>AI-Powered Signals</h3>
+                <p>Our AI scans 50+ stocks every 15 minutes using 12+ institutional strategies including Elliott Wave, Supply & Demand, and Harmonic Patterns.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Exact Entry & Exit</h3>
+                <p>No guessing. Every signal includes precise entry price, stop loss, and 3 profit targets. Just execute.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Chart AI Analysis</h3>
+                <p>Upload any chart and get instant AI analysis with pattern recognition, support/resistance levels, and trade setups.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">⚡</div>
+                <h3>Real-Time Alerts</h3>
+                <p>Get signals the moment they trigger. Mobile push notifications so you never miss a winning trade.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <h3>78% Win Rate</h3>
+                <p>Backtested and verified. Our AI consistently outperforms hedge funds and retail traders alike.</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon">🏆</div>
+                <h3>Elite Community</h3>
+                <p>Join 2,800+ serious traders. Share ideas, strategies, and wins with people on the same mission.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Pricing -->
+    <section class="pricing-section">
+        <h2 class="section-title">INVEST IN YOUR <span class="green">FREEDOM</span></h2>
+        
+        <div class="price-card">
+            <div class="price-tag">Full Access</div>
+            <div class="price-title">Pro Membership</div>
+            <div class="price-amount">$97<span>/month</span></div>
+            
+            <ul class="price-features">
+                <li>All AI Trading Signals (50+ stocks)</li>
+                <li>Chart AI Analysis (unlimited uploads)</li>
+                <li>Exact entries, stops & targets</li>
+                <li>Real-time mobile alerts</li>
+                <li>12+ institutional strategies</li>
+                <li>78% verified win rate</li>
+                <li>Elite community access</li>
+                <li>Cancel anytime</li>
+            </ul>
+            
+            <a href="/register.html" class="price-cta">GET INSTANT ACCESS →</a>
+            
+            <p class="price-guarantee">🔒 Secure checkout • Cancel anytime • No hidden fees</p>
+        </div>
+    </section>
+    
+    <!-- Countdown -->
+    <section class="countdown-section">
+        <div class="countdown-title">⚠️ Enrollment Closes In</div>
+        <div class="countdown">
+            <div class="countdown-box">
+                <div class="countdown-num" id="minutes">28</div>
+                <div class="countdown-label">Minutes</div>
+            </div>
+            <div class="countdown-box">
+                <div class="countdown-num" id="seconds">00</div>
+                <div class="countdown-label">Seconds</div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Footer -->
+    <footer>
+        <p>© 2024 ELUXRAJ™ • All Rights Reserved</p>
+        <p style="margin-top: 12px;">
+            <a href="/terms.html">Terms</a>
+            <a href="/privacy.html">Privacy</a>
+            <a href="/disclaimer.html">Disclaimer</a>
+        </p>
+        <p style="margin-top: 20px; max-width: 600px; margin-left: auto; margin-right: auto; font-size: 0.75rem;">
+            Trading involves risk. Past performance does not guarantee future results. Only trade with money you can afford to lose.
+        </p>
+    </footer>
+    
+    <!-- Floating Notification -->
+    <div class="float-notif" id="float-notif">
+        <div class="float-notif-icon">💰</div>
+        <div>
+            <div class="float-notif-text"></div>
+            <div class="float-notif-time"></div>
+        </div>
+    </div>
+    
+    <!-- Spots Badge -->
+    <div class="spots-badge">
+        <div class="spots-num" id="spots">23</div>
+        <div class="spots-label">Spots Left Today</div>
+    </div>
     
     <script>
-        const socialProofMessages = [
-            { icon: '🎯', text: '<strong>Jake T.</strong> from Texas just made <strong>+$2,840</strong> on NVDA signal', time: '2 minutes ago' },
-            { icon: '🚀', text: '<strong>Sarah M.</strong> upgraded to <strong>Pro</strong>', time: '4 minutes ago' },
-            { icon: '💰', text: '<strong>TSLA BUY</strong> signal hit Target 1 — <strong>+4.2%</strong>', time: '7 minutes ago' },
-            { icon: '🔥', text: '<strong>Mike K.</strong> from Florida joined ELUXRAJ', time: '9 minutes ago' },
-            { icon: '🎯', text: '<strong>AMD SELL</strong> signal hit Target 2 — <strong>+7.8%</strong>', time: '12 minutes ago' },
-            { icon: '💎', text: '<strong>Chris R.</strong> upgraded to <strong>Elite</strong>', time: '15 minutes ago' },
-            { icon: '🚀', text: '<strong>Emily W.</strong> from California just signed up', time: '18 minutes ago' },
-            { icon: '💰', text: '<strong>MSFT BUY</strong> signal hit Target 1 — <strong>+3.6%</strong>', time: '21 minutes ago' },
-            { icon: '🎯', text: '<strong>David L.</strong> made <strong>+$1,950</strong> on GOOGL signal', time: '24 minutes ago' },
-            { icon: '🔥', text: '<strong>12 traders</strong> joined in the last hour', time: '27 minutes ago' },
-            { icon: '💎', text: '<strong>NVDA BUY</strong> signal hit Target 2 — <strong>+8.4%</strong>', time: '31 minutes ago' },
-            { icon: '🚀', text: '<strong>Anna S.</strong> from New York upgraded to <strong>Pro</strong>', time: '35 minutes ago' },
-        ];
+        // 28-minute countdown (resets when it hits 0)
+        let totalSeconds = 28 * 60;
         
-        let currentIndex = 0;
-        let proofTimeout;
-        
-        function showSocialProof() {
-            const el = document.getElementById('social-proof');
-            const msg = socialProofMessages[currentIndex];
-            
-            el.querySelector('.sp-icon').textContent = msg.icon;
-            el.querySelector('.sp-text').innerHTML = msg.text;
-            el.querySelector('.sp-time').textContent = msg.time;
-            
-            el.classList.add('show');
-            
-            proofTimeout = setTimeout(() => {
-                el.classList.remove('show');
-                currentIndex = (currentIndex + 1) % socialProofMessages.length;
-                setTimeout(showSocialProof, 3000 + Math.random() * 5000);
-            }, 5000);
-        }
-        
-        function closeSocialProof() {
-            const el = document.getElementById('social-proof');
-            el.classList.remove('show');
-            clearTimeout(proofTimeout);
-            setTimeout(showSocialProof, 15000);
-        }
-        
-        // Start after 3 seconds
-        setTimeout(showSocialProof, 3000);
-    </script>
-
-    <script>
-        // Countdown Timer
         function updateCountdown() {
-            const now = new Date();
-            const midnight = new Date();
-            midnight.setHours(24, 0, 0, 0);
-            const diff = midnight - now;
+            const m = Math.floor(totalSeconds / 60);
+            const s = totalSeconds % 60;
             
-            const hours = Math.floor(diff / (1000 * 60 * 60));
-            const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+            document.getElementById('minutes').textContent = m.toString().padStart(2,'0');
+            document.getElementById('seconds').textContent = s.toString().padStart(2,'0');
             
-            document.getElementById('hours').textContent = hours.toString().padStart(2, '0');
-            document.getElementById('minutes').textContent = minutes.toString().padStart(2, '0');
-            document.getElementById('seconds').textContent = seconds.toString().padStart(2, '0');
+            if (totalSeconds > 0) {
+                totalSeconds--;
+            } else {
+                totalSeconds = 28 * 60; // Reset
+            }
         }
-        
         setInterval(updateCountdown, 1000);
         updateCountdown();
         
-        // Spots remaining - decreases randomly
+        // Social Proof Notifications
+        const notifications = [
+            { icon: '💰', text: '<strong>Jake T.</strong> from Texas made <strong>+$2,840</strong> on NVDA', time: '2 min ago' },
+            { icon: '🚀', text: '<strong>Sarah M.</strong> just joined <strong>ELUXRAJ</strong>', time: '4 min ago' },
+            { icon: '🎯', text: '<strong>TSLA</strong> signal hit Target 2 — <strong>+8.4%</strong>', time: '7 min ago' },
+            { icon: '🔥', text: '<strong>Mike K.</strong> from Florida just joined', time: '9 min ago' },
+            { icon: '💎', text: '<strong>AMD</strong> signal hit Target 1 — <strong>+4.2%</strong>', time: '12 min ago' },
+            { icon: '🚀', text: '<strong>Chris R.</strong> from NYC just joined', time: '15 min ago' },
+            { icon: '💰', text: '<strong>Emily W.</strong> from California made <strong>+$1,950</strong>', time: '18 min ago' },
+            { icon: '🎯', text: '<strong>MSFT</strong> signal hit all 3 targets — <strong>+11.2%</strong>', time: '21 min ago' },
+        ];
+        
+        let notifIndex = 0;
+        function showNotification() {
+            const el = document.getElementById('float-notif');
+            const n = notifications[notifIndex];
+            el.querySelector('.float-notif-icon').textContent = n.icon;
+            el.querySelector('.float-notif-text').innerHTML = n.text;
+            el.querySelector('.float-notif-time').textContent = n.time;
+            el.classList.add('show');
+            
+            setTimeout(() => {
+                el.classList.remove('show');
+                notifIndex = (notifIndex + 1) % notifications.length;
+                setTimeout(showNotification, 5000 + Math.random() * 8000);
+            }, 5000);
+        }
+        setTimeout(showNotification, 3000);
+        
+        // Decreasing spots
         let spots = 23;
-        function updateSpots() {
-            const spotsEl = document.getElementById('spots-count');
-            if (spots > 5 && Math.random() < 0.3) {
+        function decreaseSpots() {
+            if (spots > 3 && Math.random() < 0.4) {
                 spots--;
-                spotsEl.textContent = spots;
-                spotsEl.style.transform = 'scale(1.2)';
-                setTimeout(() => spotsEl.style.transform = 'scale(1)', 200);
+                document.getElementById('spots').textContent = spots;
+                document.getElementById('spots-top').textContent = spots;
             }
         }
+        setInterval(decreaseSpots, 45000);
         
-        setInterval(updateSpots, 30000 + Math.random() * 60000);
+        // Members today counter
+        let members = 47;
+        function updateMembers() {
+            if (Math.random() < 0.5) {
+                members++;
+                document.getElementById('members-today').textContent = members;
+            }
+        }
+        setInterval(updateMembers, 60000);
     </script>
-
 </body>
 </html>
