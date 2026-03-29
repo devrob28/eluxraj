@@ -15,6 +15,37 @@
             overflow-x: hidden;
         }
         
+        /* Live Profit Ticker */
+        .profit-ticker {
+            background: #0a0a0a;
+            border-bottom: 1px solid #1a1a1a;
+            padding: 10px 0;
+            overflow: hidden;
+            white-space: nowrap;
+        }
+        .ticker-track {
+            display: inline-block;
+            animation: ticker 30s linear infinite;
+        }
+        .ticker-item {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-right: 48px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .ticker-item .green { color: #22c55e; }
+        .ticker-item .ticker-dot {
+            width: 6px; height: 6px;
+            background: #22c55e;
+            border-radius: 50%;
+        }
+        @keyframes ticker {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        
         /* Announcement Bar */
         .announcement {
             background: linear-gradient(90deg, #dc2626, #991b1b);
@@ -117,12 +148,39 @@
         }
         .cta-sub strong { color: #22c55e; }
         
+        /* Progress Bar */
+        .progress-container {
+            margin-top: 32px;
+            width: 100%;
+            max-width: 400px;
+        }
+        .progress-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #71717a;
+            margin-bottom: 8px;
+        }
+        .progress-text strong { color: #dc2626; }
+        .progress-bar {
+            height: 8px;
+            background: #1a1a1a;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #22c55e, #16a34a);
+            border-radius: 10px;
+            transition: width 0.5s;
+        }
+        
         /* Stats */
         .stats {
             display: flex;
             justify-content: center;
             gap: 60px;
-            margin-top: 80px;
+            margin-top: 60px;
             flex-wrap: wrap;
         }
         .stat { text-align: center; }
@@ -136,6 +194,56 @@
             color: #71717a;
             text-transform: uppercase;
             letter-spacing: 2px;
+            margin-top: 4px;
+        }
+        
+        /* Today's Signals */
+        .signals-section {
+            padding: 60px 20px;
+            background: linear-gradient(180deg, #000 0%, #0a0a0a 100%);
+            border-top: 1px solid #1a1a1a;
+        }
+        .signals-title {
+            text-align: center;
+            font-size: 1.5rem;
+            font-weight: 800;
+            margin-bottom: 32px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .signals-title .green { color: #22c55e; }
+        .signals-grid {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .signal-card {
+            background: #111;
+            border: 1px solid #222;
+            border-radius: 12px;
+            padding: 20px 28px;
+            text-align: center;
+            min-width: 140px;
+        }
+        .signal-card.win { border-color: rgba(34,197,94,0.4); }
+        .signal-card.pending { border-color: rgba(234,179,8,0.4); }
+        .signal-ticker {
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin-bottom: 4px;
+        }
+        .signal-result {
+            font-size: 1.1rem;
+            font-weight: 700;
+        }
+        .signal-result.win { color: #22c55e; }
+        .signal-result.pending { color: #eab308; }
+        .signal-status {
+            font-size: 0.75rem;
+            color: #71717a;
             margin-top: 4px;
         }
         
@@ -202,6 +310,51 @@
             margin-top: 4px;
         }
         
+        /* Recent Signups Feed */
+        .signups-feed {
+            padding: 40px 20px;
+            background: #000;
+            border-top: 1px solid #1a1a1a;
+            text-align: center;
+        }
+        .signups-title {
+            font-size: 1rem;
+            color: #71717a;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+        .signups-container {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            flex-wrap: wrap;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .signup-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: #111;
+            border: 1px solid #222;
+            padding: 10px 16px;
+            border-radius: 50px;
+            font-size: 0.85rem;
+        }
+        .signup-item .avatar {
+            width: 28px; height: 28px;
+            background: linear-gradient(135deg, #22c55e, #15803d);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: #000;
+        }
+        .signup-item .time { color: #71717a; font-size: 0.75rem; }
+        
         /* Features */
         .features-section {
             padding: 100px 20px;
@@ -233,6 +386,29 @@
             margin-bottom: 12px;
         }
         .feature-card p { color: #a1a1aa; line-height: 1.6; }
+        
+        /* Missed Profits */
+        .missed-section {
+            padding: 60px 20px;
+            background: linear-gradient(135deg, rgba(220,38,38,0.1) 0%, rgba(0,0,0,0.8) 100%);
+            border: 1px solid rgba(220,38,38,0.2);
+            text-align: center;
+        }
+        .missed-title {
+            font-size: 1.3rem;
+            color: #dc2626;
+            font-weight: 700;
+            margin-bottom: 12px;
+        }
+        .missed-amount {
+            font-size: 4rem;
+            font-weight: 900;
+            color: #fff;
+        }
+        .missed-sub {
+            color: #a1a1aa;
+            margin-top: 8px;
+        }
         
         /* Pricing */
         .pricing-section {
@@ -363,7 +539,7 @@
         footer a { color: #71717a; text-decoration: none; margin: 0 12px; }
         footer a:hover { color: #22c55e; }
         
-        /* Floating Notification */
+        /* Floating Elements */
         .float-notif {
             position: fixed;
             bottom: 24px;
@@ -386,6 +562,24 @@
         .float-notif-text { font-size: 0.9rem; line-height: 1.4; }
         .float-notif-text strong { color: #22c55e; }
         .float-notif-time { font-size: 0.75rem; color: #71717a; margin-top: 4px; }
+        
+        /* Viewing Now Badge */
+        .viewing-badge {
+            position: fixed;
+            top: 100px;
+            right: 24px;
+            background: rgba(17,17,17,0.95);
+            border: 1px solid #333;
+            padding: 12px 20px;
+            border-radius: 50px;
+            z-index: 1000;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.85rem;
+        }
+        .viewing-badge .eye { font-size: 1.1rem; }
+        .viewing-badge .count { color: #22c55e; font-weight: 700; }
         
         /* Spots Badge */
         .spots-badge {
@@ -415,6 +609,122 @@
             font-weight: 600;
         }
         
+        /* Typing Indicator */
+        .typing-indicator {
+            position: fixed;
+            bottom: 140px;
+            right: 24px;
+            background: #111;
+            border: 1px solid #333;
+            padding: 12px 20px;
+            border-radius: 12px;
+            z-index: 1000;
+            font-size: 0.85rem;
+            display: none;
+        }
+        .typing-indicator.show { display: flex; align-items: center; gap: 10px; }
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+        .typing-dots span {
+            width: 6px; height: 6px;
+            background: #22c55e;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+        .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+        .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes typing {
+            0%,100% { opacity: 0.3; transform: scale(0.8); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+        
+        /* Spot Claimed Flash */
+        .spot-claimed {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0);
+            background: #111;
+            border: 2px solid #22c55e;
+            padding: 24px 40px;
+            border-radius: 16px;
+            z-index: 2000;
+            text-align: center;
+            transition: transform 0.3s cubic-bezier(0.68,-0.55,0.265,1.55);
+        }
+        .spot-claimed.show { transform: translate(-50%, -50%) scale(1); }
+        .spot-claimed-text { font-size: 1.1rem; font-weight: 700; }
+        .spot-claimed-text strong { color: #22c55e; }
+        
+        /* Exit Intent Popup */
+        .exit-popup {
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.9);
+            z-index: 3000;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .exit-popup.show { display: flex; }
+        .exit-content {
+            background: #111;
+            border: 2px solid #dc2626;
+            border-radius: 24px;
+            padding: 48px;
+            max-width: 500px;
+            text-align: center;
+            position: relative;
+        }
+        .exit-close {
+            position: absolute;
+            top: 16px; right: 20px;
+            background: none;
+            border: none;
+            color: #71717a;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+        .exit-title {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #dc2626;
+            margin-bottom: 16px;
+        }
+        .exit-sub {
+            font-size: 1.1rem;
+            color: #a1a1aa;
+            margin-bottom: 24px;
+        }
+        .exit-timer {
+            font-size: 3rem;
+            font-weight: 900;
+            color: #22c55e;
+            margin-bottom: 24px;
+        }
+        .exit-cta {
+            display: block;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            color: #000;
+            padding: 18px 40px;
+            border-radius: 12px;
+            font-size: 1.2rem;
+            font-weight: 900;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+        .exit-skip {
+            display: block;
+            margin-top: 16px;
+            color: #71717a;
+            font-size: 0.85rem;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+        
         /* Mobile */
         @media (max-width: 1024px) {
             .income-grid { grid-template-columns: repeat(2, 1fr); }
@@ -433,10 +743,38 @@
             .countdown-num { font-size: 1.8rem; }
             .spots-badge { bottom: 80px; right: 12px; padding: 14px 20px; }
             .spots-num { font-size: 1.8rem; }
+            .viewing-badge { top: auto; bottom: 160px; right: 12px; }
+            .typing-indicator { bottom: 200px; right: 12px; }
+            .missed-amount { font-size: 2.5rem; }
+            .signups-container { gap: 12px; }
+            .signals-grid { gap: 12px; }
         }
     </style>
 </head>
 <body>
+    <!-- Live Profit Ticker -->
+    <div class="profit-ticker">
+        <div class="ticker-track">
+            <span class="ticker-item"><span class="ticker-dot"></span> Jake T. <span class="green">+$2,840</span> NVDA</span>
+            <span class="ticker-item"><span class="ticker-dot"></span> Sarah M. <span class="green">+$1,250</span> TSLA</span>
+            <span class="ticker-item"><span class="ticker-dot"></span> Mike K. <span class="green">+$4,180</span> AMD</span>
+            <span class="ticker-item"><span class="ticker-dot"></span> Emily W. <span class="green">+$890</span> MSFT</span>
+            <span class="ticker-item"><span class="ticker-dot"></span> Chris R. <span class="green">+$3,620</span> GOOGL</span>
+            <span class="ticker-item"><span class="ticker-dot"></span> Alex D. <span class="green">+$2,100</span> META</span>
+            <span class="ticker-item"><span class="ticker-dot"></span> Lisa P. <span class="green">+$1,780</span> AAPL</span>
+            <span class="ticker-item"><span class="ticker-dot"></span> David H. <span class="green">+$5,240</span> NVDA</span>
+            <!-- Duplicate for seamless loop -->
+            <span class="ticker-item"><span class="ticker-dot"></span> Jake T. <span class="green">+$2,840</span> NVDA</span>
+            <span class="ticker-item"><span class="ticker-dot"></span> Sarah M. <span class="green">+$1,250</span> TSLA</span>
+            <span class="ticker-item"><span class="ticker-dot"></span> Mike K. <span class="green">+$4,180</span> AMD</span>
+            <span class="ticker-item"><span class="ticker-dot"></span> Emily W. <span class="green">+$890</span> MSFT</span>
+            <span class="ticker-item"><span class="ticker-dot"></span> Chris R. <span class="green">+$3,620</span> GOOGL</span>
+            <span class="ticker-item"><span class="ticker-dot"></span> Alex D. <span class="green">+$2,100</span> META</span>
+            <span class="ticker-item"><span class="ticker-dot"></span> Lisa P. <span class="green">+$1,780</span> AAPL</span>
+            <span class="ticker-item"><span class="ticker-dot"></span> David H. <span class="green">+$5,240</span> NVDA</span>
+        </div>
+    </div>
+    
     <!-- Announcement Bar -->
     <div class="announcement">
         🔥 <span>LIMITED ENROLLMENT:</span> Only <span id="spots-top">23</span> spots remaining — <span id="members-today">47</span> traders joined today
@@ -448,7 +786,7 @@
         
         <div class="live-badge">
             <div class="dot"></div>
-            2,847 TRADERS ONLINE NOW
+            <span id="online-count">2,847</span> TRADERS ONLINE NOW
         </div>
         
         <h1>ESCAPE THE <span class="green">MATRIX</span><br>MASTER THE <span class="green">MARKETS</span></h1>
@@ -458,6 +796,17 @@
         <a href="/register.html" class="cta-btn">JOIN NOW →</a>
         
         <p class="cta-sub"><strong>$97/month</strong> • Cancel anytime</p>
+        
+        <!-- Progress Bar -->
+        <div class="progress-container">
+            <div class="progress-text">
+                <span>March Enrollment</span>
+                <strong><span id="progress-pct">87</span>% FULL</strong>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress-fill" style="width: 87%"></div>
+            </div>
+        </div>
         
         <div class="stats">
             <div class="stat">
@@ -475,6 +824,70 @@
             <div class="stat">
                 <div class="stat-value">12</div>
                 <div class="stat-label">Day Win Streak</div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Today's Signals -->
+    <section class="signals-section">
+        <h2 class="signals-title">📈 TODAY'S <span class="green">SIGNAL RESULTS</span></h2>
+        <div class="signals-grid">
+            <div class="signal-card win">
+                <div class="signal-ticker">NVDA</div>
+                <div class="signal-result win">+4.8%</div>
+                <div class="signal-status">✅ Target 2 Hit</div>
+            </div>
+            <div class="signal-card win">
+                <div class="signal-ticker">TSLA</div>
+                <div class="signal-result win">+9.6%</div>
+                <div class="signal-status">✅ All Targets Hit</div>
+            </div>
+            <div class="signal-card win">
+                <div class="signal-ticker">AMD</div>
+                <div class="signal-result win">+7.8%</div>
+                <div class="signal-status">✅ Target 3 Hit</div>
+            </div>
+            <div class="signal-card win">
+                <div class="signal-ticker">MSFT</div>
+                <div class="signal-result win">+3.2%</div>
+                <div class="signal-status">✅ Target 1 Hit</div>
+            </div>
+            <div class="signal-card pending">
+                <div class="signal-ticker">GOOGL</div>
+                <div class="signal-result pending">+1.4%</div>
+                <div class="signal-status">⏳ Running...</div>
+            </div>
+            <div class="signal-card pending">
+                <div class="signal-ticker">META</div>
+                <div class="signal-result pending">+0.8%</div>
+                <div class="signal-status">⏳ Just Entered</div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- Recent Signups Feed -->
+    <section class="signups-feed">
+        <div class="signups-title">🔥 Recent Members</div>
+        <div class="signups-container" id="signups-container">
+            <div class="signup-item">
+                <div class="avatar">JD</div>
+                <span>John D. from California</span>
+                <span class="time">2 min ago</span>
+            </div>
+            <div class="signup-item">
+                <div class="avatar">SM</div>
+                <span>Sarah M. from Texas</span>
+                <span class="time">5 min ago</span>
+            </div>
+            <div class="signup-item">
+                <div class="avatar">MK</div>
+                <span>Mike K. from Florida</span>
+                <span class="time">8 min ago</span>
+            </div>
+            <div class="signup-item">
+                <div class="avatar">AW</div>
+                <span>Amy W. from New York</span>
+                <span class="time">12 min ago</span>
             </div>
         </div>
     </section>
@@ -553,6 +966,13 @@
         </div>
     </section>
     
+    <!-- Missed Profits Calculator -->
+    <section class="missed-section">
+        <div class="missed-title">⚠️ WHILE YOU'RE THINKING ABOUT IT...</div>
+        <div class="missed-amount">You missed $<span id="missed-amount">12,847</span></div>
+        <div class="missed-sub">in potential profits from this week's signals</div>
+    </section>
+    
     <!-- Pricing -->
     <section class="pricing-section">
         <h2 class="section-title">INVEST IN YOUR <span class="green">FREEDOM</span></h2>
@@ -616,10 +1036,41 @@
         </div>
     </div>
     
+    <!-- Viewing Now Badge -->
+    <div class="viewing-badge">
+        <span class="eye">👁️</span>
+        <span><span class="count" id="viewing-count">147</span> viewing now</span>
+    </div>
+    
     <!-- Spots Badge -->
     <div class="spots-badge">
         <div class="spots-num" id="spots">23</div>
         <div class="spots-label">Spots Left Today</div>
+    </div>
+    
+    <!-- Typing Indicator -->
+    <div class="typing-indicator" id="typing-indicator">
+        <span id="typing-name">Alex</span> is signing up
+        <div class="typing-dots">
+            <span></span><span></span><span></span>
+        </div>
+    </div>
+    
+    <!-- Spot Claimed Flash -->
+    <div class="spot-claimed" id="spot-claimed">
+        <div class="spot-claimed-text">🎉 <strong id="claimed-name">Sarah</strong> just claimed spot #<span id="claimed-spot">22</span>!</div>
+    </div>
+    
+    <!-- Exit Intent Popup -->
+    <div class="exit-popup" id="exit-popup">
+        <div class="exit-content">
+            <button class="exit-close" onclick="closeExitPopup()">×</button>
+            <div class="exit-title">WAIT!</div>
+            <div class="exit-sub">Join in the next 5 minutes and lock in your spot before enrollment closes</div>
+            <div class="exit-timer" id="exit-timer">5:00</div>
+            <a href="/register.html" class="exit-cta">CLAIM MY SPOT →</a>
+            <button class="exit-skip" onclick="closeExitPopup()">No thanks, I'll pass on profits</button>
+        </div>
     </div>
     
     <script>
@@ -636,7 +1087,7 @@
             if (totalSeconds > 0) {
                 totalSeconds--;
             } else {
-                totalSeconds = 28 * 60; // Reset
+                totalSeconds = 28 * 60;
             }
         }
         setInterval(updateCountdown, 1000);
@@ -671,26 +1122,106 @@
         }
         setTimeout(showNotification, 3000);
         
-        // Decreasing spots
+        // Spots countdown
         let spots = 23;
+        const names = ['Sarah','Mike','Jake','Emily','Chris','Alex','Lisa','David','Amy','John','Kate','Tom'];
+        
         function decreaseSpots() {
-            if (spots > 3 && Math.random() < 0.4) {
-                spots--;
-                document.getElementById('spots').textContent = spots;
-                document.getElementById('spots-top').textContent = spots;
+            if (spots > 3) {
+                const name = names[Math.floor(Math.random() * names.length)];
+                
+                // Show typing indicator
+                document.getElementById('typing-name').textContent = name;
+                document.getElementById('typing-indicator').classList.add('show');
+                
+                setTimeout(() => {
+                    document.getElementById('typing-indicator').classList.remove('show');
+                    
+                    // Decrease spots
+                    spots--;
+                    document.getElementById('spots').textContent = spots;
+                    document.getElementById('spots-top').textContent = spots;
+                    
+                    // Update progress bar
+                    const pct = 87 + (23 - spots);
+                    document.getElementById('progress-pct').textContent = Math.min(pct, 99);
+                    document.getElementById('progress-fill').style.width = Math.min(pct, 99) + '%';
+                    
+                    // Show claimed flash
+                    document.getElementById('claimed-name').textContent = name;
+                    document.getElementById('claimed-spot').textContent = spots + 1;
+                    document.getElementById('spot-claimed').classList.add('show');
+                    
+                    setTimeout(() => {
+                        document.getElementById('spot-claimed').classList.remove('show');
+                    }, 2500);
+                    
+                }, 3000);
             }
         }
-        setInterval(decreaseSpots, 45000);
+        setInterval(decreaseSpots, 60000);
+        setTimeout(decreaseSpots, 15000);
+        
+        // Viewing count fluctuation
+        let viewing = 147;
+        function updateViewing() {
+            viewing += Math.floor(Math.random() * 7) - 3;
+            if (viewing < 120) viewing = 125;
+            if (viewing > 180) viewing = 175;
+            document.getElementById('viewing-count').textContent = viewing;
+        }
+        setInterval(updateViewing, 8000);
+        
+        // Online traders fluctuation
+        let online = 2847;
+        function updateOnline() {
+            online += Math.floor(Math.random() * 20) - 8;
+            document.getElementById('online-count').textContent = online.toLocaleString();
+        }
+        setInterval(updateOnline, 12000);
         
         // Members today counter
         let members = 47;
         function updateMembers() {
-            if (Math.random() < 0.5) {
-                members++;
-                document.getElementById('members-today').textContent = members;
-            }
+            members++;
+            document.getElementById('members-today').textContent = members;
         }
-        setInterval(updateMembers, 60000);
+        setInterval(updateMembers, 90000);
+        
+        // Missed profits counter
+        let missed = 12847;
+        function updateMissed() {
+            missed += Math.floor(Math.random() * 500) + 100;
+            document.getElementById('missed-amount').textContent = missed.toLocaleString();
+        }
+        setInterval(updateMissed, 30000);
+        
+        // Exit Intent
+        let exitShown = false;
+        let exitSeconds = 300;
+        
+        document.addEventListener('mouseleave', function(e) {
+            if (e.clientY < 0 && !exitShown) {
+                exitShown = true;
+                document.getElementById('exit-popup').classList.add('show');
+                
+                const exitInterval = setInterval(() => {
+                    exitSeconds--;
+                    const m = Math.floor(exitSeconds / 60);
+                    const s = exitSeconds % 60;
+                    document.getElementById('exit-timer').textContent = m + ':' + s.toString().padStart(2,'0');
+                    
+                    if (exitSeconds <= 0) {
+                        clearInterval(exitInterval);
+                        closeExitPopup();
+                    }
+                }, 1000);
+            }
+        });
+        
+        function closeExitPopup() {
+            document.getElementById('exit-popup').classList.remove('show');
+        }
     </script>
 </body>
 </html>
