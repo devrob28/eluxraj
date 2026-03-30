@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome to ELUXRAJ™</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .welcome-container {
+            width: 100%;
+            max-width: 480px;
+        }
+        
+        .welcome-card {
+            background: #0a0a0a;
+            border: 2px solid #22c55e;
+            border-radius: 24px;
+            padding: 48px;
+            box-shadow: 0 0 80px rgba(34,197,94,0.2);
+        }
+        
+        .success-icon {
+            text-align: center;
+            font-size: 4rem;
+            margin-bottom: 24px;
+        }
+        
+        .welcome-title {
+            text-align: center;
+            font-size: 2rem;
+            font-weight: 900;
+            margin-bottom: 8px;
+            color: #22c55e;
+        }
+        
+        .welcome-subtitle {
+            text-align: center;
+            color: #a1a1aa;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+        
+        .paid-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            background: rgba(34,197,94,0.15);
+            border: 1px solid rgba(34,197,94,0.3);
+            padding: 12px 20px;
+            border-radius: 50px;
+            margin-bottom: 32px;
+            font-size: 0.9rem;
+            color: #22c55e;
+            font-weight: 600;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: #d1d5db;
+            margin-bottom: 8px;
+        }
+        .form-group input {
+            width: 100%;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 16px;
+            color: #fff;
+            font-size: 1rem;
+            outline: none;
+            transition: all 0.2s;
+        }
+        .form-group input:focus {
+            border-color: #22c55e;
+            box-shadow: 0 0 0 3px rgba(34,197,94,0.2);
+        }
+        .form-group input::placeholder {
+            color: #6b7280;
+        }
+        .form-group input:disabled {
+            background: rgba(34,197,94,0.1);
+            border-color: rgba(34,197,94,0.3);
+            color: #22c55e;
+        }
+        
+        .create-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border: none;
+            border-radius: 14px;
+            padding: 18px;
+            color: #000;
+            font-size: 1.1rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 40px rgba(34,197,94,0.4);
+        }
+        .create-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 60px rgba(34,197,94,0.6);
+        }
+        .create-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .error-msg {
+            background: rgba(220,38,38,0.15);
+            border: 1px solid rgba(220,38,38,0.3);
+            color: #f87171;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            display: none;
+            text-align: center;
+        }
+        .error-msg.show { display: block; }
+        
+        .loading {
+            text-align: center;
+            padding: 60px 20px;
+        }
+        .loading-spinner {
+            width: 48px;
+            height: 48px;
+            border: 3px solid #1a1a1a;
+            border-top-color: #22c55e;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .loading-text {
+            color: #71717a;
+        }
+        
+        .invalid-session {
+            text-align: center;
+            padding: 40px 20px;
+        }
+        .invalid-icon {
+            font-size: 3rem;
+            margin-bottom: 16px;
+        }
+        .invalid-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            color: #f87171;
+        }
+        .invalid-text {
+            color: #71717a;
+            margin-bottom: 24px;
+        }
+        .retry-btn {
+            display: inline-block;
+            background: #22c55e;
+            color: #000;
+            padding: 14px 32px;
+            border-radius: 10px;
+            text-decoration: none;
+            font-weight: 700;
+        }
+        
+        #formSection { display: none; }
+        #loadingSection { display: block; }
+        #invalidSection { display: none; }
+    </style>
+</head>
+<body>
+    <div class="welcome-container">
+        <div class="welcome-card">
+            
+            <!-- Loading State -->
+            <div id="loadingSection">
+                <div class="loading">
+                    <div class="loading-spinner"></div>
+                    <div class="loading-text">Verifying your payment...</div>
+                </div>
+            </div>
+            
+            <!-- Invalid Session -->
+            <div id="invalidSection">
+                <div class="invalid-session">
+                    <div class="invalid-icon">⚠️</div>
+                    <div class="invalid-title">Session Not Found</div>
+                    <div class="invalid-text">We couldn't verify your payment. Please try again.</div>
+                    <a href="/checkout.html" class="retry-btn">Try Again</a>
+                </div>
+            </div>
+            
+            <!-- Account Creation Form -->
+            <div id="formSection">
+                <div class="success-icon">🎉</div>
+                <h1 class="welcome-title">Payment Successful!</h1>
+                <p class="welcome-subtitle">Create your account to access your AI trading signals</p>
+                
+                <div class="paid-badge">
+                    ✓ Pro Membership Activated
+                </div>
+                
+                <div class="error-msg" id="errorMsg"></div>
+                
+                <form id="accountForm">
+                    <div class="form-group">
+                        <label>Full Name</label>
+                        <input type="text" id="fullName" placeholder="John Doe" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email</label>
+                        <input type="email" id="email" placeholder="you@example.com" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Create Password</label>
+                        <input type="password" id="password" placeholder="Min 8 characters" required minlength="8">
+                    </div>
+                    
+                    <input type="hidden" id="sessionId">
+                    <input type="hidden" id="subscriptionId">
+                    <input type="hidden" id="customerId">
+                    
+                    <button type="submit" class="create-btn" id="createBtn">
+                        CREATE MY ACCOUNT →
+                    </button>
+                </form>
+            </div>
+            
+        </div>
+    </div>
+    
+    <script>
+        const API = 'https://eluxraj-api-production.up.railway.app/api/v1';
+        
+        // Get session ID from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const sessionId = urlParams.get('session_id');
+        
+        async function verifyPayment() {
+            if (!sessionId) {
+                showInvalid();
+                return;
+            }
+            
+            try {
+                const res = await fetch(API + '/stripe/verify-session/' + sessionId);
+                const data = await res.json();
+                
+                if (data.paid) {
+                    // Payment verified - show form
+                    document.getElementById('loadingSection').style.display = 'none';
+                    document.getElementById('formSection').style.display = 'block';
+                    
+                    // Pre-fill email if available
+                    if (data.customer_email) {
+                        document.getElementById('email').value = data.customer_email;
+                    }
+                    if (data.customer_name) {
+                        document.getElementById('fullName').value = data.customer_name;
+                    }
+                    
+                    // Store for account creation
+                    document.getElementById('sessionId').value = sessionId;
+                    document.getElementById('subscriptionId').value = data.subscription_id || '';
+                    document.getElementById('customerId').value = data.customer_id || '';
+                } else {
+                    showInvalid();
+                }
+            } catch (err) {
+                console.error(err);
+                showInvalid();
+            }
+        }
+        
+        function showInvalid() {
+            document.getElementById('loadingSection').style.display = 'none';
+            document.getElementById('invalidSection').style.display = 'block';
+        }
+        
+        // Create account
+        document.getElementById('accountForm').onsubmit = async (e) => {
+            e.preventDefault();
+            
+            const btn = document.getElementById('createBtn');
+            const errorMsg = document.getElementById('errorMsg');
+            
+            const fullName = document.getElementById('fullName').value;
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const subscriptionId = document.getElementById('subscriptionId').value;
+            const customerId = document.getElementById('customerId').value;
+            
+            btn.disabled = true;
+            btn.textContent = 'CREATING ACCOUNT...';
+            errorMsg.classList.remove('show');
+            
+            try {
+                const res = await fetch(API + '/auth/register', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        full_name: fullName,
+                        email: email,
+                        password: password,
+                        stripe_subscription_id: subscriptionId,
+                        stripe_customer_id: customerId,
+                        tier: 'pro'
+                    })
+                });
+                
+                const data = await res.json();
+                
+                if (!res.ok) {
+                    throw new Error(data.detail || 'Registration failed');
+                }
+                
+                // Auto-login
+                const loginRes = await fetch(API + '/auth/login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: `username=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
+                });
+                
+                const loginData = await loginRes.json();
+                
+                if (loginRes.ok && loginData.access_token) {
+                    localStorage.setItem('token', loginData.access_token);
+                    window.location.href = '/dashboard.html';
+                } else {
+                    // Login failed but account created - redirect to login
+                    window.location.href = '/login.html?registered=true';
+                }
+                
+            } catch (err) {
+                errorMsg.textContent = err.message;
+                errorMsg.classList.add('show');
+                btn.disabled = false;
+                btn.textContent = 'CREATE MY ACCOUNT →';
+            }
+        };
+        
+        // Start verification
+        verifyPayment();
+    </script>
+</body>
+</html>

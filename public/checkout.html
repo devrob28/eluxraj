@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout | ELUXRAJ™</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #000;
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .checkout-container {
+            width: 100%;
+            max-width: 480px;
+        }
+        
+        .checkout-card {
+            background: #0a0a0a;
+            border: 2px solid #22c55e;
+            border-radius: 24px;
+            padding: 48px;
+            box-shadow: 0 0 80px rgba(34,197,94,0.2);
+        }
+        
+        .logo {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .logo-text {
+            font-size: 1.3rem;
+            font-weight: 900;
+            letter-spacing: 4px;
+            color: #22c55e;
+        }
+        
+        .checkout-title {
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 8px;
+        }
+        
+        .checkout-subtitle {
+            text-align: center;
+            color: #71717a;
+            margin-bottom: 32px;
+        }
+        
+        .price-display {
+            text-align: center;
+            padding: 24px;
+            background: rgba(34,197,94,0.1);
+            border-radius: 16px;
+            margin-bottom: 32px;
+        }
+        
+        .price-label {
+            font-size: 0.85rem;
+            color: #71717a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+        }
+        
+        .price-amount {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #22c55e;
+        }
+        .price-amount span {
+            font-size: 1.2rem;
+            color: #71717a;
+        }
+        
+        .features-list {
+            margin-bottom: 32px;
+        }
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #1a1a1a;
+            font-size: 0.95rem;
+        }
+        .feature-item:last-child {
+            border-bottom: none;
+        }
+        .feature-item .check {
+            color: #22c55e;
+            font-weight: 700;
+        }
+        
+        .checkout-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #22c55e, #16a34a);
+            border: none;
+            border-radius: 14px;
+            padding: 20px;
+            color: #000;
+            font-size: 1.2rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 0 40px rgba(34,197,94,0.4);
+        }
+        .checkout-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 0 60px rgba(34,197,94,0.6);
+        }
+        .checkout-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .secure-badge {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 20px;
+            color: #71717a;
+            font-size: 0.85rem;
+        }
+        
+        .guarantee {
+            text-align: center;
+            margin-top: 24px;
+            padding-top: 24px;
+            border-top: 1px solid #1a1a1a;
+        }
+        .guarantee-title {
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+        .guarantee-text {
+            color: #71717a;
+            font-size: 0.85rem;
+            line-height: 1.5;
+        }
+        
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 24px;
+            color: #71717a;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .back-link:hover {
+            color: #22c55e;
+        }
+        
+        .error-msg {
+            background: rgba(220,38,38,0.15);
+            border: 1px solid rgba(220,38,38,0.3);
+            color: #f87171;
+            padding: 12px 16px;
+            border-radius: 10px;
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            display: none;
+            text-align: center;
+        }
+        .error-msg.show { display: block; }
+        
+        /* Countdown urgency */
+        .urgency-bar {
+            background: linear-gradient(90deg, #dc2626, #991b1b);
+            padding: 12px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 24px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+        .urgency-bar span {
+            color: #fef08a;
+        }
+    </style>
+</head>
+<body>
+    <div class="checkout-container">
+        <div class="checkout-card">
+            <div class="logo">
+                <div class="logo-text">ELUXRAJ™</div>
+            </div>
+            
+            <div class="urgency-bar">
+                ⚡ <span id="spots">23</span> spots left — Price increases soon
+            </div>
+            
+            <h1 class="checkout-title">Complete Your Order</h1>
+            <p class="checkout-subtitle">Get instant access to AI trading signals</p>
+            
+            <div class="error-msg" id="errorMsg"></div>
+            
+            <div class="price-display">
+                <div class="price-label">Pro Membership</div>
+                <div class="price-amount">$97<span>/month</span></div>
+            </div>
+            
+            <div class="features-list">
+                <div class="feature-item"><span class="check">✓</span> All AI Trading Signals (50+ stocks)</div>
+                <div class="feature-item"><span class="check">✓</span> Chart AI Analysis (unlimited)</div>
+                <div class="feature-item"><span class="check">✓</span> Real-time mobile alerts</div>
+                <div class="feature-item"><span class="check">✓</span> 78% verified win rate</div>
+                <div class="feature-item"><span class="check">✓</span> Elite community access</div>
+                <div class="feature-item"><span class="check">✓</span> Cancel anytime</div>
+            </div>
+            
+            <button class="checkout-btn" id="checkoutBtn" onclick="startCheckout()">
+                PROCEED TO PAYMENT →
+            </button>
+            
+            <div class="secure-badge">
+                🔒 Secured by Stripe • 256-bit SSL encryption
+            </div>
+            
+            <div class="guarantee">
+                <div class="guarantee-title">✅ Satisfaction Guarantee</div>
+                <div class="guarantee-text">If you're not profitable within 30 days, contact us and we'll make it right.</div>
+            </div>
+            
+            <a href="/" class="back-link">← Back to homepage</a>
+        </div>
+    </div>
+    
+    <script>
+        const API = 'https://eluxraj-api-production.up.railway.app/api/v1';
+        
+        async function startCheckout() {
+            const btn = document.getElementById('checkoutBtn');
+            const errorMsg = document.getElementById('errorMsg');
+            
+            btn.disabled = true;
+            btn.textContent = 'REDIRECTING TO PAYMENT...';
+            errorMsg.classList.remove('show');
+            
+            try {
+                const res = await fetch(API + '/stripe/create-checkout-session', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        success_url: 'https://eluxraj.ai/welcome.html?session_id={CHECKOUT_SESSION_ID}',
+                        cancel_url: 'https://eluxraj.ai/checkout.html'
+                    })
+                });
+                
+                const data = await res.json();
+                
+                if (!res.ok) {
+                    throw new Error(data.detail || 'Failed to create checkout session');
+                }
+                
+                // Redirect to Stripe Checkout
+                window.location.href = data.checkout_url;
+                
+            } catch (err) {
+                errorMsg.textContent = err.message;
+                errorMsg.classList.add('show');
+                btn.disabled = false;
+                btn.textContent = 'PROCEED TO PAYMENT →';
+            }
+        }
+        
+        // Decrease spots over time
+        let spots = 23;
+        setInterval(() => {
+            if (spots > 5 && Math.random() < 0.3) {
+                spots--;
+                document.getElementById('spots').textContent = spots;
+            }
+        }, 45000);
+    </script>
+</body>
+</html>
