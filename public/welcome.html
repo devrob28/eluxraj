@@ -342,8 +342,8 @@
                 // Auto-login
                 const loginRes = await fetch(API + '/auth/login', {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    body: `username=${encodeURIComponent(email)}&password=${encodeURIComponent(password)}`
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email: email, password: password })
                 });
                 
                 const loginData = await loginRes.json();
