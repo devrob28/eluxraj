@@ -50,13 +50,10 @@
             font-size: 0.8rem;
             font-weight: 600;
         }
-        .tier-badge.elite {
-            background: linear-gradient(135deg, #667eea, #764ba2);
-        }
         .tier-badge.pro {
             background: linear-gradient(135deg, #00f260, #0575e6);
         }
-        .tier-badge.lite {
+        .tier-badge.free {
             background: rgba(255,255,255,0.1);
         }
         .logout-btn {
@@ -155,7 +152,6 @@
             margin-left: 0.5rem;
         }
         .feature-badge.pro { background: rgba(0,242,96,0.2); color: var(--green); }
-        .feature-badge.elite { background: rgba(102,126,234,0.2); color: var(--purple); }
         .feature-desc {
             color: var(--gray400);
             font-size: 0.9rem;
@@ -190,7 +186,6 @@
         .action-btn:hover {
             border-color: var(--purple);
         }
-        #liteSection { display: none; }
         #upgradeBanner {
             background: linear-gradient(135deg, rgba(102,126,234,0.1), rgba(0,242,96,0.1));
             border: 1px solid var(--border);
@@ -216,12 +211,13 @@
             color: var(--gray400);
         }
     </style>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
 </head>
 <body>
     <nav class="navbar">
         <div class="logo">ELUXRAJ™</div>
         <div class="nav-right">
-            <span class="tier-badge lite" id="tierBadge">LITE</span>
+            <span class="tier-badge free" id="tierBadge">FREE</span>
             <a href="#" class="logout-btn" onclick="logout()">Logout</a>
         </div>
     </nav>
@@ -233,9 +229,9 @@
         </div>
         
         <div id="upgradeBanner">
-            <h3>🚀 Upgrade to Pro</h3>
-            <p>Get access to AI Playbooks, Chart Analysis, and more</p>
-            <a href="/pricing.html">View Plans</a>
+            <h3>🚀 Unlock Full Access</h3>
+            <p>AI Playbooks, Chart Analysis, Live Signals, and every feature — $98/mo</p>
+            <a href="/#pricing">Get Instant Access →</a>
         </div>
         
         <div class="section-title">📊 LIVE MARKET DATA</div>
@@ -295,20 +291,16 @@
         
         <div class="section-title">⚡ QUICK ACTIONS</div>
         <div class="actions-grid">
-            <a href="/pricing.html" class="action-btn">💎 Upgrade Plan</a>
+            <a href="/#pricing" class="action-btn">💎 Upgrade Plan</a>
             <a href="/settings.html" class="action-btn">⚙️ Settings</a>
         </div>
         
-        <div id="liteSection">
-            <div class="section-title">🔒 LOCKED FEATURES</div>
-            <p style="color:var(--gray400);margin-bottom:2rem;">Upgrade to Pro or Elite to unlock all AI trading features.</p>
-        </div>
     </div>
 
     <script>
         const API = 'https://eluxraj-api-production.up.railway.app/api/v1';
         const token = localStorage.getItem('token');
-        let userTier = 'lite';
+        let userTier = 'free';
         
         console.log('Dashboard loaded, token:', token ? 'exists' : 'missing');
         
@@ -340,13 +332,14 @@
                 console.log('User loaded:', user);
                 
                 document.getElementById('userName').textContent = user.email.split('@')[0];
-                userTier = user.subscription_tier || 'lite';
+                userTier = user.subscription_tier || 'free';
+                const isPro = userTier === 'pro' || userTier === 'admin';
                 
                 const badge = document.getElementById('tierBadge');
-                badge.textContent = userTier.toUpperCase();
-                badge.className = 'tier-badge ' + userTier;
+                badge.textContent = isPro ? 'PRO' : 'FREE';
+                badge.className = 'tier-badge ' + (isPro ? 'pro' : 'free');
                 
-                updateTierAccess(userTier);
+                updateTierAccess(isPro);
                 
             } catch (e) {
                 console.error('Auth error:', e);
@@ -355,15 +348,10 @@
             }
         }
         
-        function updateTierAccess(tier) {
-            const isElite = tier === 'elite' || tier === 'admin';
-            const isPro = tier === 'pro';
-            
-            if (isElite || isPro) {
+        function updateTierAccess(isPro) {
+            if (isPro) {
                 document.getElementById('upgradeBanner').style.display = 'none';
             }
-            
-            document.getElementById('liteSection').style.display = (tier === 'lite' || tier === 'free') ? 'block' : 'none';
         }
         
         async function loadMarketData() {

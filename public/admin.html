@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard | ELUXRAJ</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body {
@@ -228,7 +227,7 @@
             font-weight: 700;
             text-transform: uppercase;
         }
-        .tier-badge.lite { background: rgba(113,113,122,0.2); color: #a1a1aa; }
+        .tier-badge.free { background: rgba(113,113,122,0.2); color: #a1a1aa; }
         .tier-badge.pro { background: rgba(34,197,94,0.2); color: #22c55e; }
         
         .status-dot {
@@ -305,6 +304,7 @@
             .page-header { flex-direction: column; gap: 16px; }
         }
     </style>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
 </head>
 <body>
     <nav class="navbar">
@@ -363,10 +363,10 @@
         <div class="tier-grid">
             <div class="tier-card">
                 <div class="tier-info">
-                    <h3>Lite (Free)</h3>
-                    <p>Basic access, limited signals</p>
+                    <h3>Free</h3>
+                    <p>Landing page visitors, no paid access</p>
                 </div>
-                <div class="tier-count free" id="liteCount">0</div>
+                <div class="tier-count free" id="freeCount">0</div>
             </div>
             <div class="tier-card pro">
                 <div class="tier-info">
@@ -474,7 +474,7 @@
                     const users = stats.users || {};
                     const tiers = users.by_tier || {};
                     const proUsers = tiers.pro || 0;
-                    const liteUsers = tiers.lite || 0;
+                    const freeUsers = tiers.free || tiers.lite || 0;
                     
                     // Calculate MRR correctly - only Pro at $98
                     const mrr = proUsers * PRICE_PER_SUB;
@@ -492,7 +492,7 @@
                     document.getElementById('activeUsers').textContent = users.active || 0;
                     document.getElementById('proUsers').textContent = proUsers;
                     document.getElementById('newThisWeek').textContent = users.new_this_week || 0;
-                    document.getElementById('liteCount').textContent = liteUsers;
+                    document.getElementById('freeCount').textContent = freeUsers;
                     document.getElementById('proCount').textContent = proUsers;
                     
                     // Conversion rate
@@ -542,9 +542,9 @@
                     <td><span class="status-dot ${user.is_active ? 'active' : 'inactive'}"></span>${user.is_active ? 'Active' : 'Inactive'}</td>
                     <td>${user.created_at ? new Date(user.created_at).toLocaleDateString() : '—'}</td>
                     <td>
-                        ${user.subscription_tier === 'lite' ? 
-                            `<button class="action-btn" onclick="upgradeTier(${user.id})">Upgrade to Pro</button>` : 
-                            `<span style="color:#22c55e;font-weight:600">✓ Pro</span>`
+                        ${user.subscription_tier === 'pro' || user.subscription_tier === 'admin' ? 
+                            `<span style="color:#22c55e;font-weight:600">✓ Pro</span>` : 
+                            `<button class="action-btn" onclick="upgradeTier(${user.id})">Upgrade to Pro</button>`
                         }
                     </td>
                 </tr>

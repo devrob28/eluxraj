@@ -97,6 +97,7 @@
             .scenarios-grid { grid-template-columns: 1fr; }
         }
     </style>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=2">
 </head>
 <body>
     <div class="container">
@@ -275,7 +276,7 @@
                 if (!response.ok) {
                     // Handle rate limit
                     if (response.status === 429) {
-                        result.innerHTML = `<div class="error-card"><h3>⚠️ Daily Limit Reached</h3><p>${data.detail}</p><a href="/pricing.html">Upgrade for unlimited access →</a></div>`;
+                        result.innerHTML = `<div class="error-card"><h3>⚠️ Daily Limit Reached</h3><p>${data.detail}</p><a href="/#pricing">Upgrade for unlimited access →</a></div>`;
                         return;
                     }
                     throw new Error(data.detail || 'Failed to generate playbook');

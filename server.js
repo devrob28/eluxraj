@@ -51,6 +51,12 @@ app.use(cors());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
+
+// 301 redirect: deprecated pricing page -> single-tier anchor on landing
+app.get(["/pricing.html", "/pricing", "/pages/pricing.html"], (req, res) => {
+  res.redirect(301, "/#pricing");
+});
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
