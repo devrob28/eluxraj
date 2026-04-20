@@ -57,6 +57,11 @@ app.get(["/pricing.html", "/pricing", "/pages/pricing.html"], (req, res) => {
   res.redirect(301, "/#pricing");
 });
 
+// 301 redirect: deprecated registration page -> pay-first pricing
+app.get(["/register.html", "/register"], (req, res) => {
+  res.redirect(301, "/#pricing");
+});
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
