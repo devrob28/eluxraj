@@ -215,11 +215,11 @@
                 </div>
             </div>
             
-            <!-- Account Creation Form -->
+            <!-- Set Password Form -->
             <div id="formSection">
                 <div class="success-icon">🎉</div>
                 <h1 class="welcome-title">Payment Successful!</h1>
-                <p class="welcome-subtitle">Create your account to access your AI trading signals</p>
+                <p class="welcome-subtitle" id="welcomeSubtitle">Set your password to activate your Pro account</p>
                 
                 <div class="paid-badge">
                     ✓ Pro Membership Activated
@@ -229,24 +229,22 @@
                 
                 <form id="accountForm">
                     <div class="form-group">
-                        <label>Full Name</label>
-                        <input type="text" id="fullName" placeholder="John Doe" required>
-                    </div>
-                    <div class="form-group">
                         <label>Email</label>
-                        <input type="email" id="email" placeholder="you@example.com" required>
+                        <input type="email" id="email" disabled style="opacity:0.7;cursor:not-allowed;">
                     </div>
                     <div class="form-group">
                         <label>Create Password</label>
-                        <input type="password" id="password" placeholder="Min 8 characters" required minlength="8">
+                        <input type="password" id="password" placeholder="Min 8 characters" required minlength="8" autocomplete="new-password">
+                    </div>
+                    <div class="form-group">
+                        <label>Confirm Password</label>
+                        <input type="password" id="passwordConfirm" placeholder="Re-enter password" required minlength="8" autocomplete="new-password">
                     </div>
                     
-                    <input type="hidden" id="sessionId">
-                    <input type="hidden" id="subscriptionId">
-                    <input type="hidden" id="customerId">
+                    <input type="hidden" id="resetToken">
                     
                     <button type="submit" class="create-btn" id="createBtn">
-                        CREATE MY ACCOUNT →
+                        ACTIVATE MY ACCOUNT →
                     </button>
                 </form>
             </div>
@@ -261,39 +259,45 @@
         const urlParams = new URLSearchParams(window.location.search);
         const sessionId = urlParams.get('session_id');
         
-        async function verifyPayment() {
+        async function claimAccount() {
             if (!sessionId) {
                 showInvalid();
                 return;
             }
             
             try {
-                const res = await fetch(API + '/stripe/verify-session/' + sessionId);
+                const res = await fetch(API + '/stripe/claim-account/' + sessionId);
                 const data = await res.json();
                 
-                if (data.paid) {
-                    // Payment verified - show form
-                    document.getElementById('loadingSection').style.display = 'none';
-                    document.getElementById('formSection').style.display = 'block';
-                    
-                    // Pre-fill email if available
-                    if (data.customer_email) {
-                        document.getElementById('email').value = data.customer_email;
+                if (!res.ok) {
+                    // 404 means webhook hasn't fired yet — retry once after 2s
+                    if (res.status === 404) {
+                        await new Promise(r => setTimeout(r, 2500));
+                        const retry = await fetch(API + '/stripe/claim-account/' + sessionId);
+                        const retryData = await retry.json();
+                        if (!retry.ok) {
+                            throw new Error(retryData.detail || 'Account setup delayed');
+                        }
+                        return showForm(retryData);
                     }
-                    if (data.customer_name) {
-                        document.getElementById('fullName').value = data.customer_name;
-                    }
-                    
-                    // Store for account creation
-                    document.getElementById('sessionId').value = sessionId;
-                    document.getElementById('subscriptionId').value = data.subscription_id || '';
-                    document.getElementById('customerId').value = data.customer_id || '';
-                } else {
-                    showInvalid();
+                    throw new Error(data.detail || 'Verification failed');
                 }
+                
+                showForm(data);
             } catch (err) {
                 console.error(err);
                 showInvalid();
+            }
+        }
+        
+        function showForm(data) {
+            document.getElementById('loadingSection').style.display = 'none';
+            document.getElementById('formSection').style.display = 'block';
+            document.getElementById('email').value = data.email || '';
+            document.getElementById('resetToken').value = data.reset_token || '';
+            if (data.full_name) {
+                const subtitle = document.getElementById('welcomeSubtitle');
+                if (subtitle) subtitle.textContent = `Welcome ${data.full_name.split(' ')[0]} — set your password to activate`;
             }
         }
         
@@ -302,41 +306,43 @@
             document.getElementById('invalidSection').style.display = 'block';
         }
         
-        // Create account
+        // Handle password set + auto-login
         document.getElementById('accountForm').onsubmit = async (e) => {
             e.preventDefault();
             
             const btn = document.getElementById('createBtn');
             const errorMsg = document.getElementById('errorMsg');
             
-            const fullName = document.getElementById('fullName').value;
             const email = document.getElementById('email').value;
             const password = document.getElementById('password').value;
-            const subscriptionId = document.getElementById('subscriptionId').value;
-            const customerId = document.getElementById('customerId').value;
+            const passwordConfirm = document.getElementById('passwordConfirm').value;
+            const resetToken = document.getElementById('resetToken').value;
+            
+            if (password !== passwordConfirm) {
+                errorMsg.textContent = 'Passwords do not match';
+                errorMsg.classList.add('show');
+                return;
+            }
+            if (password.length < 8) {
+                errorMsg.textContent = 'Password must be at least 8 characters';
+                errorMsg.classList.add('show');
+                return;
+            }
             
             btn.disabled = true;
-            btn.textContent = 'CREATING ACCOUNT...';
+            btn.textContent = 'ACTIVATING...';
             errorMsg.classList.remove('show');
             
             try {
-                const res = await fetch(API + '/auth/register', {
+                // Set the password using the reset token
+                const resetRes = await fetch(API + '/auth/reset-password', {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        full_name: fullName,
-                        email: email,
-                        password: password,
-                        stripe_subscription_id: subscriptionId,
-                        stripe_customer_id: customerId,
-                        tier: 'pro'
-                    })
+                    body: JSON.stringify({ token: resetToken, new_password: password })
                 });
-                
-                const data = await res.json();
-                
-                if (!res.ok) {
-                    throw new Error(data.detail || 'Registration failed');
+                const resetData = await resetRes.json();
+                if (!resetRes.ok) {
+                    throw new Error(resetData.detail || resetData.error?.message || 'Failed to set password');
                 }
                 
                 // Auto-login
@@ -345,27 +351,24 @@
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ email: email, password: password })
                 });
-                
                 const loginData = await loginRes.json();
                 
                 if (loginRes.ok && loginData.access_token) {
                     localStorage.setItem('token', loginData.access_token);
                     window.location.href = '/dashboard.html';
                 } else {
-                    // Login failed but account created - redirect to login
-                    window.location.href = '/login.html?registered=true';
+                    window.location.href = '/login.html?activated=true';
                 }
-                
             } catch (err) {
                 errorMsg.textContent = err.message;
                 errorMsg.classList.add('show');
                 btn.disabled = false;
-                btn.textContent = 'CREATE MY ACCOUNT →';
+                btn.textContent = 'ACTIVATE MY ACCOUNT →';
             }
         };
         
-        // Start verification
-        verifyPayment();
+        // Kick off the claim flow
+        claimAccount();
     </script>
 </body>
 </html>
