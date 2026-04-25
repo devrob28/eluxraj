@@ -62,6 +62,22 @@ app.get(["/register.html", "/register"], (req, res) => {
   res.redirect(301, "/#pricing");
 });
 
+// 301 redirects for deleted Pro feature pages -> closest keeper page
+app.get(["/performance.html", "/performance-tracker.html"], (req, res) => {
+  res.redirect(301, "/playbooks.html");
+});
+app.get("/insights.html", (req, res) => {
+  res.redirect(301, "/signals.html");
+});
+app.get([
+  "/whale-intel.html", "/conviction.html", "/magician.html",
+  "/screener.html", "/watchlist.html", "/paper-trading.html",
+  "/weekly-brief.html", "/brokerage.html",
+  "/circles.html", "/circle-chat.html", "/referrals.html"
+], (req, res) => {
+  res.redirect(301, "/dashboard.html");
+});
+
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use((req, res, next) => {
