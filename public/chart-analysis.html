@@ -214,11 +214,20 @@
                 });
                 
                 const data = await response.json();
-                if (!response.ok) throw new Error(data.detail || 'Analysis failed');
+                if (!response.ok) {
+                    // Handle multiple backend error shapes safely
+                    let msg = 'Analysis failed';
+                    if (data?.error?.message) msg = data.error.message;
+                    else if (typeof data?.detail === 'string') msg = data.detail;
+                    else if (Array.isArray(data?.detail)) msg = data.detail.map(d => d.msg || d.message || JSON.stringify(d)).join(', ');
+                    else if (typeof data?.message === 'string') msg = data.message;
+                    throw new Error(msg);
+                }
                 
                 renderAnalysis(data);
             } catch (error) {
-                result.innerHTML = `<div class="result-card" style="text-align:center;color:var(--red);">Error: ${error.message}</div>`;
+                const msg = typeof error?.message === 'string' ? error.message : JSON.stringify(error);
+                result.innerHTML = `<div class="result-card" style="text-align:center;color:var(--red);">Error: ${msg}</div>`;
             } finally {
                 analyzeBtn.disabled = false;
                 analyzeBtn.textContent = '🔍 Analyze Chart';
