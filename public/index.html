@@ -198,6 +198,38 @@
         }
         
         /* Today's Signals */
+        .demo-section {
+            padding: 60px 20px 70px;
+            background: linear-gradient(180deg, #0a0a0a 0%, #000 100%);
+            border-top: 1px solid #1a1a1a;
+            text-align: center;
+        }
+        .demo-sub {
+            color: #888;
+            font-size: 1.05rem;
+            margin: 8px 0 32px;
+        }
+        .demo-video-wrap {
+            max-width: 860px;
+            margin: 0 auto 32px;
+            border-radius: 14px;
+            overflow: hidden;
+            border: 1px solid #1f1f1f;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+        }
+        .demo-video {
+            display: block;
+            width: 100%;
+            height: auto;
+            background: #000;
+        }
+        .demo-cta {
+            display: inline-block;
+        }
+        @media (max-width: 600px) {
+            .demo-video-wrap { border-radius: 10px; }
+            .demo-sub { font-size: 0.95rem; }
+        }
         .signals-section {
             padding: 60px 20px;
             background: linear-gradient(180deg, #000 0%, #0a0a0a 100%);
@@ -892,6 +924,23 @@
                 <div class="stat-label">Day Win Streak</div>
             </div>
         </div>
+    </section>
+    
+    <!-- Demo Video -->
+    <section class="demo-section">
+        <h2 class="section-title">SEE IT <span class="green">WORK</span></h2>
+        <p class="demo-sub">Watch ELUXRAJ analyze a live chart in seconds.</p>
+        <div class="demo-video-wrap">
+            <video
+                class="demo-video"
+                src="/assets/demo.mp4"
+                controls
+                preload="metadata"
+                playsinline
+                poster=""
+            ></video>
+        </div>
+        <a href="/checkout.html" class="cta-btn demo-cta">GET INSTANT ACCESS →</a>
     </section>
     
     <!-- Today's Signals -->
