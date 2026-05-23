@@ -217,12 +217,17 @@
                 <div class="feature-item"><span class="check">✓</span> All AI Trading Signals (50+ stocks)</div>
                 <div class="feature-item"><span class="check">✓</span> Chart AI Analysis (unlimited)</div>
                 <div class="feature-item"><span class="check">✓</span> Real-time mobile alerts</div>
-                <div class="feature-item"><span class="check">✓</span> 78% verified win rate</div>
+                <div class="feature-item"><span class="check">✓</span> AI Playbooks — full trade setups</div>
                 <div class="feature-item"><span class="check">✓</span> Elite community access</div>
                 <div class="feature-item"><span class="check">✓</span> Cancel anytime</div>
             </div>
             
-            <button class="checkout-btn" id="checkoutBtn" onclick="startCheckout()">
+            <label id="consentRow" style="display:flex;align-items:flex-start;gap:10px;text-align:left;margin:18px 0 14px;font-size:0.85rem;color:#aaa;line-height:1.4;cursor:pointer;">
+                <input type="checkbox" id="agreeTerms" style="margin-top:3px;width:18px;height:18px;flex-shrink:0;cursor:pointer;">
+                <span>I agree to the <a href="/terms.html" target="_blank" style="color:#22c55e;">Terms</a> and understand that all sales are final and subscription fees are non-refundable. I can cancel anytime to stop future billing.</span>
+            </label>
+
+            <button class="checkout-btn" id="checkoutBtn" onclick="startCheckout()" disabled>
                 PROCEED TO PAYMENT →
             </button>
             
@@ -242,10 +247,22 @@
     <script>
         const API = 'https://eluxraj-api-production.up.railway.app/api/v1';
         
+        // Enable pay button only when terms checkbox is ticked
+        document.getElementById('agreeTerms').addEventListener('change', function() {
+            document.getElementById('checkoutBtn').disabled = !this.checked;
+        });
+
         async function startCheckout() {
             const btn = document.getElementById('checkoutBtn');
             const errorMsg = document.getElementById('errorMsg');
-            
+
+            // Hard gate: never create a payment session without consent
+            if (!document.getElementById('agreeTerms').checked) {
+                errorMsg.textContent = 'Please agree to the Terms before continuing.';
+                errorMsg.classList.add('show');
+                return;
+            }
+
             btn.disabled = true;
             btn.textContent = 'REDIRECTING TO PAYMENT...';
             errorMsg.classList.remove('show');
