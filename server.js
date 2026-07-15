@@ -26,6 +26,7 @@ const fidelityRoutes = require('./routes/fidelity');
 const attestRoutes = require('./routes/attest');
 const aiRoutes = require("./routes/ai");
 const deviceTokenRoutes = require('./routes/device-token');
+const leadsRoutes = require('./routes/leads');
 const { authenticateToken, optionalAuth, requireTier } = require('./middleware/auth');
 
 const app = express();
@@ -104,6 +105,7 @@ function sanitizeInput(input) {
 
 app.use('/api/auth', authRoutes);
 app.use("/api/ai", aiRoutes);
+app.use("/api/leads", leadsRoutes);
 app.use('/api/plaid', plaidRoutes);
 app.use('/api/alerts', alertsRoutes);
 app.use('/api/oracle-ai', oracleAIRoutes);
