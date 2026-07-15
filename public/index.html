@@ -897,6 +897,31 @@
                 <div class="stat-value">1</div>
                 <div class="stat-label">Plan, No Tiers</div>
             </div>
+<!-- EMAIL CAPTURE -->
+<div style="max-width:520px;margin:32px auto;padding:28px;background:rgba(34,197,94,0.06);border:1px solid #22c55e;border-radius:14px;text-align:center">
+  <h3 style="color:#fff;font-size:1.4rem;margin:0 0 8px">Get the daily AI read — free</h3>
+  <p style="color:#aaa;margin:0 0 18px;font-size:0.95rem">One clean chart read every trading day. BTC, ETH, and major names. Every call public.</p>
+  <div style="display:flex;gap:8px;max-width:420px;margin:0 auto;flex-wrap:wrap;justify-content:center">
+    <input id="leadEmail" type="email" placeholder="you@email.com" style="flex:1;min-width:200px;padding:14px 16px;border-radius:8px;border:1px solid #333;background:#111;color:#fff;font-size:1rem">
+    <button id="leadBtn" onclick="submitLead()" style="padding:14px 24px;border:none;border-radius:8px;background:linear-gradient(135deg,#22c55e,#16a34a);color:#fff;font-weight:700;font-size:1rem;cursor:pointer">Get it free</button>
+  </div>
+  <p id="leadMsg" style="color:#22c55e;margin:14px 0 0;font-size:0.9rem;min-height:20px"></p>
+</div>
+<script>
+async function submitLead(){
+  const el=document.getElementById('leadEmail');const btn=document.getElementById('leadBtn');const msg=document.getElementById('leadMsg');
+  const email=(el.value||'').trim();
+  if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){msg.style.color='#f87171';msg.textContent='Enter a valid email';return;}
+  btn.disabled=true;btn.textContent='...';
+  try{const r=await fetch('/api/leads',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,source:'landing'})});const d=await r.json();
+    if(d.success){msg.style.color='#22c55e';msg.textContent="You're in. Check your inbox.";el.value='';}else{msg.style.color='#f87171';msg.textContent=d.error||'Something went wrong';}
+  }catch(e){msg.style.color='#f87171';msg.textContent='Network error — try again';}
+  btn.disabled=false;btn.textContent='Get it free';
+}
+document.getElementById('leadEmail')?.addEventListener('keydown',e=>{if(e.key==='Enter')submitLead();});
+</script>
+<!-- /EMAIL CAPTURE -->
+
     </section>
     
     <!-- Demo Video -->
