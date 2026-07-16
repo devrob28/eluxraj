@@ -206,7 +206,7 @@
             formData.append('timeframe', timeframe);
             
             try {
-                const response = await fetch(`${API}/chart/analyze`, {
+                const response = await fetch(`${API}/ai/analyze`, {
                     method: 'POST',
                     headers: { 'Authorization': `Bearer ${token}` },
                     body: formData
