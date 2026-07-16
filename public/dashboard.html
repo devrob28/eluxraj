@@ -5,17 +5,7 @@
 <script>
 (function(){
   var token = localStorage.getItem('token');
-  if (!token) { window.location.href = '/login.html?next=' + encodeURIComponent(window.location.pathname); return; }
-  fetch('/api/auth/me', {
-    headers: { 'Authorization': 'Bearer ' + token }
-  }).then(function(r){
-    if (!r.ok) { localStorage.removeItem('token'); window.location.href = '/login.html'; return null; }
-    return r.json();
-  }).then(function(u){
-    if (!u) return;
-    var t = u.subscription_tier;
-    var isAdmin = u.is_admin === true;
-  }).catch(function(){ window.location.href = '/login.html'; });
+  if (!token) { window.location.href = '/login.html'; }
 })();
 </script>
 
