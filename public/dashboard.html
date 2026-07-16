@@ -336,7 +336,8 @@
                     throw new Error('Session expired');
                 }
                 
-                const user = await r.json();
+                const resp = await r.json();
+                const user = resp.user || resp;
                 console.log('User loaded:', user);
                 
                 document.getElementById('userName').textContent = user.email.split('@')[0];
