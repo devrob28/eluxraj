@@ -6,7 +6,7 @@ console.log('Database URL exists:', !!connectionString);
 
 const pool = new Pool({
   connectionString,
-  ssl: process.env.NODE_ENV === 'production' ? { rejectUnauthorized: false } : false
+  ssl: false
 });
 
 pool.on('connect', () => {
