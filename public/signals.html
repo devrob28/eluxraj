@@ -15,7 +15,6 @@
     if (!u) return;
     var t = u.subscription_tier;
     var isAdmin = u.is_admin === true;
-    if (t !== 'pro' && !isAdmin) { window.location.href = '/#pricing'; }
   }).catch(function(){ window.location.href = '/login.html'; });
 })();
 </script>
