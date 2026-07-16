@@ -55,9 +55,9 @@ router.post('/register', [
 
     // Generate JWT token
     const token = generateToken({
-      id: user.user_id, name: user.name,
+      id: user.id, name: user.full_name,
       email: user.email,
-      tier: user.tier
+      tier: user.subscription_tier
     });
 
     console.log('✓ USER REGISTERED:', { email, userId });
@@ -67,10 +67,10 @@ router.post('/register', [
       message: 'Account created successfully',
       token,
       user: {
-        id: user.user_id, name: user.name,
+        id: user.id, name: user.full_name,
         email: user.email,
-        name: user.name,
-        tier: user.tier
+        name: user.full_name,
+        tier: user.subscription_tier
       }
     });
 
@@ -115,7 +115,7 @@ router.post('/login', [
     const user = result.rows[0];
 
     // Check if account is active
-    if (user.status !== 'active') {
+    if (user.is_active === false) {
       return res.status(403).json({ 
         ok: false, 
         error: 'Account is not active' 
@@ -123,7 +123,7 @@ router.post('/login', [
     }
 
     // Verify password
-    const passwordValid = await bcrypt.compare(password, user.password_hash);
+    const passwordValid = await bcrypt.compare(password, user.hashed_password);
 
     if (!passwordValid) {
       return res.status(401).json({ 
@@ -134,28 +134,28 @@ router.post('/login', [
 
     // Update last login
     await db.query(
-      'UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE user_id = $1',
-      [user.user_id]
+      'UPDATE users SET last_login = CURRENT_TIMESTAMP WHERE id = $1',
+      [user.id]
     );
 
     // Generate token
     const token = generateToken({
-      id: user.user_id, name: user.name,
+      id: user.id, name: user.full_name,
       email: user.email,
-      tier: user.tier
+      tier: user.subscription_tier
     });
 
-    console.log('✓ USER LOGIN:', { email, userId: user.user_id });
+    console.log('✓ USER LOGIN:', { email, userId: user.id });
 
     res.json({
       ok: true,
       message: 'Login successful',
       token,
       user: {
-        id: user.user_id, name: user.name,
+        id: user.id, name: user.full_name,
         email: user.email,
-        name: user.name,
-        tier: user.tier,
+        name: user.full_name,
+        tier: user.subscription_tier,
         lastLogin: user.last_login
       }
     });
@@ -173,7 +173,7 @@ router.post('/login', [
 router.get('/me', authenticateToken, async (req, res) => {
   try {
     const result = await db.query(
-      'SELECT user_id, email, name, tier, status, email_verified, last_login, created_at FROM users WHERE user_id = $1',
+      'SELECT user_id, email, name, tier, status, email_verified, last_login, created_at FROM users WHERE id = $1',
       [req.user.id]
     );
 
@@ -217,7 +217,7 @@ router.post('/change-password', [
 
     // Get user with password
     const result = await db.query(
-      'SELECT password_hash FROM users WHERE user_id = $1',
+      'SELECT password_hash FROM users WHERE id = $1',
       [req.user.id]
     );
 
