@@ -173,7 +173,7 @@ router.post('/login', [
 router.get('/me', authenticateToken, async (req, res) => {
   try {
     const result = await db.query(
-      'SELECT user_id, email, name, tier, status, email_verified, last_login, created_at FROM users WHERE id = $1',
+      'SELECT id, email, full_name, subscription_tier, is_active, is_verified, last_login, created_at FROM users WHERE id = $1',
       [req.user.id]
     );
 
