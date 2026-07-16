@@ -3,6 +3,8 @@ const router = express.Router();
 const OpenAI = require('openai');
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
+const multer = require('multer');
+const upload = multer({ storage: multer.memoryStorage() });
 
 // Portfolio Wizard - INSTITUTIONAL GRADE
 router.post('/portfolio-wizard', async (req, res) => {
@@ -213,39 +215,48 @@ Fill in current prices and be specific.`;
 });
 
 // General AI Analysis
-router.post('/analyze', async (req, res) => {
+router.post('/analyze', upload.single('file'), async (req, res) => {
   try {
-    const { query } = req.body;
-    
-    const prompt = `You are ELUXRAJ AI, trained on Pantera Capital, a16z, Renaissance Technologies, and Citadel strategies.
+    const asset = req.body.asset || 'Asset';
+    const timeframe = req.body.timeframe || 'Daily';
+    if (!req.file) return res.status(400).json({ ok: false, error: 'No chart image uploaded' });
 
-User Query: ${query}
+    const b64 = req.file.buffer.toString('base64');
+    const mime = req.file.mimetype || 'image/png';
 
-RULES:
-1. ALWAYS give specific ticker symbols (VOO, QQQ, NVDA, BTC, etc.)
-2. ALWAYS give exact prices, entry zones, targets, stop losses
-3. ALWAYS give dollar amounts and percentages
-4. Reference which hedge funds/VCs hold these assets
-5. Use tables for clarity
-6. Never say "consider" or "you might want to" - be direct
-
-If asked about stocks: Give ticker, price, entry, target, stop
-If asked about crypto: Reference Pantera/a16z holdings
-If asked about portfolio: Give exact allocations with tickers`;
+    const sys = `You are ELUXRAJ AI, an expert technical chart analyst. Analyze the chart image and respond with ONLY valid JSON, no markdown, no prose. Use this exact shape:
+{
+  "asset": "${asset}",
+  "timeframe": "${timeframe}",
+  "confidence_score": <0-100 integer>,
+  "pattern_detected": "<pattern name or 'None'>",
+  "market_structure": "<bullish|bearish|ranging>",
+  "trade_recommendation": "<long|short|wait>",
+  "key_levels": { "support": [<numbers>], "resistance": [<numbers>] },
+  "bullish_scenarios": [ { "name": "<short name>", "probability": <0-100>, "trigger": "<condition>", "explanation": "<1-2 sentences>" } ],
+  "bearish_scenarios": [ { "name": "<short name>", "probability": <0-100>, "trigger": "<condition>", "explanation": "<1-2 sentences>" } ]
+}`;
 
     const completion = await openai.chat.completions.create({
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-4o',
       messages: [
-        { role: 'system', content: prompt },
-        { role: 'user', content: query }
+        { role: 'system', content: sys },
+        { role: 'user', content: [
+          { type: 'text', text: `Analyze this ${asset} ${timeframe} chart.` },
+          { type: 'image_url', image_url: { url: `data:${mime};base64,${b64}` } }
+        ] }
       ],
-      max_tokens: 2000,
-      temperature: 0.7
+      max_tokens: 1500,
+      temperature: 0.5
     });
 
-    res.json({ ok: true, analysis: completion.choices[0].message.content });
+    let text = completion.choices[0].message.content.trim();
+    text = text.replace(/^```json/, '').replace(/^```/, '').replace(/```$/, '').trim();
+    const analysis = JSON.parse(text);
+    res.json(analysis);
   } catch (e) {
-    res.json({ ok: false, error: e.message });
+    console.error('Analyze error:', e.message);
+    res.status(500).json({ ok: false, error: e.message });
   }
 });
 
