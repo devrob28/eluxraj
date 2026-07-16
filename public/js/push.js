@@ -1,5 +1,5 @@
 const VAPID_PUBLIC_KEY = 'BHPbiLK1eFh6wtoGKBhH4R4H4CTGuwWVOeCUc_UHc4xJSTi5OHq9UehJ19OZd0Yy-FmnEnmzI_tXowQF56qhwx0';
-const API = 'https://eluxraj-api-production.up.railway.app/api/v1';
+const API = 'https://eluxraj-api-production.up.railway.app/api';
 
 function urlBase64ToUint8Array(base64String) {
     const padding = '='.repeat((4 - base64String.length % 4) % 4);
