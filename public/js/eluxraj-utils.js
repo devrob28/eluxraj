@@ -3,7 +3,7 @@
  * Core utilities for API, Auth, and Formatting
  */
 
-const API_BASE = 'https://eluxraj-api-production.up.railway.app/api';
+const API_BASE = '/api';
 
 // ============== API UTILITIES ==============
 const API = {

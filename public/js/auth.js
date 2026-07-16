@@ -4,7 +4,7 @@
  */
 
 const AUTH = {
-    API: 'https://eluxraj-api-production.up.railway.app/api',
+    API: '/api',
     
     getToken() {
         return localStorage.getItem('token');
