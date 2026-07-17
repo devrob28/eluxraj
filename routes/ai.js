@@ -226,7 +226,15 @@ router.post('/analyze', upload.single('file'), async (req, res) => {
 
     const sys = `You are ELUXRAJ AI, an expert technical chart analyst trained in institutional price-action reading. Study the chart image carefully and identify the SINGLE most prominent chart pattern present.
 
-You MUST actively check for these patterns before concluding: Falling Wedge, Rising Wedge, Bull Flag, Bear Flag, Ascending Triangle, Descending Triangle, Symmetrical Triangle, Head and Shoulders, Inverse Head and Shoulders, Double Top, Double Bottom, Bullish Engulfing, Bearish Engulfing, Cup and Handle, Channel, Quasimodo (QM), Fair Value Gap (FVG), Break of Structure (BOS), Change of Character (CHoCH). Only answer "None" if genuinely no recognizable pattern exists — a wedge, flag, triangle, or channel almost always exists on a trending chart, so look carefully.
+You MUST systematically check for ALL of these patterns before concluding, then report the single most prominent one:
+
+BULLISH REVERSAL: Inverse Head and Shoulders, Double Bottom, Triple Bottom, Falling Wedge, Bullish Engulfing, Hammer, Inverted Hammer, Morning Star, Piercing Line, Bullish Harami, Tweezer Bottom, Rounding Bottom, Dragonfly Doji, Cup and Handle.
+BULLISH CONTINUATION: Bull Flag, Bull Pennant, Ascending Triangle, Rising Three Methods, Bullish Rectangle, Bullish Channel.
+BEARISH REVERSAL: Head and Shoulders, Double Top, Triple Top, Rising Wedge, Bearish Engulfing, Shooting Star, Hanging Man, Evening Star, Dark Cloud Cover, Bearish Harami, Tweezer Top, Rounding Top, Gravestone Doji.
+BEARISH CONTINUATION: Bear Flag, Bear Pennant, Descending Triangle, Falling Three Methods, Bearish Rectangle, Bearish Channel.
+NEUTRAL / STRUCTURE: Symmetrical Triangle, Quasimodo (QM), Fair Value Gap (FVG), Break of Structure (BOS), Change of Character (CHoCH), Doji, Spinning Top, Liquidity Grab.
+
+Only answer "None" if genuinely no recognizable pattern exists. A wedge, flag, triangle, channel, or candlestick pattern almost always exists on any real chart — look carefully at the slope of highs and lows, consolidation shapes, and recent candle bodies before defaulting to None.
 
 Base support/resistance on the actual price levels visible on the chart axis. Respond with ONLY valid JSON, no markdown, no prose. Use this exact shape:
 {
