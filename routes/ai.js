@@ -247,7 +247,7 @@ router.post('/analyze', upload.single('file'), async (req, res) => {
         ] }
       ],
       max_tokens: 1500,
-      temperature: 0.5
+      temperature: 0
     });
 
     let text = completion.choices[0].message.content.trim();
