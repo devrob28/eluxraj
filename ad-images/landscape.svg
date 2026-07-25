@@ -1,0 +1,15 @@
+<svg width="1200" height="628" viewBox="0 0 1200 628" xmlns="http://www.w3.org/2000/svg">
+  <defs><linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0%" stop-color="#0a0a0f"/><stop offset="50%" stop-color="#1a1a2e"/><stop offset="100%" stop-color="#0a0a0f"/></linearGradient><linearGradient id="g" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#22c55e"/><stop offset="100%" stop-color="#16a34a"/></linearGradient></defs>
+  <rect width="1200" height="628" fill="url(#bg)"/>
+  <g opacity="0.25" stroke="#22c55e" stroke-width="6" fill="#22c55e">
+    <line x1="120" y1="380" x2="120" y2="500"/><rect x="108" y="410" width="24" height="60"/>
+    <line x1="180" y1="340" x2="180" y2="480"/><rect x="168" y="370" width="24" height="70"/>
+    <line x1="240" y1="300" x2="240" y2="440"/><rect x="228" y="330" width="24" height="80"/>
+    <line x1="300" y1="260" x2="300" y2="400"/><rect x="288" y="290" width="24" height="70"/>
+  </g>
+  <text x="640" y="230" font-family="Arial, sans-serif" font-size="70" font-weight="800" fill="#ffffff" text-anchor="middle" letter-spacing="8">ELUXRAJ</text>
+  <text x="640" y="315" font-family="Arial, sans-serif" font-size="44" font-weight="700" fill="url(#g)" text-anchor="middle">AI Chart Analysis</text>
+  <text x="640" y="380" font-family="Arial, sans-serif" font-size="28" font-weight="400" fill="#a1a1aa" text-anchor="middle">Patterns · Key Levels · Scenarios in seconds</text>
+  <rect x="490" y="430" width="300" height="70" rx="12" fill="url(#g)"/>
+  <text x="640" y="476" font-family="Arial, sans-serif" font-size="30" font-weight="700" fill="#0a0a0f" text-anchor="middle">eluxraj.ai</text>
+</svg>

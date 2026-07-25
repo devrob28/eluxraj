@@ -1,0 +1,7 @@
+<svg width="1200" height="1200" viewBox="0 0 1200 1200" xmlns="http://www.w3.org/2000/svg">
+  <defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="0"><stop offset="0%" stop-color="#22c55e"/><stop offset="100%" stop-color="#16a34a"/></linearGradient></defs>
+  <rect width="1200" height="1200" fill="#0a0a0f"/>
+  <text x="600" y="600" font-family="Arial, sans-serif" font-size="150" font-weight="800" fill="#ffffff" text-anchor="middle" letter-spacing="12" dominant-baseline="middle">ELUXRAJ</text>
+  <rect x="380" y="680" width="440" height="8" rx="4" fill="url(#g)"/>
+  <text x="600" y="740" font-family="Arial, sans-serif" font-size="34" font-weight="600" fill="#22c55e" text-anchor="middle" letter-spacing="8">AI CHART ANALYSIS</text>
+</svg>
