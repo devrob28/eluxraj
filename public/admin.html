@@ -375,7 +375,7 @@
             <div class="stat-card">
                 <div class="stat-label">Pro Subscribers</div>
                 <div class="stat-value purple" id="proUsers">0</div>
-                <div class="stat-sub">@ $98/mo each</div>
+                <div class="stat-sub">@ $28/mo each</div>
             </div>
             <div class="stat-card">
                 <div class="stat-label">New This Week</div>
@@ -395,7 +395,7 @@
             </div>
             <div class="tier-card pro">
                 <div class="tier-info">
-                    <h3>Pro ($98/mo)</h3>
+                    <h3>Pro ($28/mo)</h3>
                     <p>Full access, all features, priority signals</p>
                 </div>
                 <div class="tier-count pro" id="proCount">0</div>
@@ -501,7 +501,7 @@
                     const proUsers = tiers.pro || 0;
                     const freeUsers = tiers.free || tiers.lite || 0;
                     
-                    // Calculate MRR correctly - only Pro at $98
+                    // Calculate MRR correctly - only Pro at $28
                     const mrr = proUsers * PRICE_PER_SUB;
                     const arr = mrr * 12;
                     
@@ -586,7 +586,7 @@
         }
         
         async function upgradeTier(userId) {
-            if (!confirm('Upgrade this user to Pro ($98/mo)?')) return;
+            if (!confirm('Upgrade this user to Pro ($28/mo)?')) return;
             
             try {
                 const res = await fetch(API + '/admin/users/' + userId + '/tier?tier=pro', {
