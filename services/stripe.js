@@ -13,7 +13,7 @@ const PRICES = {
     features: ['Unlimited AI Queries', 'ORACLE Full Suite', 'COUNCIL AI Advisors', 'PULSE Real-Time', 'SMS & Email Alerts']
   },
   elite: {
-    monthly: 9800,
+    monthly: 2800,
     name: 'Elite',
     features: ['Everything in Pro', 'NEXUS Capital Flows', 'SOVEREIGN Deals', 'PHANTOM Execution', 'White-Glove Support', 'API Access']
   }
